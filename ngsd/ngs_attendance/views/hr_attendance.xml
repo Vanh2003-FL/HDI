@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ngs_view_attendance_tree_view" model="ir.ui.view">
+        <field name="name">ngs_view_attendance_tree_view</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="en_area_id" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='check_in']" position="before">
+                <field name="en_dayofweek"/>
+                <field name="en_location_id"/>
+            </xpath>
+            <xpath expr="//field[@name='employee_id']" position="before">
+                <field name="employee_barcode"/>
+            </xpath>
+            <xpath expr="//field[@name='check_out']" position="after">
+                <field name="check_in_address"/>
+                <field name="check_out_address"/>
+            </xpath>
+            <xpath expr="//field[@name='worked_hours']" position="after">
+                <field name="en_missing_attendance"/>
+                <field name="en_late" optional="hide"/>
+                <field name="en_soon" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="ngs_hr_attendance_view_filter" model="ir.ui.view">
+        <field name="name">ngs_hr_attendance_view_filter</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="employee_barcode"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ngs_view_attendance_calendar" model="ir.ui.view">
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <calendar date_start="check_in" date_stop="check_out" hide_time="true" event_limit="5" quick_add="False" event_open_popup="true" create="0" color="color">
+                <field name="employee_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="explanation_month_count"/>
+                <field name="warning_message"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="ngs_hr_attendance_view_form" model="ir.ui.view">
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="after">
+                <footer>
+                    <button name="button_create_explanation" string="Giải trình chấm công" class="btn-primary" type="object"/>
+                    <button name="button_create_hr_leave" string="Xin nghỉ" class="btn-primary" type="object"/>
+                </footer>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_attendance.hr_attendance_action" model="ir.actions.act_window">
+        <field name="view_mode">tree,calendar,kanban,form</field>
+    </record>
+
+    <record id="own_hr_attendance_action" model="ir.actions.act_window">
+        <field name="res_model">hr.attendance</field>
+        <field name="view_mode">calendar,tree,kanban,form</field>
+        <field name="name">Chấm công của tôi</field>
+        <field name="domain">[('employee_id.user_id', '=', uid)]</field>
+    </record>
+
+</odoo>

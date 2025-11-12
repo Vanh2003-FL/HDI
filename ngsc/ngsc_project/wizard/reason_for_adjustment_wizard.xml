@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_project_decision_adjust_reason_wizard" model="ir.ui.view">
+        <field name="name">project.decision.adjust.reason.wizard.form</field>
+        <field name="model">project.decision.adjust.reason.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Lý do điều chỉnh">
+                <group>
+                    <field name="reason" placeholder="Nhập lý do điều chỉnh..." nolabel="1"/>
+                </group>
+                <footer>
+                    <button string="Xác nhận" type="object"
+                            name="action_confirm" class="btn-primary"/>
+                    <button string="Hủy" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_project_decision_adjust_reason" model="ir.actions.act_window">
+        <field name="name">Lý do điều chỉnh</field>
+        <field name="res_model">project.decision.adjust.reason.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_project_decision_adjust_reason_wizard"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

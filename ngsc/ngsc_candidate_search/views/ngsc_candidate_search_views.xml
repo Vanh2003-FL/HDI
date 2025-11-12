@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ngsc_candidate_search_wizard_form" model="ir.ui.view">
+        <field name="model">ngsc.candidate.search</field>
+        <field name="arch" type="xml">
+            <form class="o_candidate_search_form">
+                <sheet>
+                    <group>
+                        <field name="search_history_id"
+                               domain="[('flag_save_data', '=', True)]"
+                               ontext="{'list_view_ref': 'ngsc_candidate_search.ngsc_candidate_search_tree'}"
+                               options="{'search_more': True,'no_create': True,'no_edit': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                    </group>
+                    <br/>
+                    <lable class="section-label">Tham số:</lable>
+                    <group>
+                        <field name="name" options="{'no_open': True}"/>
+                        <field name="en_area_id" options="{'no_open': True}"/>
+                        <field name="en_block_id" options="{'no_open': True}"/>
+                        <field name="hr_department_id" options="{'no_open': True}"/>
+                        <field name="job_id" options="{'no_open': True}"/>
+                        <field name="contract_type_id" options="{'no_open': True}"/>
+                        <field name="hr_employee_id" options="{'no_open': True}"/>
+                        <field name="skill_ids" widget="many2many_tags"
+                               options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                    </group>
+
+                    <field name="line_ids">
+                        <list create="false" edit="false" editable="bottom" class="o_candidate_search_line">
+                            <field name="skill_group_id"/>
+                            <field name="skill_id" readonly="1" force_save="1"/>
+                            <field name="level_id"/>
+                            <field name="priority"/>
+                            <field name="weight" sum="Tổng"/>
+                        </list>
+                    </field>
+                </sheet>
+                <footer>
+                    <button string='Tìm kiếm' name="do_search" context="{'isSave': False}" type="object"
+                            class="oe_highlight"/>
+                    <button string='Lưu và tìm kiếm' name="do_search" context="{'isSave': True}" type="object"
+                            class="oe_highlight"/>
+                    <button string="Hủy" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_candidate_search" model="ir.actions.act_window">
+        <field name="name">Tìm kiếm nguồn lực nhân sự</field>
+        <field name="res_model">ngsc.candidate.search</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="ngsc_candidate_search_wizard_form"/>
+        <field name="target">new</field> <!-- rất quan trọng, để hiện popup -->
+        <field name="context">{'fullscreen': True}</field>
+    </record>
+
+    <record id="ngsc_candidate_search_tree" model="ir.ui.view">
+        <field name="name">ngsc_candidate_search_tree</field>
+        <field name="model">ngsc.candidate.search</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="create_uid" string="Người tạo" widget="many2one" options="{'no_create': True}"/>
+                <field name="create_date" widget="date" string="Ngày tạo"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_candidate_search" model="ir.actions.act_window">
+        <field name="name">Tìm kiếm nguồn lực nhân sự</field>
+        <field name="res_model">ngsc.candidate.search</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="ngsc_candidate_search_wizard_form"/>
+        <field name="target">new</field> <!-- rất quan trọng, để hiện popup -->
+        <field name="context">{'fullscreen': True}</field>
+    </record>
+</odoo>

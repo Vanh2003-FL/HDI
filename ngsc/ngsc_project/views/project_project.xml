@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="project_project_inherit" model="ir.ui.view">
+        <field name="inherit_id" ref="ngsd_base.edit_project"/>
+        <field name="priority">99999999</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='en_wbs_ids']/tree/field[@name='version_number']" position="after">
+                <field name="index_version"/>
+            </xpath>
+             <xpath expr="//field[@name='en_wbs_ids']/tree/field[@name='state']" position="before">
+                <field name="resource_planning_link_wbs"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </xpath>
+            <xpath expr="//field[@name='en_resource_ids']/tree/field[@name='state']" position="before">
+                <field name="wbs_link_resource_planning"/>
+            </xpath>
+            <xpath expr="//field[@name='en_resource_ids']/tree/field[@name='name']" position="before">
+                <field name="version_number" string="Số phiên bản"/>
+                <field name="version_type" string="Loại phiên bản"/>
+            </xpath>
+
+            <xpath expr="//button[@name='button_new_wbs']" position="replace">
+                <field name="show_create_wbs" invisible="1"/>
+                <button name="button_new_wbs" groups="ngsd_base.group_pm,ngsd_base.group_vpm" string="Tạo WBS" type="object" attrs="{'invisible': [('show_create_wbs', '!=', False)]}"/>
+            </xpath>
+            <xpath expr="//button[@name='button_new_wbs']" position="after">
+                <field name="show_create_project_decision" invisible="1"/>
+                <button name="button_create_project_decision" groups="ngsd_base.group_pm,ngsd_base.group_vpm" string="Tạo QĐ TL Dự án" type="object" attrs="{'invisible': ['|', ('id', '=', False), ('show_create_project_decision', '!=', False)]}"/>
+            </xpath>
+            <xpath expr="//button[@name='button_view_qdtlda']" position="replace">
+                 <button name="button_view_qdtlda" string="Biểu mẫu QĐTL" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//button[@name='button_view_qddcda']" position="replace">
+                 <button name="button_view_qddcda" string="Biểu mẫu QDĐC" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//button[@name='new_quality_control']" position="replace">
+                 <button name="new_quality_control" groups="ngsd_base.group_qam,ngsd_base.group_qal,ngsd_base.group_pm,ngsd_base.group_gdkndu"
+                         string="Tạo KSCL"
+                         attrs="{'invisible':['|', ('id', '=', False), '|', ('en_quality_control_ids','!=',[]),('en_state','not in',['draft','wait_for_execution','doing'])]}"
+                         type="object"/>
+            </xpath>
+            <xpath expr="//button[@name='button_en_wait_for_execution']" position="replace">
+                 <button name="button_en_wait_for_execution" groups="ngsd_base.group_qam"
+                         string="Chờ thực hiện"
+                         attrs="{'invisible':['|', ('id', '=', False), ('en_state','not in',['draft'])]}"
+                         type="object"/>
+            </xpath>
+            <xpath expr="//button[@name='button_pending']" position="replace">
+                 <button name="button_pending" groups="ngsd_base.group_qam"
+                         string="Trì hoãn"
+                         attrs="{'invisible':['|', ('id', '=', False), ('en_state','not in', ['draft', 'wait_for_execution', 'doing'])]}"
+                         type="object"/>
+            </xpath>
+            <xpath expr="//button[@name='button_en_cancel']" position="replace">
+                 <button name="button_en_cancel" groups="ngsd_base.group_qam"
+                         string="Hủy"
+                         attrs="{'invisible':['|', ('id', '=', False), ('en_state','not in',['draft', 'wait_for_execution', 'doing'])]}"
+                         type="object" confirm="Thực hiện thao tác hủy dự án này, tiếp tục?"/>
+            </xpath>
+            <xpath expr="//button[@name='new_resource']" position="replace">
+                <field name="show_create_resource_plan" invisible="1"/>
+                <button
+                    name="new_resource"
+                    groups="ngsd_base.group_pm,ngsd_base.group_vpm"
+                    string="Tạo kế hoạch NL"
+                    type="object"
+                    attrs="{
+                        'invisible': [
+                            ('show_create_resource_plan', '=', False)
+                        ]
+                    }"/>
+            </xpath>
+            <xpath expr="//button[@name='import_en_resource_planning_line']" position="replace">
+                <field name="show_create_resource_plan" invisible="1"/>
+                <button
+                    name="import_en_resource_planning_line"
+                    groups="ngsd_base.group_pm,ngsd_base.group_vpm"
+                    string="Nhập Kế hoạch nguồn lực"
+                    type="object"
+                    attrs="{
+                        'invisible': [
+                            '|',('show_create_resource_plan', '=', False),('show_import_button_viewer', '=', False)
+                        ]
+                    }"/>
+            </xpath>
+            <xpath expr="//field[@name='is_internal']" position="after">
+                <field name="en_level_project"/>
+            </xpath>
+            <xpath expr="//field[@name='en_real_end_date']" position="after">
+                <field name="en_warranty_time"/>
+            </xpath>
+            <xpath expr="//field[@name='customer_resource_calendar_id']" position="after">
+                <field name="en_no_contract"/>
+                <field name="en_contract_start_date"
+                       attrs="{'invisible': ['|', ('en_no_contract','=',True), ('is_internal','=',True)]}"/>
+                <field name="en_contract_end_date"
+                       attrs="{'invisible': ['|', ('en_no_contract','=',True), ('is_internal','=',True)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="replace">
+                <field name="partner_id" widget="res_partner_many2one"
+                       domain="[('is_customer','=',True)]"
+                       context="{'view_all_res_partner': True}"
+                       attrs="{'required': [('is_internal', '=', False), ('en_no_contract', '=', False)], 'invisible': [('en_no_contract', '=', True)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='en_project_accountant_id']" position="after">
+                <field name="en_contracting_entity"/>
+                <field name="is_readonly_fields" invisible="1"/>
+            </xpath>
+            <xpath expr="//page[.//field[@name='en_resource_project_ids']]" position="before">
+                <page name="en_scope_project_page" string="Phạm vi dự án">
+                    <table style="table-layout: fixed; width: 100%;">
+                        <tbody style="width: 100%;">
+                            <tr style="vertical-align: top;">
+                                <!--<td style="width: 10%; padding-left: 3%; min-width: 120px; word-break: keep-all;">
+                                    <span class="o_form_label" style="display: inline-block; white-space: nowrap;">
+                                        1. Mục tiêu dự án
+                                    </span>
+                                </td>-->
+                                <td style="width: 20%; min-width: 160px; padding-left: 3%; vertical-align: top;">
+                                    <span class="o_form_label" style="display: block; white-space: normal; word-break: break-word;">
+                                        1. Mục tiêu dự án
+                                    </span>
+                                </td>
+                                <td style="width: 50%; padding-right: 20%;">
+                                    <field name="en_project_goal"
+                                           widget="html"
+                                           placeholder='&lt;QLDA điền nội dung: Khái quát mục tiêu tổng thể của dự án thường được nêu ở phần mở đầu hoặc đặt vấn đề hoặc giới thiệu chung về dự án trong hợp đồng/phụ lục; hoặc đề cương tư vấn được tham chiếu; hoặc các đầu mục "hàng hóa/gói dịch vụ" chính trong bảng giá tổng hợp&gt;'
+                                           class="oe_form_field_text custom-field-html"/>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: top;">
+                                <td style="width: 20%; min-width: 160px; padding-left: 3%; vertical-align: top;">
+                                    <span class="o_form_label" style="display: block; white-space: normal; word-break: break-word;">
+                                        2. Phạm vi nghiệp vụ
+                                    </span>
+                                </td>
+                                <td style="width: 50%; padding-right: 20%;">
+                                    <field name="en_business_scope"
+                                           widget="html"
+                                           placeholder="&lt;QLDA điền nội dung: Tóm tắt thông tin về các hệ thống, sản phẩm phần mềm cần triển khai cho dự án. Bao gồm tên thương hiệu sản phẩm nếu triển khai từ Core hãng hoặc tên phổ thông chủng loại phần mềm, tên hệ thống phần mềm do Khách hàng đặt trong hợp đồng,… Ngoài ra, cần liệt kê phạm vi các phân hệ chính, các nghiệp vụ chính trong yêu cầu của hợp đồng&gt;"
+                                           class="oe_form_field_text custom-field-html"/>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: top;">
+                                <td style="width: 20%; min-width: 160px; padding-left: 3%; vertical-align: top;">
+                                    <span class="o_form_label" style="display: block; white-space: normal; word-break: break-word;">
+                                        3. Phạm vi triển khai
+                                    </span>
+                                </td>
+                                <td style="width: 50%; padding-right: 20%;">
+                                    <field name="en_implementation_scope"
+                                           widget="html"
+                                           placeholder="&lt;QLDA điền nội dung: Bao gồm các phạm vi về Đơn vị trực thuộc của Khách hàng, địa điểm triển khai về địa lý; quy định chi tiết về thời gian, tiến độ thực hiện, các giai đoạn; yêu cầu về các đợt Đào tạo – chuyển giao hệ thống, đối tượng đào tạo và địa điểm (nếu có)&gt;"
+                                           class="oe_form_field_text custom-field-html"/>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: top;">
+                                <td style="width: 20%; min-width: 160px; padding-left: 3%; vertical-align: top;">
+                                    <span class="o_form_label" style="display: block; white-space: normal; word-break: break-word;">
+                                        4. Phạm vi khác
+                                    </span>
+                                </td>
+                                <td style="width: 50%; padding-right: 20%;">
+                                    <field name="en_other_scope"
+                                           widget="html"
+                                           placeholder="&lt;QLDA điền nội dung: Yêu cầu phi chức năng; các yêu cầu về chất lượng; tiêu chuẩn chuyên ngành, quy chuẩn và quy định của cấp có thẩm quyền nếu có… Đối với dự án AMS thì phần cam kết chất lượng phản hồi và xử lý ticket đã có mục riêng, không nhập ở đây&gt;"
+                                           class="oe_form_field_text custom-field-html"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </page>
+            </xpath>
+            <xpath expr="//page[.//field[@name='en_resource_project_ids']]" attrs="{}" groups="ngsd_base.group_qam,ngsd_base.group_qal,ngsd_base.group_pm,ngsd_base.group_gdkndu,ngsd_base.group_vpm" position="after">
+                <page name="en_project_decision" string="QĐ TL/ĐC Dự án">
+                    <!--<button class="btn-primary"
+                            name="import_project_decision"
+                            type="object"
+                            string="Nhập QĐ TL/ĐC Dự án"
+                            attrs="{'invisible': [('id', '=', False)]}"
+                    />
+                    <br/>-->
+                    <field name="project_decision_ids" readonly="1">
+                        <list>
+                            <field name="version_number"/>
+                            <field name="version_type"/>
+                            <field name="v_decision_name"/>
+                            <field name="state"/>
+                            <button name="action_open_new_tab" string="" type="object" icon="fa-external-link" help="Mở bản ghi mới"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//button[@name='button_en_doing']" position="replace">
+                <button name="button_en_doing" groups="ngsd_base.group_qam" string="Đang thực hiện"
+                    attrs="{'invisible':[('en_state','not in',['wait_for_execution'])]}" type="object"/>
+            </xpath>
+            <xpath expr="//button[@name='button_en_complete']" position="replace">
+                <button name="button_en_complete" groups="ngsd_base.group_qam" string="Đóng"
+                    attrs="{'invisible':[('en_state','not in',['finish'])]}" type="object"/>
+            </xpath>
+            <xpath expr="//button[@name='button_en_complete']" position="before">
+                <button name="button_en_finish" string="Hoàn thành"
+                        groups="ngsd_base.group_pm,ngsd_base.group_vpm"
+                        attrs="{'invisible':[('en_state','not in',['doing'])]}" type="object"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

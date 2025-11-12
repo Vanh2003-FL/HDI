@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="department_resource_account_report_wizard_form" model="ir.ui.view">
+        <field name="model">department.resource.account.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="department_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="domain_department_ids" widget="many2many_tags" invisible="1"/>
+                        <field name="user_id" invisible="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string='Xác nhận' name="do" type="object" class="oe_highlight"/>
+                    <button string="Hủy" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="department_resource_account_report_wizard_act" model="ir.actions.act_window">
+        <field name="res_model">department.resource.account.report.wizard</field>
+        <field name="name">Báo cáo theo trung tâm</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_department_resource_account_report" model="ir.actions.client">
+        <field name="name">Báo cáo theo trung tâm</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'model': 'department.resource.account.report'}"/>
+    </record>
+
+    <record id="menu_department_resource_action_report" model="ir.ui.menu">
+        <field name="name">Báo cáo theo trung tâm</field>
+        <field name="action" ref="department_resource_account_report_wizard_act"/>
+    </record>
+</odoo>

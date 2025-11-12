@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="folder_view_form_inherit" model="ir.ui.view">
+            <field name="name">folder.view.form.inherit</field>
+            <field name="model">documents.folder</field>
+            <field name="inherit_id" ref="documents.folder_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='group_ids']" position="after">
+                    <field name="domain_role_ids" widget="many2many_tags" invisible="1"/>
+                    <field name="domain_employee_ids" widget="many2many_tags" invisible="1"/>
+                    <field name="role_write_ids" widget="many2many_tags" domain="[('id', 'in', domain_role_ids)]" attrs="{'invisible': [('all_employee_read', '=', True)]}"/>
+                    <field name="employee_write_ids" widget="many2many_tags" domain="[('id', 'in', domain_employee_ids)]" attrs="{'invisible': [('all_employee_read', '=', True)]}"/>
+                    <field name="employee_write_role_ids" widget="many2many_tags" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='read_group_ids']" position="after">
+                    <field name="role_read_ids" widget="many2many_tags" domain="[('id', 'in', domain_role_ids)]" attrs="{'invisible': [('all_employee_read', '=', True)]}"/>
+                    <field name="employee_read_ids" widget="many2many_tags" domain="[('id', 'in', domain_employee_ids)]" attrs="{'invisible': [('all_employee_read', '=', True)]}"/>
+                    <field name="employee_read_role_ids" widget="many2many_tags" invisible="1"/>
+                    <field name="all_employee_read"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <record id="folder_view_form_nonproject_inherit" model="ir.ui.view">
+            <field name="name">folder.view.form.inherit</field>
+            <field name="model">documents.folder</field>
+            <field name="inherit_id" ref="documents.folder_view_form"/>
+            <field name="mode">extension</field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='en_project_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="documents_folder_project_action" model="ir.actions.act_window">
+            <field name="name">Thư mục dự án</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">documents.folder</field>
+            <field name="domain">[('en_project_id', '!=', False)]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('documents.folder_view_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('documents.folder_view_form')})]"/>
+        </record>
+
+        <record id="documents_folder_nonproject_action" model="ir.actions.act_window">
+            <field name="name">Thư mục không gán dự án</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">documents.folder</field>
+            <field name="domain">[('en_project_id', '=', False)]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('documents.folder_view_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('ngsd_base.folder_view_form_nonproject_inherit')})]"/>
+        </record>
+
+        <record id="document_project_action" model="ir.actions.act_window">
+            <field name="name">Tài liệu gán với dự án</field>
+            <field name="res_model">documents.document</field>
+            <field name="view_mode">kanban,tree</field>
+            <field name="domain">[('folder_id.en_project_id', '!=', False)]</field>
+            <field name="context">{'is_project': True}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('documents.document_view_kanban')}),
+            (0, 0, {'view_mode': 'list', 'view_id': False})]"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Upload <span class="font-weight-normal">a file or</span> drag <span class="font-weight-normal">it here.</span></p>
+            </field>
+        </record>
+
+        <record id="document_nonproject_action" model="ir.actions.act_window">
+            <field name="name">Tài liệu không gán với dự án</field>
+            <field name="res_model">documents.document</field>
+            <field name="view_mode">kanban,tree</field>
+            <field name="domain">[('folder_id.en_project_id', '=', False)]</field>
+            <field name="context">{'non_project': True}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('documents.document_view_kanban')}),
+            (0, 0, {'view_mode': 'list', 'view_id': False})]"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Upload <span class="font-weight-normal">a file or</span> drag <span class="font-weight-normal">it here.</span></p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,13 @@
+/* Luôn tô đậm radio được chọn, kể cả khi readonly */
+.o_form_view .o_field_radio .custom-control-input:checked + .custom-control-label {
+    font-weight: bold;
+    color: #2c3e50 !important;  /* Màu chữ đậm */
+    opacity: 1 !important;      /* Không bị mờ khi readonly */
+}
+
+/* Radio button khi được chọn */
+.o_form_view .o_field_radio .custom-control-input:checked + .custom-control-label::before {
+    border-color: #6f42c1 !important;  /* Viền nút */
+    background-color: #6f42c1 !important; /* Màu nền nút */
+    opacity: 1 !important;  /* Không bị mờ khi readonly */
+}

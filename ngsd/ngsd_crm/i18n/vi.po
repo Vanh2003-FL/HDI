@@ -1,0 +1,101 @@
+#. module: crm
+#: code:addons/crm/models/crm_lost_reason.py:0
+#: model:ir.actions.act_window,name:crm.crm_case_form_view_salesteams_lead
+#: model:ir.actions.act_window,name:crm.crm_lead_all_leads
+#: model:ir.model.fields,field_description:crm.field_crm_team__use_leads
+#: model:ir.model.fields,field_description:crm.field_res_config_settings__group_use_lead
+#: model:ir.ui.menu,name:crm.crm_menu_leads
+#: model:ir.ui.menu,name:crm.crm_opportunity_report_menu_lead
+#: model_terms:ir.ui.view,arch_db:crm.crm_activity_report_view_search
+#: model_terms:ir.ui.view,arch_db:crm.crm_case_tree_view_leads
+#: model_terms:ir.ui.view,arch_db:crm.crm_team_view_kanban_dashboard
+#: model_terms:ir.ui.view,arch_db:crm.sales_team_form_view_in_crm
+#, python-format
+msgid "Leads"
+msgstr "Sử dụng tiềm năng"
+
+
+#. module: crm
+#: model:ir.model.fields,field_description:crm.field_crm_activity_report__date_deadline
+#: model:ir.model.fields,field_description:crm.field_crm_lead__date_deadline
+#: model_terms:ir.ui.view,arch_db:crm.crm_activity_report_view_search
+#: model_terms:ir.ui.view,arch_db:crm.crm_lead_view_search_forecast
+#: model_terms:ir.ui.view,arch_db:crm.crm_opportunity_report_view_search
+#: model_terms:ir.ui.view,arch_db:crm.view_crm_case_opportunities_filter
+msgid "Expected Closing"
+msgstr "Ngày ký hợp đồng"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_activity_type__delay_count
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_view_form_popup
+msgid "Schedule"
+msgstr "Phân công"
+
+#. module: crm
+#: model:ir.model.fields,field_description:crm.field_crm_lead__expected_revenue
+msgid "Expected Revenue"
+msgstr "Tổng giá trị dự án (Bao gồm cả VAT)"
+
+#. module: crm
+#: model:ir.model.fields.selection,name:crm.selection__crm_lead__priority__0
+msgid "Low"
+msgstr "Mức độ 0"
+
+#. module: crm
+#: model:ir.model.fields.selection,name:crm.selection__crm_lead__priority__1
+msgid "Medium"
+msgstr "Mức độ 1"
+
+#. module: crm
+#: model:ir.model.fields.selection,name:crm.selection__crm_lead__priority__2
+msgid "High"
+msgstr "Mức độ 2"
+
+#. module: crm
+#: model:ir.model.fields.selection,name:crm.selection__crm_lead__priority__3
+msgid "Very High"
+msgstr "Mức độ 3"
+
+#. module: sale
+#: code:addons/sale/models/sale_order.py:0
+#: model:ir.model.fields.selection,name:sale.selection__sale_order__state__draft
+#: model_terms:ir.ui.view,arch_db:sale.crm_team_view_kanban_dashboard
+#: model_terms:ir.ui.view,arch_db:sale.view_quotation_tree
+#, python-format
+msgid "Quotation"
+msgstr "Mới"
+
+#. module: sale
+#: model:ir.model.fields.selection,name:sale.selection__sale_order__state__sent
+#: model:ir.model.fields.selection,name:sale.selection__sale_report__state__sent
+msgid "Quotation Sent"
+msgstr "Gửi khách hàng dự thảo"
+
+#. module: sale
+#: code:addons/sale/models/sale_order.py:0
+#: model:ir.actions.act_window,name:sale.action_sale_order_form_view
+#: model:ir.model,name:sale.model_sale_order
+#: model:ir.model.fields,field_description:sale.field_res_partner__sale_order_ids
+#: model:ir.model.fields,field_description:sale.field_res_users__sale_order_ids
+#: model:ir.model.fields.selection,name:sale.selection__sale_order__state__sale
+#: model:ir.model.fields.selection,name:sale.selection__sale_report__state__sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+#, python-format
+msgid "Sales Order"
+msgstr "Khách hàng duyệt"
+
+#. module: sale
+#: model:ir.model.fields.selection,name:sale.selection__sale_order__state__done
+msgid "Locked"
+msgstr "Đóng"
+
+#. module: sale
+#: model:ir.model.fields.selection,name:sale.selection__sale_order__state__cancel
+#: model:ir.model.fields.selection,name:sale.selection__sale_report__state__cancel
+msgid "Cancelled"
+msgstr "Hủy"
+
+#. module: project
+#: model:ir.actions.act_window,name:project.action_view_all_task
+msgid "My Tasks"
+msgstr "Công việc của tôi"

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngs_lock_license_form" model="ir.ui.view">
+            <field name="name">ngs.lock.license.form</field>
+            <field name="model">lock.license</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_lock" type="object" class="btn-primary" string="Khóa sổ" attrs="{'invisible': [('state', '!=', 'new')]}" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_lock" attrs="{'readonly': [('state', '!=', 'new')]}"/>
+                                <field name="type" attrs="{'readonly': [('state', '!=', 'new')]}"/>
+                                <field name="create_uid" readonly="1" string="Người khóa sổ"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ngs_lock_license_tree" model="ir.ui.view">
+            <field name="name">ngs.lock.license.tree</field>
+            <field name="model">lock.license</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="date_lock"/>
+                    <field name="type"/>
+                    <field name="create_uid"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+    <record id="action_view_lock_license" model="ir.actions.act_window">
+        <field name="name">Khóa chứng từ</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lock.license</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="ngs_view_lock_license_root" parent="base.menu_administration" name="Khóa chứng từ" sequence="4" groups="ngsd_base.ngs_lock_timesheet_group" />
+        <menuitem id="ngs_view_lock_license" name="Khóa chứng từ" parent="ngs_view_lock_license_root" action="action_view_lock_license" sequence="1"/>
+
+    </data>
+</odoo>

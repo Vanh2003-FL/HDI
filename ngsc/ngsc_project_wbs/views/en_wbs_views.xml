@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsc_en_wbs_view_form" model="ir.ui.view">
+            <field name="name">ngsc.en.wbs.view.form</field>
+            <field name="model">en.wbs</field>
+            <field name="inherit_id" ref="ngsd_base.wbs_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[3]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[3]" position="after">
+                    <page string="Danh sách công việc">
+                        <div name="task_controls" class="d-flex align-items-center mb-2">
+                            <button name="action_open_wizard_create_stage" type="object"
+                                    string="Thêm giai đoạn"
+                                    attrs="{'invisible': [('state', '!=', 'draft')]}"
+                                    context="{'default_display_project_id': project_id,'default_project_id': project_id}"
+                                    class="btn btn-primary"/>
+                            <button name="collapse_task_tree"
+                                    attrs="{'invisible': [('wbs_task_ids', '=', [])]}"
+                                    title="Đóng tất cả"
+                                    string="  Đóng tất cả"
+                                    style="margin-left: 10px"
+                                    class="btn btn-secondary fa fa-compress task-collapse-button"/>
+                            <button name="expand_task_tree"
+                                    attrs="{'invisible': [('wbs_task_ids', '=', [])]}"
+                                    title="Mở tất cả"
+                                    string="  Mở tất cả"
+                                    style="margin-left: 2px"
+                                    class="btn btn-secondary fa fa-expand task-expand-button"/>
+                            <button name="action_refresh_task_percent_plan"
+                                    type="object"
+                                    string="Refresh % hoàn thành"
+                                    title="Refresh % hoàn thành"
+                                    style="margin-left: 2px"
+                                    attrs="{'invisible': [('wbs_task_ids', '=', [])]}"
+                                    context="{'project_ids': [active_id]}"/>
+
+                        </div>
+                        <field name="wbs_task_ids" widget="one2many_hierarchy_widget"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}"
+                               context="{'list_view_ref': 'ngsc_project_wbs.ngsc_project_task_view_tree',
+                                         'form_view_ref': 'ngsc_project_wbs.ngsc_project_task_view_form_edit',
+                                         'search_view_ref': 'ngsc_project_wbs.ngsc_project_task_view_search',
+                                         'default_display_project_id': project_id,'default_project_id': project_id}">
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

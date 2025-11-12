@@ -1,0 +1,19 @@
+<odoo>
+
+    <record id="x_customer_category_view_tree" model="ir.ui.view">
+        <field name="name">x_customer_category_view_tree</field>
+        <field name="model">x.customer.category</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="x_customer_category_action" model="ir.actions.act_window">
+        <field name="name">Mảng khách hàng</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">x.customer.category</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

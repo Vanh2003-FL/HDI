@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsc_project_wbs_helpdesk_ticket_tree" model="ir.ui.view">
+            <field name="name">ngsc.project.wbs.helpdesk.ticket.tree</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='en_stage_type_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='workpackage_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='en_stage_type_id']" position="after">
+                    <field name="project_stage_id"/>
+                    <field name="project_package_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="ngsc_project_wbs_helpdesk_view_form" model="ir.ui.view">
+            <field name="name">ngsc.project.wbs.helpdesk.view.form</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='en_stage_type_id']" position="attributes">
+                    <attribute name="required">0</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='workpackage_id']" position="attributes">
+                    <attribute name="required">0</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='en_stage_type_id']" position="after">
+                    <field name="project_stage_id" required="1"
+                           domain="[('category', '=', 'phase'),('project_id', '=', project_id),('project_wbs_state', '=', 'approved')]"
+                           options="{'no_create': 1, 'no_create_edit': 1, 'no_quick_create': 1}"/>
+                    <field name="project_package_id" required="1"
+                           domain="[('category', 'in', ['package', 'child_package']),('project_id', '=', project_id),('parent_id', 'child_of', project_stage_id),('project_wbs_state', '=', 'approved')]"
+                           options="{'no_create': 1, 'no_create_edit': 1, 'no_quick_create': 1}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

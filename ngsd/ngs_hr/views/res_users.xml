@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="ngs_hr_res_users_view_form" model="ir.ui.view">
+        <field name="name">ngs_hr_res_users_view_form</field>
+        <field name="model">res.users</field>
+        <field name="priority">20000</field>
+        <field name="inherit_id" ref="hr.res_users_view_form_profile" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='coach_id']" position="after">
+                <field name="en_internal_ok"/>
+            </xpath>
+            <xpath expr="//field[@name='job_title']" position="attributes">
+                <attribute name="attrs">{'readonly': 1}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile_phone']" position="attributes">
+                <attribute name="attrs">{'readonly': 1}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='work_phone']" position="attributes">
+                <attribute name="attrs">{'readonly': 1}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='employee_parent_id']" position="attributes">
+                <attribute name="attrs">{'readonly': 1}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='coach_id']" position="attributes">
+                <attribute name="attrs">{'readonly': 1}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='work_email']" position="attributes">
+                <attribute name="attrs">{'readonly': 1}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='work_location_id']" position="attributes">
+                <attribute name="attrs">{'readonly': 1}</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='public']" position="replace">
+                <page name="public" string="Thông tin công việc">
+                    <div id="o_work_employee_container"> <!-- These two div are used to position org_chart -->
+                        <div id="o_work_employee_main">
+                            <group string="Thông tin công việc">
+                                <field name="mobile_phone" widget="phone" position="move"/>
+                                <field name="work_phone" widget="phone" position="move"/>
+                                <field name="employee_parent_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="indirect_manager" />
+                                <field name="coach_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="address_id" invisible="1"/>
+                                <field name="work_location_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="train_ctv"/>
+                                <field name="job_code_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="level_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="sub_level_id" options="{'no_open': True, 'no_create': True}"/>
+                            </group>
+                            <group name="managers" string="Người phê duyệt" class="hide-group-if-empty">
+                                <field name="leave_manager_id" options="{'no_open': True, 'no_create': True}"/>
+                            </group>
+
+                            <group string="Thông tin đào tạo/thử việc">
+                                <field name="date_start_training"/>
+                                <field name="date_end_training"/>
+                                <field name="date_start_probation"/>
+                                <field name="date_end_probation"/>
+                            </group>
+                            <group name="departure" string="Nghỉ việc">
+                                <field name="seniority_date"/>
+                                <field name="rest_state"/>
+                                <field name="departure_date"/>
+                                <field name="en_text_off"/>
+                                <label for="en_day_layoff_from" string="Ngày nghỉ dài hạn"/>
+                                <div class="o_row">
+                                    <field name="en_day_layoff_from" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'en_day_layoff_to'}"/>
+                                    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                                    <field name="en_day_layoff_to" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'en_day_layoff_from'}"/>
+                                </div>
+                                <field name="en_text_layoff"/>
+
+                            </group>
+<!--                            <group string="Thông tin phụ cấp">-->
+<!--                                <field name="salary_gross_offer"/>-->
+<!--                                <field name="salary_probation"/>-->
+<!--                                <field name="salary_basic"/>-->
+<!--                                <field name="lunch_allowance"/>-->
+<!--                                <field name="travel_allowance"/>-->
+<!--                                <field name="salary_temporary_effective"/>-->
+<!--                                <field name="total_new_income"/>-->
+<!--                                <field name="total_old_income"/>-->
+<!--                                <field name="pti_insurance_level"/>-->
+<!--                            </group>-->
+
+                            <group string="Lịch làm việc">
+                                <field name="resource_calendar_id" options="{'no_open': True, 'no_create': True}"/>
+                            </group>
+                        </div>
+                        <div id="o_employee_right">
+                            <field name="employee_ids" invisible="1"/>
+                            <h4 class="o_org_chart_title mb16 mt0">Organization Chart</h4>
+                            <field name="child_ids" widget="hr_org_chart"/>
+                        </div>
+                    </div>
+                </page>
+            </xpath>
+            <xpath expr="//notebook/page[@name='personal_information']" position="replace">
+                <page name="personal_information" string="Thông tin cá nhân" attrs="{'invisible': [('en_internal_ok', '=', False)]}">
+                    <group>
+                        <group string="Liên lạc cá nhân">
+                            <field name="address_current"/>
+                            <field name="address_home_id" invisible="1"/>
+                            <field name="notebook_bhxh"/>
+                            <field name="tax_code"/>
+                            <field name="date_tax"/>
+                            <field name="place_tax"/>
+    
+                            <field name="private_email" />
+                            <field name="phone" class="o_force_ltr" string="Điện thoại"/>
+                            <field name="private_lang" string="Ngôn ngữ"/>
+                            <field name="bank_account_id" context="{'display_partner':True}" attrs="{'invisible' : [('address_home_id', '=', False)]}"/>
+                            <field name="res_partner_bank_ids">
+                                <list>
+                                    <field name="bank_id"/>
+                                    <field name="acc_number"/>
+                                </list>
+                            </field>
+
+                        </group>
+                        <group string="Quốc tịch">
+                            <field name="employee_country_id" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="identification_id" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
+                            <field name="cccd_date" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
+                            <field name="cccd_place" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
+
+                            <field name="passport_id"/>
+                            <field name="gender" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
+                            <field name="birthday" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
+                            <field name="place_of_birth"/>
+                            <field name="country_of_birth" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="regular_address" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
+
+                        </group>
+                        <group string="Tình trạng hôn nhân">
+                            <field name="marital"/>
+                            <field name="spouse_complete_name" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}"/>
+                            <field name="spouse_birthdate" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}"/>
+                        </group>
+                        <group string="Phụ thuộc">
+                            <field name="children"/>
+                            <field name="depend_persion_id">
+                                <list editable="bottom">
+                                    <field name="relationship"/>
+                                    <field name="full_name"/>
+                                    <field name="date_of_birth"/>
+                                    <field name="people_id" optional="hide"/>
+                                    <field name="reduce" optional="hide"/>
+                                    <field name="reduce_from" optional="hide"/>
+                                    <field name="reduce_to" optional="hide"/>
+                                    <field name="note"/>
+                                </list>
+
+                            </field>
+                        </group>
+                        <group string="Khẩn cấp">
+                            <field name="emergency_contact"/>
+                            <field name="emergency_phone" class="o_force_ltr"/>
+                        </group>
+                        <group string="Giấy phép LĐ" name="has_work_permit">
+                            <field name="visa_no"/>
+                            <field name="permit_no"/>
+                            <field name="visa_expire"/>
+                            <field name="work_permit_expiration_date"/>
+                            <field name="has_work_permit"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//notebook/page[@name='hr_settings']" position="replace">
+                <page name="hr_settings" string="Cài đặt nhân sự">
+                    <group>
+                        <group string="Trạng thái" name="active_group">
+                            <field name="shift"/>
+                            <field name="has_child_start"/>
+                            <field name="has_child_end"/>
+                            <field name="check_timesheet_before_checkout"/>
+                            <field name="check_representative"/>
+                        </group>
+                        <group string="Khóa sổ">
+                            <field name="lock_create_timesheet"/>
+                            <field name="lock_create_timesheet_exp"/>
+                            <field name="lock_approve_timesheet"/>
+                            <field name="lock_approve_timesheet_exp"/>
+                        </group>
+    
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

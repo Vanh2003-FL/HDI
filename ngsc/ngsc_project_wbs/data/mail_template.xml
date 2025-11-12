@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsc_project.email_template_en_workpackage_complete" model="mail.template">
+            <field name="name">Mail nhắc nhở hoàn thành/bổ sung gói công việc</field>
+            <field name="model_id" ref="model_project_task"/>
+            <field name="subject">[Nhắc nhở] Giai đoạn dự án {{ object.name }} đã hoàn thành toàn bộ các Gói công việc
+            </field>
+            <field name="email_from"/>
+            <field name="email_to">{{ object.en_handler.email_formatted }}</field>
+            <field name="email_cc">{{ object.project_id.en_project_qa_id.email_formatted }}</field>
+            <field name="partner_to"/>
+            <field name="lang"></field>
+            <field name="body_html" type="html">
+                <div>
+                    Thân gửi <t t-out="object.en_handler.name or ''"></t>,
+                    <br/>
+                    <br/>
+                    Hiện tại Giai đoạn dự án
+                    <b>
+                        <t t-out="object.name or ''"/>
+                    </b>
+                    của dự án
+                    <b>
+                        <t t-out="object.project_id.name or ''"/>
+                    </b>
+                    đã hoàn thành toàn bộ các Gói công việc bên trong.
+                    <br/>
+                    Vui lòng chuyển trạng thái Giai đoạn dự án hoặc bổ sung thêm Giai đoạn dự án mới.
+                    <br/>
+                    <br/>
+                    <b>Liên kết WBS:</b>
+                    <a t-att-href="'%s/web#id=%s&amp;model=project.task&amp;view_type=form' % (object.get_base_url(), object.id)">
+                        Mở giai đoạn dự án trên hệ thống
+                    </a>
+                    <br/>
+                    <br/>
+                    Trân trọng!
+                    <br/>
+                    <br/>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        <record id="ngsc_project.email_template_project_task_complete" model="mail.template">
+            <field name="name">Mail nhắc nhở hoàn thành/bổ sung công việc</field>
+            <field name="model_id" ref="model_project_task"/>
+            <field name="subject">[Nhắc nhở] Gói việc {{ object.name }} đã hoàn thành toàn bộ công việc</field>
+            <field name="email_from"/>
+            <field name="email_to">{{ object.en_handler.email_formatted }}</field>
+            <field name="email_cc">{{ object.project_id.en_project_qa_id.email_formatted }}</field>
+            <field name="partner_to"/>
+            <field name="lang"></field>
+            <field name="body_html" type="html">
+                <div>
+                    Thân gửi <t t-out="object.en_handler.name or ''"></t>,
+                    <br/>
+                    <br/>
+                    Hiện tại gói việc
+                    <b>
+                        <t t-out="object.name or ''"/>
+                    </b>
+                    của dự án
+                    <b>
+                        <t t-out="object.project_id.name or ''"/>
+                    </b>
+                    đã hoàn thành toàn bộ các công việc bên trong.
+                    <br/>
+                    Vui lòng vào WBS để chuyển trạng thái gói việc hoặc bổ sung thêm công việc mới.
+                    <br/>
+                    <br/>
+                    <b>Liên kết WBS:</b>
+                    <a t-att-href="'%s/web#id=%s&amp;model=project.task&amp;view_type=form' % (object.get_base_url(), object.id)">
+                        Mở gói việc trên hệ thống
+                    </a>
+                    <br/>
+                    <br/>
+                    Trân trọng!
+                    <br/>
+                    <br/>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--    <menuitem id="custom_bin" string="Bin của Bin" parent="menu_custom"/>-->
+    <!--    <menuitem id="contacts.res_partner_menu_contacts" parent="custom_bin"/>-->
+    <menuitem id="menu_no_one" parent="base.menu_administration" name="Trash Bin" groups="base.group_no_one" sequence="99"/>
+    <menuitem id="menu_email_data" name="Email Data" sequence="4" parent="base.menu_email" action="ngsd_base.email_data_action"/>
+
+    <record id="hr_holidays.menu_hr_holidays_report" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="hr_holidays.menu_open_allocation" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="hr_holidays.hr_holidays_menu_manager_approve_allocations" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="crm.res_partner_menu_customer" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="hr_holidays.menu_hr_holidays_dashboard" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="contacts.res_partner_menu_contacts" model="ir.ui.menu">
+        <field name="parent_id" ref="menu_no_one"/>
+    </record>
+    <record id="base.menu_management" model="ir.ui.menu">
+        <field name="parent_id" ref="menu_no_one"/>
+    </record>
+    <record id="contacts.res_partner_menu_config" model="ir.ui.menu">
+        <field name="sequence">6</field>
+    </record>
+
+
+    <menuitem id="customer_menu" name="Khách hàng" sequence="1" parent="contacts.menu_contacts" action="ngsd_base.partner_customer_action" groups="base.group_user"/>
+    <menuitem id="customer_menu_customer" name="Khách hàng" sequence="1" parent="customer_menu" action="ngsd_base.partner_customer_action" groups="base.group_user"/>
+    <menuitem id="customer_menu_contact" name="Đầu mối liên hệ" sequence="2" parent="customer_menu" action="ngsd_base.partner_contact_action" groups="base.group_user"/>
+    <menuitem id="supplier_menu" name="Đơn vị bán" sequence="2" parent="contacts.menu_contacts" action="ngsd_base.partner_supplier_action" groups="base.group_user"/>
+    <menuitem id="competitors_menu" name="Đối thủ cạnh tranh" sequence="3" parent="contacts.menu_contacts" action="ngsd_base.partner_competitors_action" groups="base.group_user"/>
+    <menuitem id="manufacturer_menu" name="Hãng" sequence="4" parent="contacts.menu_contacts" action="ngsd_base.partner_manufacturer_action" groups="base.group_user"/>
+
+    <menuitem id="x_customer_category_menu" name="Mảng khách hàng (NCS)" sequence="4" parent="contacts.res_partner_menu_config" action="ngsd_base.x_customer_category_action" groups="base.group_user"/>
+    <menuitem id="x_customer_group_menu" name="Nhóm khách hàng (NCS)" sequence="4" parent="contacts.res_partner_menu_config" action="ngsd_base.x_customer_group_action" groups="base.group_user"/>
+
+
+    <menuitem id="industry_menu" name="Danh mục" parent="crm.crm_menu_config" sequence="3" action="product.product_category_action_form"/>
+    <menuitem id="compete_lead_action_menu" name="Tính cạnh tranh" parent="crm.crm_menu_config" sequence="3" action="ngsd_crm.compete_lead_action"/>
+    <menuitem id="crm_kpi_action_menu" name="Chỉ tiêu" parent="crm.crm_menu_config" sequence="3" action="ngsd_crm.crm_kpi_action"/>
+    <menuitem id="crm_support_history_menu" name="Lịch sử chăm sóc" parent="crm.crm_menu_config" sequence="4" action="ngsd_crm.crm_support_history_action"/>
+    <menuitem id="crm_support_state_menu" name="Tình trạng support" parent="crm.crm_menu_config" sequence="5" action="ngsd_crm.crm_support_state_action"/>
+    <menuitem id="kt_department_menu" name="Phòng kỹ thuật" parent="crm.crm_menu_config" sequence="6" action="ngsd_crm.kt_department_action"/>
+    <record id="ngsd_crm.crm_consulting_team_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="crm.crm_menu_config"/>
+        <field name="sequence">6</field>
+    </record>
+    <record id="ngsd_crm.crm_development_team_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="crm.crm_menu_config"/>
+        <field name="sequence">6</field>
+    </record>
+    <menuitem id="project_type_source_menu" name="Loại hình cung cấp dự án" parent="crm.crm_menu_config" sequence="7" action="ngsd_crm.project_type_source_action"/>
+    <menuitem id="x_legal_menu" name="Pháp nhân" parent="crm.crm_menu_config" sequence="8" action="ngsd_crm.x_legal_action"/>
+
+
+    <menuitem id="crm_atta_action_menu" name="Quản lý tài liệu" parent="crm.crm_menu_root" sequence="50" action="ngsd_crm.crm_atta_action"/>
+    <menuitem id="crm_noti_not_target" name="Dashboard" parent="crm.crm_menu_root" sequence="60"/>
+
+    <menuitem id="crm_noti_not_target_month" name="Weekly Update Remind" parent="crm_noti_not_target" sequence="100" action="ngsd_base.action_noti_not_target_quarter"/>
+    <menuitem id="crm_noti_not_target_year" name="Monthly Remind" parent="crm_noti_not_target" sequence="200" action="ngsd_base.action_noti_not_target_year"/>
+
+    <record id="project.action_view_all_task" model="ir.actions.act_window">
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="context">{'create': 0, 'search_default_my_tasks': 0, 'all_task': 0}</field>
+        <field name="domain">[('en_handler', '=', uid),('en_wbs_state', '=', 'approved')]</field>
+    </record>
+
+    <record id="base.menu_administration" model="ir.ui.menu">
+        <field name="groups_id" eval="[(5, 0, 0), (4, ref('base.group_erp_manager'))]"/>
+    </record>
+    <record id="hr_timesheet.timesheet_menu_activity_mine" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('hr_timesheet.group_hr_timesheet_user'))]"/>
+    </record>
+
+</odoo>

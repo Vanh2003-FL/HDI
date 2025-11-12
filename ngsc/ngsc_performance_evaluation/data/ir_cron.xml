@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ngsc_performance_evaluation_ir_cron_001" model="ir.cron">
+            <field name="name">[Đánh giá hiệu suất] Generate đánh giá hiệu suất công việc tháng N-1</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_hr_performance_evaluation()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="ngsc_performance_evaluation_ir_cron_002" model="ir.cron">
+            <field name="name">[Đánh giá hiệu suất] Generate đánh giá công việc trong và ngoài dự án tháng N-1</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_task_evaluation()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="ngsc_performance_evaluation_ir_cron_003" model="ir.cron">
+            <field name="name">[Đánh giá hiệu suất] Nhắc nhở Người giám sát đánh giá công việc tháng N-1</field>
+            <field name="model_id" ref="model_task_evaluation"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_remind_reviewer_task_evaluation()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="ngsc_performance_evaluation_ir_cron_004" model="ir.cron">
+            <field name="name">[Đánh giá hiệu suất] Nhắc nhở QLTT phê duyệt đánh giá hiệu suất công việc tháng N-1</field>
+            <field name="model_id" ref="model_ngsc_hr_performance_evaluation"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_remind_direct_manager_performance_evaluation()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="ngsc_performance_evaluation_ir_cron_005" model="ir.cron">
+            <field name="name">[Đánh giá hiệu suất] Nhắc nhở QLGT phê duyệt đánh giá hiệu suất công việc tháng N-1</field>
+            <field name="model_id" ref="model_ngsc_hr_performance_evaluation"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_remind_indirect_manager_performance_evaluation()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>

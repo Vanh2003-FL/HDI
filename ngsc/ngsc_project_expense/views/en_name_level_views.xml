@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_expense_en_name_level_view_form" model="ir.ui.view">
+            <field name="name">project.expense.en.name.level.view.form</field>
+            <field name="model">en.name.level</field>
+            <field name="inherit_id" ref="ngsd_base.name_level_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <list>
+                        <field name="sequence"/>
+                        <field name="name"/>
+                    </list>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="name_level_view_form" model="ir.ui.view">
+            <field name="name">name.level.form</field>
+            <field name="model">en.name.level</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="expense_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="date_start" required="1"/>
+                                    <field name="date_end" required="1"/>
+                                    <field name="department_ids" widget="many2many_tags" required="1"/>
+                                    <field name="expense"/>
+                                    <field name="company_currency" invisible="1"/>
+                                </list>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="name_level_act_1" model="ir.actions.act_window">
+            <field name="res_model">en.name.level</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'create': 0}</field>
+        </record>
+
+        <record id="name_level_menu_1" model="ir.ui.menu">
+            <field name="action" ref="name_level_act_1"/>
+        </record>
+
+        <record id="ngsd_base.name_level_act" model="ir.actions.act_window">
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="ngsd_base.name_level_menu" model="ir.ui.menu">
+            <field name="name">Cấp bậc</field>
+        </record>
+    </data>
+</odoo>

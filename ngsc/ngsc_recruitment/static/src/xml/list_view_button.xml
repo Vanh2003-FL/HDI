@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="ListView.buttons">
+        <t t-jquery="button.o_list_export_xlsx" t-operation="after">
+            <button t-if="widget.modelName == 'hr.applicant'" class="btn btn-primary o_list_button_search_personnel" type="button">
+                <i class="fa fa-search"/> Tìm kiếm
+            </button>
+            <button t-if="widget.modelName == 'hr.applicant'" class="btn btn-primary o_list_button_import_personnel" type="button">
+                <i class="fa fa-upload"/> Nhập HS ứng viên
+            </button>
+            <button t-if="widget.modelName == 'hr.applicant'" class="btn btn-secondary o_list_button_download_personnel" type="button">
+                <i class="fa fa-download"/> Tải file mẫu
+            </button>
+        </t>
+    </t>
+</templates>

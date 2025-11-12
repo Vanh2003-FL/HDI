@@ -1,0 +1,7 @@
+.oe_list_content thead tr.merged-header-row th.merged-header-cell {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    background: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsc_project_expense_project_task_view_form_create" model="ir.ui.view">
+            <field name="name">ngsc.project.expense.project.task.view.form.create</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="ngsc_project_wbs.ngsc_project_task_view_form_create"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='stage_type_id']" position="after">
+                    <field name="bmm_stage_id" attrs="{'invisible': [('category', '!=', 'phase')]}"
+                           options="{'no_open':1,'no_create':1,'no_edit':1}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="ngsc_project_expense_project_task_view_form_edit" model="ir.ui.view">
+            <field name="name">ngsc.project.expense.project.task.view.form.edit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="ngsc_project_wbs.ngsc_project_task_view_form_edit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='stage_type_id']" position="after">
+                    <field name="bmm_stage_id" attrs="{'invisible': [('category', '!=', 'phase')]}"
+                           options="{'no_open':1,'no_create':1,'no_edit':1}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

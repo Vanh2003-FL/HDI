@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsc_project_task_view_tree" model="ir.ui.view">
+            <field name="name">ngsc.project.task.view.tree</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <list string="Danh sách công việc" sample="1" create="0" edit="0"
+                      delete="0" limit="99999" class="x2many_search wbs_hierarchy_list">
+                    <button name="action_create"
+                            type="object"
+                            title="Tạo mới"
+                            attrs="{'invisible': ['|','|',('category', 'in', ['child_package','task']),('project_wbs_state', '!=', 'draft'),('is_invisible_btn', '=', True)]}"
+                            class="btn-sm fa fa-plus-circle"/>
+                    <field name="name" string="Tên"/>
+                    <field name="category"/>
+                    <field name="full_code" string="Mã"/>
+                    <field name="en_start_date"/>
+                    <field name="date_deadline" string="Ngày kết thúc"/>
+                    <field name="en_handler"/>
+                    <field name="plan_percent_completed" widget="percentage"/>
+                    <field name="actual_percent_completed" widget="percentage"/>
+                    <field name="stage_id" string="Trạng thái"/>
+                    <button name="action_unlink" type="object" string=""
+                            readonly="context.get('x2many_search', False)"
+                            confirm="Bạn có chắc chắn muốn xóa?"
+                            title="Xóa"
+                            attrs="{'invisible': ['|','|',('project_wbs_state', '!=', 'draft'),('is_start_date_past', '=', True),('is_invisible_btn', '=', True)]}"
+                            class="oe_edit_only fa fa-trash-o"/>
+                    <field name="count_subtask" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="project_wbs_state" invisible="1"/>
+                    <field name="is_start_date_past" invisible="1"/>
+                    <field name="is_invisible_btn" invisible="1"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="ngsc_project_task_package_view_tree" model="ir.ui.view">
+            <field name="name">ngsc.project.task.package.view.tree</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <list string="Danh sách gói việc" sample="1" create="0" edit="0" delete="0">
+                    <field name="name" string="Tên"/>
+                    <field name="full_code" string="Mã"/>
+                    <field name="parent_id" string="Thuộc"/>
+                    <field name="en_start_date"/>
+                    <field name="date_deadline"/>
+                    <field name="en_handler"/>
+                    <field name="stage_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="ngsc_project_task_view_form_create" model="ir.ui.view">
+            <field name="name">ngsc.project.task.view.form.create</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}"
+                               attrs="{'invisible': [('display_project_id', '=', False), ('stage_id', '=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Tên"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="display_project_id" string="Dự án" readonly="1" force_save="1"/>
+                                <field name="project_wbs_id" readonly="1" force_save="1"/>
+                                <field name="en_requester"
+                                       attrs="{'invisible': [('category', '!=', 'task')],'required': [('category', '=', 'task')]}"/>
+                                <field name="en_supervisor"
+                                       attrs="{'invisible': [('category', '!=', 'task')],'required': [('category', '=', 'task')]}"/>
+                                <field name="en_handler" required="1"/>
+                                <field name="en_approver_id"/>
+                                <field name="is_project_milestone" attrs="{'invisible': [('category', '=', 'task')]}"/>
+                                <field name="is_project_payment"
+                                       attrs="{'invisible': [('category', 'not in', ['phase'])]}"/>
+                                <field name="is_hand_over_document"
+                                       attrs="{'invisible': [('category', 'not in', ['package', 'child_package'])]}"/>
+                            </group>
+                            <group>
+                                <field name="category" readonly="1"/>
+                                <field name="stage_type_id"
+                                       attrs="{'required': [('category', '=', 'phase')],
+                                               'invisible': [('category', '=', 'task')]}"
+                                       options="{'no_open':1,'no_create':1,'no_edit':1}"/>
+                                <field name="parent_id" readonly="1" force_save="1" string="Thuộc"
+                                       attrs="{'invisible': [('parent_id', '=', False)]}"/>
+                                <field name="en_start_date"/>
+                                <field name="date_deadline" required="1"/>
+                                <field name="actual_start_date" attrs="{'invisible': [('category', '=', 'task')]}"/>
+                                <field name="actual_end_date" attrs="{'invisible': [('category', '=', 'task')]}"/>
+                                <field name="planned_hours" attrs="{'invisible': [('category', '!=', 'task')]}"/>
+                                <field name="en_progress" widget="percentage"
+                                       attrs="{'invisible': [('category', '!=', 'task')],'required': [('category', '=', 'task')]}"/>
+                                <field name="child_ids" invisible="1"/>
+                                <field name="display_project_id" invisible="1"/>
+                                <field name="project_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook attrs="{'invisible': [('category', '!=', 'task')]}">
+                            <page name="description_page" string="Mô tả">
+                                <field name="description" type="html" options="{'collaborative': true}"/>
+                            </page>
+                            <page name="timesheet_page" string="Timesheet">
+                                <field name="timesheet_ids" readonly="1"
+                                       context="{'list_view_ref': 'ngsd_base.hr_timesheet_line_tree'}"/>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button type="object" class="btn btn-primary o_form_button_save" title="Lưu bản ghi"
+                                    accesskey="s" name="action_save">
+                                <i class="fa fa-check" title="Lưu &amp; đóng"></i>
+                                <span class="d-none d-sm-inline" style="margin-left: 5px;">Lưu &amp; đóng</span>
+                            </button>
+                            <button type="object" class="btn btn-primary o_form_button_save" title="Lưu bản ghi"
+                                    accesskey="s" name="action_save_and_create">
+                                <i class="fa fa-check" title="Lưu &amp; tạo mới"></i>
+                                <span class="d-none d-sm-inline" style="margin-left: 5px;">Lưu &amp; tạo mới</span>
+                            </button>
+                            <button type="button" class="btn btn-secondary o_form_button_cancel" title="Hủy bản ghi"
+                                    accesskey="d" special="cancel">
+                                <i class="fa fa-times" title="Huỷ bỏ"></i>
+                                <span class="d-none d-sm-inline" style="margin-left: 5px;">Huỷ bỏ</span>
+                            </button>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ngsc_project_task_view_form_edit" model="ir.ui.view">
+            <field name="name">ngsc.project.task.view.form.edit</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}"
+                               attrs="{'invisible': [('display_project_id', '=', False), ('stage_id', '=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Tên"/>
+                            <h1>
+                                <field name="name" attrs="{'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="display_project_id" string="Dự án" readonly="1" force_save="1"/>
+                                <field name="project_wbs_id" readonly="1" force_save="1"/>
+                                <field name="en_requester"
+                                       attrs="{'invisible': [('category', '!=', 'task')],'required': [('category', '=', 'task')],'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="en_supervisor"
+                                       attrs="{'invisible': [('category', '!=', 'task')],'required': [('category', '=', 'task')],'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="en_handler" required="1"
+                                       attrs="{'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="en_approver_id"
+                                       attrs="{'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="is_project_milestone"
+                                       attrs="{'invisible': [('category', '=', 'task')],'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="is_project_payment"
+                                       attrs="{'invisible': [('category', 'not in', ['phase'])],'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="is_hand_over_document"
+                                       attrs="{'invisible': [('category', 'not in', ['package', 'child_package'])],'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="category" readonly="1"/>
+                                <field name="stage_type_id"
+                                       attrs="{'required': [('category', '=', 'phase')],'invisible': [('category', '=', 'task')],'readonly': [('project_wbs_state', '!=', 'draft')]}"
+                                       options="{'no_open':1,'no_create':1,'no_edit':1}"/>
+                                <field name="parent_id" readonly="1" force_save="1" string="Thuộc"
+                                       attrs="{'invisible': [('parent_id', '=', False)]}"/>
+                                <field name="en_start_date"
+                                       attrs="{'readonly': ['|', ('is_start_date_past', '=', True),('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="date_deadline" required="1"
+                                       attrs="{'readonly': ['|', ('is_end_date_past', '=', True),('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="actual_start_date"
+                                       attrs="{'invisible': [('category', '=', 'task')],'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="actual_end_date"
+                                       attrs="{'invisible': [('category', '=', 'task')],'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="planned_hours"
+                                       attrs="{'invisible': [('category', '!=', 'task')],'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="en_progress" widget="percentage"
+                                       attrs="{'invisible': [('category', '!=', 'task')],'required': [('category', '=', 'task')],'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                                <field name="child_ids" invisible="1"/>
+                                <field name="display_project_id" invisible="1"/>
+                                <field name="project_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="project_wbs_state" invisible="1"/>
+                                <field name="is_start_date_past" invisible="1"/>
+                                <field name="is_end_date_past" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook attrs="{'invisible': [('category', '!=', 'task')]}">
+                            <page name="description_page" string="Mô tả">
+                                <field name="description" type="html" options="{'collaborative': true}"
+                                       attrs="{'readonly': [('project_wbs_state', '!=', 'draft')]}"/>
+                            </page>
+                            <page name="timesheet_page" string="Timesheet">
+                                <field name="timesheet_ids" readonly="1"
+                                       context="{'list_view_ref': 'ngsd_base.hr_timesheet_line_tree'}"/>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button type="object" class="btn btn-primary o_form_button_save" title="Lưu bản ghi"
+                                    accesskey="s" name="action_save">
+                                <i class="fa fa-check" title="Lưu"></i>
+                                <span class="d-none d-sm-inline" style="margin-left: 5px;">Lưu</span>
+                            </button>
+                            <button type="button" class="btn btn-secondary o_form_button_cancel" title="Hủy bản ghi"
+                                    accesskey="d" special="cancel">
+                                <i class="fa fa-times" title="Huỷ bỏ"></i>
+                                <span class="d-none d-sm-inline" style="margin-left: 5px;">Huỷ bỏ</span>
+                            </button>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ngsc_project_task_view_search" model="ir.ui.view">
+            <field name="name">project.task.view.search</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Tất cả"
+                           filter_domain="['|','|',('name', 'ilike', self), ('en_handler', 'ilike', self),('stage_id', 'ilike', self)]"/>
+                    <field name="name" string="Tên"/>
+                    <field name="en_handler" string="Người chịu trách nhiệm"/>
+                    <field name="stage_id" string="Trạng thái"/>
+                    <separator/>
+                    <filter name="phase" string="Giai đoạn" domain="[('category', '=', 'phase')]"/>
+                    <filter name="package" string="Gói việc" domain="[('category', '=', 'package')]"/>
+                    <filter name="child_package" string="Gói việc con"
+                            domain="[('category', '=', 'child_package')]"/>
+                    <filter name="task" string="Công việc" domain="[('category', '=', 'task')]"/>
+                    <separator/>
+                    <filter name="en_mark_a" string="Chờ thực hiện" domain="[('stage_id.en_mark', '=', 'a')]"/>
+                    <filter name="en_mark_c" string="Đang thực hiện" domain="[('stage_id.en_mark', '=', 'c')]"/>
+                    <filter name="en_mark_d" string="Chờ xem xét" domain="[('stage_id.en_mark', '=', 'd')]"/>
+                    <filter name="en_mark_e" string="Bị trì hoãn" domain="[('stage_id.en_mark', '=', 'e')]"/>
+                    <filter name="en_mark_f" string="Làm lại" domain="[('stage_id.en_mark', '=', 'f')]"/>
+                    <filter name="en_mark_g" string="Hoàn thành" domain="[('stage_id.en_mark', '=', 'g')]"/>
+                    <separator/>
+                    <filter name="resource_active" string="Nhân sự còn hiệu lực" domain="[('resource_state', '=', 'active')]"/>
+                    <filter name="resource_inactive" string="Nhân sự hết hiệu lực" domain="[('resource_state', '=', 'inactive')]"/>
+                </search>
+            </field>
+        </record>
+    </data>
+
+    <data>
+        <record id="project.action_view_all_task" model="ir.actions.act_window">
+            <field name="domain">[('category', '=', 'task'),('en_handler', '=', uid),('project_wbs_state', '=', 'approved')]</field>
+            <field name="context">{'create': 0, 'search_default_my_tasks': 0, 'all_task': 0}</field>
+        </record>
+
+        <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+            <field name="domain">[('category', '=', 'task'),('project_wbs_state', '=', 'approved'),('display_project_id', '=', active_id)]</field>
+            <field name="context">{
+                'pivot_row_groupby': ['user_ids'],
+                'default_project_id': active_id,
+                'default_display_project_id': active_id,
+                'show_project_update': True,
+                'create': 1,
+                'ctx_task_wbs': True}
+            </field>
+        </record>
+
+        <record id="ngsc_project_task_inherit_view_form" model="ir.ui.view">
+            <field name="name">project.task.inherit.view.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="ngsd_base.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='en_task_position']" position="attributes">
+                    <attribute name="required">0</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_deadline']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='en_task_position']" position="after">
+                    <field name="project_wbs_state" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='timesheet_ids']" position="attributes">
+                    <attribute name="attrs">
+                        {
+                        'invisible': [('allow_timesheets', '=', False)],
+                        'readonly': ['|', '|',('technical_field_selection', 'not in', ['c', 'f']), ('project_wbs_state',
+                        '!=', 'approved'),('resource_planning_id', '=', False)]
+                        }
+                    </attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="ngsc_project_inherit_view_task_form2" model="ir.ui.view">
+            <field name="name">ngsc.project.inherit.view.task.form2</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_project_id']" position="replace">
+                    <field name="display_project_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='display_project_id']" position="after">
+                    <field name="category" invisible="1"/>
+                    <xpath expr="//field[@name='parent_id']" position="move"/>
+                    <field name="parent_id" string="Gói công việc" required="1"
+                           context="{'list_view_ref': 'ngsc_project_wbs.ngsc_project_task_package_view_tree'}"
+                           domain="['&amp;',
+                                   ('project_id', '=', project_id),
+                                   ('project_wbs_state', '=', 'approved'),
+                                   '|',('category', '=', 'child_package'),
+                                   '&amp;',('category', '=', 'package'),('has_child_package', '=', False)]"/>
+                </xpath>
+
+                <xpath expr="//field[@name='project_id'][contains(@class, 'oe_edit_only')]" position="replace">
+                    <field name="project_id"
+                           domain="[('active', '=', True), ('company_id', '=', company_id)]"
+                           placeholder="Private"
+                           class="o_project_task_project_field oe_edit_only"/>
+                </xpath>
+                <xpath expr="//field[@name='recurring_task']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

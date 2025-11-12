@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="en_project_legal_entity_view_tree" model="ir.ui.view">
+            <field name="name">en.project.legal.entity.view.tree</field>
+            <field name="model">en.project.legal.entity</field>
+            <field name="arch" type="xml">
+                <list string="Pháp nhân ký HĐ" editable="bottom" sample="1">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="en_project_legal_entity_act_window" model="ir.actions.act_window">
+            <field name="name">Pháp nhân ký HĐ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">en.project.legal.entity</field>
+            <field name="view_mode">list</field>
+        </record>
+
+    </data>
+</odoo>

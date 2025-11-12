@@ -1,0 +1,2 @@
+# msgid "The name field cannot be empty!"
+# msgstr "Le champ du nom ne peut pas être vide !"

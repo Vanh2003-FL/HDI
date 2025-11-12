@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="group_qal_model_documents_document_rule" model="ir.rule">
+        <field name="name">Xem tất cả tài liệu</field>
+        <field name="model_id" ref="documents.model_documents_document"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_qal_model_documents_folder_rule" model="ir.rule">
+        <field name="name">Xem tất cả thư mục</field>
+        <field name="model_id" ref="documents.model_documents_folder"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_qal_model_project_project_rule" model="ir.rule">
+        <field name="name">Tất cả dự án</field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    <record id="group_qal_model_project_task_rule" model="ir.rule">
+        <field name="name">Xem tất cả task</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_qal_model_hr_leave_rule" model="ir.rule">
+        <field name="name">Xem tất cả nghỉ phép</field>
+        <field name="model_id" ref="hr_holidays.model_hr_leave"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_qal_model_en_hr_overtime_rule" model="ir.rule">
+        <field name="name">Xem tất cả yêu cầu tăng ca</field>
+        <field name="model_id" ref="ngsd_base.model_en_hr_overtime"/>
+        <field name="domain_force">[('en_nonproject_task_id', '=', False)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_qal_model_en_wbs_rule" model="ir.rule">
+        <field name="name">Xem tất cả WBS</field>
+        <field name="model_id" ref="ngsd_base.model_en_wbs"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_qal_model_en_resource_planning_rule" model="ir.rule">
+        <field name="name">Xem tất cả KHNL</field>
+        <field name="model_id" ref="ngsd_base.model_en_resource_planning"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_qal_model_model_hr_employee_read_all_rule" model="ir.rule">
+        <field name="name">Vai trò/QA lead: Xem tất cả nhân viên: Read hr.employee 1=1</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_qal_model_en_risk_rule" model="ir.rule">
+        <field name="name">Quản lý rủi ro/cơ tất cả dự án</field>
+        <field name="model_id" ref="ngsd_base.model_en_risk"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    <record id="group_qal_model_en_problem_rule" model="ir.rule">
+        <field name="name">Quản lý vấn đề tất cả dự án</field>
+        <field name="model_id" ref="ngsd_base.model_en_problem"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    <record id="group_qal_model_en_project_document_rule" model="ir.rule">
+        <field name="name">Quản lý Sản phẩm bàn giao tất cả dự án</field>
+        <field name="model_id" ref="ngsd_base.model_en_project_document"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    <record id="group_qal_model_project_milestone_rule" model="ir.rule">
+        <field name="name">Quản lý Mốc thời gian tất cả dự án</field>
+        <field name="model_id" ref="project.model_project_milestone"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    <record id="group_qal_model_account_analytic_rule" model="ir.rule">
+        <field name="name">Xem tất cả Timesheet trong dự án</field>
+        <field name="model_id" ref="ngsd_base.model_account_analytic_line"/>
+        <field name="domain_force">[('task_id', '!=', False)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_qal_model_en_qa_report_work_rule" model="ir.rule">
+        <field name="name">Tạo, xem, sửa, xóa bản ghi báo cáo công việc qa</field>
+        <field name="model_id" ref="ngsd_base.model_en_qa_report_work"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_qal')), (4,ref('base.group_system'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+</odoo>

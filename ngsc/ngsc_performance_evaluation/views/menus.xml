@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="hr_performance_evaluation_menu"
+                  name="Đánh giá hiệu suất"
+                  parent="ngsd_menu.qlda_qlnl_menu"
+                  sequence="50"/>
+
+        <menuitem id="hr_performance_evaluation_of_me_menu"
+                  name="Đánh giá hiệu suất của tôi"
+                  parent="hr_performance_evaluation_menu"
+                  action="hr_performance_evaluation_of_me_act_window" sequence="10"/>
+
+        <menuitem id="hr_performance_evaluation_all_menu"
+                  name="Tất cả đánh giá hiệu suất"
+                  parent="hr_performance_evaluation_menu"
+                  action="hr_performance_evaluation_act_window" sequence="20"/>
+
+        <menuitem id="hr_performance_evaluation_task_menu"
+                  name="Đánh giá chất lượng công việc"
+                  parent="hr_performance_evaluation_menu"
+                  action="task_evaluation_act_window" sequence="30"/>
+
+        <menuitem id="menu_performance_evaluation_report"
+                name="Báo cáo đánh giá hiệu suất"
+                parent="ngsd_menu.qlda_report_root_menu"
+                action="performance_evaluation_wizard_act" sequence="100"/>
+
+        <menuitem id="hr_performance_evaluation_config_category"
+                  name="Đánh giá hiệu suất"
+                  parent="ngsd_menu.cai_dat_menu"
+                  sequence="100"/>
+
+        <menuitem id="hr_performance_evaluation_config_menu"
+                  name="Danh sách loại trừ đánh giá hiệu suất"
+                  parent="hr_performance_evaluation_config_category"
+                  action="ngsc_hr_performance_evaluation_exclude_act_window"
+                  sequence="10"/>
+    </data>
+</odoo>

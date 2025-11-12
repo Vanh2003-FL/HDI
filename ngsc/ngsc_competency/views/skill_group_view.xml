@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="skill_group_view_action" model="ir.actions.act_window">
+            <field name="name">Nhóm kỹ năng</field>
+            <field name="res_model">ngsc.competency.skill.group</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="skill_group_form" model="ir.ui.view">
+            <field name="name">ngsc.competency.skill.group.form</field>
+            <field name="model">ngsc.competency.skill.group</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Tên nhóm kỹ năng"/>
+                        </h1>
+                        <group string="Thông tin chung">
+                            <field name="code" readonly="1"/>
+                            <field name="range_point_id"/>
+                            <field name="short_name"/>
+                            <field name="active"/>
+                            <field name="description"/>
+                        </group>
+                        <notebook>
+                            <page string="Mức độ">
+                                <field name="level_ids" readonly="1">
+                                    <list>
+                                        <field name="sq_order"/>
+                                        <field name="name"/>
+                                        <field name="description"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/><field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="skill_group_tree" model="ir.ui.view">
+            <field name="name">ngsc.competency.skill.group.tree</field>
+            <field name="model">ngsc.competency.skill.group</field>
+            <field name="arch" type="xml">
+                <list delete="0">
+                    <field name="code"/>
+                    <field name="short_name"/>
+                    <field name="name"/>
+                    <field name="active_display"/>
+                    <field name="write_date_formatted"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="skill_group_tree_search" model="ir.ui.view">
+            <field name="name">ngsc.competency.skill.group.tree.search</field>
+            <field name="model">ngsc.competency.skill.group</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="filter_draft" string="Lưu trữ" domain="[('active','=',False)]"/>
+                    <field name="code"/>
+                    <field name="short_name"/>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

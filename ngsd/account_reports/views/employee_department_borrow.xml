@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_employee_department_borrow" model="ir.actions.client">
+        <field name="name">Danh sách nhân sự trong dự án thuộc trung tâm khác</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'model': 'employee.department.borrow'}"/>
+    </record>
+
+
+    <record id="menu_employee_department_borrow" model="ir.ui.menu">
+        <field name="name">Danh sách nhân sự trong dự án thuộc trung tâm khác</field>
+        <field name="action" ref="emp_department_borrow_wizard_act"/>
+        <field name="sequence">100</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="name_level_menu_1" model="ir.ui.menu">
+            <field name="name">Chi phí cấp bậc</field>
+            <field name="sequence">45</field>
+            <field name="parent_id" ref="ngsd_menu.qlda_menu"/>
+            <field name="groups_id" eval="[(4,ref('ngsd_base.group_tptc'))]"/>
+        </record>
+
+        <record id="ngsd_base.name_level_menu" model="ir.ui.menu">
+            <field name="name">Cấp bậc</field>
+        </record>
+    </data>
+</odoo>

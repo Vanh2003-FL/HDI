@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="range_point_view_action" model="ir.actions.act_window">
+            <field name="name">Thang điểm</field>
+            <field name="res_model">ngsc.competency.range.point</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="range_point_form" model="ir.ui.view">
+            <field name="name">ngsc.competency.range.point.form</field>
+            <field name="model">ngsc.competency.range.point</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Tên thang điểm"/>
+                        </h1>
+                        <group string="Thông tin chung">
+                            <field name="code" readonly="1"/>
+                            <field name="level"/>
+                            <field name="active"/>
+                            <field name="description"/>
+                        </group>
+                        <notebook>
+                            <page string="Mức độ">
+                                <field name="level_ids">
+                                    <list editable="bottom" class="allow_list_copy">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="sq_order"/>
+                                        <field name="name"/>
+                                        <field name="description"/>
+                                    </list>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="sq_order"/>
+                                                <field name="name"/>
+                                                <field name="description"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/><field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="range_point_tree" model="ir.ui.view">
+            <field name="name">ngsc.competency.range.point.tree</field>
+            <field name="model">ngsc.competency.range.point</field>
+            <field name="arch" type="xml">
+                <list delete="0">
+                    <field name="name"/>
+                    <field name="level"/>
+                    <field name="active_display"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="range_point_tree_search" model="ir.ui.view">
+            <field name="name">ngsc.competency.range.point.tree.search</field>
+            <field name="model">ngsc.competency.range.point</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="filter_draft" string="Lưu trữ" domain="[('active','=',False)]"/>
+                    <field name="name"/>
+                    <field name="level"/>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

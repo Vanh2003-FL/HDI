@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_nonproject_resource_account_report" model="ir.actions.client">
+        <field name="name">Thông tin nguồn lực tổng</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'model': 'resource.nonproject.account.report'}"/>
+    </record>
+
+    <record id="resource_nonproject_account_report_wizard_form" model="ir.ui.view">
+        <field name="model">resource.nonproject.account.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="unit" widget="radio" options="{'horizontal': true}"/>
+                        <field name="department_ids" widget="many2many_tags"
+                               attrs="{'invisible': [('resource_nonproject_planing_id', '!=', False)]}"/>
+                        <field name="employee_ids" widget="many2many_tags"
+                               attrs="{'invisible': [('resource_nonproject_planing_id', '!=', False)]}"/>
+                        <field name="is_hidden"
+                               attrs="{'invisible': [('resource_nonproject_planing_id', '!=', False)]}"/>
+                        <field name="resource_nonproject_planing_id" invisible="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string='Xác nhận' name="do" type="object" class="oe_highlight"/>
+                    <button string="Hủy" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="resource_nonproject_account_report_wizard_act" model="ir.actions.act_window">
+        <field name="res_model">resource.nonproject.account.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

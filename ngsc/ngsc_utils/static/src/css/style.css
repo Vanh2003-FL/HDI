@@ -1,0 +1,18 @@
+.color-checked {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.o_hidden_trash_header {
+    visibility: hidden;
+}
+
+.o_text_align_center {
+    text-align: center !important;
+}

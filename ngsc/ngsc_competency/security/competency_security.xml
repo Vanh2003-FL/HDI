@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsc_competency_category" model="ir.module.category">
+            <field name="name">Khung năng lực</field>
+            <field name="sequence" eval="20"/>
+            <field name="parent_id" ref="base.module_category_human_resources"/>
+        </record>
+
+         <!--group employee-->
+        <record id="group_competency_employee" model="res.groups">
+            <field name="name">Nhân viên</field>
+            <field name="category_id" ref="ngsc_competency_category"/>
+        </record>
+
+        <!--group organization development-->
+        <record id="group_competency_od" model="res.groups">
+            <field name="name">Cán bộ OD</field>
+            <field name="category_id" ref="ngsc_competency_category"/>
+            <field name="implied_ids" eval="[(6, 0, [ref('group_competency_employee')])]"/>
+        </record>
+    </data>
+</odoo>

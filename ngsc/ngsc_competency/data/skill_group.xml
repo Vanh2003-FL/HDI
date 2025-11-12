@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="seq_skill_group_code" model="ir.sequence">
+        <field name="name">Skill Group Code</field>
+        <field name="code">ngsc.competency.skill.group</field>
+        <field name="prefix">SG</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+    </record>
+</odoo>

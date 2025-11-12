@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product.action_product_template_price_list_report" model="ir.actions.server">
+        <field name="binding_model_id" eval="False"/>
+    </record>
+
+    <record id="ngs_product_template_form_view" model="ir.ui.view">
+        <field name="name">ngs_product_template_form_view</field>
+        <field name="model">product.template</field>
+        <field name="priority">10000</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="en_service_type" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='open_pricelist_rules']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_open_label_layout']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ngs_product_template_only_form_view" model="ir.ui.view">
+        <field name="name">ngs_product_template_only_form_view</field>
+        <field name="model">product.template</field>
+        <field name="priority">10000</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales']" position="attributes">
+                <attribute name="attrs">{'invisible':['|', ('sale_ok', '=', False), ('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='purchase']" position="attributes">
+                <attribute name="attrs">{'invisible':['|', ('purchase_ok', '=', False), ('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='inventory']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='invoicing']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//label[@for='list_price']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', '=', 'car')]}</attribute>
+                <attribute name="string">Đơn giá</attribute>
+            </xpath>
+            <xpath expr="//div[@name='pricing']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', '=', 'car')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='taxes_id']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', '=', 'car')]}</attribute>
+            </xpath>
+            <xpath expr="//label[@for='standard_price']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//div[@name='standard_price_uom']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='categ_id']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='uom_po_id']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_policy']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//div[@name='options']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('font-italic')]" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_tooltip']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//label[@for='product_tooltip']" position="attributes">
+                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(product.product_variant_action)d']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="license_plate" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
+                <field name="vetc_payment_date" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
+                <field name="vetc_payment_amount" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
+                <field name="body_contract_date" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
+                <field name="tnds_insurance_date" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
+                <field name="registration_date" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="ngs_product_template_sale_only_form_view" model="ir.ui.view">
+        <field name="name">ngs_product_template_sale_only_form_view</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="ngs_product_template_only_form_view"/>
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_sales']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="car_product_template_action" model="ir.actions.act_window">
+        <field name="name">Danh sách xe</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'default_en_service_type': 'car'}</field>
+        <field name="domain">[('en_service_type', '=', 'car')]</field>
+    </record>
+    <record id="vpp_product_template_action" model="ir.actions.act_window">
+        <field name="name">Danh sách VPP</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'default_en_service_type': 'vpp'}</field>
+        <field name="domain">[('en_service_type', '=', 'vpp')]</field>
+    </record>
+
+</odoo>

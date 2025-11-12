@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_partner_dcsVN_quangvinh_muonnam" model="res.partner">
+        <field name="name">Nội bộ</field>
+        <field name="company_id" eval="False"/>
+        <field name="email">noibo@example.com</field>
+        <field name="type">contact</field>
+        <field name="en_internal" eval="True"/>
+    </record>
+    <data noupdate="1">
+        <record id="resource_calendar_full_house" model="resource.calendar">
+            <field name="name">Standard 24/7/365</field>
+            <field name="active">False</field>
+            <field name="hours_per_day">24</field>
+            <field name="attendance_ids" eval="[
+                    (5,0,0),
+                    (0, 0, {'name': 'Monday Morning', 'dayofweek': '0', 'hour_from': 0, 'hour_to': 12, 'day_period': 'morning'}),
+                    (0, 0, {'name': 'Monday Afternoon', 'dayofweek': '0', 'hour_from': 12, 'hour_to': 24, 'day_period': 'afternoon'}),
+                    (0, 0, {'name': 'Tuesday Morning', 'dayofweek': '1', 'hour_from': 0, 'hour_to': 12, 'day_period': 'morning'}),
+                    (0, 0, {'name': 'Tuesday Afternoon', 'dayofweek': '1', 'hour_from': 12, 'hour_to': 24, 'day_period': 'afternoon'}),
+                    (0, 0, {'name': 'Wednesday Morning', 'dayofweek': '2', 'hour_from': 0, 'hour_to': 12, 'day_period': 'morning'}),
+                    (0, 0, {'name': 'Wednesday Afternoon', 'dayofweek': '2', 'hour_from': 12, 'hour_to': 24, 'day_period': 'afternoon'}),
+                    (0, 0, {'name': 'Thursday Morning', 'dayofweek': '3', 'hour_from': 0, 'hour_to': 12, 'day_period': 'morning'}),
+                    (0, 0, {'name': 'Thursday Afternoon', 'dayofweek': '3', 'hour_from': 12, 'hour_to': 24, 'day_period': 'afternoon'}),
+                    (0, 0, {'name': 'Friday Morning', 'dayofweek': '4', 'hour_from': 0, 'hour_to': 12, 'day_period': 'morning'}),
+                    (0, 0, {'name': 'Friday Afternoon', 'dayofweek': '4', 'hour_from': 12, 'hour_to': 24, 'day_period': 'afternoon'}),
+                    (0, 0, {'name': 'Saturday Morning', 'dayofweek': '5', 'hour_from': 0, 'hour_to': 12, 'day_period': 'morning'}),
+                    (0, 0, {'name': 'Saturday Afternoon', 'dayofweek': '5', 'hour_from': 12, 'hour_to': 24, 'day_period': 'afternoon'}),
+                    (0, 0, {'name': 'Sunday Morning', 'dayofweek': '6', 'hour_from': 0, 'hour_to': 12, 'day_period': 'morning'}),
+                    (0, 0, {'name': 'Sunday Afternoon', 'dayofweek': '6', 'hour_from': 12, 'hour_to': 24, 'day_period': 'afternoon'}),
+                ]"/>
+        </record>
+    </data>
+</odoo>

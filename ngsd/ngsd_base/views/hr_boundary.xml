@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_boundary_view_pivot" model="ir.ui.view">
+            <field name="name">hr.boundary.view.pivot</field>
+            <field name="model">hr.boundary.master</field>
+            <field name="arch" type="xml">
+            <pivot string="Định biên" default_order="year, month">
+                <field name="year" type="col"/>
+                <field name="month" type="col"/>
+                <field name="department_id" type="row"/>
+                <field name="en_name_level_id" type="row"/>
+                <field name="hr_boundary" type="measure"/>
+             </pivot>
+            </field>
+        </record>
+        <record id="hr_boundary_view_list" model="ir.ui.view">
+            <field name="name">hr.boundary.view.pivot</field>
+            <field name="model">hr.boundary</field>
+            <field name="arch" type="xml">
+                <list string="Định biên">
+                    <field name="block_id"/>
+                    <field name="department_id"/>
+                    <field name="en_department_id" optional="hide"/>
+                    <field name="hr_job_id" optional="hide"/>
+                    <field name="en_name_level_id"/>
+                    <field name="month"/>
+                    <field name="year"/>
+                    <field name="hr_boundary"/>
+                    <field name="version"/>
+                </list>
+            </field>
+        </record>
+         <record id="hr_boundary_search" model="ir.ui.view">
+            <field name="name">hr.boundary.search</field>
+            <field name="model">hr.boundary</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="block_id" string="Tất cả" filter_domain="['|',('block_id', 'ilike', self), ('department_id', 'ilike', self),('en_department_id', 'ilike', self),('hr_job_id', 'ilike', self),('en_name_level_id', 'ilike', self),('year', 'ilike', self),('month', 'ilike', self)]"/>
+                    <field name="block_id"/>
+                    <field name="department_id"/>
+                    <field name="en_department_id"/>
+                    <field name="hr_job_id"/>
+                    <field name="en_name_level_id"/>
+                    <field name="month"/>
+                    <field name="year"/>
+                    <filter string="Đã lưu" name="inactive" domain="[('active','=',False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Khối" name="Khối" domain="[]" context="{'group_by': 'block_id'}"/>
+                        <filter string="Trung tâm/Ban" name="Trung tâm/Ban" domain="[]" context="{'group_by': 'department_id'}"/>
+                        <filter string="Phòng" name="Phòng" domain="[]" context="{'group_by': 'en_department_id'}"/>
+                        <filter string="Vị trí" name="Vị trí" domain="[]" context="{'group_by': 'hr_job_id'}"/>
+                        <filter string="Cấp bậc" name="Cấp bậc" domain="[]" context="{'group_by': 'en_name_level_id'}"/>
+                        <filter string="Tháng" name="Tháng" domain="[]" context="{'group_by': 'month'}"/>
+                        <filter string="Năm" name="Năm" domain="[]" context="{'group_by': 'year'}"/>
+                    </group>
+                </search>
+            </field>
+         </record>
+    </data>
+</odoo>

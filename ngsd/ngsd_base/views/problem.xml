@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="problem_level_tree" model="ir.ui.view">
+        <field name="model">en.problem.level</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="problem_level_action" model="ir.actions.act_window">
+        <field name="res_model">en.problem.level</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="problem_level_menu" model="ir.ui.menu">
+        <field name="action" ref="problem_level_action"/>
+    </record>
+
+    <record id="problem_priority_tree" model="ir.ui.view">
+        <field name="model">en.problem.priority</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="problem_priority_action" model="ir.actions.act_window">
+        <field name="res_model">en.problem.priority</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="problem_priority_menu" model="ir.ui.menu">
+        <field name="action" ref="problem_priority_action"/>
+    </record>
+
+</odoo>

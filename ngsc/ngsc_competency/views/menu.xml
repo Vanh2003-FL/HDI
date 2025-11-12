@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="competency_root_menu"
+              name="Khung năng lực"
+              sequence="500"
+              groups="group_competency_od"
+              web_icon="ngsc_competency,static/description/icon.png"/>
+    <menuitem id="group_skill_root_menu"
+              name="Nhóm kỹ năng"
+              parent="competency_root_menu"
+              sequence="10"
+              groups="group_competency_od"
+              action="skill_group_view_action"
+    />
+    <menuitem id="tag_root_menu"
+              name="Thẻ"
+              parent="competency_root_menu"
+              sequence="20"
+              action="tag_view_action"
+              groups="group_competency_od"/>
+    <menuitem id="skill_root_menu"
+              name="Kỹ năng"
+              parent="competency_root_menu"
+              sequence="40"
+              action="skill_view_action"
+              groups="group_competency_od"/>
+    <menuitem id="range_point_root_menu"
+              name="Thang điểm"
+              parent="competency_root_menu"
+              sequence="60"
+              action="range_point_view_action"
+              groups="group_competency_od"/>
+</odoo>

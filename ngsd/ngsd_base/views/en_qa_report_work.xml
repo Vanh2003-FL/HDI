@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="qa_report_work_view_tree" model="ir.ui.view">
+            <field name="name">en.qa.report.work.tree</field>
+            <field name="model">en.qa.report.work</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="employee_create_id" optional="hide"/>
+                    <field name="week"/>
+                    <field name="date"/>
+                    <field name="work_control"/>
+                    <field name="product"/>
+                    <field name="result_control"/>
+                    <field name="note"/>
+                    <field name="workload_use"/>
+                    <field name="qam_evaluate"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="qa_report_work_view_search" model="ir.ui.view">
+           <field name="name">en.qa.report.work.search</field>
+           <field name="model">en.qa.report.work</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="employee_create_id" filter_domain="['|', ('employee_create_id.name','ilike',self), ('employee_create_id.work_email','ilike',self)]"/>
+                    <filter string="Tuần này" name="current_week"
+                            domain="[('date', '&gt;=', (context_today() + relativedelta(weeks=-1,days=1, weekday=0)).strftime('%Y-%m-%d')),
+                                     ('date', '&lt;=', (context_today() - relativedelta(weeks=0, weekday=-1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Tuần trước" name="last_week"
+                            domain="[('date', '&gt;=', ((context_today() + relativedelta(weeks=-2,days=1, weekday=0)).strftime('%Y-%m-%d'))),
+                                     ('date', '&lt;=', ((context_today() + relativedelta(weeks=-1,weekday=6)).strftime('%%Y-%%m-%%d')))]"/>
+                    <filter string="Tháng này" name="current_month"
+                        domain="[('date', '&gt;=', (context_today() + relativedelta(day=1)).strftime('%Y-%m-%d')),
+                                 ('date', '&lt;=', (context_today() + relativedelta(months=1, day=1) + relativedelta(days=-1)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Tháng trước" name="last_month"
+                        domain="[('date', '&gt;=', ((context_today() + relativedelta(months=-1,day=1)).strftime('%Y-%m-%d'))),
+                                 ('date', '&lt;=', ((context_today() + relativedelta(day=1,days=-1)).strftime('%%Y-%%m-%%d')))]"/>
+                </search>
+           </field>
+        </record>
+
+        <record id="qa_report_work_view_action" model="ir.actions.act_window">
+            <field name="name">Kế hoạch công việc QA</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">en.qa.report.work</field>
+            <field name="view_mode">list</field>
+        </record>
+
+
+    </data>
+</odoo>

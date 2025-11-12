@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action mở tree/form view -->
+    <record id="action_hr_attendance_log" model="ir.actions.act_window">
+        <field name="name">Nhật ký chấm công</field>
+        <field name="res_model">hr.attendance.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Chưa có log nào.
+            </p>
+            <p>Hệ thống sẽ hiển thị nhật ký check-in/check-out bất đồng bộ của nhân viên.</p>
+        </field>
+    </record>
+
+    <!-- Tree view -->
+    <record id="view_hr_attendance_log_tree" model="ir.ui.view">
+        <field name="name">hr.attendance.log.tree</field>
+        <field name="model">hr.attendance.log</field>
+        <field name="arch" type="xml">
+            <list string="Nhật ký chấm công" create="false">
+                <field name="employee_id" optional="show"/>
+                <field name="action" optional="show"/>
+                <field name="timestamp" optional="show"/>
+                <field name="state" optional="show"/>
+                <field name="processed" optional="hide"/>
+                <field name="process_note" optional="hide"/>
+                <field name="approver_id" optional="hide"/>
+                <field name="approval_date" optional="hide"/>
+                <field name="create_date" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_hr_attendance_log_form" model="ir.ui.view">
+        <field name="name">hr.attendance.log.form</field>
+        <field name="model">hr.attendance.log</field>
+        <field name="arch" type="xml">
+            <form string="Nhật ký chấm công">
+                <sheet>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="action"/>
+                        <field name="timestamp"/>
+                        <field name="state"/>
+                        <field name="processed"/>
+                    </group>
+                    <group>
+                        <field name="process_note" colspan="2"/>
+                        <field name="approver_id"/>
+                        <field name="approval_note"/>
+                        <field name="approval_date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_hr_attendance_log" name="Nhật ký chấm công" parent="hr_attendance.menu_hr_attendance_settings"
+              action="ngs_hr_attendance_async.action_hr_attendance_log" sequence="10" groups="base.group_system"/>
+</odoo>

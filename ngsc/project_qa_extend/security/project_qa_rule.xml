@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+                <record id="project_qa_extend_rule_wbs" model="ir.rule">
+                    <field name="name">WBS của dự án mình là QA</field>
+                    <field name="model_id" ref="ngsd_base.model_en_wbs"/>
+                    <field name="domain_force">
+                        [
+                        '|',
+                        ('project_id.en_project_qa_id', '=', user.id),
+                        ('project_id.en_project_qa_ids', 'in', [user.id])
+                        ]
+                    </field>
+                    <field name="groups" eval="[(4,ref('ngsd_base.group_qam'))]"/>
+                    <field name="perm_read" eval="True"/>
+                    <field name="perm_write" eval="True"/>
+                    <field name="perm_create" eval="False"/>
+                    <field name="perm_unlink" eval="False"/>
+                </record>
+
+                <!-- Ghi đè rule gốc, giữ cả trường cũ và mới -->
+                <record id="en_overtime_plan_group_qam_read_create_rule" model="ir.rule">
+                    <field name="name">Tạo, xem tất cả Kế hoạch OT: CR en.overtime.plan</field>
+                    <field ref="ngsd_base.model_en_overtime_plan" name="model_id"/>
+                    <!-- OR giữa trường cũ (Many2one) và trường mới (Many2many) -->
+                    <field name="domain_force">
+                        ['|',
+                        ('en_work_id.project_id.en_project_qa_id', '=', user.id),
+                        ('en_work_id.project_id.en_project_qa_ids', 'in', [user.id])
+                        ]
+                    </field>
+                    <field name="perm_write" eval="0"/>
+                    <field name="perm_create" eval="1"/>
+                    <field name="perm_read" eval="1"/>
+                    <field name="perm_unlink" eval="0"/>
+                    <field name="groups" eval="[(6,0, [ref('ngsd_base.group_qam')])]"/>
+                </record>
+
+        <record id="group_access_global_rule_model_project_project_rule" model="ir.rule">
+            <field name="name">Project: Xem dự án theo trạng thái</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="domain_force">
+                ['|','|','|','|','|','|','|',
+                ('can_view_draft', '=', True),
+                ('en_state', '!=', 'draft'),
+                ('en_project_block_id', '=', user.id),
+                ('en_project_qa_id', '=', user.id),
+                ('en_project_qa_ids', 'in', [user.id]),
+                ('en_project_sale_id', '=', user.id),
+                ('create_uid', '=', user.id),
+                ('en_resource_project_ids.employee_id.user_id', '=', user.id)
+                ]
+            </field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

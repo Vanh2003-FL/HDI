@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="en_lender_employee_form" model="ir.ui.view">
+        <field name="model">en.lender.employee</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <field name="borrow_employee_id" invisible="1"/>
+                    <field name="is_borrower" invisible="1"/>
+                    <field name="is_lender" invisible="1"/>
+                    <button string="Bàn giao" type="object" name="to_done" attrs="{'invisible': ['|', '|', ('state', '!=', 'pending'), ('is_lender', '=', False), ('lender_employee_ids', '=', False)]}"/>
+                    <button string="Hủy" type="object" name="to_cancel" attrs="{'invisible': ['|',('state', '!=', 'pending'), ('is_lender', '=', False)]}"/>
+                </header>
+                <sheet>
+                    <div name="button_box" class="oe_button_box">
+
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="code" readonly="1"/>
+                            <field name="borrow_employee_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date" attrs="{'readonly': [('is_lender', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Thông tin bên mượn">
+                            <field name="borrower_id" readonly="1" force_save="1"/>
+                            <field name="department_borrower_id"/>
+                        </group>
+                        <group string="Thông tin bên cho mượn">
+                            <field name="lender_id"/>
+                            <field name="department_lender_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Chi tiết mượn">
+                            <field name="lender_employee_ids" attrs="{'readonly': ['|',('is_lender', '=', False), ('state', '!=', 'pending')]}">
+                                <list editable="bottom">
+                                    <field name="id"/>
+                                    <field name="employee_id" domain="[('department_id', '=', parent.department_lender_id), ('en_internal_ok', '=', True)]" width="15%" required="1"/>
+                                    <field name="email" width="15%"/>
+                                    <field name="job_position_id" width="10%"/>
+                                    <field name="job_position_ids" invisible="1"/>
+                                    <field name="level_id" width="10%"/>
+                                    <field name="date_start" width="10%"/>
+                                    <field name="date_end" force_save="1" width="10%"/>
+                                    <field name="date_return" optional="hide"/>
+                                    <field name="workload" widget="percentage" width="10%"/>
+                                    <field name="description" optional="hide" width="10%"/>
+                                    <field name="state" readonly="1" force_save="1" width="10%"/>
+                                    <button string="Tiếp nhận" name="button_receive" type="object" icon="fa-check" attrs="{'invisible': ['|','|', '|', ('employee_id', '=', False),('state', '!=', 'new'),('parent.state', '!=', 'done'), ('parent.is_borrower', '=', False)]}"/>
+                                    <button string="Không tiếp nhận" name="button_no_receive" type="object" icon="fa-times" attrs="{'invisible': ['|', '|','|', ('employee_id', '=', False), ('state', '!=', 'new'), ('parent.state', '!=', 'done'), ('parent.is_borrower', '=', False)]}"/>
+                                    <button string="Trả người" name="button_returned" type="object" icon="fa-rotate-left" attrs="{'invisible': ['|', '|', ('state', '!=', 'receive'), ('parent.state', '!=', 'done'), ('parent.is_borrower', '=', False)]}"/>
+                                    <button string="Y/C tăng WL" type="object" name="add_workload_request" attrs="{'invisible': [('show_add_workload_request', '=', False)]}"/>
+                                    <button string="Phản hồi Y/C" type="object" name="add_workload_confirm" attrs="{'invisible': [('show_add_workload_confirm', '=', False)]}"/>
+                                    <field name="show_add_workload_request" invisible="1"/>
+                                    <field name="show_add_workload_confirm" invisible="1"/>
+
+                                    <button string=" " name="button_en_copy" type="object" icon="fa-clipboard" attrs="{'invisible': ['|', '|', ('state', '!=', 'new'), ('parent.state', '!=', 'pending'), ('parent.is_lender', '=', False)]}"/>
+                                </list>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <chatter/><field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="en_lender_employee_tree" model="ir.ui.view">
+        <field name="model">en.lender.employee</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="borrow_employee_id"/>
+                <field name="date"/>
+                <field name="borrower_id"/>
+                <field name="department_borrower_id"/>
+                <field name="lender_id"/>
+                <field name="department_lender_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="en_lender_employee_search" model="ir.ui.view">
+       <field name="name">en.lender.employee.search</field>
+       <field name="model">en.lender.employee</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="code"/>
+                <field name="borrow_employee_id"/>
+                <field name="borrower_id"/>
+                <field name="department_borrower_id"/>
+                <field name="lender_id"/>
+                <field name="department_lender_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Trung tâm cho mượn" name="group_department_lender" domain="[]" context="{'group_by': 'department_lender_id'}" />
+                    <filter string="Trung tâm đi mượn" name="group_department_borrow" domain="[]" context="{'group_by': 'department_borrower_id'}" />
+                    <filter string="Trạng thái" name="group_state" domain="[]" context="{'group_by': 'state'}" />
+                </group>
+            </search>
+       </field>
+    </record>
+
+    <record id="en_lender_employee_act" model="ir.actions.act_window">
+        <field name="res_model">en.lender.employee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'create': 0}</field>
+    </record>
+
+    <record id="lender_employee_detail_view_form" model="ir.ui.view">
+        <field name="name">lender.employee.detail.form</field>
+        <field name="model">en.lender.employee.detail</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="email"/>
+                            <field name="job_position_id"/>
+                            <field name="job_position_ids" invisible="1"/>
+                            <field name="level_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="workload" widget="percentage"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

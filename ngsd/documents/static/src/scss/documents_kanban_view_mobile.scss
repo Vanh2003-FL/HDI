@@ -1,0 +1,95 @@
+$o-search-panel-width: 200px;
+$o-search-panel-font-size: 1em;
+
+@mixin o-details-modal($top: 0, $bottom: 0) {
+    position: fixed;
+    z-index: $zindex-modal;
+    right: 0;
+    top: $top;
+    bottom: $bottom;
+    left: 0;
+}
+
+@mixin o-details-modal-header {
+    padding: 0.7rem 1.4rem;
+    height: $o-navbar-height;
+}
+
+@mixin o-details-hide-caret {
+    // Hide the caret. For details see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary
+    list-style-type: none;
+    &::-webkit-details-marker {
+        display: none;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .o_documents_content {
+        details.o_documents_mobile_inspector {
+            > summary {
+                @include o-details-hide-caret();
+                position: fixed;
+                right: 0;
+                top: initial;
+                bottom: 0;
+                left: 0;
+                z-index: $zindex-fixed;
+            }
+
+            .o_documents_inspector,
+            .o_documents_close_inspector {
+                display: none;
+            }
+
+            @keyframes o_documents_sweepup {
+                0%    {opacity: 0; top: 25%}
+                100%  {opacity: 1; top: 0}
+            }
+
+            &[open] {
+                @include o-details-modal();
+                padding-top: $o-navbar-height !important;
+                overflow: auto;
+                background-color: $o-dms-inspector-bg;
+                animation: o_documents_sweepup 0.3s ease-in-out;
+
+                > summary {
+                    @include o-details-modal($bottom: initial);
+                    @include o-details-modal-header();
+                    pointer-events: none;
+
+                    &.btn-primary {
+                        &, &:hover, &:active, &:focus, &:active:focus {
+                            box-shadow: none;
+                            background-color: $o-dms-inspector-bg-darker;
+                            border-color: $o-dms-inspector-bg-darker;
+                        }
+                    }
+
+                    .o_documents_close_inspector {
+                        display: initial;
+                        pointer-events: initial;
+                    }
+                }
+
+                .o_documents_inspector {
+                    display: block;
+                }
+            }
+        }
+
+        @keyframes o_documents_sweepright {
+            0%    {opacity: 0; left: 25%}
+            100%  {opacity: 1; left: 0}
+        }
+
+        &.o_chatter_open .o_document_chatter_container {
+            box-shadow: none;
+            animation: o_documents_sweepright 0.3s ease-in-out;
+            
+            .o_ChatterTopbar_buttonClose {
+                display: none;
+            }
+        }
+    }
+}

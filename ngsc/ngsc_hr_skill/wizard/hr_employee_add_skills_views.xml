@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="hr_employee_add_skills_form_view" model="ir.ui.view">
+            <field name="name">hr.employee.add.skills.form.view</field>
+            <field name="model">hr.employee.add.skills</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="skill_ids" widget="many2many_tags"
+                               domain="[('id', 'not in', skill_added_ids)]"
+                               options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                        <field name="skill_added_ids" widget="many2many_tags" invisible="1"/>
+                        <field name="hr_employee_id" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button string="Thêm" name="action_add_skills" type="object"
+                                class="oe_highlight"/>
+                        <button string="Hủy" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

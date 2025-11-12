@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_project_quality_dashboard_client" model="ir.actions.client">
+        <field name="name">Báo cáo chất lượng</field>
+        <field name="tag">project_quality_monthly_template</field>
+    </record>
+
+    <record id="action_project_completion_quality_report" model="ir.actions.client">
+        <field name="name">Báo cáo chất lượng cuối dự án</field>
+        <field name="tag">project_completion_quality_report_template</field>
+    </record>
+</odoo>

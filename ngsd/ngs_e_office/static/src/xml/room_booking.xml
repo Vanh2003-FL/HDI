@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="Calendar.room.booking.popover" t-extend="CalendarView.event.popover">
+         <t t-jquery=".o_cw_popover_edit" t-operation="after">
+            <a href="#" class="btn btn-secondary o_cw_popover_cancel">Hủy</a>
+         </t>
+    </t>
+
+</templates>

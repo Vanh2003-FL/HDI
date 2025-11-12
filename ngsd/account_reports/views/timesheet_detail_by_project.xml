@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="timesheet_detail_by_project_tree" model="ir.ui.view">
+        <field name="name">timesheet_detail_by_project_tree</field>
+        <field name="model">timesheet.detail.by.project</field>
+        <field name="arch" type="xml">
+            <list limit="10000" class="report_tree_view">
+                <field name="user_id" invisible="1"/>
+                <field name="barcode" optional="show"/>
+                <field name="work_email" optional="show"/>
+                <field name="employee_id" optional="show"/>
+                <field name="department_id" optional="show"/>
+                <field name="en_status" optional="show"/>
+                <field name="project_code" optional="show"/>
+                <field name="project_name" optional="show"/>
+                <field name="project_stage" optional="show"/>
+                <field name="timesheet_hours" optional="show"/>
+                <field name="ot_hours" optional="show"/>
+                <field name="work_days" optional="show"/>
+                <field name="total_timesheet_hours" optional="show"/>
+                <field name="total_ot_hours" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="timesheet_detail_by_project_search" model="ir.ui.view">
+        <field name="name">timesheet_detail_by_project_search</field>
+        <field name="model">timesheet.detail.by.project</field>
+        <field name="arch" type="xml">
+            <search >
+                <field name="employee_id" string="Nhân viên" filter_domain="['|', '|', ('employee_id.work_email', 'ilike', self), ('employee_id.name', 'ilike', self), ('employee_id.barcode', 'ilike', self)]"/>
+                <field name="department_id"/>
+                <field name="project_code" string="Dự án" filter_domain="[('project_code', '!=', False), '|', ('project_code', 'ilike', self), ('project_name', 'ilike', self)]"/>
+                <separator/>
+            </search>
+        </field>
+    </record>
+
+    <record id="timesheet_detail_by_project_action_server" model="ir.actions.server">
+        <field name="name">Báo cáo chi tiết Timesheet theo dự án</field>
+        <field name="model_id" ref="account_reports.model_timesheet_detail_by_project"/>
+        <field name="binding_model_id" eval="False"/>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Báo cáo chi tiết Timesheet theo dự án',
+    'res_model': 'report.info.popup',
+    'views': [[env.ref('account_reports.report_info_popup_form').id, 'form']],
+    'context': {'default_dest_model': 'timesheet.detail.by.project', 'default_dest_name': 'Báo cáo chi tiết Timesheet theo dự án'},
+    'target': 'new',
+}
+        </field>
+    </record>
+
+    <record id="menu_timesheet_detail_by_project_report" model="ir.ui.menu">
+        <field name="name">Báo cáo chi tiết Timesheet theo dự án</field>
+        <field name="action" ref="timesheet_detail_by_project_action_server"/>
+        <field name="sequence">32</field>
+    </record>
+</odoo>

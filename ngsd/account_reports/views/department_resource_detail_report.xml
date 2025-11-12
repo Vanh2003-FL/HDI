@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_department_resource_detail_report" model="ir.actions.client">
+        <field name="name">Báo cáo nguồn lực chi tiết của TT</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'model': 'department.resource.detail.report'}"/>
+    </record>
+
+    <record id="department_resource_detail_report_wizard_form" model="ir.ui.view">
+        <field name="model">department.resource.detail.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="block_ids" widget="many2many_tags" />
+                        <field name="department_ids" widget="many2many_tags"/>
+                        <field name="employee_ids" widget="many2many_tags" domain="[('department_id', 'in', department_ids)]"/>
+                        <field name="department_domain" widget="many2many_tags" invisible="1"/>
+                        <field name="period"/>
+                        <field name="user_id" invisible="1"/>
+                    </group>
+                    <group attrs="{'invisible': [('period', '!=', 'optional')]}">
+                        <label for="date_from" string="Thời gian"/>
+                        <div class="o_row">
+                            <field name="date_from" nolabel="1"/>
+                            <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                            <field name="date_to" nolabel="1"/>
+                        </div>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string='Xác nhận' name="do" type="object" class="oe_highlight"/>
+                    <button string="Hủy" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="department_resource_detail_wizard_act" model="ir.actions.act_window">
+        <field name="res_model">department.resource.detail.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="menu_department_resource_detail_report" model="ir.ui.menu">
+        <field name="name">Báo cáo nguồn lực chi tiết của TT</field>
+        <field name="action" ref="department_resource_detail_wizard_act"/>
+        <field name="sequence">31</field>
+    </record>
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_x_order" model="ir.sequence">
+            <field name="name">X Order</field>
+            <field name="code">x.order</field>
+            <field name="prefix">DH</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+    <record id="order_simplied_form" model="ir.ui.view">
+        <field name="model">x.order</field>
+        <field name="priority">11022001</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title" invisible="1">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="payment_schedule_id"/>
+                            <field name="contract_id" invisible="1"/>
+                            <field name="annex_id" invisible="1"/>
+                            <field name="partner_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="order_date" invisible="1"/>
+                            <field name="amount" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string='Xác nhận' name="do" type="object" class="oe_highlight"/>
+                    <button string="Hủy" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="order_form" model="ir.ui.view">
+        <field name="model">x.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Tạo hóa đơn" name="create_account_move" type="object"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="contract_id"/>
+                            <field name="annex_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="order_date"/>
+                            <field name="payment_schedule_id"/>
+                            <field name="amount"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="order_tree" model="ir.ui.view">
+        <field name="model">x.order</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="annex_id"/>
+                <field name="partner_id"/>
+                <field name="order_date"/>
+                <field name="payment_schedule_id"/>
+                <field name="amount"/>
+                <field name="currency_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="order_act" model="ir.actions.act_window">
+        <field name="res_model">x.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    <record id="order_menu" model="ir.ui.menu">-->
+<!--        <field name="action" ref="order_act"/>-->
+<!--    </record>-->
+</odoo>

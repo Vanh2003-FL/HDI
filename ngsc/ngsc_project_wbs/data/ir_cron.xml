@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ngsc_project_wbs_ir_cron_01" model="ir.cron">
+            <field name="name">Cập nhật % hoàn thành kế hoạch của công việc trên WBS</field>
+            <field name="model_id" ref="ngsc_project_wbs.model_project_task"/>
+            <field name="state">code</field>
+            <field name="code">model.action_refresh_task_percent_plan()</field>
+            <field name='interval_number'>12</field>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 05:05:00')"/>
+            <field name='interval_type'>hours</field>
+            <field name="numbercall">-1</field>
+            <field name="active">1</field>
+        </record>
+    </data>
+
+    <data>
+        <record id="ngsc_project_wbs_ir_cron_02" model="ir.cron">
+            <field name="name">Cập nhật % hoàn thành thực tế, số giờ thực tế của công việc trên WBS</field>
+            <field name="model_id" ref="ngsc_project_wbs.model_project_task"/>
+            <field name="state">code</field>
+            <field name="code">model.action_refresh_wbs_effective_hours()</field>
+            <field name='interval_number'>1</field>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 05:05:00')"/>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+            <field name="show_wbs_button">True</field>
+            <field name="active">1</field>
+        </record>
+    </data>
+
+    <!-- Thêm nút vào form cron -->
+    <record id="view_ir_cron_form_inherit_wbs" model="ir.ui.view">
+        <field name="name">ir.cron.form.inherit.wbs</field>
+        <field name="model">ir.cron</field>
+        <field name="inherit_id" ref="base.ir_cron_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="inside">
+                <field name="show_wbs_button" invisible="1"/>
+                <button name="%(action_wizard_manual_wbs_run)d"
+                        string="Chạy lại theo ngày"
+                        type="action"
+                        class="btn-primary"
+                        attrs="{'invisible': [('show_wbs_button', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <data>
+        <record id="ir_cron_generate_wbs_snapshots" model="ir.cron">
+            <field name="name">Tạo Snapshot WBS Hàng Tháng</field>
+            <field name="model_id" ref="ngsc_project_wbs.model_wbs_account_report_snapshot"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_generate_wbs_snapshots()</field>
+            <field name="active">1</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+    </data>
+
+    <!-- Cron job cập nhật % hoàn thành hàng ngày cho WBS - Chạy lúc 3:00 sáng -->
+
+    <data noupdate="1">
+        <record id="ir_cron_daily_wbs_progress_update" model="ir.cron">
+            <field name="name">Daily WBS Progress Update (3:00 AM)</field>
+            <field name="model_id" ref="model_en_wbs"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_update_daily_progress()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">False</field>
+            <field name="active">True</field>
+            <field name="priority">10</field>
+            <!-- Chạy vào 3:00 sáng mỗi ngày -->
+            <field name="nextcall" eval="(DateTime.now() + relativedelta(hours=3)).strftime('%Y-%m-%d 03:00:00')"/>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <!-- Cron job cập nhật % hoàn thành hàng ngày cho Task - Chạy lúc 3:05 sáng -->
+        <record id="ir_cron_daily_task_progress_update" model="ir.cron">
+            <field name="name">Daily Task Progress Update (3:05 AM)</field>
+            <field name="model_id" ref="model_project_task"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_update_daily_progress()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">False</field>
+            <field name="active">True</field>
+            <field name="priority">10</field>
+            <!-- Chạy vào 3:05 sáng mỗi ngày (tránh chạy đồng thời) -->
+            <field name="nextcall"
+                   eval="(DateTime.now() + relativedelta(hours=3, minutes=5)).strftime('%Y-%m-%d 03:05:00')"/>
+        </record>
+    </data>
+</odoo>

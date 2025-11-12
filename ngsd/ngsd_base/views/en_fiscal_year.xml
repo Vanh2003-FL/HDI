@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="en_fiscal_year_tree" model="ir.ui.view">
+        <field name="model">en.fiscal.year</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="en_fiscal_year_all_action" model="ir.actions.act_window">
+        <field name="name">Năm tài chính</field>
+        <field name="res_model">en.fiscal.year</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+</odoo>

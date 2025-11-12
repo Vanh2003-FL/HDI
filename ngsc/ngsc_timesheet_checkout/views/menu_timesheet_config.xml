@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_timesheet_popup_config"
+              name="Cấu hình Timesheet"
+              parent="hr_attendance.menu_hr_attendance_root"
+              action="action_timesheet_setting_wizard"
+              sequence="50"/>
+</odoo>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="group_en_use_quote" model="res.groups">
+        <field name="name">Không sử dụng báo giá</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="all_ngsd_categ" model="ir.module.category">
+        <field name="name">Vai trò</field>
+        <field name="sequence" eval="1"/>
+    </record>
+
+    <record id="ngsd_overtime_categ" model="ir.module.category">
+        <field name="name">Tăng ca</field>
+        <field name="sequence" eval="5"/>
+        <field name="parent_id" ref="base.module_category_human_resources"/>
+    </record>
+
+     <record id="group_overtime" model="res.groups">
+        <field name="name">Tất cả tài liệu</field>
+        <field name="category_id" ref="ngsd_base.ngsd_overtime_categ"/>
+    </record>
+
+    <record id="user_ngsd_categ" model="ir.module.category">
+        <field name="name">Người dùng</field>
+        <field name="sequence" eval="100"/>
+    </record>
+
+    <record id="ngsd_nonproject_categ" model="ir.module.category">
+        <field name="name">Công việc ngoài dự án</field>
+        <field name="sequence" eval="5"/>
+    </record>
+
+    <record id="ngsd_nonproject_all_nonproject_task" model="res.groups">
+        <field name="name">Công việc: Xem tất cả công việc</field>
+        <field name="category_id" ref="ngsd_nonproject_categ"/>
+    </record>
+
+    <record id="ngsd_nonproject_all_timesheet" model="res.groups">
+        <field name="name">Timesheet: Xem tất cả timesheet</field>
+        <field name="category_id" ref="ngsd_nonproject_categ"/>
+    </record>
+
+    <record id="ngsd_nonproject_all_overtime_plan" model="res.groups">
+        <field name="name">Kế hoạch OT: Xem tất cả kế hoạch</field>
+        <field name="category_id" ref="ngsd_nonproject_categ"/>
+    </record>
+
+    <record id="ngsd_nonproject_all_overtime" model="res.groups">
+        <field name="name">Overtime: Xem tất cả OT</field>
+        <field name="category_id" ref="ngsd_nonproject_categ"/>
+    </record>
+
+    <record id="ngsd_solution_architect_manager" model="res.groups">
+        <field name="name">Solution Architect Manager</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="ngsd_solution_architect" model="res.groups">
+        <field name="name">Solution Architect</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+    <record id="ngsd_sale" model="res.groups">
+        <field name="name">Sales</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_tpvh" model="res.groups">
+        <field name="name">TP vận hành</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_tptc" model="res.groups">
+        <field name="name">TP tài chính</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_tpkndu" model="res.groups">
+        <field name="name">Phó phòng khối NDU</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_new_tpkndu" model="res.groups">
+        <field name="name">Trưởng phòng khối NDU</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+        <field name="implied_ids" eval="[(4,ref('ngsd_base.group_tpkndu'))]"/>
+    </record>
+
+    <record id="group_tvda" model="res.groups">
+        <field name="name">Thành viên dự án</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_pm" model="res.groups">
+        <field name="name">PM</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+        <field name="implied_ids" eval="[(4,ref('documents.group_documents_technical'))]"/>
+    </record>
+
+    <record id="group_qam" model="res.groups">
+        <field name="name">QA member</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+        <field name="implied_ids" eval="[(5,0,0)]"/>
+    </record>
+
+    <record id="group_qal" model="res.groups">
+        <field name="name">QA lead</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+        <field name="implied_ids" eval="[(4,ref('group_qam'))]"/>
+    </record>
+
+    <record id="group_gdkndu" model="res.groups">
+        <field name="name">Phó GĐ Khối NDU</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+    <record id="group_new_gdkndu" model="res.groups">
+        <field name="name">GĐ Khối NDU</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+        <field name="implied_ids" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+    </record>
+
+    <record id="group_aml" model="res.groups">
+        <field name="name">AM Lead</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+        <field name="implied_ids" eval="[(4,ref('sales_team.group_sale_salesman'))]"/>
+    </record>
+
+    <record id="group_gdkv" model="res.groups">
+        <field name="name">Giám đốc khu vực</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_userhr" model="res.groups">
+        <field name="name">Nhân sự</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_tk" model="res.groups">
+        <field name="name">Trưởng khối</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_tppmo" model="res.groups">
+        <field name="name">Trưởng phòng PMO</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_vpm" model="res.groups">
+        <field name="name">Vice PM</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+    <record id="group_hcns" model="res.groups">
+        <field name="name">Hành chính nhân sự</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_pmnd" model="res.groups">
+        <field name="name">PM Người dùng</field>
+        <field name="category_id" ref="base.module_category_services_project"/>
+        <field name="implied_ids" eval="[(4,ref('project.group_project_user'))]"/>
+    </record>
+
+    <record id="group_documents_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="base.module_category_productivity_documents"/>
+        <field name="implied_ids" eval="[(4, ref('documents.group_documents_manager'))]"/>
+    </record>
+
+    <record id="project.group_project_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4,ref('group_pmnd'))]"/>
+    </record>
+
+    <record id="group_nd_xbcckm" model="res.groups">
+        <field name="name">Người dùng: xem bảng chấm công khối mình</field>
+        <field name="category_id" ref="base.module_category_services_timesheets"/>
+        <field name="implied_ids" eval="[(3,ref('hr_timesheet.group_hr_timesheet_user'))]"/>
+    </record>
+
+    <record id="group_nd_xtcbcc" model="res.groups">
+        <field name="name">Người dùng: xem tất cả bảng chấm công</field>
+        <field name="category_id" ref="base.module_category_services_timesheets"/>
+        <field name="implied_ids" eval="[(4,ref('group_nd_xbcckm'))]"/>
+    </record>
+
+    <record id="group_cbf" model="res.groups">
+        <field name="name">Cán bộ full</field>
+        <field name="category_id" ref="base.module_category_human_resources_employees"/>
+        <field name="implied_ids" eval="[(4,ref('hr.group_hr_user'))]"/>
+    </record>
+
+    <record id="group_td" model="res.groups">
+        <field name="name">Tuyển dụng</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+     <record id="group_approver_vice_ceo" model="res.groups">
+        <field name="name">Approver – Vice CEO</field>
+        <field name="category_id" ref="all_ngsd_categ"/>
+    </record>
+
+    <record id="group_toof" model="res.groups">
+        <field name="name">Time Off Officer full</field>
+        <field name="category_id" ref="base.module_category_human_resources_time_off"/>
+        <field name="implied_ids" eval="[(4, ref('hr_holidays.group_hr_holidays_user'))]"/>
+    </record>
+
+    <record id="hr_holidays.group_hr_holidays_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_toof'))]"/>
+    </record>
+
+    <record id="hr.group_hr_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4,ref('group_cbf'))]"/>
+    </record>
+
+    <record id="group_sale_view_team_leads" model="res.groups">
+        <field name="name">Người dùng: Tài liệu của nhóm mình</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+    </record>
+
+    <record id="group_sale_view_team_office" model="res.groups">
+        <field name="name">Người dùng: Tài liệu của trung tâm mình</field>
+        <field name="category_id" ref="base.module_category_sales_sales"/>
+        <field name="implied_ids" eval="[(3,ref('ngsd_base.group_sale_view_team_leads')),(4,ref('sales_team.group_sale_salesman'))]"/>
+    </record>
+
+    <record id="group_ngs_head_of_operations" model="res.groups">
+        <field name="name">TP Vận hành</field>
+    </record>
+    <record id="group_ngs_board_of_directors" model="res.groups">
+        <field name="name">Admin hệ thống/Phó tổng/CEO</field>
+    </record>
+    <record id="ngs_lock_timesheet_group" model="res.groups">
+        <field name="name">Khóa chứng từ</field>
+        <field name="category_id" ref="base.module_category_usability"/>
+    </record>
+
+</odoo>

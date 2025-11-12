@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="hr_applicant_view_form_inherit" model="ir.ui.view">
+            <field name="name">Hồ sơ ứng viên</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='stage_id']" position="before">
+                    <button string="Gửi email" name="action_open_composer" type="object" icon="fa-envelope" data-hotkey="s"/>
+                </xpath>
+
+                <xpath expr="//button[@name='create_employee_from_applicant']" position="replace">
+                    <field name="hired_stage" invisible="1"/>
+                    <button string="Tạo nhân viên"
+                            name="create_employee_from_applicant"
+                            type="object" data-hotkey="v"
+                            class="oe_highlight o_create_employee"
+                            attrs="{
+                                'invisible': [
+                                    '|',
+                                    ('emp_id', '!=', False),
+                                    '|',
+                                    ('active', '=', False),
+                                    ('hired_stage', '=', False)
+                                ]
+                            }"/>
+                </xpath>
+                <!-- Xoá ribbon cũ-->
+                <xpath expr="//widget[@name='web_ribbon']" position="replace"/>
+                <xpath expr="//div[@name='button_box']" position="replace"/>
+
+
+                <xpath expr="//field[@name='kanban_state']" position="before">
+                    <field name="result" invisible="1"/>
+                    <widget name="web_ribbon" title="Đạt" bg_color="bg-success" attrs="{'invisible': [('result', '!=', 'pass')]}"/>
+                    <widget name="web_ribbon" title="Chưa đạt" bg_color="bg-danger" attrs="{'invisible': [('result', '!=', 'fail')]}"/>
+                </xpath>
+
+                <xpath expr="//h2[@class='o_row']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="placeholder">Lung Thị Linh</attribute>
+                </xpath>
+
+                <xpath expr="//group/group[1]" position="attributes">
+                    <attribute name="string">Thông tin cá nhân</attribute>
+                </xpath>
+
+                <!--Xoá field cũ-->
+                <xpath expr="//field[@name='email_cc']" position="replace" />
+                <xpath expr="//field[@name='partner_phone']" position="replace" />
+                <xpath expr="//field[@name='partner_mobile']" position="replace" />
+                <xpath expr="//field[@name='type_id']" position="replace" />
+
+                <xpath expr="//field[@name='email_from']" position="after">
+                    <field name="phone" widget="phone"/>
+                    <field name="yob"/>
+                    <field name="gender"/>
+                    <field name="en_area_id"/>
+                    <field name="block_id"/>
+                    <field name="department_id"/>
+                    <field name="en_department_id"/>
+                </xpath>
+
+                <xpath expr="//group/group[2]" position="attributes">
+                    <attribute name="string">Thông tin tuyển dụng</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='categ_ids']" position="replace">
+                    <field name="skill_tag" widget="many2many_tags" options="{'color_field': 'color_code', 'no_create_edit': True}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='priority']" position="replace"/>
+                <xpath expr="//field[@name='medium_id']" position="replace"/>
+                <xpath expr="//field[@name='user_id']" position="replace">
+                    <field name="employer_id"/>
+                </xpath>
+                <xpath expr="//field[@name='source_id']" position="after">
+                    <field name="news_job_id"/>
+                    <field name="apply_date"/>
+                    <field name="can_onboard_date"/>
+                    <field name="worked_at_company"/>
+                </xpath>
+
+                <xpath expr="//group/group[3]" position="attributes">
+                    <attribute name="string">Thông tin nghề nghiệp</attribute>
+                </xpath>
+
+                <xpath expr="//group/group[3]/field[@name='department_id']" position="replace"/>
+                <xpath expr="//group/group[3]/field[@name='company_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//group/group[3]/field[@name='job_id']" position="after">
+                    <field name="years_of_experience" style="text-align:center;"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="salary_expect"/>
+                    <field name="education_level"/>
+                    <field name="major"/>
+                    <field name="certificates" widget="many2many_tags"/>
+                    <field name="professional_competence"/>
+                    <field name="foreign_lang" widget="many2many_tags"/>
+                    <field name="recent_work"/>
+                </xpath>
+
+                <xpath expr="//group/group[4]" position="replace">
+                    <field name="emp_id" invisible="1"/>
+                     <group string="Đánh giá ứng viên" >
+                         <field name="result"/>
+                         <field name="resume" filename="filename"/>
+                         <field name="filename" invisible="1"/>
+
+                        <field name="candidate_evaluation" filename="filename_candidate_evaluation"/>
+                        <field name="filename_candidate_evaluation" invisible="1"/>
+                    </group>
+                    <group string="Thông tin người giới thiệu">
+                        <field name="ref"/>
+                        <field name="department_ref"/>
+                        <field name="email_ref"/>
+                        <field name="bonus_ref"/>
+                    </group>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_applicant_view_search_inherit_news" model="ir.ui.view">
+        <field name="name">hr.applicant.search.inherit.news</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_search_bis"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="news_job_id"/>
+            </xpath>
+        </field>
+        </record>
+
+        <record id="crm_case_tree_view_job_inherit" model="ir.ui.view">
+            <field name="name">Applicants</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.crm_case_tree_view_job"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="js_class">ngsc_recruitment_list_view_button</attribute>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="replace"/>
+                <xpath expr="//field[@name='job_id']" position="after">
+                    <field name="en_area_id"/>
+                </xpath>
+                <xpath expr="//field[@name='stage_id']" position="after">
+                    <field name="years_of_experience"/>
+                    <field name="phone"/>
+                    <field name="skill_tag" widget="many2many_tags" options="{'color_field': 'color_code', 'no_create_edit': True}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='priority']" position="replace"/>
+                <xpath expr="//field[@name='partner_mobile']" position="replace"/>
+                <xpath expr="//field[@name='categ_ids']" position="replace"/>
+                <xpath expr="//field[@name='partner_phone']" position="replace"/>
+                <xpath expr="//field[@name='medium_id']" position="replace"/>
+                <xpath expr="//field[@name='salary_expected']" position="replace"/>
+                <xpath expr="//field[@name='salary_proposed']" position="replace"/>
+                <xpath expr="//field[@name='availability']" position="replace"/>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="employer_id"/>
+                    <field name="news_job_id"/>
+                    <field name="result"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="crm_case_categ0_act_job_new">
+            <field name="name">Hồ sơ ứng viên</field>
+            <field name="res_model">hr.applicant</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="ngsc_recruitment.hr_applicant_view_search_inherit_news"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_empty_folder">
+                No applications yet
+              </p><p>
+                Odoo helps you track applicants in the recruitment
+                process and follow up all operations: meetings, interviews, etc.
+              </p><p>
+                Applicants and their attached CV are created automatically when an email is sent.
+                If you install the document management modules, all resumes are indexed automatically,
+                so that you can easily search through their content.
+              </p>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_kanban_view_applicant_inherit">
+            <field name="name">Hồ sơ ứng viên</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_kanban_view_applicant"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="create">1</attribute>
+                </xpath>
+                <xpath expr="//kanban" position="inside">
+                    <field name="result"/>
+                </xpath>
+                <xpath expr="//t[@t-name='card']/div/div" position="before">
+                    <widget name="web_ribbon" title="Đạt" bg_color="bg-success"
+                        attrs="{'invisible': [('result', '!=', 'pass')]}"/>
+                    <widget name="web_ribbon" title="Chưa đạt" bg_color="bg-danger"
+                        attrs="{'invisible': [('result', '!=', 'fail')]}"/>
+                </xpath>
+                <xpath expr="//b[@class='o_kanban_record_title mt8']" position="attributes">
+                    <attribute name="style">font-weight: bold; font-size: 16px</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='categ_ids']" position="replace">
+                    <field name="skill_tag" widget="many2many_tags" options="{'color_field': 'color_code'}"/>
+                </xpath>
+
+                <xpath expr="//div[@class='oe_kanban_bottom_left']" position="replace">
+                    <div class="oe_kanban_bottom_left"/>
+                </xpath>
+
+                <xpath expr="//a[@name='action_makeMeeting']" position="replace"/>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_employee_form_inherit">
+            <field name="name">Emp form</field>
+            <field name="model">hr.employee</field>
+            <field name="priority">10001</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='en_block_id']" position="attributes">
+                    <attribute name="domain">[]</attribute>  <!-- domain trống -->
+                    <attribute name="attrs">{}</attribute>   <!-- attrs trống -->
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="hr_applicant_search_form" model="ir.ui.view">
+            <field name="name">hr.applicant.search.form</field>
+            <field name="model">hr.applicant.search</field>
+            <field name="arch" type="xml">
+                <form string="Tìm kiếm hồ sơ ứng viên">
+                    <group>
+                        <field name="name" string="Tên"/>
+                        <field name="en_area_id" string="Khu vực"/>
+                        <field name="block_id"/>
+                        <field name="department_id" />
+                        <field name="en_department_id"/>
+                        <field name="job_position" string="Vị trí công việc"/>
+                        <field name="skill_tag" widget="many2many_tags" options="{'no_create_edit': True}"/>
+                        <field name="years_of_experience" string="Số năm kinh nghiệm"/>
+                    </group>
+                    <footer>
+                        <button string="Tìm kiếm" name="action_search_personnel" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- certificate Tree View -->
+        <record model="ir.ui.view" id="hr_recruitment_certificate_tree">
+            <field name="name">hr.recruitment.certificate.tree</field>
+            <field name="model">hr.recruitment.certificate</field>
+            <field name="arch" type="xml">
+                <list string="Chứng chỉ" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- certificate Form View -->
+        <record model="ir.ui.view" id="hr_recruitment_certificate_form">
+            <field name="name">hr.recruitment.certificate.form</field>
+            <field name="model">hr.recruitment.certificate</field>
+            <field name="arch" type="xml">
+                <form string="Chứng chỉ">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence" groups="base.group_no_one"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- certificate Action -->
+        <record id="hr_recruitment_certificate_action" model="ir.actions.act_window">
+            <field name="name">Chứng chỉ</field>
+            <field name="res_model">hr.recruitment.certificate</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- ForeignLang Tree View -->
+        <record model="ir.ui.view" id="hr_recruitment_foreign_lang_tree">
+            <field name="name">hr.recruitment.foreign.lang.tree</field>
+            <field name="model">hr.recruitment.foreign.lang</field>
+            <field name="arch" type="xml">
+                <list string="Trình độ ngoại ngữ" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ForeignLang Form View -->
+        <record model="ir.ui.view" id="hr_recruitment_foreign_lang_form">
+            <field name="name">hr.recruitment.foreign.lang.form</field>
+            <field name="model">hr.recruitment.foreign.lang</field>
+            <field name="arch" type="xml">
+                <form string="Trình độ ngoại ngữ">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence" groups="base.group_no_one"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ForeignLang Action -->
+        <record id="hr_recruitment_foreign_lang_action" model="ir.actions.act_window">
+            <field name="name">Trình độ ngoại ngữ</field>
+            <field name="res_model">hr.recruitment.foreign.lang</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

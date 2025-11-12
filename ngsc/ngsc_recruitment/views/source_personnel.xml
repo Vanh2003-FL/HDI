@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--SOURCE PERSONNEL-->
+
+        <!-- Source personnel Action -->
+        <record id="ngsc_recruitment_source_personnel_act" model="ir.actions.act_window">
+            <field name="name">Hồ sơ ứng viên</field>
+            <field name="res_model">ngsc.recruitment.source.personnel</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Thêm mới hồ sơ ứng viên
+              </p><p>
+                hehe
+              </p>
+            </field>
+        </record>
+
+        <!-- Source personnel Tree View -->
+        <record model="ir.ui.view" id="ngsc_recruitment_source_personnel_tree">
+            <field name="name">ngsc.recruitment.source.personnel.tree</field>
+            <field name="model">ngsc.recruitment.source.personnel</field>
+            <field name="arch" type="xml">
+                <list string="Hồ sơ ứng viên">
+                    <field name="name"/>
+                    <field name="job_position"/>
+                    <field name="en_area_id"/>
+                    <field name="stage_id"/>
+                    <field name="years_of_experience"/>
+                    <field name="phone"/>
+                    <field name="skill_tag" widget="many2many_tags" options="{'color_field': 'color_code', 'no_create_edit': True}"/>
+                    <field name="employer_id"/>
+                    <field name="news"/>
+                    <field name="result"/>
+                    <field name="create_date" string="Ngày tạo"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Source personnel Kanban View -->
+        <record model="ir.ui.view" id="ngsc_recruitment_source_personnel_kanban">
+            <field name="name">ngsc.recruitment.source.personnel.kanban</field>
+            <field name="model">ngsc.recruitment.source.personnel</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id" class="o_kanban_applicant" sample="1"
+                        delete="false" quick_create="false" group_create="false" group_delete="false">
+                    <field name="name"/>
+                    <field name="job_position"/>
+                    <field name="en_area_id"/>
+                    <field name="stage_id" options='{"group_by_tooltip": {"requirements": "Requirements"}}'/>
+                    <field name="years_of_experience"/>
+                    <field name="phone"/>
+                    <field name="skill_tag"/>
+                    <field name="employer_id"/>
+                    <field name="create_date"/>
+                    <field name="result"/>
+                    <templates>
+                        <t t-name="card">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click" t-att-data-id="record.id">
+                                <widget name="web_ribbon" title="Đạt" bg_color="bg-success" attrs="{'invisible': [('result', '!=', 'pass')]}"/>
+                                <widget name="web_ribbon" title="Chưa đạt" bg_color="bg-danger" attrs="{'invisible': [('result', '!=', 'fail')]}"/>
+                                <div class="oe_kanban_details">
+                                    <strong><field name="name"/></strong>
+                                    <div><field name="job_position"/></div>
+                                    <div><field name="en_area_id"/></div>
+                                    <div>KN: <field name="years_of_experience"/> năm</div>
+                                    <div>SĐT: <field name="phone"/></div>
+                                    <div>
+                                        <field name="skill_tag" widget="many2many_tags"
+                                               options="{'color_field': 'color_code', 'no_create_edit': True}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Source personnel Form -->
+        <record model="ir.ui.view" id="ngsc_recruitment_source_personnel_form">
+            <field name="name">ngsc.recruitment.source.personnel.form</field>
+            <field name="model">ngsc.recruitment.source.personnel</field>
+            <field name="arch" type="xml">
+              <form string="Thêm mới hồ sơ ứng viên" class="o_applicant_form">
+                <header>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Đạt" bg_color="bg-success" attrs="{'invisible': [('result', '!=', 'pass')]}"/>
+                    <widget name="web_ribbon" title="Chưa đạt" bg_color="bg-danger" attrs="{'invisible': [('result', '!=', 'fail')]}"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Nguyễn Văn A"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <group string="Thông tin cá nhân" class="o_group_col_12">
+                                <field name="email" widget="email"/>
+                                <field name="phone" widget="phone"/>
+                                <field name="yob"/>
+                                <field name="gender"/>
+                                <field name="en_area_id"/>
+                                <field name="block_id"/>
+                                <field name="department_id"/>
+                                <field name="en_department_id"/>
+                            </group>
+                            <group string="Thông tin nghề nghiệp" class="o_group_col_12">
+                                <field name="job_position"/>
+                                <field name="years_of_experience"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="salary_expect"/>
+                                <field name="education_level"/>
+                                <field name="major"/>
+                                <field name="certificates"/>
+                                <field name="professional_competence"/>
+                                <field name="foreign_lang"/>
+                                <field name="recent_work"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Thông tin tuyển dụng" class="o_group_col_12">
+                                <field name="skill_tag" widget="many2many_tags" options="{'color_field': 'color_code', 'no_create_edit': True}"/>
+                                <field name="employer_id"/>
+                                <field name="source_id"/>
+                                <field name="news"/>
+                                <field name="apply_date"/>
+                                <field name="can_onboard_date"/>
+                                <field name="worked_at_company"/>
+                            </group>
+                            <group string="Đánh giá ứng viên" class="o_group_col_12">
+                                <field name="result"/>
+                                <field name="resume" filename="filename"/>
+                                <field name="filename" invisible="1"/>
+                            </group>
+                            <group string="Thông tin người giới thiệu" class="o_group_col_12">
+                                <field name="ref"/>
+                                <field name="department_ref"/>
+                                <field name="email_ref"/>
+                                <field name="bonus_ref"/>
+                            </group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Tóm tắt hồ sơ ứng tuyển">
+                            <field name="summary" placeholder="Tóm tắt hồ sơ ứng viên..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/><field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'open_attachments': True}"/>
+                </div>
+              </form>
+            </field>
+        </record>
+
+        <record id="ngsc_recruitment_source_personnel_tree_inherit" model="ir.ui.view">
+            <field name="name">ngsc.recruitment.source.personnel.tree.inherit</field>
+            <field name="model">ngsc.recruitment.source.personnel</field>
+            <field name="inherit_id" ref="ngsc_recruitment.ngsc_recruitment_source_personnel_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="js_class">ngsc_recruitment_list_view_button</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="ngsc_recruitment_source_personnel_search_form" model="ir.ui.view">
+            <field name="name">ngsc.recruitment.source.personnel.search.form</field>
+            <field name="model">ngsc.recruitment.source.personnel.search</field>
+            <field name="arch" type="xml">
+                <form string="Tìm kiếm hồ sơ ứng viên">
+                    <group>
+                        <field name="name" string="Tên"/>
+                        <field name="en_area_id" string="Khu vực"/>
+                        <field name="block_id"/>
+                        <field name="department_id" />
+                        <field name="en_department_id"/>
+                        <field name="job_position" string="Vị trí công việc"/>
+                        <field name="skill_tag" widget="many2many_tags" options="{'no_create_edit': True}"/>
+                        <field name="years_of_experience" string="Số năm kinh nghiệm"/>
+                    </group>
+                    <footer>
+                        <button string="Tìm kiếm" name="action_search_personnel" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+<!--    STAGE-->
+        <!-- Stage Tree View -->
+        <record model="ir.ui.view" id="ngsc_recruitment_stage_tree">
+            <field name="name">ngsc.recruitment.source.personnel.stage.tree</field>
+            <field name="model">ngsc.recruitment.source.personnel.stage</field>
+            <field name="arch" type="xml">
+                <list string="Stages">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="fold"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Stage Kanban View -->
+        <record id="view_ngsc_recruitment_stage_kanban" model="ir.ui.view">
+            <field name="name">ngsc.recruitment.source.personnel.stage.kanban</field>
+            <field name="model">ngsc.recruitment.source.personnel.stage</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="fold"/>
+                    <templates>
+                        <t t-name="card">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div>
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div>
+                                    <span>Thu gọn trong kanban: </span>
+                                    <field name="fold" widget="boolean"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Stage Form View -->
+        <record model="ir.ui.view" id="ngsc_recruitment_stage_form">
+            <field name="name">ngsc.recruitment.source.personnel.stage.form</field>
+            <field name="model">ngsc.recruitment.source.personnel.stage</field>
+            <field name="arch" type="xml">
+                <form string="Giai đoạn hồ sơ ứng viên">
+                <sheet>
+                    <group name="stage_definition" string="Định nghĩa giai đoạn">
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence" />
+                            <field name="template_id" domain= "[('model_id.model', '=', 'hr.applicant')]"/>
+                        </group>
+                        <group name="stage_details">
+                            <field name="fold"/>
+                        </group>
+                    </group>
+                    <group name="tooltips" string="Chú thích">
+                        <p class="text-muted" colspan="2">
+                            Ở đây bạn có thể xác định các nhãn sẽ được hiển thị cho trạng thái kanban thay vì các nhãn mặc định.
+                        </p>
+                        <label for="legend_normal" string=" " class="o_status"/>
+                        <field name="legend_normal" nolabel="1"/>
+                        <label for="legend_blocked" string=" " class="o_status o_status_red"/>
+                        <field name="legend_blocked" nolabel="1"/>
+                        <label for="legend_done" string=" " class="o_status o_status_green"/>
+                        <field name="legend_done" nolabel="1"/>
+                    </group>
+                    <separator string="Yêu cầu"/>
+                    <field name="requirements"/>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Stage Action -->
+        <record id="ngsc_recruitment_source_personnel_stage_act" model="ir.actions.act_window">
+            <field name="name">Giai đoạn hồ sơ ứng viên</field>
+            <field name="res_model">ngsc.recruitment.source.personnel.stage</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="ngsc_recruitment_stage_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Add a new stage in the recruitment process
+              </p><p>
+                Don't forget to specify the department if your recruitment process
+                is different according to the job position.
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+/* ===========================
+   Backend Theme Customization
+   =========================== */
+
+
+/* Header (navbar trên cùng) */
+.o_main_navbar {
+    background-color: var(--backend-header-color, #71639e) !important;
+    color: #fff !important;
+}
+
+/* Apps Menu Dropdown */
+.o_navbar_apps_menu .dropdown-menu {
+    background: var(--backend-bg-image, url('/web_responsive/static/src/img/home-menu-bg-overlay.svg')),
+                linear-gradient(to bottom, var(--backend-header-color, #71639e), #b0adba) !important;
+background-size: cover !important;          /* tự co giãn để phủ toàn bộ vùng */
+background-repeat: no-repeat !important;
+background-position: center center !important; /* căn giữa hình */
+    color: #fff !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--backend-button-color, #71639e) !important;
+    border-color: var(--backend-button-color, #71639e) !important;
+    color: #fff !important;
+}
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled:after, .o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled:before{
+    border-left-color:  var(--backend-button-color, #71639e) !important;
+}
+/* Sidebar active (ví dụ Discuss module) */
+.o_mail_discuss .o_mail_discuss_sidebar .o_active {
+    background-color: var(--backend-sidebar-active-color, #71639e) !important;
+    color: #fff !important;
+}

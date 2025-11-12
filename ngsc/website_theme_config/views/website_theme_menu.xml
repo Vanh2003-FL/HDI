@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu gốc trong phần Kỹ thuật -->
+    <menuitem id="menu_theme_root"
+              name="Giao diện hệ thống"
+              parent="base.menu_custom"
+              sequence="80"
+              groups="base.group_no_one"/>
+
+    <!-- Menu con -->
+    <menuitem id="menu_theme_options"
+              name="Cấu hình theme"
+              parent="menu_theme_root"
+              action="action_theme_option"
+              groups="base.group_no_one"/>
+</odoo>

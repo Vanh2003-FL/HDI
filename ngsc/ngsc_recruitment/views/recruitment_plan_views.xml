@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="action_recruitment_all_plan" model="ir.actions.act_window">
+            <field name="name">Tất cả kế hoạch</field>
+            <field name="res_model">ngsc.recruitment.plan</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="action_recruitment_my_plan" model="ir.actions.act_window">
+            <field name="name">Kế hoạch của tôi</field>
+            <field name="res_model">ngsc.recruitment.plan</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[('request_id.hr_id.user_id', '=', uid)]</field>
+        </record>
+
+        <record id="ngsc_recruitment_plan_tree" model="ir.ui.view">
+            <field name="name">ngsc.recruitment.plan.tree</field>
+            <field name="model">ngsc.recruitment.plan</field>
+            <field name="arch" type="xml">
+                <list >
+                    <field name="planning_date"/>
+                    <field name="request_id"/>
+                    <field name="title"/>
+                    <field name="position"/>
+                    <field name="job_quantity"/>
+                    <field name="budget"/>
+                    <field name="job_note"/>
+                    <field name="priority"/>
+                    <field name="stage"/>
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="ngsc_recruitment_plan_form">
+            <field name="name">ngsc.recruitment.plan.form</field>
+            <field name="model">ngsc.recruitment.plan</field>
+            <field name="arch" type="xml">
+                <form string="Kế hoạch tuyển dụng" class="o_applicant_form">
+                    <header>
+                        <button name="action_recruiting" type="object" string="Xác nhận" attrs="{'invisible': [('stage', '!=', 'draft')]}" class="btn-primary"/>
+                        <button name="action_done" type="object" string="Hoàn tất" attrs="{'invisible': [('stage', '!=', 'recruiting')]}" class="btn-success"/>
+                        <field name="stage" widget="statusbar" statusbar_visible="draft,recruiting,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="title" class="oe_edit_only"/>
+                            <h1><field name="title" placeholder='Kế hoạch: Tuyển dụng nhân viên phân tích'/></h1>
+                        </div>
+                        <group string="Thông tin chung">
+                            <group>
+                                <field name="planning_date"/>
+                                <field name="planning_user_id"/>
+                                <field name="role_user_id"/>
+                            </group>
+                        </group>
+                        <group string="Chi tiết kế hoạch">
+                            <group>
+                                <field name="request_id"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="date"/>
+                                <field name="department_id"/>
+                                <field name="position"/>
+                                <field name="job_quantity"/>
+                                <field name="budget"/>
+                            </group>
+                            <group>
+                                <field name="priority"/>
+                                <field name="how_to_work"/>
+                                <field name="experience"/>
+                                <field name="gender"/>
+                                <label for="salary_from" />
+                                <div>
+                                    <field name="salary_from" />
+                                    <span style="margin: 0 10px;"><i class="fa fa-arrow-right"></i></span>
+                                    <field name="salary_to" />
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Hội đồng tuyển dụng">
+                                <field name="council_ids">
+                                    <list editable="bottom">
+                                        <field name="stt" readonly="1"/>
+                                        <field name="emp_id"/>
+                                        <field name="department" force_save="1"/>
+                                        <field name="email" force_save="1"/>
+                                        <field name="role" force_save="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Mô tả công việc">
+                                <field name="job_description" />
+                            </page>
+                            <page string="Yêu cầu công việc">
+                                <field name="job_requirements" />
+                            </page>
+                            <page string="Quyền lợi">
+                                <field name="job_benefit" />
+                            </page>
+                            <page string="Ghi chú thêm">
+                                <field name="job_note" placeholder='Nhập ghi chú'/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+
+        </record>
+    </data>
+</odoo>

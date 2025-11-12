@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="room_room_view_search" model="ir.ui.view">
+        <field name="name">room_room_view_search</field>
+        <field name="model">room.room</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Phòng họp"/>
+                <field name="persion_capacity" string="Sức chứa"/>
+                <field name="price" string="Giá tiền"/>
+                <field name="office_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="group_by_office_id" context="{'group_by': 'office_id'}"/>
+                <filter name="group_by_price" context="{'group_by': 'price'}" string="Giá phòng"/>
+                <filter name="group_by_persion_capacity" context="{'group_by': 'persion_capacity'}" string="Sức chứa"/>
+                <filter name="group_by_company_id" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                <filter name="archived" string="Đã lưu" domain="[('active', '=', False)]"/>
+                <searchpanel>
+                    <field name="company_id"/>
+                    <field name="office_id" select="multi" domain="[['company_id', '=', company_id]]" enable_counters="1" icon="fa-building"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="room_room_view_kanban" model="ir.ui.view">
+        <field name="name">room.room.view.kanban</field>
+        <field name="model">room.room</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="is_available"/>
+                <field name="next_booking_start"/>
+                <field name="next_booking_start_view"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <t t-if="record.room_background_image">
+                                <field name="room_background_image" class="o_kanban_image_fill_left" options="{'size': [100,80]}" widget="image"/>
+                            </t>
+                            <div class="oe_kanban_details ml8">
+                                <div class="o_kanban_record_top">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div t-attf-class="py-1 px-2 bg-#{record.is_available.raw_value ? 'success' : 'danger'}">
+                                        <t t-if="record.is_available.raw_value">Available</t>
+                                        <t t-else="">Busy</t>
+<!--                                         Show time if next booking is today, otherwise show date-->
+                                        <t t-if="record.next_booking_start.value">
+                                            Until
+                                            <t t-esc="record.next_booking_start_view.value"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="room_room_view_list" model="ir.ui.view">
+        <field name="name">room.room.view.list</field>
+        <field name="model">room.room</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="office_id" optional="hide"/>
+                <field name="is_available" string="Is Currently Available" invisible="1"/>
+                <field name="next_booking_start" invisible="1"/>
+                <field name="acreage" optional="show"/>
+                <field name="persion_capacity" optional="show"/>
+                <field name="price"/>
+                <field name="description" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="room_room_view_form" model="ir.ui.view">
+        <field name="name">room.room.view.form</field>
+        <field name="model">room.room</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="is_available" invisible="1"/>
+                <header>
+                    <button string="Open" type="object" name="action_open_booking_view"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_bookings" type="object"
+                                class="oe_stat_button" icon="fa-calendar">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_text">
+                                    <field class="o_stat_value me-1" name="bookings_count"/> <span> Booking</span>
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Khả dụng" attrs="{'invisible': [('is_available', '=', False)]}"/>
+                    <widget name="web_ribbon" title="Đang bận" bg_color="bg-danger" attrs="{'invisible': [('is_available', '=', True)]}" />
+                    <div class="oe_title mb24">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Room Name"/>
+                        </h1>
+                        <div class="o_row">
+                            <field name="office_id"/>
+                        </div>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="short_code"/>
+                            <field name="acreage"/>
+                            <field name="persion_capacity"/>
+                            <field name="price"/>
+                        </group>
+                        <group>
+<!--                            <field name="room_booking_url" widget="CopyClipboardChar"/>-->
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="E.g. projector, whiteboard"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="room_room_action" model="ir.actions.act_window">
+        <field name="name">Phòng họp</field>
+        <field name="res_model">room.room</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="room_room_view_search"/>
+    </record>
+</odoo>

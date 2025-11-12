@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="access_all_business_plan_group_user" model="ir.rule">
+        <field name="name">User tạo ra bản ghi chỉ được xem các bản ghi do mình tạo</field>
+        <field ref="ngs_e_office.model_business_plan" name="model_id"/>
+        <field name="domain_force">['|', ('create_uid', '=', user.id), ('approver_ids.user_id', '=', user.id)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('base.group_user')])]"/>
+    </record>
+    <record id="access_business_plan_group_approval_manager" model="ir.rule">
+        <field name="name">User có quyền xem tất cả bản ghi</field>
+        <field ref="ngs_e_office.model_business_plan" name="model_id"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('approvals.group_approval_manager')])]"/>
+    </record>
+
+    <record id="access_all_approval_request_group_user" model="ir.rule">
+        <field name="name">User tạo ra bản ghi chỉ được xem các bản ghi do mình tạo</field>
+        <field ref="approvals.model_approval_request" name="model_id"/>
+        <field name="domain_force">['|', ('create_uid', '=', user.id), ('approver_ids.user_id', '=', user.id)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('base.group_user')])]"/>
+    </record>
+    <record id="access_approval_request_group_approval_manager" model="ir.rule">
+        <field name="name">User có quyền xem tất cả bản ghi</field>
+        <field ref="approvals.model_approval_request" name="model_id"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('approvals.group_approval_manager')])]"/>
+    </record>
+<!--    Lịch họp -->
+    <record id="calendar.calendar_event_rule_employee" model="ir.rule">
+        <field name="name">Nhân viên được xem phòng họp</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="calendar.calendar_event_rule_private" model="ir.rule">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="calendar.calendar_event_rule_my" model="ir.rule">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="ngs_calendar_event_owner_rule_wcu" model="ir.rule">
+        <field name="name">Người phụ trách được phép tạo,sửa.xóa cuộc họp</field>
+        <field ref="calendar.model_calendar_event" name="model_id"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_read" eval="0"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(6,0, [ref('base.group_user')])]"/>
+    </record>
+    <record id="ngs_calendar_event_hcns_rule_wcu" model="ir.rule">
+        <field name="name">HCNS được phép tạo,sửa.xóa cuộc họp</field>
+        <field ref="calendar.model_calendar_event" name="model_id"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_read" eval="0"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(6,0, [ref('ngsd_base.group_hcns')])]"/>
+    </record>
+<!---->
+</odoo>

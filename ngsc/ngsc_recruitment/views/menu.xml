@@ -1,0 +1,120 @@
+<odoo>
+    <menuitem id="ngsc_recruitment_skill_tag_menu"
+              name="Thẻ kỹ năng"
+              parent="hr_recruitment.menu_hr_recruitment_configuration"
+              action="recruitment_skill_tag_view_action"
+              sequence="100"/>
+
+    <menuitem id="ngsc_recruitment_template_email_menu"
+              name="Cấu hình mẫu email"
+              parent="hr_recruitment.menu_hr_recruitment_configuration"
+              action="action_template_mail_recruitment"
+              sequence="110"/>
+<!--    <menuitem id="ngsc_recruitment_source_personnel_stage_menu"-->
+<!--              name="Giai đoạn nguồn nhân sự"-->
+<!--              parent="hr_recruitment.menu_hr_recruitment_configuration"-->
+<!--              action="ngsc_recruitment_source_personnel_stage_act"-->
+<!--              sequence="110"/>-->
+    <menuitem id="menu_hr_recruitment_certificate"
+                name="Chứng chỉ"
+                parent="hr_recruitment.menu_hr_recruitment_configuration"
+                action="hr_recruitment_certificate_action"
+                sequence="130"/>
+
+    <menuitem id="menu_hr_recruitment_foreign_lang"
+                name="Trình độ ngoại ngữ"
+                parent="hr_recruitment.menu_hr_recruitment_configuration"
+                action="hr_recruitment_foreign_lang_action"
+                sequence="140"/>
+
+    <!--<menuitem id="menu_hr_recruitment_salary_range"
+                name="Khoảng lương"
+                parent="hr_recruitment.menu_hr_recruitment_configuration"
+                action="hr_recruitment_salary_range_action"
+                sequence="150"/>-->
+
+    <menuitem id="ngsc_recruitment_source_social_menu"
+              name="Nguồn MXH"
+              parent="hr_recruitment.menu_hr_recruitment_configuration"
+              action="utm.utm_source_action"
+              sequence="120"/>
+
+<!--    <menuitem id="menu_source_personnel"-->
+<!--              name="Hồ sơ ứng viên"-->
+<!--              parent="hr_recruitment.menu_hr_recruitment_root"-->
+<!--              sequence="1"-->
+<!--              action="ngsc_recruitment_source_personnel_act"/>-->
+
+    <menuitem id="menu_recruitment_request_root"
+                  name="Yêu cầu tuyển dụng"
+                  parent="hr_recruitment.menu_hr_recruitment_root"
+                  action="action_recruitment_request_all"
+                  sequence="1"/>
+
+    <!-- Submenu: Yêu cầu được phân công-->
+    <menuitem id="menu_my_recruitment_request"
+              name="Yêu cầu được phân công"
+              parent="menu_recruitment_request_root"
+              action="action_my_recruitment_request_action"
+              sequence="1"/>
+
+    <!-- Submenu: Tất cả yêu cầu -->
+    <menuitem id="menu_recruitment_request_all"
+              name="Tất cả yêu cầu"
+              parent="menu_recruitment_request_root"
+              action="action_recruitment_request_all"
+              sequence="2"/>
+
+
+<!--    MENU: Kế hoạch ứng tuyển-->
+    <menuitem id="menu_recruitment_plan_root"
+                  name="Kế hoạch tuyển dụng"
+                  parent="hr_recruitment.menu_hr_recruitment_root"
+                  sequence="2"/>
+
+    <menuitem id="menu_recruitment_my_plan"
+              name="Kế hoạch của tôi"
+              parent="menu_recruitment_plan_root"
+              action="action_recruitment_my_plan"
+              groups="hr_recruitment.group_hr_recruitment_user"
+              sequence="1"/>
+
+    <menuitem id="menu_recruitment_all_plan"
+              name="Tất cả kế hoạch"
+              parent="menu_recruitment_plan_root"
+              action="action_recruitment_all_plan"
+              groups="ngsc_recruitment.group_recruitment_request_manager_hr"
+              sequence="2"/>
+
+    <menuitem id="menu_recruitment_news_root"
+                  name="Tin tuyển dụng"
+                  parent="hr_recruitment.menu_hr_recruitment_root"
+                  sequence="3"/>
+
+    <record id="hr_recruitment.menu_crm_case_categ0_act_job" model="ir.ui.menu">
+        <field name="sequence" eval="4"/>
+    </record>
+
+    <record id="hr_recruitment.menu_hr_job_position" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <!-- Ẩn menu hr_applicant_category_menu -->
+    <record id="hr_recruitment.hr_applicant_category_menu" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+    <menuitem id="ngsc_news_job_menuitem"
+              name="Vị trí công việc"
+              parent="menu_recruitment_news_root"
+              sequence="0"
+              action="ngsc_news_job_act_window"
+              groups="base.group_system,ngsd_base.group_td"/>
+
+    <menuitem
+            name="All Applications"
+            parent="hr_recruitment.menu_crm_case_categ0_act_job"
+            id="hr_recruitment.menu_crm_case_categ_all_app"
+            action="crm_case_categ0_act_job_new" sequence="2"
+            groups="base.group_system,ngsd_base.group_td"/>/>
+
+</odoo>

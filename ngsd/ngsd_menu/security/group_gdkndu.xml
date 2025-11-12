@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="ngsd_base.group_gdkndu" model="res.groups">
+        <field name="menu_access" eval="[
+        (4,ref('hr_holidays.menu_hr_holidays_dashboard')),
+        (4,ref('ngsd_menu.qlda_qlda_menu')),
+        (4,ref('ngsd_menu.qlda_qlda_nv_menu')),
+        (4,ref('hr_timesheet.timesheet_menu_activity_all')),
+        (4,ref('account_reports.menu_project_action_report')),
+        (4,ref('account_reports.menu_resource_action_report')),
+        (4,ref('ngsd_base.requested_hr_overtime_menu')),
+        (4,ref('hr_attendance.menu_hr_attendance_view_attendances')),
+        ]"/>
+    </record>
+
+    <record id="group_gdkndu_model_en_hr_overtime_rule" model="ir.rule">
+        <field name="name">Tăng ca của khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_hr_overtime"/>
+        <field name="domain_force">[('employee_id.department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="group_gdkndu_model_overtime_project_rule" model="ir.rule">
+        <field name="name">Tăng ca thuộc dự án của khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_hr_overtime"/>
+        <field name="domain_force">[('project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="group_gdkndu_model_project_project_rule" model="ir.rule">
+        <field name="name">Dự án khối mình</field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="domain_force">[('en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="group_gdkndu_model_project_task_rule" model="ir.rule">
+        <field name="name">Công việc của dự án khối mình</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="domain_force">[('project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="group_gdkndu_model_en_wbs_rule" model="ir.rule">
+        <field name="name">WBS của dự án khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_wbs"/>
+        <field name="domain_force">[('project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="group_gdkndu_model_en_resource_planning_rule" model="ir.rule">
+        <field name="name">KHNL của dự án khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_resource_planning"/>
+        <field name="domain_force">[('project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="group_gdkndu_model_hr_employee_rule" model="ir.rule">
+        <field name="name">Xem tất cả nhân viên</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(6, 0, [ref('ngsd_base.group_gdkndu')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="group_gdkndu_model_hr_employee_department" model="ir.rule">
+        <field name="name">Sửa nhân viên thuộc trung tâm ban</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="domain_force">[('department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(6, 0, [ref('ngsd_base.group_gdkndu')])]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="group_all_model_hr_employee_rule" model="ir.rule">
+        <field name="name">Xem tất cả nhân viên</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_pm')), (4,ref('ngsd_base.group_qam')), (4,ref('ngsd_base.group_vpm'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_tvda_view_my_model_hr_employee_rule" model="ir.rule">
+        <field name="name">	TVDA chỉ nhìn thấy chính mình</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="domain_force">[('id', '=', user.employee_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_tvda'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="group_nd_xbcckm_model_account_analytic_line_rule" model="ir.rule">
+        <field name="name">Xem bảng chấm công khối mình</field>
+        <field name="model_id" ref="analytic.model_account_analytic_line"/>
+        <field name="domain_force">[('task_id.project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_nd_xbcckm'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_gdkndu_model_documents_folder_rule" model="ir.rule">
+        <field name="name">Xem thư mục khối mình</field>
+        <field name="model_id" ref="documents.model_documents_folder"/>
+        <field name="domain_force">[('en_project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_gdkndu_model_documents_document_rule" model="ir.rule">
+        <field name="name">Xem tài liệu khối mình</field>
+        <field name="model_id" ref="documents.model_documents_document"/>
+        <field name="domain_force">[('folder_id.en_project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_gdkndu_model_en_nonproject_task_rule" model="ir.rule">
+        <field name="name">Xem Công việc ngoài dự án thuộc khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_nonproject_task"/>
+        <field name="domain_force">[('en_pic_id.employee_id.department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_gdkndu_timesheet_nonproject_rule" model="ir.rule">
+        <field name="name">Xem Timesheet ngoài dự án thuộc khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_account_analytic_line"/>
+        <field name="domain_force">[('employee_id.department_id', '=', user.employee_id.department_id.id), ('en_nonproject_task_id', '!=', False)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_gdkndu_timesheet_rule" model="ir.rule">
+        <field name="name">Xem Timesheet thuộc khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_account_analytic_line"/>
+        <field name="domain_force">[('employee_id.department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="group_gdkndu_overtime_plan_nonproject_rule" model="ir.rule">
+        <field name="name">Xem Kế hoạch OT ngoài dự án thuộc khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_overtime_plan"/>
+        <field name="domain_force">[('create_uid.employee_id.department_id', '=', user.employee_id.department_id.id), ('en_work_inproject', '=', False)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="=group_gdkndu_hr_leave_rule" model="ir.rule">
+        <field name="name">Xem Nghỉ phép thuộc khối của mình</field>
+        <field name="model_id" ref="hr_holidays.model_hr_leave"/>
+        <field name="domain_force">[('employee_id.department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="=group_gdkndu_en_risk_rule" model="ir.rule">
+        <field name="name">Xem rủi ro/cơ hội thuộc khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_risk"/>
+        <field name="domain_force">[('project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="=group_gdkndu_en_problem_rule" model="ir.rule">
+        <field name="name">Xem vấn đề thuộc khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_problem"/>
+        <field name="domain_force">[('project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="=group_gdkndu_en_project_document_rule" model="ir.rule">
+        <field name="name">Xem Sản phẩm bàn giao thuộc khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_project_document"/>
+        <field name="domain_force">[('project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="=group_gdkndu_project_milestone_rule" model="ir.rule">
+        <field name="name">Xem Mốc thời gian thuộc khối mình</field>
+        <field name="model_id" ref="project.model_project_milestone"/>
+        <field name="domain_force">[('project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="=group_gdkndu_en_overtime_plan_rule" model="ir.rule">
+        <field name="name">Xem kế hoạch OT thuộc khối mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_overtime_plan"/>
+        <field name="domain_force">['|', ('create_uid.employee_id.department_id', '=', user.employee_id.department_id.id), ('en_project_id.en_department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="=group_gdkndu_borrow_employee_create_edit" model="ir.rule">
+        <field name="name">Tạo, xem, sửa của trung tâm mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_borrow_employee"/>
+        <field name="domain_force">['|', ('department_borrower_id', '=', user.employee_id.department_id.id), ('department_lender_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="=group_gdkndu_borrow_employee_delete" model="ir.rule">
+        <field name="name">Xóa bản ghi của mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_borrow_employee"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="=group_gdkndu_lender_employee_create_edit" model="ir.rule">
+        <field name="name">Tạo, xem, sửa của trung tâm mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_lender_employee"/>
+        <field name="domain_force">['|', ('department_borrower_id', '=', user.employee_id.department_id.id), ('department_lender_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="=group_gdkndu_lender_employee_delete" model="ir.rule">
+        <field name="name">Xóa bản ghi của mình</field>
+        <field name="model_id" ref="ngsd_base.model_en_lender_employee"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4,ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+</odoo>

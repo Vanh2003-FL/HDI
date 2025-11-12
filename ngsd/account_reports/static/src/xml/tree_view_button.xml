@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<template xml:space="preserve">
+    <t t-extend="ListView.buttons">
+        <t t-jquery="t:last" t-operation="after">
+            <button type="button" class="btn btn-primary ml-3 open_recent_button_report_button">
+               Chọn thời gian xem báo cáo
+            </button>
+        </t>
+    </t>
+</template>

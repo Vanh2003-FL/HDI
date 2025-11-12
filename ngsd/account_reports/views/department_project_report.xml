@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_department_project_report_report" model="ir.actions.client">
+            <field name="name">Báo cáo dự án theo trung tâm</field>
+            <field name="tag">account_report</field>
+            <field name="context" eval="{'model': 'department.project.report'}"/>
+        </record>
+
+        <record id="department_project_report_wizard_form" model="ir.ui.view">
+            <field name="model">department.project.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="department_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string='Xác nhận' name="do" type="object" class="oe_highlight"/>
+                        <button string="Hủy" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="department_project_report_wizard_act" model="ir.actions.act_window">
+            <field name="res_model">department.project.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="menu_department_project_report" model="ir.ui.menu">
+            <field name="name">Báo cáo dự án theo trung tâm</field>
+            <field name="action" ref="department_project_report_wizard_act"/>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="contacts.menu_contacts" model="ir.ui.menu">
+        <field name="parent_id" eval="False"/>
+    </record>
+    <record id="crm.crm_menu_root" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.menu_no_one"/>
+    </record>
+    <record id="sale.sale_menu_root" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.menu_no_one"/>
+    </record>
+    <record id="account.menu_finance" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.menu_no_one"/>
+    </record>
+    <record id="project.menu_main_pm" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.menu_no_one"/>
+    </record>
+    <record id="hr_timesheet.timesheet_menu_root" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.menu_no_one"/>
+    </record>
+    <record id="hr.menu_hr_root" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.menu_no_one"/>
+    </record>
+    <record id="base.menu_board_root" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.menu_no_one"/>
+    </record>
+    <record id="utm.menu_link_tracker_root" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.menu_no_one"/>
+    </record>
+
+    <record id="qlbh_menu" model="ir.ui.menu">
+        <field name="name">Quản lý bán hàng</field>
+        <field name="web_icon">crm,static/description/icon.png</field>
+        <field name="action" ref="crm.crm_lead_action_pipeline"/>
+        <field name="groups_id" eval="[(4,ref('sales_team.group_sale_salesman'))]"/>
+    </record>
+
+    <record id="qlbh_kpi_menu" model="ir.ui.menu">
+        <field name="name">KPI</field>
+        <field name="sequence">-10</field>
+        <field name="parent_id" ref="qlbh_menu"/>
+    </record>
+
+    <record id="ngsd_base.kpi_kpi_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlbh_kpi_menu"/>
+    </record>
+
+    <record id="ngsd_base.kpi_detail_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlbh_kpi_menu"/>
+    </record>
+
+    <record id="contacts.menu_contacts" model="ir.ui.menu">
+        <field name="sequence">0</field>
+        <field name="parent_id" ref="qlbh_menu"/>
+    </record>
+
+    <record id="ngsd_menu.customer_menu_customer" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="ngsd_menu.customer_menu_contact" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="contacts.res_partner_menu_config" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="qlbh_tn_menu" model="ir.ui.menu">
+        <field name="name">Tiềm năng</field>
+        <field name="action" ref="crm.crm_lead_all_leads"/>
+        <field name="parent_id" ref="qlbh_menu"/>
+        <field name="groups_id" eval="[(4,ref('crm.group_use_lead'))]"/>
+    </record>
+
+    <record id="qlbh_ch_menu" model="ir.ui.menu">
+        <field name="name">Cơ hội</field>
+        <field name="parent_id" ref="qlbh_menu"/>
+    </record>
+
+    <record id="qlbh_ch_ctct_menu" model="ir.ui.menu">
+        <field name="name">Chu trình của tôi</field>
+        <field name="parent_id" ref="qlbh_ch_menu"/>
+        <field name="action" ref="crm.crm_lead_action_pipeline"/>
+    </record>
+
+    <record id="qlbh_ch_hdct_menu" model="ir.ui.menu">
+        <field name="name">Hoạt động của tôi</field>
+        <field name="parent_id" ref="qlbh_ch_menu"/>
+        <field name="action" ref="crm.crm_lead_action_my_activities"/>
+    </record>
+
+    <record id="qlbh_bg_menu" model="ir.ui.menu">
+        <field name="name">Báo giá</field>
+        <field name="action" ref="sale.action_quotations"/>
+        <field name="parent_id" ref="qlbh_menu"/>
+        <field name="excluded_group_ids" eval="[(4,ref('ngsd_base.group_en_use_quote'))]"/>
+    </record>
+
+    <record id="qlbh_hd_menu" model="ir.ui.menu">
+        <field name="name">Hợp đồng</field>
+        <field name="action" ref="ngsd_crm.action_sale_contract"/>
+        <field name="parent_id" ref="qlbh_menu"/>
+    </record>
+
+    <!--    <record id="qlbh_dh_menu" model="ir.ui.menu">-->
+    <!--        <field name="name">Đơn hàng</field>-->
+    <!--        <field name="action" ref="ngsd_crm.order_act"/>-->
+    <!--        <field name="parent_id" ref="qlbh_menu"/>-->
+    <!--    </record>-->
+
+    <record id="qlbh_hdon_menu" model="ir.ui.menu">
+        <field name="name">Hóa đơn</field>
+        <field name="parent_id" ref="qlbh_menu"/>
+    </record>
+
+    <record id="qlbh_hdon_hd_menu" model="ir.ui.menu">
+        <field name="name">Hóa đơn</field>
+        <field name="action" ref="account.action_move_out_invoice_type"/>
+        <field name="parent_id" ref="qlbh_hdon_menu"/>
+    </record>
+
+    <record id="qlbh_hdon_tt_menu" model="ir.ui.menu">
+        <field name="name">Thanh toán</field>
+        <field name="action" ref="account.action_account_payments"/>
+        <field name="parent_id" ref="qlbh_hdon_menu"/>
+    </record>
+
+
+    <record id="qlbh_bcao_menu" model="ir.ui.menu">
+        <field name="name">Báo cáo</field>
+        <field name="parent_id" ref="qlbh_menu"/>
+    </record>
+
+    <record id="qlbh_bcao_lscs_menu" model="ir.ui.menu">
+        <field name="name">Lịch sử chăm sóc</field>
+        <field name="action" ref="ngsd_crm.crm_support_history_action"/>
+        <field name="parent_id" ref="qlbh_bcao_menu"/>
+    </record>
+
+    <record id="account_reports.menu_crm_action_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlbh_bcao_menu"/>
+    </record>
+    <record id="account_reports.menu_kpi_action_report" model="ir.ui.menu">
+        <field name="name">Báo cáo KPI</field>
+        <field name="parent_id" ref="qlbh_bcao_menu"/>
+    </record>
+    <record id="account_reports.menu_contract_action_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlbh_bcao_menu"/>
+    </record>
+    <record id="account_reports.menu_crm_action_report1" model="ir.ui.menu">
+        <field name="parent_id" ref="qlbh_bcao_menu"/>
+    </record>
+
+    <record id="ngsd_menu.crm_noti_not_target" model="ir.ui.menu">
+        <field name="parent_id" ref="qlbh_menu"/>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="qlbh_tl_menu" model="ir.ui.menu">
+        <field name="name">Thiết lập</field>
+        <field name="parent_id" ref="qlbh_menu"/>
+        <field name="sequence">100</field>
+    </record>
+
+    <record id="res_partner_action_customer" model="ir.actions.act_window">
+        <field name="name">Khách hàng</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': False}),
+            (0, 0, {'view_mode': 'form', 'view_id': False}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('ngsd_crm.res_partner_tree')})
+        ]"/>
+        <field name="context">{'search_default_customer': 1, 'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>
+    </record>
+
+
+    <record id="qlbh_tl_kinh_doanh_menu" model="ir.ui.menu">
+        <field name="name">Kinh doanh</field>
+        <field name="parent_id" ref="qlbh_tl_menu"/>
+        <field name="sequence">1</field>
+    </record>
+    <record id="ngsd_base.bfsi_menu" model="ir.ui.menu">
+        <field name="sequence">10</field>
+        <field name="parent_id" ref="qlbh_tl_kinh_doanh_menu"/>
+    </record>
+    <record id="qlbh_tl_dkd_menu" model="ir.ui.menu">
+        <field name="name">Đội kinh doanh</field>
+        <field name="parent_id" ref="qlbh_tl_kinh_doanh_menu"/>
+        <field name="action" ref="sales_team.crm_team_action_config"/>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="qlbh_tl_sp_menu" model="ir.ui.menu">
+        <field name="name">Sản phẩm</field>
+        <field name="parent_id" ref="qlbh_tl_menu"/>
+    </record>
+
+    <record id="qlbh_tl_sp_sp_menu" model="ir.ui.menu">
+        <field name="name">Sản phẩm</field>
+        <field name="action" ref="sale.product_template_action"/>
+        <field name="parent_id" ref="qlbh_tl_sp_menu"/>
+    </record>
+    <record id="qlbh_tl_sp_nsp_menu" model="ir.ui.menu">
+        <field name="name">Nhóm sản phẩm</field>
+        <field name="action" ref="product.product_category_action_form"/>
+        <field name="parent_id" ref="qlbh_tl_sp_menu"/>
+    </record>
+    <record id="qlbh_tl_sp_bg_menu" model="ir.ui.menu">
+        <field name="name">Bảng giá</field>
+        <field name="action" ref="product.product_pricelist_action2"/>
+        <field name="parent_id" ref="qlbh_tl_sp_menu"/>
+    </record>
+    <record id="qlbh_tl_sp_tg_menu" model="ir.ui.menu">
+        <field name="name">Tỷ giá</field>
+        <field name="action" ref="base.action_currency_form"/>
+        <field name="parent_id" ref="qlbh_tl_sp_menu"/>
+    </record>
+
+    <record id="qlbh_tl_crm_menu" model="ir.ui.menu">
+        <field name="name">CRM</field>
+        <field name="parent_id" ref="qlbh_tl_menu"/>
+    </record>
+
+    <record id="qlbh_tl_crm_tct_menu" model="ir.ui.menu">
+        <field name="name">Tính cạnh tranh</field>
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="action" ref="ngsd_crm.compete_lead_action"/>
+        <field name="sequence">10</field>
+    </record>
+    <record id="qlbh_tl_crm_ct_menu" model="ir.ui.menu">
+        <field name="name">Chỉ tiêu</field>
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="action" ref="ngsd_crm.crm_kpi_action"/>
+        <field name="sequence">20</field>
+    </record>
+    <record id="qlbh_tl_crm_tts_menu" model="ir.ui.menu">
+        <field name="name">Tình trạng support</field>
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="action" ref="ngsd_crm.crm_support_state_action"/>
+        <field name="sequence">30</field>
+    </record>
+    <record id="qlbh_tl_crm_pkt_menu" model="ir.ui.menu">
+        <field name="name">Phòng kỹ thuật</field>
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="action" ref="ngsd_crm.kt_department_action"/>
+        <field name="sequence">40</field>
+    </record>
+    <record id="ngsd_crm.crm_consulting_team_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="sequence">50</field>
+    </record>
+    <record id="ngsd_crm.crm_development_team_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="sequence">60</field>
+    </record>
+    <record id="ngsd_crm.region_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="sequence">65</field>
+    </record>
+    <record id="qlbh_tl_crm_lhccda_menu" model="ir.ui.menu">
+        <field name="name">Loại hình cung cấp dự án</field>
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="action" ref="ngsd_crm.project_type_source_action"/>
+        <field name="sequence">70</field>
+    </record>
+    <record id="qlbh_tl_crm_pn_menu" model="ir.ui.menu">
+        <field name="name">Pháp nhân</field>
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="action" ref="ngsd_crm.x_legal_action"/>
+        <field name="sequence">80</field>
+    </record>
+    <record id="qlbh_tl_crm_khd_menu" model="ir.ui.menu">
+        <field name="name">Kiểu hoạt động</field>
+        <field name="parent_id" ref="qlbh_tl_crm_menu"/>
+        <field name="action" ref="sales_team.mail_activity_type_action_config_sales"/>
+        <field name="sequence">90</field>
+    </record>
+
+    <record id="qlbh_tl_ch_menu" model="ir.ui.menu">
+        <field name="name">Cơ hội</field>
+        <field name="parent_id" ref="qlbh_tl_menu"/>
+    </record>
+    <record id="qlbh_tl_ch_gd_menu" model="ir.ui.menu">
+        <field name="name">Giai đoạn</field>
+        <field name="sequence">-10</field>
+        <field name="parent_id" ref="qlbh_tl_ch_menu"/>
+        <field name="action" ref="crm.crm_stage_action"/>
+    </record>
+    <record id="qlbh_tl_ch_tk_menu" model="ir.ui.menu">
+        <field name="name">Từ khóa</field>
+        <field name="parent_id" ref="qlbh_tl_ch_menu"/>
+        <field name="action" ref="sales_team.sales_team_crm_tag_action"/>
+    </record>
+    <record id="qlbh_tl_ch_ldt_menu" model="ir.ui.menu">
+        <field name="name">Lý do thua</field>
+        <field name="parent_id" ref="qlbh_tl_ch_menu"/>
+        <field name="action" ref="crm.crm_lost_reason_action"/>
+    </record>
+    <record id="account.menu_action_payment_term_form" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.qlbh_tl_menu"/>
+        <field name="sequence">200</field>
+    </record>
+
+    <record id="qlbh_chinh_menu" model="ir.ui.menu">
+        <field name="name">Cấu hình</field>
+        <field name="parent_id" ref="qlbh_menu"/>
+    </record>
+
+    <record id="qlbh_chinh_crm_menu" model="ir.ui.menu">
+        <field name="name">CRM</field>
+        <field name="parent_id" ref="qlbh_chinh_menu"/>
+        <field name="action" ref="crm.crm_config_settings_action"/>
+    </record>
+    <record id="qlbh_chinh_bh_menu" model="ir.ui.menu">
+        <field name="name">Bán hàng</field>
+        <field name="parent_id" ref="qlbh_chinh_menu"/>
+        <field name="action" ref="sale.action_sale_config_settings"/>
+    </record>
+    <record id="qlbh_chinh_hd_menu" model="ir.ui.menu">
+        <field name="name">Hóa đơn</field>
+        <field name="parent_id" ref="qlbh_chinh_menu"/>
+        <field name="action" ref="account.action_account_config"/>
+    </record>
+
+
+</odoo>

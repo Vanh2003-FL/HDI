@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsc_project_wbs_inherit_view_form" model="ir.ui.view">
+            <field name="name">ngsc.project.wbs.inherit.view.form</field>
+            <field name="model">en.resource.planning</field>
+            <field name="inherit_id" ref="ngsc_project.resource_planning_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page/field[@name='order_line']/tree/field[@name='project_stage_id']"
+                       position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/notebook/page/field[@name='order_line']/tree/field[@name='type_id']"
+                       position="before">
+                    <field name="project_task_stage_id" required="1"
+                           context="{'ctx_resource_stage_display': 1}"
+                           domain="[('project_wbs_id', '!=', False),('project_wbs_id', '=', wbs_id),('category', '=', 'phase')]"
+                           options="{'no_open':True,'no_create':True,'no_quick_create':True,'no_create_edit':True}"/>
+                    <field name="project_stage_code"/>
+                    <field name="wbs_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//sheet/notebook/page/field[@name='order_line']/tree" position="attributes">
+                    <attribute name="default_order">project_task_stage_id desc, employee_id asc,date_start asc</attribute>
+                    <attribute name="class">allow_list_copy x2many_search</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="widget">one2many_header_group</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

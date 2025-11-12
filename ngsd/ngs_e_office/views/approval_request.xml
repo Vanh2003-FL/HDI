@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ngs_approval_request_view_form" model="ir.ui.view">
+        <field name="name">ngs_approval_request_view_form</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="confirm">Bạn có chắc muốn hủy yêu cầu này?</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_withdraw']" position="attributes">
+                <attribute name="attrs">{'invisible': 1}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_draft']" position="attributes">
+                <attribute name="attrs">{'invisible': [('request_status','!=', 'pending')]}</attribute>
+                <attribute name="string">chuyển về Để trình</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='products']" position="attributes">
+                <attribute name="string">Sản phẩm</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('has_product', '=', 'no'), ('approval_type', '=', 'car')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='request_status']" position="attributes">
+                <attribute name="statusbar_visible">new,pending,approved,done</attribute>
+            </xpath>
+            <xpath expr="//field[@name='approver_ids']//tree" position="attributes">
+                <attribute name="create">0</attribute>
+                <attribute name="delete">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='approver_ids']/tree/field[@name='required']" position="after">
+                <field name="role_selection"/>
+            </xpath>
+            <xpath expr="//button[@name='action_approve']" position="after">
+                <button name="action_done" string="Đã xử lý" type="object" attrs="{'invisible':[('request_status', '!=', 'approved')]}" class="btn-primary"/>
+            </xpath>
+            <xpath expr="//page[@name='description']" position="after">
+                <page string="Xe" name="car_product" attrs="{'invisible': ['|', ('has_product', '=', 'no'), ('approval_type', '!=', 'car')]}">
+                    <field name="product_line_ids" context="{'list_view_ref': 'approvals.approval_product_line_view_tree'}"/>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='approval_type']" position="after">
+                <field name="has_job" invisible="1"/>
+                <field name="has_department" invisible="1"/>
+                <field name="has_phone" invisible="1"/>
+                <field name="has_hr_department" invisible="1"/>
+                <field name="has_hr_user" invisible="1"/>
+                <field name="product_type_domain" invisible="1"/>
+                <field name="has_plane_support" invisible="1"/>
+                <field name="has_hotel_support" invisible="1"/>
+                <field name="has_car_support" invisible="1"/>
+                <field name="has_expected_return_date" invisible="1"/>
+                <field name="has_actual_return_date" invisible="1"/>
+            </xpath>
+            <xpath expr="//group[@name='request_main']" position="inside">
+                <field name="job_id" attrs="{'invisible':[('has_job','==','no')], 'required': [('has_job','==','required')]}"/>
+                <field name="mobile_phone" attrs="{'invisible':[('has_phone','==','no')], 'required': [('has_phone','==','required')]}"/>
+                <field name="department_id" attrs="{'invisible':[('has_hr_department','==','no')], 'required': [('has_hr_department','==','required')], 'readonly': True}"/>
+                <field name="en_department_id" attrs="{'invisible':[('has_department','==','no')], 'required': [('has_department','==','required')]}"/>
+                <field name="hr_user_ids" widget="many2many_tags" attrs="{'invisible':[('has_hr_user','==','no')], 'required': [('has_hr_user','==','required')]}"/>
+            </xpath>
+            <xpath expr="//group[@name='request_details']" position="inside">
+                <field name="business_domain" invisible="1"/>
+                <field name="business_plan" options="{'no_create': True}" attrs="{'invisible':[('approval_type','!=','business')], 'required': [('approval_type','=','business')]}"/>
+                <field name="business_description" attrs="{'invisible':[('approval_type','!=','business')]}"/>
+                <field name="support_ids" attrs="{'invisible':[('approval_type','!=','business')]}"  widget="many2many_checkboxes" options='{"no_open": True, "no_create": True}' class="horizontal_many2many"/>
+                <field name="origin_location" attrs="{'invisible':[('approval_type','!=','business')]}"/>
+                <field name="destination_location" attrs="{'invisible':[('approval_type','!=','business')]}"/>
+                <field name="start_time" attrs="{'invisible':[('approval_type','!=','business')]}"/>
+                <field name="end_time" attrs="{'invisible':[('approval_type','!=','business')]}"/>
+            </xpath>
+            <xpath expr="//page[@name='description']" position="after">
+                <page string="Danh sách nhân sự" name="personnel_list" attrs="{'invisible':[('approval_type','!=','business')]}">
+                    <field name="personnel_list_ids" attrs="{'invisible':[('approval_type','!=','business')]}" >
+                        <list editable="bottom">
+                            <field name="sequence" readonly="1" force_save="1"/>
+                            <field name="employee_id" context="{'ctx_view_employee': True, 'business_plan': parent.business_plan}"/>
+                            <field name="level"/>
+                            <field name="phone"/>
+                            <field name="dob"/>
+                            <field name="cccd"/>
+                            <field name="passport"/>
+                        </list>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="employee_id"/>
+                                    <field name="level"/>
+                                    <field name="phone"/>
+                                    <field name="dob"/>
+                                    <field name="cccd"/>
+                                    <field name="passport"/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+                <page string="Máy bay" name="plane_list" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_plane_support', '=', False)]}">
+                    <field name="plane_list_ids" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_plane_support', '=', False)]}">
+                        <list editable="bottom" create="false">
+                            <field name="sequence"/>
+                            <field name="employee_id"/>
+                            <field name="level"/>
+                            <field name="phone"/>
+                            <field name="dob"/>
+                            <field name="cccd"/>
+                            <field name="passport"/>
+                        </list>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="employee_id"/>
+                                    <field name="level"/>
+                                    <field name="phone"/>
+                                    <field name="dob"/>
+                                    <field name="cccd"/>
+                                    <field name="passport"/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+                <page string="Khách sạn" name="hotel_list" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_hotel_support', '=', False)]}">
+                    <field name="hotel_list_ids" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_hotel_support', '=', False)]}" >
+                        <list editable="bottom" create="false">
+                            <field name="sequence"/>
+                            <field name="employee_id"/>
+                            <field name="level"/>
+                            <field name="phone"/>
+                            <field name="location"/>
+                        </list>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="employee_id"/>
+                                    <field name="level"/>
+                                    <field name="phone"/>
+                                    <field name="location"/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+                <page string="Xe" name="car_list" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_car_support', '=', False)]}">
+                    <field name="car_list_ids" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_car_support', '=', False)]}" >
+                        <list editable="bottom" create="false">
+                            <field name="sequence"/>
+                            <field name="employee_id"/>
+                            <field name="level"/>
+                            <field name="phone"/>
+                            <field name="location_start"/>
+                            <field name="location_end"/>
+                            <field name="start_time"/>
+                        </list>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="employee_id"/>
+                                    <field name="level"/>
+                                    <field name="phone"/>
+                                    <field name="location_start"/>
+                                    <field name="location_end"/>
+                                    <field name="start_time"/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ngs_approval_request_asset_view_form" model="ir.ui.view">
+        <field name="name">ngs_approval_request_asset_view_form</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="ngs_approval_request_view_form"/>
+        <field name="mode">primary</field>
+        <field name="priority">10000</field>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="show_button_delivery" invisible="1"/>
+                <button name="button_delivery" string="Đã bàn giao" type="object"  attrs="{'invisible': [('show_button_delivery', '=', False)]}" class="btn-primary"/>
+            </xpath>
+            <xpath expr="//field[@name='request_status']" position="attributes">
+                <attribute name="statusbar_visible">new,pending,approved,delivery</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="required">0</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_done']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='category_id']" position="attributes">
+                <attribute name="domain">[('approval_type', 'in', ['new_asset', 'old_asset', 'person_asset'])]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='job_id']" position="before">
+                <field name="hr_barcode"/>
+                <field name="email"/>
+            </xpath>
+            <xpath expr="//field[@name='department_id']" position="before">
+                <field name="en_block_id"/>
+            </xpath>
+            <xpath expr="//group[@name='request_details']" position="inside">
+                <field name="expected_date" attrs="{'invisible':[('approval_type','==','person_asset')]}"/>
+                <field name="delivery_date" readonly="1" attrs="{'invisible':[('approval_type','==','person_asset')]}"/>
+                <field name="expected_return_date"
+                       attrs="{'invisible':[('has_expected_return_date','==','no')], 'required': [('has_expected_return_date','==','required')]}"/>
+                <field name="actual_return_date"
+                       attrs="{'invisible':[('has_actual_return_date','==','no')], 'required': [('has_actual_return_date','==','required')]}"/>
+                <field name="plan_date_used" attrs="{'invisible':[('approval_type','!=','person_asset')]}"/>
+                <field name="plan_date_end_used" attrs="{'invisible':[('approval_type','!=','person_asset')]}"/>
+                <field name="actual_date_used" attrs="{'invisible':[('approval_type','!=','person_asset')]}"/>
+                <field name="actual_date_end_used" attrs="{'invisible':[('approval_type','!=','person_asset')]}"/>
+            </xpath>
+            <xpath expr="//page[@name='description']" position="before">
+                <page string="Sửa chữa/Nâng cấp TSCĐ" attrs="{'invisible':[('approval_type', '!=', 'old_asset')]}">
+                    <field name="repair_ids" attrs="{'readonly': [('request_status', 'not in', ['new', 'approved', 'progress'])]}">
+                        <list editable="bottom">
+                            <field name="asset_id" domain="[('employee_id.user_id', '=', parent.request_owner_id)]" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
+                            <field name="code" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
+                            <field name="quality" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
+                            <field name="quantity" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
+                            <field name="description" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
+                            <field name="it_id" attrs="{'readonly': [('hr_edit', '=', False)]}"/>
+                            <field name="it_result" optional="show" attrs="{'readonly': [('it_edit', '=', False)]}"/>
+                            <field name="reason_norepair" attrs="{'required': [('it_result', 'in', ['fixable', 'unfixable'])], 'readonly': [('it_edit', '=', False)]}"/>
+                            <field name="state" attrs="{'readonly': [('hr_edit', '=', False)]}"/>
+                            <field name="request_id" invisible="1"/>
+                            <field name="hr_edit" invisible="1"/>
+                            <field name="it_edit" invisible="1"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="TSCD/CCDC" attrs="{'invisible':[('approval_type', '!=', 'new_asset')]}">
+                    <field name="asset_ids">
+                        <list editable="bottom">
+                            <field name="asset_id" invisible="1"/>
+                            <field name="code" invisible="1"/>
+                            <field name="category"/>
+                            <field name="configuration"/>
+                            <field name="model"/>
+                            <field name="quantity"/>
+                            <field name="reason"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="TSCN" attrs="{'invisible':[('approval_type', '!=', 'person_asset')]}">
+                    <field name="person_asset_ids">
+                        <list editable="bottom">
+<!--                            <field name="asset_id" invisible="1"/>-->
+<!--                            <field name="code" invisible="1"/>-->
+                            <field name="asset_type"/>
+                            <field name="asset_name"/>
+                            <field name="quantity"/>
+                            <field name="description"/>
+                            <field name="commitmentBinding"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ngs_approval_request_view_tree" model="ir.ui.view">
+        <field name="name">ngs_approval_request_view_tree</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_request_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='activity_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="string">Tên yêu cầu</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="date"/>
+                <field name="category_id" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='request_owner_id']" position="after">
+                <field name="hr_barcode"/>
+                <field name="mobile_phone"/>
+                <field name="en_block_id" optional="hide"/>
+                <field name="department_id" optional="hide"/>
+                <field name="en_department_id" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="ngs_approval_search_view_search" model="ir.ui.view">
+        <field name="name">ngs_approval_search_view_search</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_search_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="replace">
+                <search>
+                    <field name="name" string="Tất cả" filter_domain="['|', '|', '|', '|', '|', '|', ('name', 'ilike', self), ('hr_barcode', 'ilike', self), ('mobile_phone', 'ilike', self), ('request_owner_id', 'ilike', self), ('en_block_id', 'ilike', self), ('department_id', 'ilike', self), ('en_department_id', 'ilike', self)]"/>
+                    <field name="name"/>
+                    <field name="hr_barcode"/>
+                    <field name="mobile_phone"/>
+                    <field name="request_owner_id"/>
+                    <field name="en_block_id"/>
+                    <field name="department_id"/>
+                    <field name="en_department_id"/>
+                    <filter string="Ngày yêu cầu" name="filter_date" date="date"/>
+                    <separator/>
+                    <filter string="Ngày bàn giao" name="filter_delivery_date" date="delivery_date"/>
+                    <separator/>
+                    <filter string="Để Trình" name="filter_state_new" domain="[('request_status', '=', 'new')]"/>
+                    <filter string="Đã Trình" name="filter_state_pending" domain="[('request_status', '=', 'pending')]"/>
+                    <filter string="Đã phê duyệt" name="filter_state_approved" domain="[('request_status', '=', 'approved')]"/>
+                    <filter string="Đang xử lý" name="filter_state_progress" domain="[('request_status', '=', 'progress')]"/>
+                    <filter string="Đã xử lý" name="filter_state_done" domain="[('request_status', '=', 'done')]"/>
+                    <filter string="Đã bàn giao" name="filter_state_delivery" domain="[('request_status', '=', 'delivery')]"/>
+                    <filter string="Từ chối" name="filter_state_refused" domain="[('request_status', '=', 'refused')]"/>
+                    <filter string="Huỷ" name="filter_state_cancel" domain="[('request_status', '=', 'cancel')]"/>
+                    <separator/>
+                    <group expand="0">
+                        <filter string="Trạng thái" name="groupby_request_status" context="{'group_by':'request_status'}"/>
+                        <filter string="Loại yêu cầu" name="groupby_category_id" context="{'group_by':'category_id'}"/>
+                        <filter string="Người yêu cầu" name="groupby_request_owner_id" context="{'group_by':'request_owner_id'}"/>
+                        <filter string="Khối" name="groupby_en_block_id" context="{'group_by':'en_block_id'}"/>
+                        <filter string="Trung tâm/Ban" name="groupby_department_id" context="{'group_by':'department_id'}"/>
+                        <filter string="Phòng" name="groupby_en_department_id" context="{'group_by':'en_department_id'}"/>
+                        <filter string="HCNS phụ trách" name="groupby_hr_user_ids" context="{'group_by':'hr_user_ids'}"/>
+                    </group>
+                </search>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_asset_new_request_action" model="ir.actions.act_window">
+        <field name="name">Yêu cầu mới</field>
+        <field name="res_model">approval.category</field>
+        <field name="view_mode">kanban</field>
+        <field name="domain">[('approval_type', 'in', ['new_asset', 'old_asset', 'person_asset'])]</field>
+    </record>
+    <record id="account_asset_my_request_action" model="ir.actions.act_window">
+        <field name="name">Yêu cầu của tôi</field>
+        <field name="res_model">approval.request</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('request_owner_id','=',uid), ('category_id.approval_type', 'in', ['new_asset', 'old_asset', 'person_asset'])]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': False}),
+            (0, 0, {'view_mode': 'list', 'view_id': False}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('ngs_approval_request_asset_view_form')}),
+            ]"
+        />
+    </record>
+
+    <record id="account_asset_request_to_review_action" model="ir.actions.act_window">
+        <field name="name">Yêu cầu cần phê duyệt</field>
+        <field name="res_model">approval.request</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('category_id.approval_type', 'in', ['new_asset', 'old_asset', 'person_asset']), '&amp;',('approver_ids.user_id','=',uid),('request_status','=','pending')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': False}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('ngs_approval_request_asset_view_form')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': False}),
+            ]"
+        />
+    </record>
+
+    <record id="account_asset_request_action_all" model="ir.actions.act_window">
+        <field name="name">Danh sách yêu cầu</field>
+        <field name="res_model">approval.request</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('category_id.approval_type', 'in', ['new_asset', 'old_asset', 'person_asset'])]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': False}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('ngs_approval_request_asset_view_form')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': False}),
+            ]"
+        />
+    </record>
+    <record id="account_asset_request_approval_action_all" model="ir.actions.act_window">
+        <field name="name">Danh sách yêu cầu</field>
+        <field name="res_model">approval.request</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('category_id.approval_type', 'in', ['new_asset', 'old_asset', 'person_asset']),('approver_ids.user_id','=',uid)]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': False}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('ngs_approval_request_asset_view_form')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': False}),
+            ]"
+        />
+    </record>
+
+</odoo>

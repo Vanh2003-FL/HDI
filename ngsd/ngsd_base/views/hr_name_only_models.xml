@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="bfsi_tree" model="ir.ui.view">
+        <field name="model">en.bfsi</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="bfsi_act" model="ir.actions.act_window">
+        <field name="res_model">en.bfsi</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="bfsi_menu" model="ir.ui.menu">
+        <field name="action" ref="bfsi_act"/>
+    </record>
+    <record id="name_area_tree" model="ir.ui.view">
+        <field name="model">en.name.area</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+                <field name="en_project_implementation_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="name_area_act" model="ir.actions.act_window">
+        <field name="res_model">en.name.area</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="name_area_menu" model="ir.ui.menu">
+        <field name="action" ref="name_area_act"/>
+    </record>
+    <record id="name_level_tree" model="ir.ui.view">
+        <field name="model">en.name.level</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="sequence"/>
+                <field name="name"/>
+<!--                <field name="code"/>-->
+            </list>
+        </field>
+    </record>
+    <record id="name_level_act" model="ir.actions.act_window">
+        <field name="res_model">en.name.level</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="name_level_menu" model="ir.ui.menu">
+        <field name="action" ref="name_level_act"/>
+    </record>
+    <record id="name_block_tree" model="ir.ui.view">
+        <field name="model">en.name.block</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="area_id" options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
+                <field name="en_project_implementation_id"/>
+                <field name="department_ids" widget="many2many_tags" optional="hide"/>
+                <field name="en_department_ids" widget="many2many_tags" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="name_block_form" model="ir.ui.view">
+        <field name="name">name.block.form</field>
+        <field name="model">en.name.block</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="oe_title">
+                    <h1><field name="name" placeholder="Tên..."/></h1>
+                </div>
+                <group>
+                    <field name="code"/>
+                    <field name="en_project_implementation_id" options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
+                    <field name="area_id" options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
+                    <field name="en_area_ids"
+                       options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"
+                       widget="many2many_tags" groups="base.group_system"/>
+                </group>
+                <notebook>
+                    <page string="Trung tâm/Ban">
+                        <field name="department_ids">
+                            <list>
+                                <field name="code"/>
+                                <field name="name" string="Trung tâm/Ban"/>
+                                <field name="manager_id"/>
+                                <field name="count_hr_employee_ids"/>
+                                <field name="en_department_ids"/>
+                                <field name="block_id"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Phòng">
+                        <field name="en_department_ids">
+                            <list>
+                                <field name="code"/>
+                                <field name="name"/>
+                                <field name="department_id"/>
+                                <field name="block_id"/>
+                                <field name="manager_id"/>
+                                <field name="count_hr_employee"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Vị trí">
+                        <field name="hr_job_ids">
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+   <record id="en_name_block_search" model="ir.ui.view">
+        <field name="name">en.name.block.search</field>
+        <field name="model">en.name.block</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Tất cả" filter_domain="['|', '|', ('name', 'ilike', self), ('code', 'ilike', self), ('area_id', 'ilike', self)]"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="area_id"/>
+                <filter string="Đã lưu" domain="[('active', '=', False)]" name="archive"/>
+                <filter string="Khu vực" name="Khu vực" context="{'group_by':'area_id'}"/>
+            </search>
+        </field>
+   </record>
+    <record id="name_block_act" model="ir.actions.act_window">
+        <field name="res_model">en.name.block</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'list', 'view_id': ref('ngsd_base.name_block_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('ngsd_base.name_block_form')})]"/>
+        <field name="search_view_id" ref="en_name_block_search"/>
+    </record>
+    <record id="name_block_menu" model="ir.ui.menu">
+        <field name="action" ref="name_block_act"/>
+    </record>
+    <record id="department_tree" model="ir.ui.view">
+        <field name="model">en.department</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="block_id"/>
+                <field name="manager_id"/>
+                <field name="count_hr_employee"/>
+            </list>
+        </field>
+    </record>
+    <record id="department_form" model="ir.ui.view">
+        <field name="model">en.department</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="2">
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="manager_id"/>
+                        <field name="deputy_manager_id"/>
+                    </group>
+                    <group>
+                        <field name="department_id"/>
+                        <field name="block_id" force_save="1"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="en_department_search" model="ir.ui.view">
+        <field name="name">en.department</field>
+        <field name="model">en.department</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" string="Tất cả" filter_domain="['|','|','|','|', ('code', 'ilike', self), ('name', 'ilike', self), ('department_id', 'ilike', self), ('block_id', 'ilike', self), ('code_block', 'ilike', self)]"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="block_id"/>
+                <field name="code_block"/>
+                <filter string="Đã lưu" name="archived" domain="[('active', '=', False)]"/>
+                <filter string="Tên Trung tâm/Ban" name="Tên Trung tâm/Ban" context="{'group_by':'department_id'}"/>
+                <filter string="Khối" name="Khối" context="{'group_by':'block_id'}"/>
+                <filter string="Trưởng phòng" name="Trưởng phòng" context="{'group_by':'manager_id'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="department_act" model="ir.actions.act_window">
+        <field name="res_model">en.department</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="en_department_search"/>
+    </record>
+    <record id="department_menu" model="ir.ui.menu">
+        <field name="action" ref="department_act"/>
+    </record>
+    <record id="role_tree" model="ir.ui.view">
+        <field name="model">en.role</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="role_act" model="ir.actions.act_window">
+        <field name="res_model">en.role</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="role_menu" model="ir.ui.menu">
+        <field name="action" ref="role_act"/>
+    </record>
+    <record id="job_position_tree" model="ir.ui.view">
+        <field name="model">en.job.position</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+                <field name="sequence"/>
+                <field name="parent_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="job_position_act" model="ir.actions.act_window">
+        <field name="res_model">en.job.position</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="job_position_menu" model="ir.ui.menu">
+        <field name="action" ref="job_position_act"/>
+    </record>
+    <record id="project_type_tree" model="ir.ui.view">
+        <field name="model">en.project.type</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+                <field name="is_presale"/>
+            </list>
+        </field>
+    </record>
+    <record id="project_type_act" model="ir.actions.act_window">
+        <field name="res_model">en.project.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="project_type_menu" model="ir.ui.menu">
+        <field name="action" ref="project_type_act"/>
+    </record>
+    <record id="project_model_tree" model="ir.ui.view">
+        <field name="model">en.project.model</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="project_model_act" model="ir.actions.act_window">
+        <field name="res_model">en.project.model</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="project_model_menu" model="ir.ui.menu">
+        <field name="action" ref="project_model_act"/>
+    </record>
+    <record id="branch_tree" model="ir.ui.view">
+        <field name="model">en.branch</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="branch_act" model="ir.actions.act_window">
+        <field name="res_model">en.branch</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="branch_menu" model="ir.ui.menu">
+        <field name="action" ref="branch_act"/>
+    </record>
+    <record id="type_tree" model="ir.ui.view">
+        <field name="name">Loại nhân sự</field>
+        <field name="model">en.type</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+                <field name="internal_ok"/>
+                <field name="en_internal" invisible="1"/>
+                <field name="is_os"/>
+                <field name="is_hidden"/>
+                <field name="is_intern"/>
+            </list>
+        </field>
+    </record>
+    <record id="type_act" model="ir.actions.act_window">
+        <field name="name">Loại nhân sự</field>
+        <field name="res_model">en.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="type_menu" model="ir.ui.menu">
+        <field name="name">Loại nhân sự</field>
+        <field name="action" ref="type_act"/>
+    </record>
+    <record id="view_unit_tree" model="ir.ui.view">
+        <field name="model">en.view.unit</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_unit_act" model="ir.actions.act_window">
+        <field name="res_model">en.view.unit</field>
+        <field name="view_mode">list</field>
+    </record>
+<!--    <record id="view_unit_menu" model="ir.ui.menu">-->
+<!--        <field name="action" ref="view_unit_act"/>-->
+<!--    </record>-->
+    <record id="list_project_tree" model="ir.ui.view">
+        <field name="model">en.list.project</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="list_project_act" model="ir.actions.act_window">
+        <field name="res_model">en.list.project</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="list_project_menu" model="ir.ui.menu">
+        <field name="action" ref="list_project_act"/>
+    </record>
+    <record id="customer_type_tree" model="ir.ui.view">
+        <field name="model">en.customer.type</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="customer_type_act" model="ir.actions.act_window">
+        <field name="res_model">en.customer.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="customer_type_menu" model="ir.ui.menu">
+        <field name="action" ref="customer_type_act"/>
+    </record>
+    <record id="stage_type_tree" model="ir.ui.view">
+        <field name="model">en.stage.type</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="stage_type_act" model="ir.actions.act_window">
+        <field name="res_model">en.stage.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="stage_type_menu" model="ir.ui.menu">
+        <field name="action" ref="stage_type_act"/>
+    </record>
+
+    <record id="risk_scope_tree" model="ir.ui.view">
+        <field name="model">en.risk.scope</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="code"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="risk_scope_act" model="ir.actions.act_window">
+        <field name="res_model">en.risk.scope</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="risk_scope_menu" model="ir.ui.menu">
+        <field name="action" ref="risk_scope_act"/>
+    </record>
+
+    <record id="iso_type_tree" model="ir.ui.view">
+        <field name="model">en.iso.type</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="code"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="iso_type_act" model="ir.actions.act_window">
+        <field name="res_model">en.iso.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="iso_type_menu" model="ir.ui.menu">
+        <field name="action" ref="iso_type_act"/>
+    </record>
+
+    <record id="strategy_handle_tree" model="ir.ui.view">
+        <field name="model">en.strategy.handle</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="type"/>
+            </list>
+        </field>
+    </record>
+    <record id="strategy_handle_act" model="ir.actions.act_window">
+        <field name="res_model">en.strategy.handle</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="strategy_handle_menu" model="ir.ui.menu">
+        <field name="action" ref="strategy_handle_act"/>
+    </record>
+
+    <record id="effect_level_tree" model="ir.ui.view">
+        <field name="model">en.effect.level</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="effect_level_form" model="ir.ui.view">
+        <field name="model">en.effect.level</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="score"/>
+                            <field name="prestige"/>
+                            <field name="legal"/>
+                        </group>
+                        <group>
+                            <field name="finance"/>
+                            <field name="activ"/>
+                            <field name="cost_handle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="effect_level_act" model="ir.actions.act_window">
+        <field name="res_model">en.effect.level</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="effect_level_menu" model="ir.ui.menu">
+        <field name="action" ref="effect_level_act"/>
+    </record>
+
+    <record id="risk_level_tree" model="ir.ui.view">
+        <field name="model">en.risk.level</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="min"/>
+                <field name="max"/>
+                <field name="name"/>
+                <field name="type"/>
+                <field name="priority" widget="priority"/>
+            </list>
+        </field>
+    </record>
+    <record id="risk_level_form" model="ir.ui.view">
+        <field name="model">en.risk.level</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <label for="min" string="Điểm chặn"/>
+                            <div class="o_row">
+                                <field name="min"/>
+                                <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                                <field name="max"/>
+                            </div>
+                            <field name="type"/>
+                            <field name="definition"/>
+                        </group>
+                        <group>
+                            <field name="priority" widget="priority"/>
+                            <field name="strategy_handle"/>
+                            <field name="method_handle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="risk_level_act" model="ir.actions.act_window">
+        <field name="res_model">en.risk.level</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="risk_level_menu" model="ir.ui.menu">
+        <field name="action" ref="risk_level_act"/>
+    </record>
+
+    <record id="risk_stage_tree" model="ir.ui.view">
+        <field name="model">en.risk.stage</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="risk_stage_act" model="ir.actions.act_window">
+        <field name="name">Tình trạng</field>
+        <field name="res_model">en.risk.stage</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="risk_stage_menu" model="ir.ui.menu">
+        <field name="name">Tình trạng</field>
+        <field name="action" ref="risk_stage_act"/>
+    </record>
+
+    <record id="en_possible_rate_tree" model="ir.ui.view">
+        <field name="model">en.possible.rate</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="rate"/>
+                <field name="criteria"/>
+            </list>
+        </field>
+    </record>
+    <record id="en_possible_rate_form" model="ir.ui.view">
+        <field name="model">en.possible.rate</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="rate"/>
+                            <field name="criteria"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="en_possible_rate_action" model="ir.actions.act_window">
+        <field name="name">Khả năng xảy ra</field>
+        <field name="res_model">en.possible.rate</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="en_possible_rate_menu" model="ir.ui.menu">
+        <field name="name">Khả năng xảy ra</field>
+        <field name="action" ref="en_possible_rate_action"/>
+    </record>
+
+    <record id="en_risk_sla_tree" model="ir.ui.view">
+        <field name="model">en.risk.sla</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="action"/>
+                <field name="time_limit"/>
+                <field name="type"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="en_risk_sla_action" model="ir.actions.act_window">
+        <field name="name">Chính sách SLA</field>
+        <field name="res_model">en.risk.sla</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="en_risk_sla_menu" model="ir.ui.menu">
+        <field name="name">Chính sách SLA</field>
+        <field name="action" ref="en_risk_sla_action"/>
+    </record>
+
+    <record id="risk_type_tree" model="ir.ui.view">
+        <field name="model">en.risk.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="code"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="risk_type_act" model="ir.actions.act_window">
+        <field name="res_model">en.risk.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="risk_type_menu" model="ir.ui.menu">
+        <field name="action" ref="risk_type_act"/>
+    </record>
+
+<record id="risk_tree" model="ir.ui.view">
+        <field name="name">Rủi ro/Cơ hội</field>
+        <field name="model">en.risk</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="stage_id"/>
+                <field name="name"/>
+<!--                <field name="risk_level_priority" string='Mức độ rủi ro' widget="priority"/>-->
+                <field name="risk_level_id"/>
+                <field name="priority_id"/>
+                <field name="creator_id"/>
+                <field name="pic_id"/>
+                <field name="en_create_date"/>
+                <field name="deadline"/>
+                <field name="date_end"/>
+            </list>
+        </field>
+    </record>
+    <record id="risk_kanban" model="ir.ui.view">
+        <field name="name">Rủi ro/Cơ hội</field>
+        <field name="model">en.risk</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="stage_id"/>
+                <field name="risk_level_id"/>
+                <field name="creator_id"/>
+                <field name="en_create_date"/>
+                <field name="date_end"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div>
+                                <b>Tên rủi ro/cơ hội</b>: <field name="name"/><br/>
+                                <b>Tình trạng</b>: <field name="stage_id"/><br/>
+                                <b>Mức độ rủi ro</b>: <field name="risk_level_id"/><br/>
+                                <b>Người phản ánh</b>: <field name="creator_id"/><br/>
+                                <b>Ngày phản ánh</b>: <field name="en_create_date"/><br/>
+                                <b>Ngày đóng</b>: <field name="date_end"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="risk_form" model="ir.ui.view">
+        <field name="name">Rủi ro/Cơ hội</field>
+        <field name="model">en.risk</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" force_save="1"/>
+                            <field name="creator_id"/>
+                            <field name="type" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="risk_type_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="iso_type_id"/>
+                            <field name="security"/>
+                            <field name="strategy_handle_id" domain="[('type','=',type)]" options="{'no_create': True, 'no_open': True}"/>
+<!--                            <field name="impact"/>-->
+                            <field name="pic_id"/>
+<!--                            <field name="tic_id"/>-->
+                        </group>
+                        <group>
+                            <field name="project_stage_id"/>
+                            <field name="en_create_date"/>
+<!--                            <field name="risk_scope_id"/>-->
+                            <field name="deadline"/>
+                            <field name="effect_level_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="possible_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="risk_level_id" domain="[('type','=',type)]" options="{'no_open': True}"/>
+<!--                            <field name="priority" widget="priority"/>-->
+<!--                            <field name="priority_id"/>-->
+                            <field name="priority_new"/>
+                            <field name="descrip"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+<!--                            <field name="against"/>-->
+                            <field name="recover"/>
+                        </group>
+                        <group>
+                            <field name="analyst"/>
+<!--                            <field name="leftover"/>-->
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="date_end"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Rủi ro/Cơ hội còn lại">
+                            <field name="risk_leftover">
+                                <list default_order="en_create_date desc">
+                                    <field name="en_create_date"/>
+                                    <field name="pic_id"/>
+                                    <field name="risk_level_id"/>
+                                    <field name="combination"/>
+                                    <field name="detailed_cause"/>
+                                    <field name="plan"/>
+                                    <field name="en_deadline_date"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="en_create_date"/>
+                                        <field name="risk_level_id"/>
+                                        <field name="pic_id"/>
+                                        <field name="combination"/>
+                                        <field name="detailed_cause"/>
+                                        <field name="plan"/>
+                                        <field name="en_deadline_date"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="risk_act" model="ir.actions.act_window">
+        <field name="name">Rủi ro/Cơ hội</field>
+        <field name="res_model">en.risk</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <record id="inf_expand_tree" model="ir.ui.view">
+        <field name="name">Hạng mục</field>
+        <field name="model">en.inf.expand</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="inf_expand_act" model="ir.actions.act_window">
+        <field name="name">Hạng mục</field>
+        <field name="res_model">en.inf.expand</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="inf_expand_menu" model="ir.ui.menu">
+        <field name="name">Hạng mục</field>
+        <field name="action" ref="inf_expand_act"/>
+    </record>
+
+
+    <record id="problem_search" model="ir.ui.view">
+        <field name="model">en.problem</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_stage_id"/>
+                <field name="stage_id"/>
+                <field name="name" string="Tên vấn đề"/>
+                <field name="en_creator_id"/>
+                <field name="project_id"/>
+                <filter invisible="0" string="Quá hạn" name="overdue" domain="[('overdue_ok', '=', True)]"/>
+                <filter invisible="0" string="Chưa quá hạn" name="not_overdue" domain="[('overdue_ok', '!=', True)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="problem_tree" model="ir.ui.view">
+        <field name="model">en.problem</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="stage_id"/>
+                <field name="display_name" string="Tên"/>
+                <field name="en_creator_id"/>
+                <field name="priority_id"/>
+                <field name="problem_level_id"/>
+                <field name="en_create_date"/>
+                <field name="project_stage_id"/>
+                <field name="deadline"/>
+                <field name="date_end"/>
+            </list>
+        </field>
+    </record>
+    <record id="problem_form" model="ir.ui.view">
+        <field name="model">en.problem</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" force_save="1"/>
+                            <field name="en_creator_id"/>
+                            <field name="inf_expand_id"/>
+                            <field name="pic_id"/>
+                            <field name="tic_id"/>
+                        </group>
+                        <group>
+                            <field name="project_stage_id"/>
+                            <field name="en_create_date"/>
+                            <field name="deadline"/>
+                            <field name="priority_id"/>
+                            <field name="problem_level_id"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <group string="Mô tả">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <group string="Phương án giải quyết">
+                        <field name="solution_plan" nolabel="1"/>
+                    </group>
+                    <group string="Ảnh hưởng">
+                        <field name="effect" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/><field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="problem_kanban" model="ir.ui.view">
+        <field name="model">en.problem</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="project_stage_id"/>
+                <field name="priority_id"/>
+                <field name="en_create_date"/>
+                <field name="deadline"/>
+                <field name="en_creator_id"/>
+                <field name="pic_id"/>
+                <field name="activity_ids"/>
+                <field name="activity_state"/>
+                <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click">
+                            <div>
+                                <strong class="o_kanban_record_title"><b><field name="display_name"/></b></strong>
+                            </div>
+                            <div>
+                                <div><b>Giai đoạn: </b><field name="project_stage_id"/><br/></div>
+                                <div><b>Ngày phản ánh: </b><field name="en_create_date"/><br/></div>
+                                <div><b>Hạn hoàn thành: </b><field name="deadline"/><br/></div>
+                            </div>
+                            <br/>
+                            <div>
+                                <div><b>Người phản ánh: </b><field name="en_creator_id"/><br/></div>
+                                <div><b>Người chịu trách nhiệm: </b><field name="pic_id"/><br/></div>
+                                <div><b>Mức độ ưu tiên: </b><field name="priority_id"/><br/></div>
+                            </div>
+
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+<!--                                    <field name="priority" widget="priority"/>-->
+<!--                                    <div class="o_kanban_inline_block">-->
+<!--                                        <field name="activity_ids" widget="kanban_activity"/>-->
+<!--                                    </div>-->
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="en_creator_id" widget="many2one_avatar_user"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="en_problem_act" model="ir.actions.act_window">
+        <field name="res_model">en.problem</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+</odoo>

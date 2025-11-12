@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template xml:space="preserve">
+    <t t-name="MBHrAttendanceMyMainMenu" t-inherit="hr_attendance.HrAttendanceMyMainMenu" t-inherit-mode="extension">
+        <xpath expr="//h4[hasclass('mt0')]" position="before">
+            <t t-set="checked_in" t-value="widget.employee.attendance_state=='checked_in'"/>
+            <t t-set="en_checked_diff_ok" t-value="widget.en_checked_diff_ok == true"/>
+            <div class="mb-2" t-if="!checked_in or (checked_in and en_checked_diff_ok)">
+                <div class="title-form text-bold d-inline-flex col-12 text-left" style="display: flex !important;align-items: center;">
+                    <label class="col-4" for="location_id" style="font-weight: 700;">Địa điểm</label>
+                    <select class="form-control text-bold col-8" id="en_location_id" name="en_location_id" data-init="1">
+                        <t t-foreach="widget.locations" t-as="selection">
+                            <t t-if="selection.default_value == selection.id">
+                                <option t-att-value="selection.id" selected="selected">
+                                    <t t-esc="selection.name"/>
+                                </option>
+                            </t>
+                            <t t-else="">
+                                <option t-att-value="selection.id">
+                                    <t t-esc="selection.name"/>
+                                </option>
+                            </t>
+                        </t>
+                    </select>
+                </div>
+            </div>
+        </xpath>
+    </t>
+    <t t-name="MBHrAttendanceGreetingMessage" t-inherit="hr_attendance.HrAttendanceGreetingMessage" t-inherit-mode="extension">
+<!--        <xpath expr="//div[@role='status'][2]" position="attributes">-->
+<!--            <attribute name="style">display:none</attribute>-->
+<!--        </xpath>-->
+        <xpath expr="//button[hasclass('o_hr_attendance_button_dismiss')]" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+    </t>
+</template>

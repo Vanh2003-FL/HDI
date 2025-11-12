@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="ngsc_constance.list">
+      <field name="name">ngsc_constance list</field>
+      <field name="model">ngsc_constance.ngsc_constance</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="ngsc_constance.action_window">
+      <field name="name">ngsc_constance window</field>
+      <field name="res_model">ngsc_constance.ngsc_constance</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="ngsc_constance.action_server">
+      <field name="name">ngsc_constance server</field>
+      <field name="model_id" ref="model_ngsc_constance_ngsc_constance"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="ngsc_constance" id="ngsc_constance.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="ngsc_constance.menu_1" parent="ngsc_constance.menu_root"/>
+    <menuitem name="Menu 2" id="ngsc_constance.menu_2" parent="ngsc_constance.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="ngsc_constance.menu_1_list" parent="ngsc_constance.menu_1"
+              action="ngsc_constance.action_window"/>
+    <menuitem name="Server to list" id="ngsc_constance" parent="ngsc_constance.menu_2"
+              action="ngsc_constance.action_server"/>
+-->
+  </data>
+</odoo>

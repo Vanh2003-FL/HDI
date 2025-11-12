@@ -1,0 +1,118 @@
+#. module: project
+#: model:ir.model.fields,field_description:project.field_project_project__stage_id
+#: model:ir.model.fields,field_description:project.field_project_task__stage_id
+#: model_terms:ir.ui.view,arch_db:project.portal_tasks_list
+#: model_terms:ir.ui.view,arch_db:project.project_sharing_project_task_view_search
+#: model_terms:ir.ui.view,arch_db:project.project_task_burndown_chart_report_view_search
+#: model_terms:ir.ui.view,arch_db:project.view_project_project_filter
+#: model_terms:ir.ui.view,arch_db:project.view_task_project_user_search
+#: model_terms:ir.ui.view,arch_db:project.view_task_search_form
+msgid "Stage"
+msgstr "Trạng thái"
+
+
+#. module: project
+#: model:ir.model.fields,field_description:project.field_project_task__kanban_state
+#: model:ir.model.fields,field_description:project.field_project_update__status
+#: model_terms:ir.ui.view,arch_db:project.view_project
+#: model_terms:ir.ui.view,arch_db:project.view_project_calendar
+#: model_terms:ir.ui.view,arch_db:project.view_project_project_filter
+msgid "Status"
+msgstr "Trạng thái kanban"
+
+#. module: project
+#: model:ir.model.fields,field_description:project.field_project_task__planned_hours
+msgid "Initially Planned Hours"
+msgstr "Số giờ dự kiến"
+
+#. module: hr_timesheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet.project_sharing_inherit_project_task_view_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet.project_sharing_inherit_project_task_view_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet.view_task_form2_inherited
+#: model_terms:ir.ui.view,arch_db:hr_timesheet.view_task_tree2_inherited
+msgid "Initially Planned Hours"
+msgstr "Số giờ dự kiến"
+
+#. module: hr_holidays
+#: model:ir.model.fields,field_description:hr_holidays.field_hr_employee__leave_manager_id
+#: model:ir.model.fields,field_description:hr_holidays.field_hr_employee_base__leave_manager_id
+#: model:ir.model.fields,field_description:hr_holidays.field_hr_employee_public__leave_manager_id
+msgid "Time Off"
+msgstr "Người duyệt nghỉ phép"
+
+#. module: hr_timesheet
+#: model:ir.model.fields,field_description:hr_timesheet.field_account_analytic_line__department_id
+#: model_terms:ir.ui.view,arch_db:hr_timesheet.hr_timesheet_line_search
+msgid "Department"
+msgstr "Trung tâm"
+
+#. module: hr_contract
+#: model:ir.model,name:hr_contract.model_hr_contract_type
+#: model:ir.model.fields,field_description:hr_contract.field_hr_contract__contract_type_id
+#: model:ir.model.fields,field_description:hr_contract.field_hr_contract_history__contract_type_id
+msgid "Contract Type"
+msgstr "Loại hợp đồng"
+
+#. module: hr_contract
+#: model_terms:ir.ui.view,arch_db:hr_contract.hr_contract_view_search
+msgid "Not Running"
+msgstr "Hết hạn"
+
+#. module: hr_contract
+#: model:ir.model.fields.selection,name:hr_contract.selection__hr_contract__state__open
+#: model:ir.model.fields.selection,name:hr_contract.selection__hr_contract_history__state__open
+#: model_terms:ir.ui.view,arch_db:hr_contract.hr_contract_view_search
+msgid "Running"
+msgstr "Hoạt động"
+
+#. module: hr
+#: model:ir.model.fields,field_description:hr.field_hr_employee__children
+#: model:ir.model.fields,field_description:hr.field_res_users__children
+msgid "Number of Children"
+msgstr "Số lượng người"
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.resume_line_view_form
+msgid "Title"
+msgstr "Tiêu đề"
+
+#. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.view_employee_filter
+#: model_terms:ir.ui.view,arch_db:hr.view_hr_job_form
+#: model_terms:ir.ui.view,arch_db:hr.view_hr_job_tree
+msgid "Job"
+msgstr "Chức danh"
+
+#. module: hr
+#: model:ir.model.fields,field_description:hr.field_hr_employee__address_home_id
+msgid "Address"
+msgstr "Địa chỉ hiện tại"
+
+#. module: hr
+#: model:ir.model.fields,field_description:hr.field_hr_job__name
+msgid "Job Position"
+msgstr "Chức danh"
+
+#. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.view_employee_form
+msgid "Related User"
+msgstr "Tài khoản người dùng"
+
+#. module: hr
+#: model:ir.model.fields,field_description:hr.field_hr_department__manager_id
+msgid "Manager"
+msgstr "GĐ Khối NDU"
+
+#. module: hr_holidays
+#: model:ir.model.fields.selection,name:hr_holidays.selection__hr_leave__state__draft
+#: model:ir.model.fields.selection,name:hr_holidays.selection__hr_leave_allocation__state__draft
+#: model:ir.model.fields.selection,name:hr_holidays.selection__hr_leave_employee_type_report__state__draft
+#: model:ir.model.fields.selection,name:hr_holidays.selection__hr_leave_report__state__draft
+#: model:ir.model.fields.selection,name:hr_holidays.selection__hr_leave_report_calendar__state__draft
+msgid "To Submit"
+msgstr "Mới"
+
+#. module: hr_holidays
+#: model:ir.model.fields,field_description:hr_holidays.field_hr_leave_allocation__date_to
+msgid "End Date"
+msgstr "Ngày hết hạn"

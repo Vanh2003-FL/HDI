@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="change_access_wizard_view" model="ir.ui.view">
+        <field name="name">Change Access</field>
+        <field name="model">change.access.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Change Access">
+                <h1>
+                    <field name="user_id" invisible="1"/>
+                </h1>
+                <notebook colspan="4">
+                    <page name="access_rights" string="Quyền truy cập">
+                        <field name="groups_id"/>
+                    </page>
+                </notebook>
+                <footer>
+                    <button string="Xác nhận" name="change_access_button" type="object" class="btn-primary"/>
+                    <button string="Hủy" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="user_groups_view" model="ir.ui.view">
+        <field name="name">Change Access Users</field>
+        <field name="model">change.access.wizard</field>
+        <field name="inherit_id" ref="change_access_wizard_view"/>
+        <field name="arch" type="xml">
+            <field name="groups_id" position="after"/>
+        </field>
+    </record>
+
+    <record model="res.groups" id="base.group_no_one"/>
+
+    <record id="change_access_wizard_act" model="ir.actions.act_window">
+        <field name="name">Quyền truy cập</field>
+        <field name="res_model">change.access.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="change_access_wizard_view"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

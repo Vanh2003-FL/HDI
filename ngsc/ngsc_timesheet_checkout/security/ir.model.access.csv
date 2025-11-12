@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_timesheet_checkout_wizard_user,access.timesheet.checkout.wizard.user,model_timesheet_checkout_wizard,base.group_user,1,1,1,1
+access_timesheet_checkout_line_user,access.timesheet.checkout.line.user,model_timesheet_checkout_line,base.group_user,1,1,1,1
+access_project_task_timesheet_user,access.project.task.timesheet.user,model_project_task_timesheet,base.group_user,1,1,1,1
+access_hr_attendance_user,access.hr.attendance.user,model_hr_attendance,base.group_user,1,1,1,1
+access_timesheet_warning_wizard_user,access.timesheet.warning.wizard.user,model_timesheet_warning_wizard,base.group_user,1,1,1,1
+access_timesheet_setting_wizard,timesheet.setting.wizard,model_timesheet_setting_wizard,base.group_user,1,1,1,0
+access_timesheet_checkout_line_wizard_all,timesheet.checkout.line.wizard,model_timesheet_checkout_line_wizard,base.group_user,1,1,1,1
+access_timesheet_checkout_line_wizard,timesheet.checkout.line.wizard,model_timesheet_checkout_line_wizard,,1,1,1,0

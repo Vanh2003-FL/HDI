@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="website_pages_form_view_inherit" model="ir.ui.view">
+        <field name="name">website.page.form.inherit</field>
+        <field name="model">website.page</field>
+        <field name="inherit_id" ref="website.website_pages_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='menu_ids']" position="after">
+                <field name="image_ids"  groups="website.group_website_publisher,website.group_website_designer">
+                   <label for="image_ids" string="Ảnh Sự kiện"/>
+                    <list editable="bottom">
+                        <field name="name_event"/>
+                        <field name="image_event"/>
+                        <field name="url_event"/>
+                        <field name="date_event"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_blog_post_form_inherit" model="ir.ui.view">
+        <field name="name">blog.post.form.inherit</field>
+        <field name="model">blog.post</field>
+        <field name="inherit_id" ref="website_blog.view_blog_post_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='post_date']" position="after">
+                 <field name="pdf_attachment" widget="binary" filename="pdf_attachment_name"/>
+                 <field name="pdf_attachment_name" invisible="1"/>
+                 <field name="pdf_attachment_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <menuitem id="website.menu_website_global_configuration"
+        parent="website.menu_website_configuration"
+        groups="website.group_website_publisher,website.group_website_designer"/>
+</odoo>

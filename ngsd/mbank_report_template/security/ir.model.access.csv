@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+mbank_report_template.access_en_report_template_group_erp_manager,access_en_report_template_group_erp_manager,mbank_report_template.model_en_report_template,base.group_erp_manager,1,0,0,0
+mbank_report_template.access_en_report_template_group_system,access_en_report_template_group_system,mbank_report_template.model_en_report_template,base.group_system,1,1,1,1
+mbank_report_template.access_x_sms_params,access_x_sms_params,mbank_report_template.model_x_sms_params,base.group_system,1,1,1,1

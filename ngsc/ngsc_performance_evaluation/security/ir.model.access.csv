@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_hr_employee_state,hr.employee.state,model_hr_employee_state,,1,0,0,0
+access_hr_performance_evaluation_user,hr.performance.evaluation.user,model_ngsc_hr_performance_evaluation,,1,1,0,0
+access_hr_performance_evaluation_task_user,hr.performance.evaluation.task.user,model_ngsc_hr_performance_evaluation_task,,1,1,0,0
+access_hr_performance_evaluation_exclude_group_cbf,hr.performance.evaluation.exclude.group_cbf,model_ngsc_hr_performance_evaluation_exclude,ngsd_base.group_cbf,1,1,1,1
+access_performance_evaluation_wizard,performance.evaluation.wizard,model_performance_evaluation_wizard,,1,1,1,1
+access_performance_evaluation_report,performance.evaluation.report,model_performance_evaluation_report,,1,1,1,1
+access_performance_evaluation_exclude_wizard,performance.evaluation.exclude.wizard,model_performance_evaluation_exclude_wizard,,1,1,1,1
+access_hr_performance_evaluation_exclude_detail_group_cbf,hr.performance.evaluation.exclude.detail.group_cbf,model_ngsc_hr_performance_evaluation_exclude_detail,ngsd_base.group_cbf,1,1,1,1
+access_task_evaluation,task.evaluation,model_task_evaluation,,1,1,1,1
+access_remind_evaluation_wizard,remind.evaluation.wizard,model_remind_evaluation_wizard,,1,1,1,1

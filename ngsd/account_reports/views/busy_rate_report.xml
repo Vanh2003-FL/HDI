@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="busy_rate_report_tree" model="ir.ui.view">
+        <field name="name">busy_rate_report_tree</field>
+        <field name="model">busy.rate.report</field>
+        <field name="arch" type="xml">
+            <list limit="10000" class="report_tree_view">
+                <field name="user_id" invisible="1"/>
+                <field name="en_area_id" optional="show"/>
+                <field name="department_id" optional="show"/>
+                <field name="type_employee_id" optional="show"/>
+                <field name="employee_id" optional="show"/>
+                <field name="work_email" optional="show"/>
+                <field name="standard_hours" optional="show"/>
+                <field name="leave_hours" optional="show"/>
+                <field name="project_hours" optional="show"/>
+                <field name="other_nonproject_hours" optional="show"/>
+                <field name="kd_nonproject_hours" optional="show"/>
+                <field name="presale_nonproject_hours" optional="show"/>
+                <field name="support_project_hours" optional="show"/>
+                <field name="project_rate" optional="show"/>
+                <field name="other_rate" optional="show"/>
+                <field name="kd_rate" optional="show"/>
+                <field name="presale_rate" optional="show"/>
+                <field name="support_project_rate" optional="show"/>
+                <field name="all_rate" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="busy_rate_report_search" model="ir.ui.view">
+        <field name="name">busy_rate_report_search</field>
+        <field name="model">busy.rate.report</field>
+        <field name="arch" type="xml">
+            <search >
+                <field name="employee_id" string="Nhân viên" filter_domain="['|', '|', ('employee_id.work_email', 'ilike', self), ('employee_id.name', 'ilike', self), ('employee_id.barcode', 'ilike', self)]"/>
+                <field name="department_id"/>
+                <separator/>
+            </search>
+        </field>
+    </record>
+
+    <record id="busy_rate_report_action_server" model="ir.actions.server">
+        <field name="name">Báo cáo Busy rate chi tiết</field>
+        <field name="model_id" ref="account_reports.model_busy_rate_report"/>
+        <field name="binding_model_id" eval="False"/>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Báo cáo Busy rate chi tiết',
+    'res_model': 'report.info.popup',
+    'views': [[env.ref('account_reports.report_info_popup_form').id, 'form']],
+    'context': {'default_dest_model': 'busy.rate.report', 'default_dest_name': 'Báo cáo Busy rate chi tiết'},
+    'target': 'new',
+}
+        </field>
+    </record>
+
+    <record id="menu_busy_rate_report" model="ir.ui.menu">
+        <field name="name">Báo cáo Busy rate chi tiết</field>
+        <field name="action" ref="busy_rate_report_action_server"/>
+        <field name="sequence">40</field>
+    </record>
+</odoo>

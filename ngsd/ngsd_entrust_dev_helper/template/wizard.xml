@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="_form" model="ir.ui.view">
+        <field name="name"></field>
+        <field name="model"></field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="name"/>
+                <footer>
+                    <button string='Xác nhận' name="do" type="object" class="oe_highlight"/>
+                    <button string="Hủy" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

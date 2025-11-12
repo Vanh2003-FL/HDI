@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_os_expense,access_os_expense,model_os_expense,,1,1,1,1
+
+access_expense_detail,access_expense_detail,model_en_expense_detail,ngsd_base.group_tptc,1,1,1,1
+
+access_history_level,access_history_level,model_history_level,,1,1,1,1
+
+access_en_bmm_stage,access_en_bmm_stage,model_en_bmm_stage,,1,1,1,1
+
+access_project_decision_bmm_stage,access_project_decision_bmm_stage,model_project_decision_bmm_stage,,1,1,1,1
+
+access_project_decision_bmm,access_project_decision_bmm,model_project_decision_bmm,,1,1,1,1
+
+access_ngsc_resource_expense,access_ngsc_resource_expense,model_ngsc_resource_expense,,1,1,1,1

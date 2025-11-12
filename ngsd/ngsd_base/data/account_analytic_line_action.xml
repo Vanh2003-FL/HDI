@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        <record id="action_reject_account_analytic_line" model="ir.actions.server">-->
+<!--            <field name="name">Từ chối timesheet</field>-->
+<!--            <field name="model_id" ref="ngsd_base.model_account_analytic_line"/>-->
+<!--            <field name="binding_model_id" ref="ngsd_base.model_account_analytic_line"/>-->
+<!--            <field name="binding_view_types">list</field>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="sequence">15</field>-->
+<!--            <field name="code">action = records.action_reject_timesheet()</field>-->
+<!--        </record>-->
+<!--        <record id="action_approve_account_analytic_line" model="ir.actions.server">-->
+<!--            <field name="name">Duyệt timesheet</field>-->
+<!--            <field name="model_id" ref="ngsd_base.model_account_analytic_line"/>-->
+<!--            <field name="binding_model_id" ref="ngsd_base.model_account_analytic_line"/>-->
+<!--            <field name="binding_view_types">list</field>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="sequence">10</field>-->
+<!--            <field name="code">action = records.action_approve_timesheet()</field>-->
+<!--        </record>-->
+        <record id="action_cancel_account_analytic_line" model="ir.actions.server">
+            <field name="name">Từ chối hủy duyệt timesheet</field>
+            <field name="model_id" ref="ngsd_base.model_account_analytic_line"/>
+            <field name="binding_model_id" ref="ngsd_base.model_account_analytic_line"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="sequence">20</field>
+            <field name="code">action = records.action_cancel_cancel_timesheet()</field>
+            <field name='groups_id' eval="[(4, ref('ngsd_base.group_pm'))]"/>
+        </record>
+    </data>
+</odoo>

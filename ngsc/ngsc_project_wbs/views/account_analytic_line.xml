@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="hr_timesheet_line_tree_inherit" model="ir.ui.view">
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="en_project_stage_id" position="replace">
+                <field name="en_phase_id" optional="hide"/>
+            </field>
+        </field>
+    </record>
+</odoo>

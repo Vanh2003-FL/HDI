@@ -1,0 +1,48 @@
+<odoo>
+    <record id="view_project_form_inherit_qa_extend" model="ir.ui.view">
+        <field name="name">project.project.form.inherit.qa.extend</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="ngsd_base.edit_project"/>
+        <field name="arch" type="xml">
+            <!-- Ẩn trường en_project_qa_id nếu tồn tại -->
+            <xpath expr="//field[@name='en_project_qa_id']" position="attributes">
+                <attribute name="string">QA chính</attribute>
+            </xpath>
+            <!-- Thêm trường en_project_qa_ids sau user_id -->
+            <xpath expr="//field[@name='en_project_qa_id']" position="after">
+                <field name="en_project_qa_ids" string="QA" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_project_tree_inherit_qa_extend" model="ir.ui.view">
+        <field name="name">project.project.tree.inherit.qa.extend</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="ngsd_base.view_project"/>
+        <field name="arch" type="xml">
+            <!-- Ẩn trường en_project_qa_id nếu tồn tại -->
+            <xpath expr="//field[@name='en_project_qa_id']" position="attributes">
+                <attribute name="string">QA chính</attribute>
+            </xpath>
+            <!-- Thêm trường en_project_qa_ids sau user_id -->
+            <xpath expr="//field[@name='en_project_qa_id']" position="after">
+                <field name="en_project_qa_ids" string="QA" widget="many2many_tags" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_project_filter_inherit_qa_extend" model="ir.ui.view">
+        <field name="name">project.project.kanban.inherit.qa.extend</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="ngsd_base.ngsd_view_project_project_filter"/>
+        <field name="arch" type="xml">
+            <!-- Ẩn trường en_project_qa_id nếu tồn tại -->
+            <xpath expr="//field[@name='en_project_qa_id']" position="attributes">
+                <attribute name="string">QA chính</attribute>
+            </xpath>
+            <!-- Thêm trường en_project_qa_ids sau user_id -->
+            <xpath expr="//field[@name='en_project_qa_id']" position="after">
+                <field name="en_project_qa_ids" string="QA" widget="many2many_tags"/>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

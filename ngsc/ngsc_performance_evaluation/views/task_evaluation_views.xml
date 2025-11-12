@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="task_evaluation_view_tree" model="ir.ui.view">
+            <field name="name">task.evaluation.view.tree</field>
+            <field name="model">task.evaluation</field>
+            <field name="arch" type="xml">
+                <list string="Đánh giá chất lượng công việc" create="0" delete="0" editable="bottom"
+                      decoration-danger="hour_actual == 0" class="o_list_view_task_evaluation">
+                    <header>
+                        <button name="action_confirm"
+                                class="btn-primary"
+                                icon="fa-check"
+                                confirm="Bạn có chắc chắn muốn xác nhận đánh giá?"
+                                type="object" string="Xác nhận đánh giá"/>
+                        <button name="action_cancel"
+                                class="btn-primary"
+                                icon="fa-check"
+                                confirm="Bạn có chắc chắn muốn Hủy?"
+                                type="object" string="Xác nhận Hủy"/>
+                    </header>
+                    <field name="month_evaluation" class="o_text_align_center"/>
+                    <field name="name"/>
+                    <field name="user_id" widget="many2one_avatar_user"/>
+                    <field name="project_id"/>
+                    <field name="en_task_type"/>
+                    <field name="date_confirm" readonly="1" force_save="1"/>
+                    <field name="reviewer_id" widget="many2one_avatar_user"/>
+                    <field name="hour_actual" sum="Tổng"/>
+                    <field name="hour_actual_resource" sum="Tổng" optional="hide"/>
+                    <field name="evaluation" force_save="1" class="o_text_align_center"
+                           attrs="{'readonly': ['|', '|', ('is_reviewer', '=', False),
+                            ('state', '=', 'evaluated'),
+                            ('is_locked', '=', True)]}"/>
+                    <field name="state" readonly="1" force_save="1" widget="badge"
+                           decoration-info="state == 'not_evaluated'"
+                           decoration-primary="state == 'evaluated_again'"
+                           decoration-danger="state == 'cancel'"
+                           decoration-success="state == 'evaluated'"/>
+                    <field name="is_locked" optional="hide"/>
+                    <field name="is_reviewer" invisible="1"/>
+                    <button name="action_confirm"
+                            icon="fa-check"
+                            attrs="{'invisible': ['|', '|', ('is_reviewer', '=', False),('state', '=', 'evaluated'),('is_locked', '=', True)]}"
+                            confirm="Bạn có chắc chắn muốn xác nhận đánh giá?"
+                            type="object" string="Xác nhận"/>
+                    <button name="action_cancel"
+                            icon="fa-check"
+                            attrs="{'invisible': ['|', '|',('is_reviewer', '=', False),('hour_actual', '!=', 0),('state', 'in', ['cancel', 'evaluated'])]}"
+                            confirm="Bạn có chắc chắn muốn hủy?"
+                            type="object" string="Hủy"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="task_evaluation_view_search" model="ir.ui.view">
+            <field name="name">task.evaluation.view.search</field>
+            <field name="model">task.evaluation</field>
+            <field name="arch" type="xml">
+                <search string="Đánh giá chất lượng công việc">
+                    <field name="name" string="Tất cả"
+                           filter_domain="['|', '|', '|', ('name', 'ilike', self), ('user_id', 'ilike', self), ('project_id', 'ilike', self), ('reviewer_id', 'ilike', self)]"/>
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="project_id"/>
+                    <field name="reviewer_id"/>
+                    <separator/>
+                    <filter name="last_month" string="Tháng trước"
+                            domain="[
+                            	'&amp;',
+                            	('date_evaluation','&lt;=', (context_today() + relativedelta(months=-1, day=31, days=0)).strftime('%Y-%m-%d')),
+                            	('date_evaluation','&gt;=', (context_today() + relativedelta(months=-1, day=1, days=0)).strftime('%Y-%m-%d')),
+                            ]"/>
+                    <separator/>
+                    <filter name="this_year" string="Năm hiện tại"
+                            domain="[('date_evaluation','&lt;=', time.strftime('%%Y-12-31')),('date_evaluation','&gt;=',time.strftime('%%Y-01-01'))]"/>
+                    <filter name='last_year' string="Năm trước"
+                            domain="[('date_evaluation', '&lt;=', (datetime.date.today() + relativedelta(month=1, day=1, days=-1)).strftime('%Y-%m-%d')),
+                            ('date_evaluation', '&gt;=', (datetime.date.today() + relativedelta(day=1, month=1, years=-1)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter name="is_locked" string="Đã khóa dữ liệu"
+                            domain="[('is_locked', '=', True)]"/>
+                    <filter name="is_unlocked" string="Chưa khóa dữ liệu"
+                            domain="[('is_locked', '=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_user_id"
+                                string="Người chịu trách nhiệm"
+                                context="{'group_by': 'user_id'}"/>
+                    </group>
+                    <searchpanel>
+                        <field name="state" icon="fa-filter" enable_counters="1"/>
+                        <field name="evaluation" icon="fa-filter" enable_counters="1"/>
+                        <field name="unit_id" icon="fa-users" enable_counters="1"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="task_evaluation_act_window" model="ir.actions.act_window">
+            <field name="name">Đánh giá chất lượng công việc</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">task.evaluation</field>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="ngsc_performance_evaluation.task_evaluation_view_tree"/>
+            <field name="context">{'search_default_last_month': 1, 'ctx_task_evaluation_menu': 1}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <record id="task_evaluation_lock_action_server" model="ir.actions.server">
+            <field name="name">Khóa dữ liệu</field>
+            <field name="model_id" ref="model_task_evaluation"/>
+            <field name="binding_model_id" ref="model_task_evaluation"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">records.action_lock()</field>
+            <field name="groups_id" eval="[(6, 0, [ref('hr.group_hr_manager')])]"/>
+        </record>
+
+        <record id="task_evaluation_unlock_action_server" model="ir.actions.server">
+            <field name="name">Mở khóa dữ liệu</field>
+            <field name="model_id" ref="model_task_evaluation"/>
+            <field name="binding_model_id" ref="model_task_evaluation"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">records.action_unlock()</field>
+            <field name="groups_id" eval="[(6, 0, [ref('hr.group_hr_manager')])]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+.toggle-subtask {
+    cursor: pointer;
+    margin-right: 5px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.subtask-row td {
+    padding-left: 30px;
+    background-color: #f9f9f9;
+}
+
+.o_tree_hidden {
+    display: none;
+}
+.o_tree_toggle {
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+.o_tree_toggle {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+}
+
+.o_tree_hidden {
+    display: none !important;
+}
+
+.oe_hidden {
+    visibility: hidden;
+}
+
+

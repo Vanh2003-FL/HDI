@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="reason_for_refuse_wizard_form" model="ir.ui.view">
+            <field name="name">reason.for.refuse.wizard</field>
+            <field name="model">reason.for.refuse.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="reason"/>
+                    </group>
+                    <footer>
+                          <button name="action_confirm" string="Xác nhận" type="object" class="oe_highlight"/>
+                          <button string="Hủy" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="reason_for_refuse_wizard_action" model="ir.actions.act_window">
+            <field name="name">Lý do từ chối</field>
+            <field name="res_model">reason.for.refuse.wizard</field>
+            <field name="view_mode">form</field>
+        </record>
+    </data>
+</odoo>

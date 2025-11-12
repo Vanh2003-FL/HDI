@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="new_version_project_decision_wizard" model="ir.ui.view">
+        <field name="name">new.version.project.decision.wizard</field>
+        <field name="model">new.version.project.decision.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="project_decision_id" invisible="1"/>
+                <field name="name"/>
+
+                <footer>
+                    <button string="Có" type="object" name="button_confirm" class="btn-primary" />
+                    <button string="Hủy" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

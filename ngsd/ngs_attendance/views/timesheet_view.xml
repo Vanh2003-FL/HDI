@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ts_giai_trinh_da_hr_timesheet_line_form" model="ir.ui.view">
+        <field name="model">account.analytic.line</field>
+        <field name="priority">10110</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="explanation_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="amount" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+
+                            <field name="project_id" required="1" context="{'form_view_ref': 'project.project_project_view_form_simplified',}" readonly="1" force_save="1"/>
+                            <field name="task_id" required="1" widget="task_with_hours" readonly="1" force_save="1"/>
+                            <field name="employee_id" readonly="1" force_save="1"/>
+                            <field name="date" readonly="1" force_save="1"/>
+                            <field name="name"/>
+                            <field name="unit_amount" widget="timesheet_uom" decoration-danger="unit_amount &gt; 24"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="button_explanation_confirm" type="object" string="Hoàn thành" class="btn-primary"/>
+                    <button string="Hủy bỏ" class="btn-secondary" special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+    <record id="ts_giai_trinh_nda_hr_timesheet_line_form" model="ir.ui.view">
+        <field name="model">account.analytic.line</field>
+        <field name="priority">10110</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="explanation_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="amount" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+
+                            <field name="en_nonproject_task_id" required="1" readonly="1" force_save="1"/>
+                            <field name="employee_id" readonly="1" force_save="1"/>
+                            <field name="date" readonly="1" force_save="1"/>
+                            <field name="name"/>
+                            <field name="unit_amount" widget="timesheet_uom" decoration-danger="unit_amount &gt; 24"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="button_explanation_confirm" type="object" string="Hoàn thành" class="btn-primary"/>
+                    <button string="Hủy bỏ" class="btn-secondary" special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>

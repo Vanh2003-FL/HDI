@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="quality_control_form" model="ir.ui.view">
+        <field name="model">en.quality.control</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <field name="en_state" invisible="1"/>
+                    <field name="sent_ok" invisible="1"/>
+                    <field name="approve_ok" invisible="1"/>
+                    <field name="technical_field_27766" invisible="1"/>
+                    <field name="is_pm_project" invisible="1"/>
+                    <button string="Tạo phiên bản mới" type="object" name="new_resource" attrs="{'invisible':['|',('is_pm_project','=',False), ('state', '!=', 'approved')]}"/>
+                    <button string="Gửi duyệt" type="object" name="button_to_approve" attrs="{'invisible':['|',('state','!=','draft'),('sent_ok','=',False)]}"/>
+                    <button string="Duyệt" type="object" name="button_approved" attrs="{'invisible':['|',('state','!=','to_approve'),('approve_ok','=',False)]}"/>
+                    <button string="Từ chối" type="object" name="button_refused" attrs="{'invisible':['|',('state','!=','to_approve'),('approve_ok','=',False)]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,to_approve,approved"/>
+                </header>
+                <sheet>
+                    <div name="button_box" class="oe_button_box">
+
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" class="oe_inline" placeholder="Tên kiểm soát chất lượng"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" readonly="1" force_save="1"/>
+                            <field name="project_code"/>
+                            <field name="mm_rate" invisible="1"/>
+                            <field name="user_id" force_save="1" readonly="1"/>
+                            <field name="write_uid" string="Cập nhật lần cuối bởi"/>
+                        </group>
+                        <group>
+                            <field name="version_number"/>
+                            <field name="version_type"/>
+                            <field name="parent_id" attrs="{'invisible':[('version_type','!=','plan')]}"/>
+                            <field name="create_date" string="Ngày tạo"/>
+                            <field name="write_date" string="Cập nhật lần cuối vào"/>
+                            <field name="reason"/>
+                            <field name="edit_order_line" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Chi tiết kiểm soát chất lượng">
+                            <field name="order_line" attrs="{'readonly': ['|', ('state', 'not in', ['draft']), ('edit_order_line', '=', False)]}">
+                                <list editable="bottom" class="allow_list_copy">
+                                    <field name="en_user_id" invisible="1"/>
+                                    <field name="employee_id" invisible="1"/>
+                                    <field name="email"/>
+                                    <field name="project_stage_id" options="{'no_open':True,'no_create':True,'no_quick_create':True,'no_create_edit':True}"/>
+                                    <field name="project_stage_ids" invisible="1"/>
+                                    <field name="task_control"/>
+                                    <field name="date_start" attrs="{'readonly': [('edit_date_start', '=', False)]}" force_save="1"/>
+                                    <field name="date_end" attrs="{'readonly': [('edit_date_end', '=', False)]}" force_save="1"/>
+                                    <field name="workload" widget="percentage"/>
+                                    <field name="en_md"/>
+                                    <field name="en_state"/>
+                                    <field name="old_line_id" invisible="1" force_save="1"/>
+                                    <field name="edit_date_start" invisible="1"/>
+                                    <field name="edit_date_end" invisible="1"/>
+                                    <field name="hours_indate" invisible="1"/>
+                                </list>
+                            </field>
+                            <group>
+                                <field name="mm_qa_project"/>
+                                <field name="total_md"/>
+                                <field name="total_mm"/>
+                            </group>
+                        </page>
+                        <page string="Thông tin phê duyệt">
+                            <group>
+                                <group>
+                                    <field name="en_request_user_id"/>
+                                    <field name="en_next_approver_ids" widget="many2many_tags"/>
+                                </group>
+                                <group>
+                                    <field name="en_request_date"/>
+                                </group>
+                            </group>
+                            <field name="en_approve_line_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/><field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="quality_detail_form" model="ir.ui.view">
+        <field name="model">en.quality.detail</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="order_id"/>
+                            <field name="employee_id"/>
+                            <field name="email"/>
+                            <field name="date_end"/>
+                            <field name="en_state"/>
+                        </group>
+                        <group>
+                            <field name="en_user_id"/>
+                            <field name="date_start"/>
+                            <field name="workload"/>
+                            <field name="en_md"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="quality_control_tree" model="ir.ui.view">
+        <field name="model">en.quality.control</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="quality_control_act" model="ir.actions.act_window">
+        <field name="res_model">en.quality.control</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

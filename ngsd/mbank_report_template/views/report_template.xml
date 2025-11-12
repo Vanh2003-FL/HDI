@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="report_template_form" model="ir.ui.view">
+        <field name="model">en.report.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button groups="base.group_no_one" string="ir.report" icon="fa-bars" type="object" name="to_report" attrs="{'invisible': [('report_id', '=', False)]}"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="model_id"/>
+                            <field name="name"/>
+                            <field name="report_name"/>
+                            <field name="report_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="report_type"/>
+                            <field name="template" filename="template_name"/>
+                            <field name="template_name" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Phân quyền">
+                            <field name="groups_id"/>
+                        </page>
+                        <page string="SMS params">
+                            <field name="x_sms_params_ids">
+                                <list editable="bottom">
+                                    <field name="model_object_field"
+                                           domain="[('model_id','=',parent.model_id),('ttype','!=','one2many'),('ttype','!=','many2many')]"/>
+                                    <field name="sub_object" readonly="1" groups="base.group_no_one"/>
+                                    <field name="sub_model_object_field"
+                                           domain="[('model_id','=',sub_object),('ttype','!=','many2one'),('ttype','!=','one2many'),('ttype','!=','many2many')]"
+                                           attrs="{'readonly':[('sub_object','=',False)]}"/>
+                                    <field name="null_value"/>
+                                    <field name="copyvalue"/>
+                                </list>
+                            </field>
+                            <group col="3" string="Tham khảo thêm">
+                                <group>
+                                    <span colspan="6"><a href="https://jinja.palletsprojects.com/en/3.1.x/templates">https://jinja.palletsprojects.com/en/3.1.x/templates</a></span>
+                                    <span colspan="6" attrs="{'invisible':[('report_type','not in',['qweb-pdf','docx'])]}"><a href="https://docxtpl.readthedocs.io/en/latest/">https://docxtpl.readthedocs.io/en/latest/</a></span>
+                                    <span colspan="6" attrs="{'invisible':[('report_type','not in',['qweb-pdf','docx'])]}"><a href="/mbank_report_template/static/templates/template.docx">File Mẫu</a></span>
+                                    <span colspan="6" attrs="{'invisible':[('report_type','not in',['xlsx'])]}"><a href="/mbank_report_template/static/templates/template.xlsx">File Mẫu</a></span>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="report_template_tree" model="ir.ui.view">
+        <field name="model">en.report.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="model_id"/>
+                <field name="name"/>
+                <field name="report_type"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="report_template_search" model="ir.ui.view">
+        <field name="model">en.report.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="model_id"/>
+                <field name="name"/>
+                <field name="report_type"/>
+                <separator/>
+                <filter string="Đã lưu" domain="[('active', '=', False)]" name="inactive"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="report_template_action" model="ir.actions.act_window">
+        <field name="res_model">en.report.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="report_template_search"/>
+    </record>
+
+    <record id="report_template_menu" model="ir.ui.menu">
+        <field name="action" ref="report_template_action"/>
+        <field name="parent_id" ref="base.next_id_6"/>
+    </record>
+</odoo>

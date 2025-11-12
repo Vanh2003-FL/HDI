@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="en_subsystem_view_tree" model="ir.ui.view">
+           <field name="name">en.subsystem.tree</field>
+           <field name="model">en.subsystem</field>
+           <field name="arch" type="xml">
+               <list editable="bottom">
+                   <field name="name"/>
+               </list>
+           </field>
+        </record>
+
+    <record id="en_subsystem_action" model="ir.actions.act_window">
+        <field name="res_model">en.subsystem</field>
+        <field name="view_mode">list</field>
+    </record>
+    <menuitem id="en_subsystem_menu" action="en_subsystem_action"  sequence="6" parent="helpdesk.helpdesk_menu_config"/>
+
+    </data>
+</odoo>

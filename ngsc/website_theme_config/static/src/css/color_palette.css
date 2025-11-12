@@ -1,0 +1,16 @@
+.color-field {
+    width: 120px;
+    cursor: pointer;
+}
+
+.color-swatch {
+    width: 24px;
+    height: 24px;
+    margin:2px;
+    border:1px solid #999;
+    border-radius:3px;
+    cursor:pointer;
+}
+.color-swatch:hover {
+    border:1px solid #000;
+}

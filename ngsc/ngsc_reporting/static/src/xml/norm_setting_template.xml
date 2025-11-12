@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+<t t-name="NormSetting">
+    <div class="modal fade" id="normModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Norm Settings</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&amp;times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="norm-table table" id="table-norm">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Chỉ tiêu</th>
+                                <th>Norm</th>
+                                <th>Chiều đạt yêu cầu</th>
+                                <th>Độ lệch chuẩn</th>
+                                <th>Tốt</th>
+                                <th>Đạt</th>
+                                <th>NORM</th>
+                                <th>Không đạt</th>
+                                <th>Kém</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="records" t-as="rec">
+                                <tr>
+                                    <td><t t-esc="rec['stt']"/></td>
+                                    <td><t t-esc="rec['short_name']"/></td>
+                                    <td><t t-esc="rec['norm']"/>%</td>
+                                    <td><t t-esc="rec['direction'] == 'le' and '&lt;=' or '&gt;='"/></td>
+                                    <td><t t-esc="rec['std']"/>%</td>
+
+                                    <td t-attf-style="background-color:{{ rec['colors']['good'] }};">
+                                    <t t-esc="rec['thresholds']['good']"/>
+                                </td>
+                                    <td t-attf-style="background-color:{{ rec['colors']['pass'] }};">
+                                    <t t-esc="rec['thresholds']['pass']"/>
+                                </td>
+                                    <td><t t-esc="rec['thresholds']['norm']"/></td>
+                                    <td t-attf-style="background-color:{{ rec['colors']['fail'] }};">
+                                    <t t-esc="rec['thresholds']['fail']"/>
+                                </td>
+                                    <td t-attf-style="background-color:{{ rec['colors']['bad'] }};">
+                                    <t t-esc="rec['thresholds']['bad']"/>
+                                </td>
+
+                                </tr>
+                            </t>
+                            <tr>
+
+                                <td colspan="10" style="color:#666; font-weight:bold; ">
+                                <span style="text-decoration;">Độ lệch chuẩn</span><br/>
+                                <div style="padding-left:20px;">
+                                    - Là khoảng chuyển đổi phân loại giữa các mức phân loại so với điểm trung tâm Norm.<br/>
+                                    - Tùy theo chiều đạt yêu cầu mà định nghĩa khoảng phân loại, quy đổi chiều phân loại về cùng 1 phía là '&lt;=' hay '&gt;='.
+                                </div>
+                                <br/>
+                                <span style="text-decoration;">Chiều đạt yêu cầu</span><br/>
+                                <div style="padding-left:20px;">
+                                    - '&lt;=' Chỉ tiêu càng bé hơn Norm càng tốt.<br/>
+                                    - '&gt;=' Chỉ tiêu càng lớn hơn Norm càng tốt.
+                                </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</t>
+</templates>

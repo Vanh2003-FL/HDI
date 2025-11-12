@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_entrust_role_settings,entrust.role.settings,model_entrust_role,base.group_system,1,1,1,1
+access_change_access_wizard_settings,entrust.role.settings,model_change_access_wizard,base.group_system,1,1,1,1
+
+access_entrust_role_users,entrust.role.users,model_entrust_role,base.group_user,1,0,0,0
+access_change_access_wizard_users,entrust.role.users,model_change_access_wizard,base.group_user,1,0,0,0
+
+
+

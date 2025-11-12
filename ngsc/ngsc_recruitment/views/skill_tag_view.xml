@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Action mở màn hình Tag -->
+        <record id="recruitment_skill_tag_view_action" model="ir.actions.act_window">
+            <field name="name">Thẻ kỹ năng</field>
+            <field name="res_model">ngsc.recruitment.skill.tag</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- LIST VIEW -->
+        <record id="tag_view_list_tree" model="ir.ui.view">
+            <field name="name">ngsc.recruitment.skill.tag.tree</field>
+            <field name="model">ngsc.recruitment.skill.tag</field>
+            <field name="arch" type="xml">
+                <list create="true">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="color_code" widget="color_picker"/>
+                    <field name="active_display"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- FORM VIEW -->
+        <record id="tag_view_form" model="ir.ui.view">
+            <field name="name">ngsc.recruitment.skill.tag.form</field>
+            <field name="model">ngsc.recruitment.skill.tag</field>
+            <field name="arch" type="xml">
+                <form string="skill" create="true">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Tên thẻ" string="Tên viết tắt"/>
+                        </h1>
+                        <group string="Thông tin chung">
+                            <field name="code"/>
+                            <field name="active"/>
+                            <field name="color_code" widget="color_picker"/>
+                            <field name="color_name" invisible="1"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+
+                    <chatter/><field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- SEQUENCE cho mã thẻ -->
+        <record id="sequence_tag_code" model="ir.sequence">
+            <field name="name">Recruitment Skill Tag Code Sequence</field>
+            <field name="code">ngsc.recruitment.skill.tag.code</field>
+            <field name="prefix">TH</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

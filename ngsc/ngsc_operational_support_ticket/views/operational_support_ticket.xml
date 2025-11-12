@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_operational_support_ticket_tree" model="ir.ui.view">
+        <field name="name">operational.support.ticket.tree</field>
+        <field name="model">operational.support.ticket</field>
+        <field name="arch" type="xml">
+            <list string="Operational Support Tickets">
+                <field name="en_code"/>
+                <field name="name"/>
+                <field name="user_request_id"/>
+                <field name="supervisor_id"/>
+                <field name="date_log"/>
+                <field name="en_state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_operational_support_ticket_form" model="ir.ui.view">
+        <field name="name">operational.support.ticket.form</field>
+        <field name="model">operational.support.ticket</field>
+        <field name="arch" type="xml">
+            <form string="Operational Support Ticket" attrs="{'edit': [('en_state', '=', 'draft')]}">
+                <header>
+                    <button name="action_send_request"
+                            string="Gửi yêu cầu"
+                            confirm="Bạn có chắc chắn muốn gửi yêu cầu này không?"
+                            type="object"
+                            class="btn btn-primary"
+                            attrs="{'invisible': [('en_state', '!=', 'draft')]}"/>
+                    <field name="en_state" widget="statusbar"
+                           statusbar_visible="draft,sent,received,wait,doing,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Chủ đề..."
+                                   attrs="{'readonly': [('en_state', '!=', 'draft')]}"/>
+                        </h1>
+                    </div>
+                    <group col="2">
+                        <field name="en_code" readonly="1"/>
+                        <field name="user_request_id" attrs="{'readonly': [('en_state', '!=', 'draft')]}"/>
+                        <field name="date_log" attrs="{'readonly': [('en_state', '!=', 'draft')]}"/>
+                        <field name="supervisor_id" attrs="{'readonly': [('en_state', '!=', 'draft')]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Mô tả">
+                            <field name="text_description" attrs="{'readonly': [('en_state', '!=', 'draft')]}"/>
+                        </page>
+                        <page string="Nguyên nhân">
+                            <field name="text_reason" attrs="{'readonly': [('en_state', '!=', 'draft')]}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/><field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="operational_support_ticket_action_main_my" model="ir.actions.act_window">
+        <field name="name">Hỗ Trợ vận hành</field>
+        <field name="res_model">operational.support.ticket</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_operational_support_ticket_tree"/>
+        <field name="context">{'search_default_my_ticket': True, 'default_user_id': uid}</field>
+        <field name="domain">[('user_request_id', '=', uid)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No tickets found. Let's create one!
+            </p>
+            <p>To get things done, use activities and statuses on tickets.
+                <br/>
+                Chat in real-time or by email to collaborate efficiently.
+            </p>
+        </field>
+    </record>
+    <menuitem id="operational_support_ticket_menu_my" name="Hỗ trợ vận hành"
+              action="operational_support_ticket_action_main_my"
+              sequence="10" parent="helpdesk.helpdesk_ticket_menu_main"/>
+</odoo>

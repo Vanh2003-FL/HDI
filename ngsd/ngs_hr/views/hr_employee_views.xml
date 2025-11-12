@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngs_hr_employee_os_inherit_view_form" model="ir.ui.view">
+            <field name="name">ngs.hr.employee.os.inherit.view.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="ngsd_base.view_employee_form"/>
+            <field name="mode">primary</field>
+            <field name="priority" eval="5000"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='en_type_id']" position="attributes">
+                    <attribute name="domain">[('is_os', '=', True)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="open_view_employee_list_os" model="ir.actions.act_window">
+            <field name="name">Nhân viên</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[('is_hidden', '=', False),('en_type_id.is_os', '=', True)]</field>
+            <field name="context">{'chat_icon': True, 'form_view_ref': 'ngs_hr.ngs_hr_employee_os_inherit_view_form'}</field>
+        </record>
+    </data>
+</odoo>

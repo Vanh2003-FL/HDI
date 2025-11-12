@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="helpdesk_source_view_tree" model="ir.ui.view">
+        <field name="name">helpdesk_source_view_tree</field>
+        <field name="model">helpdesk.source</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="helpdesk_source_action" model="ir.actions.act_window">
+        <field name="res_model">helpdesk.source</field>
+        <field name="view_mode">list</field>
+    </record>
+    <menuitem id="helpdesk_source_menu" action="helpdesk_source_action"  sequence="2" parent="helpdesk.helpdesk_menu_config"/>
+
+</odoo>

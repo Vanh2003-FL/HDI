@@ -1,0 +1,99 @@
+.o_form_view {
+    .o_form_sheet_bg .o_form_sheet {
+        width: auto !important;
+    }
+    .o_FormRenderer_chatterContainer {
+        max-width: none;
+    }
+}
+
+.popup-banner{
+    position: absolute;
+    left: 82%;
+    top: 73%;
+    width: 200px;
+    background-color: #fff; /* Màu nền của popup */
+    padding: 20px; /* Khoảng cách bên trong của popup */
+    z-index: 9999; /* Đảm bảo popup hiển thị trên các phần khác của trang web */
+    font-size: 11px;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.avata-image{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Tạo khung tròn */
+    overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài khung tròn */
+    object-fit: cover;
+}
+.css_line{
+    padding-left: 53px;
+}
+.line_hpbd{
+    width: 33.33%; /* Phân chia đều 3 cột */
+    display: inline-block; /* Hiển thị dòng trên cùng một hàng */
+    text-align: center;
+}
+.image-frame {
+    width: 250px;
+    height: 200px;
+    border: 2px dashed #ccc;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.image-frame img {
+     max-width: 250px;
+     max-height: 200px;
+}
+.content-inmage{
+    position: absolute;
+    top: 73%;
+    z-index: 1;
+    font-size: 15px;
+    text-align: center;
+    left: 2%;
+}
+.o_wblog_post_title {
+    #o_wblog_post_name {
+        font-size: 2.0rem !important;
+    }
+   }
+.container-mb {
+    width: 100vw;
+    height: 100vh;
+}
+@media (max-width: 1000px){
+    .position-text-home{
+       position: absolute;
+       z-index: 1;
+       font-size: 13px
+    }
+    .image-frame-position{
+        position: absolute;
+        z-index: 1;
+        font-size: 13px
+    }
+}
+@media (max-width: 470px){
+    .position-text-home{
+        font-size: 12px;
+    }
+    .image-frame-position{
+        font-size: 12px;
+    }
+    }
+@media (max-width: 380px){
+    .position-text-home{
+         font-size: 11px;
+    }
+    .image-frame-position{
+         font-size: 11px;
+    }
+}
+
+

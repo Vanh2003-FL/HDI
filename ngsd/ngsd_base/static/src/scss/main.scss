@@ -1,0 +1,30 @@
+th.o_column_sortable {
+    max-width: none !important;
+    min-width: 0 !important;
+}
+
+.o_optional_columns_dropdown_toggle {
+    height: 25px;
+}
+.modal-body .oe_import{
+    position:static !important;
+}
+.o_mail_systray_item {
+    display: none !important;
+}
+.modal-dialog:has(.o_content .o_form_view.wbs_form_create_popup) {
+    min-width: 1300px;
+}
+//.modal-dialog:has(.o_content .o_form_view.hr_overtime_form_view) {
+//    min-width: 1300px;
+//}
+.o_form_view .o_notebook .tab-content > .tab-pane > .oe_form_field > .note-editable {
+    border-width: 1px;
+}
+.o_ChatterTopbar_button.o_ChatterTopbar_buttonAttachments {
+    background-color: red;
+    color: white;
+}
+.modal .modal-dialog .o_form_view.o_employee_form_popup .o_FormRenderer_chatterContainer {
+    display: unset;
+}

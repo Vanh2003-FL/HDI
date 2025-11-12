@@ -1,0 +1,51 @@
+<odoo>
+    <record id="view_timesheet_checkout_wizard_form" model="ir.ui.view">
+        <field name="name">timesheet.checkout.wizard.form</field>
+        <field name="model">timesheet.checkout.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Khai Timesheet trước khi Checkout" version="2.0">
+                <sheet>
+                    <!-- Thông báo cảnh báo chưa đủ 8h -->
+                    <group attrs="{'invisible': [('skip_check', '=', True)]}" class="o_form_group_checkout_warning">
+                        <div class="alert alert-warning" role="alert" style="margin-bottom: 10px;">
+                            <strong> ⚠️ Bạn chưa đủ timesheet 8h của ngày hôm nay.</strong><br/>
+                            Hãy tiếp tục khai báo hoặc bỏ qua.
+                        </div>
+                    </group>
+
+                    <div class="o_form_label" style="margin-bottom: 10px;">
+                        Vui lòng chọn công việc hôm nay và nhấn vào từng dòng để khai báo chi tiết timesheet
+                    </div>
+
+                    <field name="skip_check" invisible="1"/>
+
+                    <field name="line_ids" nolabel="1">
+                        <list>
+
+                            <field name="task_id" string="Công việc"
+                                   domain="[('en_handler', '=', uid), ('stage_id.name', '=', 'Đang thực hiện')]"/>
+                            <field name="description" invisible="1"/>
+                            <field name="hours" widget="float_time" invisible="1"/>
+                            <field name="is_overtime" invisible="1"/>
+                            <button name="action_open_detail"
+                                    type="object"
+                                    icon="fa-pencil-square-o"
+                                    string="Khai báo"/>
+                        </list>
+                    </field>
+                </sheet>
+
+                <footer>
+                    <button name="action_submit" type="object"
+                            string="Lưu rồi Check-out" class="btn-primary"/>
+<!--                    <button name="action_send_approval" type="object"-->
+<!--            string="Gửi duyệt"  class="btn-warning" close="false"/>-->
+                    <button name="action_skip_and_checkout" type="object"
+                            string="Bỏ qua và Check-out" class="btn-secondary"
+                            attrs="{'invisible': [('skip_check', '=', True)]}"/>
+                    <button string="Hủy" class="btn-default" name="action_close_popup" type="object"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

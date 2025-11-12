@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsc_recruitment_hr_department_view_form" model="ir.ui.view">
+            <field name="name">ngsc.recruitment.hr.department.view.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="ngsd_base.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/field[@name='deputy_manager_id']" position="after">
+                    <field name="talent_acquisition"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

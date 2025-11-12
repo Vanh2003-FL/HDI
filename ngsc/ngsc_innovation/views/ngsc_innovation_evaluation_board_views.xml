@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Tree View chỉ đọc -->
+    <record id="ngsc_evaluation_board_tree" model="ir.ui.view">
+      <field name="name">ngsc.evaluation.board.tree</field>
+      <field name="model">hr.employee</field>
+      <field name="arch" type="xml">
+        <list create="false" edit="false" delete="false">
+          <field name="barcode" string="ID"/>
+          <field name="name" string="Họ và tên"/>
+          <field name="job_id" string="Chức danh"/>
+          <field name="en_department_id" string="Bộ phận/phòng"/>
+          <field name="department_id" string="Trung tâm/Ban"/>
+          <field name="work_email" string="Email công ty"/>
+        </list>
+      </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="ngsc_evaluation_board_search" model="ir.ui.view">
+      <field name="name">ngsc.evaluation.board.search</field>
+      <field name="model">hr.employee</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+          <field name="barcode"/>
+          <field name="work_email"/>
+          <group expand="0" string="Group By">
+            <filter string="Bộ phận/phòng" name="department"
+              context="{'group_by': 'en_department_id'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- Action: chỉ tree view, chỉ nhóm Internal Communication -->
+    <record id="action_evaluation_board" model="ir.actions.act_window">
+      <field name="name">Danh sách hội đồng đánh giá</field>
+      <field name="res_model">hr.employee</field>
+      <field name="view_mode">list</field>
+      <field name="view_id" ref="ngsc_evaluation_board_tree"/>
+      <field name="search_view_id" ref="ngsc_evaluation_board_search"/>
+      <field name="groups_id" eval="[(4, ref('ngsc_innovation.group_internal_communication'))]"/>
+      <field name="context">{}</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Danh sách hội đồng đánh giá
+        </p>
+        <p>
+          Đây là danh sách thành viên hội đồng đánh giá. Bạn chỉ có thể xem thông tin, không thể
+          chỉnh sửa.
+        </p>
+      </field>
+    </record>
+
+  </data>
+</odoo>

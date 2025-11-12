@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_cron_auto_close_ticket" model="ir.cron">
+        <field name="name">Helpdesk Ticket: Automatically close the tickets</field>
+        <field name="model_id" ref="model_helpdesk_team"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_auto_close_tickets()</field>
+        <field name="active" eval="False"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=1, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+    </record>
+
+    <record id="ir_cron_noupdate_rule" model="ir.cron">
+        <field name="name">Xử lý dữ liệu: Noupdate rule</field>
+        <field name="model_id" ref="base.model_ir_model_data"/>
+        <field name="state">code</field>
+        <field name="code">model.search([('model', '=', 'ir.rule'), ('noupdate', '=', True)]).write({'noupdate': False})</field>
+        <field name="active" eval="True"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">1</field>
+        <field name="doall" eval="False"/>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=1, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+    </record>
+
+</odoo>

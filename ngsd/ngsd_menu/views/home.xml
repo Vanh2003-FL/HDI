@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   <template id="happy_birthday">
+    <t t-set="is_mobile_home_page" t-value="website.sudo().is_mobile_home_page()"/>
+       <t t-if="not is_mobile_home_page">
+    <div class="popup-banner">
+       <t t-set="employees_with_birthday" t-value="website.get_happy_birthday()"/>
+            <t t-if="employees_with_birthday[0]">
+                <p><strong>CHÚC MỪNG SINH NHẬT</strong></p>
+                <t t-foreach="employees_with_birthday[0]" t-as="employee">
+                    <div>
+                        <div class="row">
+                            <div class="col-4">
+                                 <t t-if="employee.get('image')">
+                                <t t-set="image_data" t-value="employee.get('image').decode('utf-8')"/>
+                                <img t-if="image_data" t-att-src="'data:image/png;base64,' + image_data" class="oe_avatar avata-image"/>
+                            </t>
+                            <t t-else="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill avata-image" viewBox="0 0 16 16">
+                                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                </svg>
+                            </t>
+                            </div>
+                            <div class="col-8">
+                                <div><strong><t t-esc="employee.get('name')"/></strong></div>
+                                <div><t t-esc="employee.get('department')"/></div>
+                                <div><t t-esc="employee.get('birthday')"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                </t>
+            </t>
+        <br/>
+    </div>
+    </t>
+   <t t-else="">
+       <div class="position-text-home container-mb vh-100 d-flex justify-content-center">
+            <marquee>
+           <t t-set="employees_with_birthday" t-value="website.get_happy_birthday()"/>
+             <t t-if="employees_with_birthday[0]">
+               <strong>CHÚC MỪNG SINH NHẬT </strong>
+               <t t-foreach="employees_with_birthday[0]" t-as="employee">
+                    <strong><t t-esc="employee.get('name')"/></strong>  <t t-esc="employee.get('department')"/>  <t t-esc="employee.get('birthday')"/>
+                </t>
+            </t>
+            <t t-if="employees_with_birthday[1]">
+            <strong>SINH NHẬT SẮP TỚI </strong>
+                 <t t-foreach="employees_with_birthday[1]" t-as="employee">
+                   <strong><t t-esc="employee.get('name')"/></strong>  <t t-esc="employee.get('department')"/>  <t t-esc="employee.get('birthday')"/>
+                 </t>
+        </t>
+           </marquee>
+       </div>
+   </t>
+</template>
+<template id="add_picture">
+    <t t-set="image_and_url" t-value="website.sudo().get_image_and_url()"/>
+    <t t-if="image_and_url">
+        <t t-set="is_mobile_home_page" t-value="website.sudo().is_mobile_home_page()"/>
+        <t t-if="not is_mobile_home_page">
+            <div class="content-inmage">
+                <strong><p>"Nóng" cùng NGSC</p></strong>
+                <t t-foreach="image_and_url" t-as="attribute">
+                    <div class="image-frame">
+                        <t t-if="attribute.get('image')">
+                            <t t-set="image_data" t-value="attribute.get('image').decode('utf-8')"/>
+                            <a t-if="attribute.get('url')" t-att-href="attribute.get('url')">
+                                <img t-if="image_data" t-att-src="'data:image/png;base64,' + image_data"/>
+                            </a>
+                        </t>
+                    </div>
+                    <br/>
+                </t>
+            </div>
+        </t>
+        <t t-else="">
+
+                <div class="image-frame-position container-mb vh-100 d-flex justify-content-center">
+                    <marquee>
+                    <strong>"Nóng" cùng NGSC</strong>
+                    <t t-foreach="image_and_url" t-as="attribute">
+                        <t t-esc="attribute.get('name')"/> <t t-esc="attribute.get('date')"/>
+                    </t>
+                    </marquee>
+                </div>
+
+        </t>
+    </t>
+</template>
+    <template id="post_info_inherit" inherit_id="website_blog.post_info">
+    <xpath expr="//div[@class='d-flex small flex-wrap mb-1 w-100']" position="inside">
+        <div t-if="blog_post.sudo().pdf_attachment" class="px-2">
+            <a t-attf-href="/web/content/#{blog_post.pdf_attachment_id}?download=true" class="btn btn-primary">
+                <i class="fa fa-download mr-1"/> Tệp đính kèm
+            </a>
+        </div>
+    </xpath>
+</template>
+    <template id="header_call_to_action_inherit" inherit_id="website.header_call_to_action">
+        <xpath expr="//a[@class='btn btn-primary btn_cta']" position="attributes">
+                <attribute name="style">display: none;</attribute>
+        </xpath>
+    </template>
+</odoo>

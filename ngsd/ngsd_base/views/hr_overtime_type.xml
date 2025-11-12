@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="hr_overtime_type_tree" model="ir.ui.view">
+        <field name="model">en.hr.overtime.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+            </list>
+        </field>
+    </record>
+    <record id="hr_overtime_type_form" model="ir.ui.view">
+        <field name="model">en.hr.overtime.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+
+                            <field name="is_holiday"/>
+                        </group>
+                        <group>
+                            <field name="approve_type" invisible="1"/>
+                            <field name="approver_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Thời gian tăng ca" name="working_hours">
+                            <field name="attendance_ids">
+                                <list editable="bottom" no_open="1">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="date" attrs="{'column_invisible': [('parent.is_holiday', '=', True)]}" />
+                                    <field name="day_period"/>
+                                    <field name="time_start" widget="float_time" width="0.4"/>
+                                    <field name="time_end" widget="float_time" width="0.4"/>
+                                    <field name="rate"/>
+                                    <field name="rate_cot"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_overtime_type_search" model="ir.ui.view">
+        <field name="model">en.hr.overtime.type</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="approver_id" invisible="0"/>
+                <group expand="0" string="Group By...">
+                    <filter string="Phê duyệt" name="groupby_approve_type" context="{'group_by': 'approve_type'}"/>
+                    <filter string="Người phụ trách" name="groupby_approver_id" context="{'group_by': 'approver_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="hr_overtime_type_act" model="ir.actions.act_window">
+        <field name="res_model">en.hr.overtime.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+<!--    <record id="hr_overtime_type_menu" model="ir.ui.menu">-->
+<!--        <field name="action" ref="hr_overtime_type_act"/>-->
+<!--    </record>-->
+</odoo>

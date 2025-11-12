@@ -1,0 +1,24 @@
+<odoo>
+    <record id="view_timesheet_setting_wizard_form" model="ir.ui.view">
+        <field name="name">timesheet.setting.wizard.form</field>
+        <field name="model">timesheet.setting.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cấu hình Timesheet Checkout">
+                <group class="o_form_group_checkout_warning">
+                    <field name="enable_timesheet_popup"/>
+                </group>
+                <footer>
+                    <button string="Lưu" type="object" name="action_save_and_reload" class="btn-primary"/>
+                    <button string="Hủy" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_timesheet_setting_wizard" model="ir.actions.act_window">
+        <field name="name">Cấu hình Timesheet</field>
+        <field name="res_model">timesheet.setting.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

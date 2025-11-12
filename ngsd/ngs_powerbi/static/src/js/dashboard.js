@@ -1,0 +1,273 @@
+odoo.define('powerbi.dashboard', function (require) {
+'use strict';
+
+var AbstractAction = require('web.AbstractAction');
+var ajax = require('web.ajax');
+var core = require('web.core');
+var Dialog = require('web.Dialog');
+var field_utils = require('web.field_utils');
+var session = require('web.session');
+var time = require('web.time');
+var web_client = require('web.web_client');
+
+var _t = core._t;
+var QWeb = core.qweb;
+
+var COLORS = ["#1f77b4", "#aec7e8"];
+var FORMAT_OPTIONS = {
+    // allow to decide if utils.human_number should be used
+    humanReadable: function (value) {
+        return Math.abs(value) >= 1000;
+    },
+    // with the choices below, 1236 is represented by 1.24k
+    minDigits: 1,
+    decimals: 2,
+    // avoid comma separators for thousands in numbers when human_number is used
+    formatterCallback: function (str) {
+        return str;
+    },
+};
+
+var Dashboard = AbstractAction.extend({
+    hasControlPanel: true,
+    contentTemplate: 'ngs_powerbi.powerbi_dashboard_tmpl',
+
+    init: function(parent, context) {
+        this._super(parent, context);
+        this.dashboard_powerbi_id = context.context.id
+        this.iframe = null
+    },
+
+    willStart: function() {
+        var self = this;
+        return Promise.all([ajax.loadLibs(this), this._super()]).then(function() {
+            return self.fetch_data();
+        })
+    },
+
+    start: function() {
+        var self = this;
+        return this._super().then(function() {
+            self.render_dashboards();
+        });
+    },
+    /*
+     * Fetches dashboard data
+     */
+    fetch_data: function() {
+        var self = this;
+        var def = this._rpc({
+            "model": 'dashboard.powerbi',
+            "method": "get_iframe",
+            "args": [this.dashboard_powerbi_id]
+        });
+        def.then(function (result) {
+            self.iframe = result;
+        });
+        return def;
+    },
+
+    render_dashboards: function() {
+        var self = this;
+        _.each(this.dashboards_templates, function(template) {
+            self.$('.iframe-container').append(QWeb.render(template, {widget: self}));
+            self.$('.iframe-container').append(QWeb.render(template, {widget: self}));
+        });
+    },
+
+    render_graph: function(div_to_display, chart_values, chart_id) {
+        var self = this;
+
+        this.$(div_to_display).empty();
+        var $canvasContainer = $('<div/>', {class: 'o_graph_canvas_container'});
+        this.$canvas = $('<canvas/>').attr('id', chart_id);
+        $canvasContainer.append(this.$canvas);
+        this.$(div_to_display).append($canvasContainer);
+
+        var labels = chart_values[0].values.map(function (date) {
+            return moment(date[0], "YYYY-MM-DD", 'en');
+        });
+
+        var datasets = chart_values.map(function (group, index) {
+            return {
+                label: group.key,
+                data: group.values.map(function (value) {
+                    return value[1];
+                }),
+                dates: group.values.map(function (value) {
+                    return value[0];
+                }),
+                fill: false,
+                borderColor: COLORS[index],
+            };
+        });
+
+        var ctx = this.$canvas[0];
+        this.chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets,
+            },
+            options: {
+                legend: {
+                    display: false,
+                },
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        type: 'linear',
+                        ticks: {
+                            beginAtZero: true,
+                            callback: this.formatValue.bind(this),
+                        },
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            callback: function (moment) {
+                                return moment.format(self.DATE_FORMAT);
+                            },
+                        }
+                    }],
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                    bodyFontColor: 'rgba(0,0,0,1)',
+                    titleFontSize: 13,
+                    titleFontColor: 'rgba(0,0,0,1)',
+                    backgroundColor: 'rgba(255,255,255,0.6)',
+                    borderColor: 'rgba(0,0,0,0.2)',
+                    borderWidth: 2,
+                    callbacks: {
+                        title: function (tooltipItems, data) {
+                            return data.datasets[0].label;
+                        },
+                        label: function (tooltipItem, data) {
+                            var moment = data.labels[tooltipItem.index];
+                            var date = tooltipItem.datasetIndex === 0 ?
+                                        moment :
+                                        moment.subtract(1, self.date_range);
+                            return date.format(self.DATE_FORMAT) + ': ' + self.formatValue(tooltipItem.yLabel);
+                        },
+                        labelColor: function (tooltipItem, chart) {
+                            var dataset = chart.data.datasets[tooltipItem.datasetIndex];
+                            return {
+                                borderColor: dataset.borderColor,
+                                backgroundColor: dataset.borderColor,
+                            };
+                        },
+                    }
+                }
+            }
+        });
+    },
+
+    render_graphs: function() {
+        var self = this;
+        if (this._isInDom) {
+            _.each(this.graphs, function(e) {
+                var renderGraph = self.groups[e.group] &&
+                                    self.dashboards_data[e.name].summary.order_count;
+                if (!self.chartIds[e.name]) {
+                    self.chartIds[e.name] = _.uniqueId('chart_' + e.name);
+                }
+                var chart_id = self.chartIds[e.name];
+                if (renderGraph) {
+                    self.render_graph('.o_graph_' + e.name, self.dashboards_data[e.name].graph, chart_id);
+                }
+            });
+            this.render_graph_analytics(this.dashboards_data.visits.ga_client_id);
+        }
+    },
+
+
+    on_date_range_button: function(date_range) {
+        if (date_range === 'week') {
+            this.date_range = 'week';
+            this.date_from = moment.utc().subtract(1, 'weeks');
+        } else if (date_range === 'month') {
+            this.date_range = 'month';
+            this.date_from = moment.utc().subtract(1, 'months');
+        } else if (date_range === 'year') {
+            this.date_range = 'year';
+            this.date_from = moment.utc().subtract(1, 'years');
+        } else {
+            console.log('Unknown date range. Choose between [week, month, year]');
+            return;
+        }
+
+        var self = this;
+        Promise.resolve(this.fetch_data()).then(function () {
+            self.$('.o_website_dashboard').empty();
+            self.render_dashboards();
+            self.render_graphs();
+        });
+
+    },
+
+    on_website_button: function(website_id) {
+        var self = this;
+        this.website_id = website_id;
+        Promise.resolve(this.fetch_data()).then(function () {
+            self.$('.o_website_dashboard').empty();
+            self.render_dashboards();
+            self.render_graphs();
+        });
+    },
+
+    on_reverse_breadcrumb: function() {
+        var self = this;
+        web_client.do_push_state({});
+        this.update_cp();
+        this.fetch_data().then(function() {
+            self.$('.o_website_dashboard').empty();
+            self.render_dashboards();
+            self.render_graphs();
+        });
+    },
+
+    on_dashboard_action: function (ev) {
+        ev.preventDefault();
+        var $action = $(ev.currentTarget);
+        var additional_context = {};
+        if (this.date_range === 'week') {
+            additional_context = {search_default_week: true};
+        } else if (this.date_range === 'month') {
+            additional_context = {search_default_month: true};
+        } else if (this.date_range === 'year') {
+            additional_context = {search_default_year: true};
+        }
+        this.do_action($action.attr('name'), {
+            additional_context: additional_context,
+            on_reverse_breadcrumb: this.on_reverse_breadcrumb
+        });
+    },
+
+    on_dashboard_action_form: function (ev) {
+        ev.preventDefault();
+        var $action = $(ev.currentTarget);
+        this.do_action({
+            name: $action.attr('name'),
+            res_model: $action.data('res_model'),
+            res_id: $action.data('res_id'),
+            views: [[false, 'form']],
+            type: 'ir.actions.act_window',
+        }, {
+            on_reverse_breadcrumb: this.on_reverse_breadcrumb
+        });
+    },
+
+
+    // Utility functions
+    addLoader: function(selector) {
+        var loader = '<span class="fa fa-3x fa-spin fa-spinner fa-pulse"/>';
+        selector.html("<div class='o_loader'>" + loader + "</div>");
+    },
+
+});
+
+core.action_registry.add('powerbi_dashboard', Dashboard);
+
+return Dashboard;
+});

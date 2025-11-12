@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="group_tpkndu_hr_attendance_rule" model="ir.rule">
+        <field name="name">trưởng phòng => Xem full phòng mình</field>
+        <field ref="hr_attendance.model_hr_attendance" name="model_id"/>
+        <field name="domain_force">[('employee_id.en_department_id', '=', user.employee_id.en_department_id.id)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('ngsd_base.group_tpkndu')])]"/>
+    </record>
+    <record id="group_gdkndu_hr_attendance_rule" model="ir.rule">
+        <field name="name">Trưởng trung tâm => Xem full trung tâm</field>
+        <field ref="hr_attendance.model_hr_attendance" name="model_id"/>
+        <field name="domain_force">[('employee_id.department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('ngsd_base.group_gdkndu')])]"/>
+    </record>
+    <record id="group_gdkv_hr_attendance_rule" model="ir.rule">
+        <field name="name">Trưởng GĐ khu vực => Xem full khu vực (HN hoặc HCM)</field>
+        <field ref="hr_attendance.model_hr_attendance" name="model_id"/>
+        <field name="domain_force">[('employee_id.en_area_id', '=', user.employee_id.en_area_id.id)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('ngsd_base.group_gdkv')])]"/>
+    </record>
+    <record id="group_pm_hr_attendance_read_rule" model="ir.rule">
+        <field name="name">PM được xem chấm công của thành viên dự án mình quản lý</field>
+        <field ref="hr_attendance.model_hr_attendance" name="model_id"/>
+        <field name="domain_force">[('employee_id.resource_project_ids.project_id.user_id', '=', user.id), ('employee_id.resource_project_ids.project_id.stage_id.en_state', 'not in', ['cancel', 'complete'])]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('ngsd_base.group_pm')])]"/>
+    </record>
+
+    <record id="group_user_hr_attendance_explanation_rule" model="ir.rule">
+        <field name="name">Nhân viên full quyền giải trình của chính mình</field>
+        <field ref="ngs_attendance.model_hr_attendance_explanation" name="model_id"/>
+        <field name="domain_force">[('employee_id.user_id','=', user.id)]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(6,0, [ref('base.group_user')])]"/>
+    </record>
+    <record id="group_user_approver_hr_attendance_explanation_rule" model="ir.rule">
+        <field name="name">	Xem bản ghi mình là người duyệt</field>
+        <field ref="ngs_attendance.model_hr_attendance_explanation" name="model_id"/>
+        <field name="domain_force">[('approver_ids.user_id','=', user.id)]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('base.group_user')])]"/>
+    </record>
+    <record id="group_tpkndu_hr_attendance_explanation_rule" model="ir.rule">
+        <field name="name">trưởng phòng => Xem full phòng mình</field>
+        <field ref="ngs_attendance.model_hr_attendance_explanation" name="model_id"/>
+        <field name="domain_force">[('employee_id.en_department_id', '=', user.employee_id.en_department_id.id)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('ngsd_base.group_tpkndu')])]"/>
+    </record>
+    <record id="group_gdkndu_hr_attendance_explanation_rule" model="ir.rule">
+        <field name="name">Trưởng trung tâm => Xem full trung tâm</field>
+        <field ref="ngs_attendance.model_hr_attendance_explanation" name="model_id"/>
+        <field name="domain_force">[('employee_id.department_id', '=', user.employee_id.department_id.id)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('ngsd_base.group_gdkndu')])]"/>
+    </record>
+    <record id="group_gdkv_hr_attendance_explanation_rule" model="ir.rule">
+        <field name="name">Trưởng GĐ khu vực => Xem full khu vực (HN hoặc HCM)</field>
+        <field ref="ngs_attendance.model_hr_attendance_explanation" name="model_id"/>
+        <field name="domain_force">[('employee_id.en_area_id', '=', user.employee_id.en_area_id.id)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(6,0, [ref('ngsd_base.group_gdkv')])]"/>
+    </record>
+    <record id="group_hr_attendance_manager_hr_attendance_explanation_rule" model="ir.rule">
+        <field name="name">	Quản trị viên => Full quyền</field>
+        <field ref="ngs_attendance.model_hr_attendance_explanation" name="model_id"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(6,0, [ref('hr_attendance.group_hr_attendance_manager')])]"/>
+    </record>
+
+</odoo>

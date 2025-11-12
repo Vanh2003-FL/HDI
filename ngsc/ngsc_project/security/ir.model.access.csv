@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_split_line_confirm_wizard,split.line.confirm.wizard,model_split_line_confirm_wizard,base.group_user,1,1,1,1
+access_en_project_level_user,en.project.level.user,model_en_project_level,base.group_user,1,0,0,0
+access_en_project_level_qam,en.project.level.qam,model_en_project_level,ngsd_base.group_qam,1,1,1,1
+access_en_project_level_system,en.project.level.system,model_en_project_level,base.group_system,1,1,1,1
+
+access_en_project_legal_entity_user,en.project.legal.entity.user,model_en_project_legal_entity,base.group_user,1,0,0,0
+access_en_project_legal_entity_qam,en.project.legal.entity.qam,model_en_project_legal_entity,ngsd_base.group_qam,1,1,1,1
+access_en_project_legal_entity_system,en.project.legal.entity.system,model_en_project_legal_entity,base.group_system,1,1,1,1
+access_project_decision_user,access.project.decision.user,model_project_decision,base.group_user,1,1,1,1
+access_new_version_wizard,access.new.version.wizard.user,model_new_version_project_decision_wizard,base.group_user,1,1,1,1
+access_resource_project_snapshot_user,access.resource.project.snapshot.user,model_resource_project_snapshot,base.group_user,1,1,1,1
+access_en_processing_rate_snapshot,access_en_processing_rate_snapshot,model_en_processing_rate_snapshot,base.group_user,1,1,1,1
+access_en_response_rate_snapshot_user,access_en_response_rate_snapshot_user,model_en_response_rate_snapshot,base.group_user,1,1,1,1
+access_project_decision_adjust_reason_wizard,access_project_decision_adjust_reason_wizard,model_project_decision_adjust_reason_wizard,base.group_user,1,1,1,0
+
+ngsd_menu.access_en_wbs_group_qam,access_en_wbs_group_qam,ngsd_base.model_en_wbs,ngsd_base.group_qam,1,1,0,0

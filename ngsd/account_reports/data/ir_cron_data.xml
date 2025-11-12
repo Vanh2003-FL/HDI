@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cron_compute_resource_summary" model="ir.cron">
+        <field name="name">Tính toán tổng hợp nguồn lực dự án</field>
+        <field name="model_id" ref="model_project_resource_summary"/>
+        <field name="state">code</field>
+        <field name="code">model._schedule_compute_resource_summary()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall">False</field>
+        <field name="active">True</field>
+        <field name="nextcall">2025-06-10 00:00:00</field>
+    </record>
+</odoo>

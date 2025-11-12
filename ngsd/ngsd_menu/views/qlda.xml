@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="qlda_menu" model="ir.ui.menu">
+        <field name="name">Quản lý sản xuất</field>
+        <field name="action" eval="False"/>
+        <field name="groups_id" eval="[(4, ref('ngsd_base.group_tvda'))]"/>
+        <field name="web_icon">mrp,static/description/icon.png</field>
+    </record>
+
+    <record id="qlda_qlnl_menu" model="ir.ui.menu">
+        <field name="name">Quản lý nguồn lực</field>
+        <field name="action" eval="False"/>
+        <field name="sequence">10</field>
+        <field name="parent_id" ref="qlda_menu"/>
+    </record>
+    <record id="qlda_qlnl_dsnl_menu" model="ir.ui.menu">
+        <field name="name">Danh sách nguồn lực</field>
+        <field name="action" ref="hr.open_view_employee_list_my"/>
+        <field name="sequence">0</field>
+        <field name="parent_id" ref="qlda_qlnl_menu"/>
+    </record>
+
+    <record id="qlda_qlnl_dsnl_outsource_menu" model="ir.ui.menu">
+        <field name="name">Danh sách nguồn lực OS</field>
+        <field name="action" ref="ngs_hr.open_view_employee_list_os"/>
+        <field name="sequence">0</field>
+        <field name="parent_id" ref="qlda_qlnl_menu"/>
+    </record>
+
+    <record id="qlda_qlnl_dsnl_hidden_menu" model="ir.ui.menu">
+        <field name="name">Nguồn lực ẩn</field>
+        <field name="action" ref="ngsd_base.open_view_employee_list_my_hr_hidden"/>
+        <field name="sequence">1</field>
+        <field name="groups_id" eval="[(4, ref('ngsd_base.group_userhr')), (4, ref('ngsd_base.group_pm')), (4, ref('ngsd_base.group_vpm'))]"/>
+        <field name="parent_id" ref="qlda_qlnl_menu"/>
+    </record>
+    <record id="qlda_borrow_employee_menu" model="ir.ui.menu">
+        <field name="name">Mượn nhân sự</field>
+        <field name="action" ref="ngsd_base.en_borrow_employee_act"/>
+        <field name="sequence">5</field>
+        <field name="parent_id" ref="qlda_qlnl_menu"/>
+    </record>
+    <record id="qlda_lender_employee_menu" model="ir.ui.menu">
+        <field name="name">Danh sách nhân sự cho mượn</field>
+        <field name="action" ref="ngsd_base.en_lender_employee_act"/>
+        <field name="sequence">10</field>
+        <field name="parent_id" ref="qlda_qlnl_menu"/>
+    </record>
+    <record id="account_reports.menu_resource_action_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_qlnl_menu"/>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="qlda_qlda_menu" model="ir.ui.menu">
+        <field name="name">Quản lý dự án</field>
+        <field name="action" eval="False"/>
+        <field name="sequence">20</field>
+        <field name="parent_id" ref="qlda_menu"/>
+    </record>
+    <record id="quan_ly_nhan_su_menu" model="ir.ui.menu">
+        <field name="name">Quản lý nhân sự</field>
+        <field name="sequence">12</field>
+        <field name="web_icon">hr,static/description/icon.png</field>
+        <field name="groups_id" eval="[(4, ref('ngsd_base.group_tvda'))]"/>
+        <field name="action" ref="ngsd_base.open_view_employee_list_my_hr"/>
+    </record>
+     <record id="so_do_to_chuc_menu" model="ir.ui.menu">
+        <field name="name">Sơ đồ tổ chức</field>
+        <field name="sequence">10</field>
+        <field name="parent_id" ref="quan_ly_nhan_su_menu"/>
+    </record>
+    <record id="action_org_chart_overview" model="ir.actions.client">
+        <field name="name">Sơ đồ tổ chức hình cây</field>
+        <field name="tag">hr_org_chart_overview</field>
+        <field name="target">main</field>
+        <field name="params">{'model': 'hr.employee'}</field>
+    </record>
+
+    <record id="so_do_to_chuc_sdtc_menu" model="ir.ui.menu">
+        <field name="name">Sơ đồ tổ chức</field>
+        <field name="sequence">10</field>
+        <field name="parent_id" ref="so_do_to_chuc_menu"/>
+    </record>
+
+    <record id="so_do_to_chuc_hinh_cay_sdtc_menu" model="ir.ui.menu">
+        <field name="name">Hình cây</field>
+        <field name="sequence">10</field>
+        <field name="action" ref="ngsd_base.hr_overview_report_employee_popup_action"/>
+        <field name="parent_id" ref="so_do_to_chuc_sdtc_menu"/>
+    </record>
+
+
+    <record id="so_do_to_chuc_sdtc_department_menu" model="ir.ui.menu">
+        <field name="name">Phòng/Ban</field>
+        <field name="sequence">20</field>
+        <field name="action" ref="ngsd_base.hr_overview_report_popup_action"/>
+        <field name="parent_id" ref="so_do_to_chuc_sdtc_menu"/>
+    </record>
+    <record id="dinh_bien_pivot_action" model="ir.actions.act_window">
+        <field name="res_model">hr.boundary.master</field>
+        <field name="view_mode">pivot</field>
+        <field name="context">{'create': False}</field>
+    </record>
+     <record id="dinh_bien_list_action" model="ir.actions.act_window">
+        <field name="res_model">hr.boundary</field>
+        <field name="view_mode">list</field>
+         <field name="search_view_id" ref="ngsd_base.hr_boundary_search"/>
+    </record>
+    <record id="dinh_bien_menu" model="ir.ui.menu">
+        <field name="name">Định biên</field>
+        <field name="sequence">30</field>
+        <field name="parent_id" ref="so_do_to_chuc_menu"/>
+    </record>
+     <record id="du_lieu_dinh_bien_menu" model="ir.ui.menu">
+        <field name="name">Dữ liệu định biên</field>
+        <field name="sequence">11</field>
+         <field name="action" ref="dinh_bien_list_action"/>
+        <field name="parent_id" ref="dinh_bien_menu"/>
+    </record>
+    <record id="bao_cao_dinh_bien_menu" model="ir.ui.menu">
+        <field name="name">Báo cáo định biên</field>
+        <field name="sequence">12</field>
+         <field name="action" ref="account_reports.ngs_boundary_report_wizard_action"/>
+        <field name="parent_id" ref="dinh_bien_menu"/>
+    </record>
+<!--    <record id="cai_dat_sdtc_menu" model="ir.ui.menu">-->
+<!--        <field name="name">Cài đặt</field>-->
+<!--        <field name="sequence">40</field>-->
+<!--        <field name="parent_id" ref="so_do_to_chuc_menu"/>-->
+<!--    </record>-->
+     <record id="ky_hieu_action" model="ir.actions.act_window">
+        <field name="res_model">hr.symbol</field>
+        <field name="name">Ký hiệu</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="family_cd_action" model="ir.actions.act_window">
+        <field name="res_model">hr.family</field>
+        <field name="name">Family</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="ma_cong_viec_cd_action" model="ir.actions.act_window">
+        <field name="res_model">job.code</field>
+        <field name="name">Job code</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="cap_do_cd_action" model="ir.actions.act_window">
+        <field name="res_model">hr.level</field>
+        <field name="name">Level</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="pay_grade_action" model="ir.actions.act_window">
+        <field name="res_model">pay.grade</field>
+        <field name="name">Pay grade</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="bac_luong_action" model="ir.actions.act_window">
+        <field name="res_model">salary.grade</field>
+        <field name="name">Bậc lương</field>
+        <field name="view_mode">list</field>
+    </record>
+     <record id="ky_nang_action" model="ir.actions.act_window">
+        <field name="res_model">hr.skill</field>
+        <field name="name">Kỹ năng</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="cai_dat_menu" name="Cài đặt" parent="quan_ly_nhan_su_menu" sequence="22"/>
+        <menuitem id="so_do_to_chuc_cd_menu" name="Sơ đồ tổ chức" parent="cai_dat_menu" sequence="10"/>
+            <menuitem id="cap_bac_cd_menu" name="Cấp bậc" parent="so_do_to_chuc_cd_menu" action="ngsd_base.name_level_act" sequence="20"/>
+            <menuitem id="ky_hieu_cd_menu" name="Ký hiệu" parent="so_do_to_chuc_cd_menu" action="ky_hieu_action" sequence="30"/>
+            <menuitem id="family_cd_menu" name="Family" parent="so_do_to_chuc_cd_menu" action="family_cd_action" sequence="40"/>
+            <menuitem id="ma_cong_viec_cd_menu" name="Job code" parent="so_do_to_chuc_cd_menu" action="ma_cong_viec_cd_action" sequence="50"/>
+            <menuitem id="cap_do_menu" name="Level" parent="so_do_to_chuc_cd_menu" action="cap_do_cd_action" sequence="60"/>
+            <menuitem id="pay_grade_menu" name="Pay grade" parent="so_do_to_chuc_cd_menu" action="pay_grade_action" sequence="70"/>
+            <menuitem id="bac_luong_menu" name="Bậc lương" parent="so_do_to_chuc_cd_menu" action="bac_luong_action" sequence="80"/>
+            <record id="hr.menu_view_employee_category_form" model="ir.ui.menu">
+                <field name="parent_id" ref="so_do_to_chuc_cd_menu"/>
+                <field name="sequence">90</field>
+            </record>
+
+        <menuitem id="ky_nang_menu" name="Kỹ năng" parent="cai_dat_menu" sequence="20"/>
+            <menuitem id="ky_nang_menu_con" name="Kỹ năng" parent="ky_nang_menu" action="ky_nang_action" sequence="10"/>
+            <menuitem id="loai_ky_nang_menu" name="Loại kỹ năng" parent="ky_nang_menu" action="hr_skills.hr_skill_type_action" sequence="20"/>
+        <menuitem id="ngs_hr_hr_overtime_root_menu" name="Tăng ca" sequence="30" parent="cai_dat_menu"/>
+            <menuitem id="ngs_hr_hr_overtime_type_menu" name="Loại tăng ca" sequence="10" parent="ngs_hr_hr_overtime_root_menu" action="ngsd_base.hr_overtime_type_act"/>
+        <menuitem id="ngs_hr_hr_leave_root_menu" name="Nghỉ phép" sequence="30" parent="cai_dat_menu"/>
+            <menuitem id="ngs_hr_hr_holidays_status_menu" name="Loại nghỉ phép" sequence="10" parent="ngs_hr_hr_leave_root_menu" action="hr_holidays.open_view_holiday_status" groups="hr_holidays.group_hr_holidays_manager"/>
+            <menuitem id="ngs_hr_hr_holidays_accrual_menu" name="Phương pháp tích luỹ" sequence="20" parent="ngs_hr_hr_leave_root_menu" action="hr_holidays.open_view_accrual_plans" groups="hr_holidays.group_hr_holidays_manager"/>
+            <menuitem id="ngs_hr_hr_holidays_public_time_off_menu" name="Nghỉ lễ" sequence="30" parent="ngs_hr_hr_leave_root_menu" action="hr_holidays.open_view_public_holiday" groups="hr_holidays.group_hr_holidays_manager"/>
+
+    <record id="khoi_sdtc_menu" model="ir.ui.menu">
+        <field name="name">Khối</field>
+        <field name="sequence">8</field>
+        <field name="action" ref="ngsd_base.name_block_act"/>
+        <field name="parent_id" ref="so_do_to_chuc_cd_menu"/>
+    </record>
+    <record id="hr.hr_department_kanban_action" model="ir.actions.act_window">
+            <field name="view_mode">tree,kanban,form</field>
+    </record>
+    <record id="trung_tam_ban__sdtc_menu" model="ir.ui.menu">
+        <field name="name">Trung tâm/ban</field>
+        <field name="sequence">10</field>
+        <field name="action" ref="hr.hr_department_kanban_action"/>
+        <field name="parent_id" ref="so_do_to_chuc_cd_menu"/>
+    </record>
+    <record id="trung_tam_ban_sdtc_menu" model="ir.ui.menu">
+        <field name="name">Phòng</field>
+        <field name="sequence">12</field>
+        <field name="action" ref="ngsd_base.department_act"/>
+        <field name="parent_id" ref="so_do_to_chuc_cd_menu"/>
+    </record>
+    <record id="vi_tri_cong_viec_sdtc_menu" model="ir.ui.menu">
+        <field name="name">Chức danh</field>
+        <field name="sequence">14</field>
+        <field name="action" ref="ngsd_base.hr_job_action"/>
+        <field name="parent_id" ref="so_do_to_chuc_cd_menu"/>
+    </record>
+
+    <record id="quan_ly_nhan_su_con_menu" model="ir.ui.menu">
+        <field name="name">Quản lý nhân sự</field>
+        <field name="sequence">20</field>
+        <field name="parent_id" ref="quan_ly_nhan_su_menu"/>
+    </record>
+    <record id="ho_so_nhan_su_menu" model="ir.ui.menu">
+        <field name="name">Hồ sơ nhân sự</field>
+        <field name="sequence">10</field>
+        <field name="action" ref="ngsd_base.open_view_employee_list_my_hr"/>
+        <field name="parent_id" ref="quan_ly_nhan_su_con_menu"/>
+    </record>
+    <record id="hop_dong_qlns_menu" model="ir.ui.menu">
+        <field name="name">Hợp đồng</field>
+        <field name="sequence">12</field>
+        <field name="parent_id" ref="quan_ly_nhan_su_con_menu"/>
+    </record>
+    <record id="danh_sach_hop_dong_menu" model="ir.ui.menu">
+        <field name="name">Danh sách hợp đồng</field>
+        <field name="sequence">14</field>
+        <field name="action" ref="hr_contract.action_hr_contract"/>
+        <field name="parent_id" ref="hop_dong_qlns_menu"/>
+    </record>
+    <record id="hop_dong_theo_nhan_vien_menu" model="ir.ui.menu">
+        <field name="name">Hợp đồng theo nhân viên</field>
+        <field name="action" ref="hr_contract.hr_contract_history_view_list_action"/>
+        <field name="sequence">16</field>
+        <field name="parent_id" ref="hop_dong_qlns_menu"/>
+    </record>
+    <record id="bao_cao_du_lieu_nhan_su_action" model="ir.actions.act_window">
+        <field name="res_model">report.data.human</field>
+        <field name="name">Báo cáo</field>
+        <field name="view_mode">form</field>
+    </record>
+    <record id="report_data_human_resource_action" model="ir.actions.client">
+        <field name="res_model">report.data.human.resource</field>
+        <field name="name">Báo cáo Dữ liệu nhân sự</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'model': 'report.data.human.resource'}"/>
+    </record>
+    <record id="bao_cao_menu" model="ir.ui.menu">
+        <field name="name">Báo cáo</field>
+        <field name="sequence">21</field>
+        <field name="parent_id" ref="quan_ly_nhan_su_menu"/>
+    </record>
+
+    <menuitem id="quan_ly_cong_menu" name="Quản lý công" sequence="20" parent="quan_ly_nhan_su_menu"/>
+        <menuitem id="ngs_hr_attendance_root_menu" name="Chấm công" sequence="10" parent="quan_ly_cong_menu"/>
+            <menuitem id="ngs_hr_attendance_view_attendances_menu" name="Quản lý chấm công" parent="ngs_hr_attendance_root_menu" sequence="10" groups="ngsd_base.group_pm,ngsd_base.group_tpkndu,ngsd_base.group_gdkndu,ngsd_base.group_gdkv,hr_attendance.group_hr_attendance_user" action="hr_attendance.hr_attendance_action"/>
+            <menuitem id="ngs_hr_hr_attendance_menu" name="Bảng chấm công" sequence="20" parent="ngs_hr_attendance_root_menu" action="ngs_attendance.report_timekeeping_wizard_action" groups="ngsd_base.group_tpkndu,ngsd_base.group_gdkndu,ngsd_base.group_gdkv,,hr_attendance.group_hr_attendance_user"/>
+        <menuitem id="ngs_hr_attendance_explanation_root_menu" name="Giải trình" sequence="20" parent="quan_ly_cong_menu"/>
+            <menuitem id="ngs_hr_hr_attendance_explanation_my_menu" name="Giải trình chấm công của tôi" parent="ngs_hr_attendance_explanation_root_menu" action="ngs_attendance.hr_attendance_explanation_my_action" sequence="10"/>
+            <menuitem id="ngs_hr_hr_attendance_explanation_menu" name="Tất cả giải trình chấm công" parent="ngs_hr_attendance_explanation_root_menu" action="ngs_attendance.hr_attendance_explanation_action" sequence="20"/>
+        <menuitem id="ngs_hr_ot_project_root_menu" name="OT trong dự án" sequence="30" parent="quan_ly_cong_menu"/>
+            <menuitem id="ngs_hr_en_overtime_plan_menu" name="Kế hoạch OT trong dự án" sequence="10" action="ngsd_base.en_overtime_plan_action" parent="ngs_hr_ot_project_root_menu"/>
+            <menuitem id="ngs_hr_requested_hr_overtime_menu" name="Tăng ca trong dự án" sequence="20" action="ngsd_base.requested_hr_overtime_act" parent="ngs_hr_ot_project_root_menu"/>
+        <menuitem id="ngs_hr_project_task_root_menu" name="Công việc" sequence="40" parent="quan_ly_cong_menu"/>
+<!--            <menuitem id="ngs_hr_en_project_task_all_menu" name="Công việc trong dự án" sequence="10" action="ngsd_base.en_nonproject_task_all_action" parent="ngs_hr_project_task_root_menu"/>-->
+            <menuitem id="ngs_hr_en_nonproject_task_all_menu" name="Công việc ngoài dự án" sequence="10" action="ngsd_base.en_nonproject_task_all_action" parent="ngs_hr_project_task_root_menu"/>
+        <menuitem id="ngs_hr_ot_nonproject_root_menu" name="OT ngoài dự án" sequence="40" parent="quan_ly_cong_menu"/>
+            <menuitem id="ngs_hr_en_overtime_plan_nonproject_menu" name="Kế hoạch OT ngoài dự án" sequence="20" action="ngsd_base.en_overtime_plan_nonproject_action" parent="ngs_hr_ot_nonproject_root_menu"/>
+            <menuitem id="ngs_hr_en_hr_overtime_nonproject_all_menu" name="Tăng ca ngoài dự án" sequence="30" action="ngsd_base.requested_hr_overtime_nonproject_act" parent="ngs_hr_ot_nonproject_root_menu"/>
+        <menuitem id="ngs_hr_open_department_leave_root_menu" name="Nghỉ phép" sequence="50" parent="quan_ly_cong_menu"/>
+            <menuitem id="ngs_hr_hr_leave_menu_my" name="Nghỉ phép của tôi" parent="ngs_hr_open_department_leave_root_menu" action="hr_holidays.hr_leave_action_my" sequence="10"/>
+            <menuitem id="ngs_hr_open_department_leave_approve_menu" name="Quản lý nghỉ phép" parent="ngs_hr_open_department_leave_root_menu" action="hr_holidays.hr_leave_action_action_approve_department" sequence="20"/>
+
+    <record id="bao_cao_du_lieu_nhan_su_menu" model="ir.ui.menu">
+        <field name="name">Báo cáo Dữ liệu nhân sự</field>
+        <field name="sequence">10</field>
+        <field name="action" ref="ngsd_menu.report_data_human_resource_action"/>
+        <field name="parent_id" ref="bao_cao_menu"/>
+        <field eval="[(6, 0, [ref('hr.group_hr_manager')])]" name="groups_id"/>
+    </record>
+    <record id="bao_cao_quan_he_nhan_than_menu" model="ir.ui.menu">
+        <field name="name">Báo cáo Quan hệ nhân thân</field>
+        <field name="sequence">12</field>
+        <field name="action" ref="ngsd_menu.bao_cao_du_lieu_nhan_su_action"/>
+        <field name="parent_id" ref="bao_cao_menu"/>
+    </record>
+     <record id="bao_cao_nhan_su_het_han_hop_dong_menu" model="ir.ui.menu">
+        <field name="name">Báo cáo Nhân sự hết hạn hợp đồng</field>
+        <field name="sequence">14</field>
+        <field name="action" ref="ngsd_menu.bao_cao_du_lieu_nhan_su_action"/>
+        <field name="parent_id" ref="bao_cao_menu"/>
+    </record>
+     <record id="bao_cao_bien_dong_nhan_su_menu" model="ir.ui.menu">
+        <field name="name">Báo cáo Biến động nhân sự</field>
+        <field name="sequence">16</field>
+        <field name="action" ref="ngsd_menu.bao_cao_du_lieu_nhan_su_action"/>
+        <field name="parent_id" ref="bao_cao_menu"/>
+    </record>
+    <record id="cai_dat_qlns_menu" model="ir.ui.menu">
+        <field name="name">Cài đặt</field>
+        <field name="sequence">14</field>
+        <field name="parent_id" ref="quan_ly_nhan_su_con_menu"/>
+    </record>
+
+    <record id="hr_work_location_menu" model="ir.ui.menu">
+        <field name="name">Địa điểm làm việc</field>
+        <field name="action" ref="hr.hr_work_location_action"/>
+        <field name="sequence">5</field>
+        <field name="parent_id" ref="cai_dat_qlns_menu"/>
+    </record>
+    <record id="lich_lam_viec_qlns_menu" model="ir.ui.menu">
+        <field name="name">Lịch làm việc</field>
+        <field name="action" ref="resource.action_resource_calendar_form"/>
+        <field name="sequence">12</field>
+        <field name="parent_id" ref="cai_dat_qlns_menu"/>
+    </record>
+    <record id="action_contract_date" model="ir.actions.act_window">
+        <field name="name">Thời hạn hợp đồng</field>
+        <field name="res_model">contract.date</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="contract_date_menu" model="ir.ui.menu">
+        <field name="name">Thời hạn hợp đồng</field>
+        <field name="action" ref="action_contract_date"/>
+        <field name="sequence">14</field>
+        <field name="parent_id" ref="cai_dat_qlns_menu"/>
+    </record>
+    <record id="action_warning_contract" model="ir.actions.act_window">
+        <field name="name">Cảnh báo hợp đồng</field>
+        <field name="res_model">contract.warning</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="contract_warning_menu" model="ir.ui.menu">
+        <field name="name">Cảnh báo hợp đồng</field>
+        <field name="action" ref="action_warning_contract"/>
+        <field name="sequence">16</field>
+        <field name="parent_id" ref="cai_dat_qlns_menu"/>
+    </record>
+
+<!--    <record id="onboard_offboard_qlns_menu" model="ir.ui.menu">-->
+<!--        <field name="name">Onboard/Offboard</field>-->
+<!--        <field name="sequence">14</field>-->
+<!--        <field name="parent_id" ref="cai_dat_qlns_menu"/>-->
+<!--    </record>-->
+<!--    <record id="ke_hoach_qlns_menu" model="ir.ui.menu">-->
+<!--        <field name="name">Kế hoạch</field>-->
+<!--        <field name="action" ref="hr.hr_plan_action"/>-->
+<!--        <field name="sequence">12</field>-->
+<!--        <field name="parent_id" ref="onboard_offboard_qlns_menu"/>-->
+<!--    </record>-->
+<!--    <record id="kieu_ke_hoach_qlns_menu" model="ir.ui.menu">-->
+<!--        <field name="name">Kiểu kế hoạch</field>-->
+<!--        <field name="action" ref="hr.hr_plan_activity_type_action"/>-->
+<!--        <field name="sequence">14</field>-->
+<!--        <field name="parent_id" ref="onboard_offboard_qlns_menu"/>-->
+<!--    </record>-->
+    <record id="open_view_project_all" model="ir.actions.act_window">
+        <field name="name">Dự án</field>
+        <field name="res_model">project.project</field>
+        <field name="domain">[]</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="project.view_project_kanban"/>
+        <field name="search_view_id" ref="project.view_project_project_filter"/>
+        <field name="target">main</field>
+    </record>
+    <record id="qlda_qlda_dsda_menu" model="ir.ui.menu">
+        <field name="name">Danh sách dự án</field>
+        <field name="action" ref="open_view_project_all"/>
+        <field name="sequence">0</field>
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+    </record>
+    <record id="qlda_qlda_dgqa_menu" model="ir.ui.menu">
+        <field name="name">Đánh giá của QA</field>
+        <field name="action" ref="ngsd_base.qa_evaluate_view_action"/>
+        <field name="sequence">1</field>
+        <field name="groups_id" eval="[(4,ref('ngsd_base.group_qal')), (4,ref('ngsd_base.group_qam'))]"/>
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+    </record>
+    <record id="ngsd_base.en_experience_menu" model="ir.ui.menu">
+        <field name="sequence">2</field>
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+    </record>
+    <record id="account_reports.menu_project_action_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+        <field name="sequence">20</field>
+    </record>
+    <record id="account_reports.menu_project_resource_action_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+        <field name="sequence">40</field>
+    </record>
+    <record id="account_reports.menu_department_resource_action_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+        <field name="sequence">60</field>
+    </record>
+    <record id="qlda_qlda_nv_menu" model="ir.ui.menu">
+        <field name="name">Nhiệm vụ</field>
+        <field name="action" ref="project.open_view_project_all"/>
+        <field name="sequence">129</field>
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+    </record>
+    <record id="qlda_qlda_nv_nvct_menu" model="ir.ui.menu">
+        <field name="name">Công việc của tôi</field>
+        <field name="action" ref="project.action_view_all_task"/>
+        <field name="sequence">0</field>
+        <field name="parent_id" ref="qlda_qlda_nv_menu"/>
+    </record>
+    <record id="qlda_qlda_nv_nvda_menu" model="ir.ui.menu">
+        <field name="name">Công việc dự án</field>
+        <field name="action" ref="project.open_view_project_all"/>
+        <field name="sequence">100</field>
+        <field name="groups_id" eval="[(5,0,0)]"/>
+        <field name="parent_id" ref="qlda_qlda_nv_menu"/>
+    </record>
+    <record id="qlda_qlda_project_document_menu" model="ir.ui.menu">
+        <field name="name">Sản phẩm bàn giao</field>
+        <field name="sequence">130</field>
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+    </record>
+    <record id="qlda_qlda_en_project_document_menu" model="ir.ui.menu">
+        <field name="name">Sản phẩm bàn giao</field>
+        <field name="action" ref="ngsd_base.project_document_act"/>
+        <field name="sequence">5</field>
+        <field name="groups_id" eval="[(5,0,0)]"/>
+        <field name="parent_id" ref="qlda_qlda_project_document_menu"/>
+    </record>
+    <record id="qlda_qlda_ts_menu" model="ir.ui.menu">
+        <field name="name">Timesheet</field>
+        <field name="sequence">140</field>
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+    </record>
+    <record id="hr_timesheet.timesheet_menu_activity_mine" model="ir.ui.menu">
+        <field name="sequence">0</field>
+        <field name="parent_id" ref="qlda_qlda_ts_menu"/>
+    </record>
+    <record id="hr_timesheet.timesheet_menu_activity_all" model="ir.ui.menu">
+        <field name="sequence">10</field>
+        <field name="parent_id" ref="qlda_qlda_ts_menu"/>
+    </record>
+    <record id="qlda_tc_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_menu"/>
+        <field name="sequence">150</field>
+        <field name="name">Tăng ca</field>
+        <field name="parent_id" ref="qlda_qlda_menu"/>
+    </record>
+    <record id="ngsd_base.hr_overtime_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tc_menu"/>
+        <field name="sequence">10</field>
+    </record>
+    <record id="ngsd_base.en_overtime_plan_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tc_menu"/>
+        <field name="sequence">20</field>
+    </record>
+    <record id="ngsd_base.requested_hr_overtime_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tc_menu"/>
+        <field name="sequence">30</field>
+    </record>
+<!--    <record id="ngsd_base.hr_overtime_type_menu" model="ir.ui.menu">-->
+<!--        <field name="parent_id" ref="qlda_tc_menu"/>-->
+<!--        <field name="sequence">50</field>-->
+<!--        <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>-->
+<!--    </record>-->
+
+    <menuitem id="folder_project_menu" name="Thư mục gán dự án" parent="qlda_qlda_menu" sequence="160" action="ngsd_base.documents_folder_project_action"/>
+    <menuitem id="documents_project_menu" name="Tài liệu gán dự án" parent="qlda_qlda_menu" sequence="170" action="ngsd_base.document_project_action"/>
+
+    <menuitem id="qlda_nonproject_task_root_menu" parent="qlda_menu" name="Công việc ngoài dự án" sequence="30">
+        <menuitem id="qlda_nonproject_task_task_menu" name="Công việc" sequence="10">
+            <menuitem id="en_nonproject_task_my_task_menu" name="Công việc của tôi" sequence="10" action="ngsd_base.en_nonproject_task_my_task_action"/>
+            <menuitem id="en_nonproject_task_all_menu" name="Tất cả công việc" sequence="20" action="ngsd_base.en_nonproject_task_all_action"/>
+        </menuitem>
+        <menuitem id="qlda_nonproject_task_timesheet_menu" name="Timesheet" sequence="20">
+            <menuitem id="act_hr_timesheet_nonproject_line_menu" name="Timesheet của tôi" sequence="10" action="ngsd_base.act_hr_timesheet_nonproject_line"/>
+            <menuitem id="timesheet_action_nonproject_all_menu" name="Tất cả Timesheet" sequence="20" action="ngsd_base.timesheet_action_nonproject_all"/>
+        </menuitem>
+        <menuitem id="qlda_nonproject_task_ot_root_menu" name="Tăng ca" sequence="30">
+            <menuitem id="en_hr_overtime_nonproject_menu" name="Tăng ca của tôi" sequence="5" action="ngsd_base.hr_overtime_nonproject_act"/>
+            <menuitem id="en_overtime_plan_nonproject_menu" name="Kế hoạch OT" sequence="10" action="ngsd_base.en_overtime_plan_nonproject_action"/>
+            <menuitem id="en_hr_overtime_nonproject_all_menu" name="Tất cả tăng ca" sequence="15" action="ngsd_base.requested_hr_overtime_nonproject_act"/>
+        </menuitem>
+        <menuitem id="folder_nonproject_menu" name="Thư mục không gán dự án" sequence="40" action="ngsd_base.documents_folder_nonproject_action"/>
+        <menuitem id="documents_nonproject_menu" name="Tài liệu không gán dự án" sequence="40" action="ngsd_base.document_nonproject_action"/>
+        <menuitem id="qa_report_work_menu" name="Kế hoạch công việc QA" sequence="50" action="ngsd_base.qa_report_work_view_action"/>
+    </menuitem>
+
+    <record id="qlda_report_root_menu" model="ir.ui.menu">
+        <field name="name">Báo cáo</field>
+        <field name="action" eval="False"/>
+        <field name="sequence">40</field>
+        <field name="parent_id" ref="qlda_menu"/>
+    </record>
+
+    <record id="account_reports.menu_project_action_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_report_root_menu"/>
+        <field name="sequence">10</field>
+    </record>
+    <record id="account_reports.menu_project_resource_action_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_report_root_menu"/>
+        <field name="sequence">20</field>
+    </record>
+    <record id="account_reports.menu_department_project_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_report_root_menu"/>
+        <field name="sequence">50</field>
+    </record>
+    <record id="account_reports.menu_department_resource_action_report" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_report_root_menu"/>
+        <field name="groups_id" eval="[(4,ref('ngsd_base.group_tk')),(4,ref('ngsd_base.group_vpm')),(4,ref('ngsd_base.group_tppmo')),(4,ref('ngsd_base.group_tpvh')), (4, ref('ngsd_base.group_qam')), (4, ref('ngsd_base.group_qal')), (4, ref('ngsd_base.group_userhr')), (4, ref('ngsd_base.group_gdkv')), (4, ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="sequence">30</field>
+    </record>
+    <record id="account_reports.menu_department_resource_detail_report" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
+        <field name="groups_id" eval="[(4,ref('ngsd_base.group_tk')),(4,ref('ngsd_base.group_vpm')),(4,ref('ngsd_base.group_tppmo')),(4,ref('ngsd_base.group_tpvh')), (4, ref('ngsd_base.group_qam')), (4, ref('ngsd_base.group_qal')), (4, ref('ngsd_base.group_userhr')), (4, ref('ngsd_base.group_gdkv')), (4, ref('ngsd_base.group_gdkndu'))]"/>
+    </record>
+    <record id="account_reports.menu_timesheet_detail_by_project_report" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
+    </record>
+    <record id="account_reports.menu_busy_rate_report" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
+    </record>
+    <record id="account_reports.menu_project_status_report" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
+    </record>
+    <record id="account_reports.menu_resource_analysis_report" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
+    </record>
+    <record id="ngsd_base.menu_timesheet_general_report" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
+    </record>
+    <record id="account_reports.menu_effective_resource_project_report" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
+    </record>
+    <record id="account_reports.menu_employee_department_borrow" model="ir.ui.menu">
+        <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
+    </record>
+
+    <record id="qlda_tl_menu" model="ir.ui.menu">
+        <field name="name">Thiết lập</field>
+        <field name="sequence">50</field>
+        <field name="parent_id" ref="qlda_menu"/>
+        <field name="groups_id" eval="[(4,ref('base.group_system')), (4, ref('ngsd_base.group_qal')), (4, ref('ngsd_base.group_qam'))]"/>
+    </record>
+    <record id="qlda_tl_nl_menu" model="ir.ui.menu">
+        <field name="name">Nguồn lực</field>
+        <field name="parent_id" ref="qlda_tl_menu"/>
+        <field name="sequence">100</field>
+    </record>
+    <record id="ngsd_base.name_area_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="sequence">0</field>
+    </record>
+    <record id="hr.menu_view_hr_job" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="sequence">100</field>
+    </record>
+    <record id="ngsd_base.name_level_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="sequence">200</field>
+    </record>
+    <record id="ngsd_base.name_block_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="sequence">300</field>
+    </record>
+    <record id="hr.menu_hr_department_tree" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="sequence">400</field>
+    </record>
+    <record id="ngsd_base.department_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="sequence">500</field>
+    </record>
+    <record id="ngsd_base.role_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="sequence">600</field>
+    </record>
+    <record id="ngsd_base.job_position_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="sequence">700</field>
+    </record>
+    <record id="ngsd_base.type_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="sequence">1300</field>
+    </record>
+    <record id="qlda_tl_nl_nl_menu" model="ir.ui.menu">
+        <field name="name">Nghỉ lễ</field>
+        <field name="parent_id" ref="qlda_tl_nl_menu"/>
+        <field name="action" ref="hr_holidays.open_view_public_holiday"/>
+        <field name="sequence">1400</field>
+    </record>
+
+    <record id="qlda_tl_da_menu" model="ir.ui.menu">
+        <field name="name">Dự án</field>
+        <field name="parent_id" ref="qlda_tl_menu"/>
+        <field name="sequence">100</field>
+    </record>
+    <record id="ngsd_base.project_type_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">800</field>
+    </record>
+    <record id="ngsd_base.project_model_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">900</field>
+    </record>
+    <record id="ngsd_base.branch_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">1000</field>
+    </record>
+    <record id="account.menu_action_currency_form" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">1100</field>
+    </record>
+    <record id="table_criteria_api_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="action" ref="ngsd_base.table_criteria_api_view_action"/>
+        <field name="sequence">1400</field>
+    </record>
+    <record id="project.menu_project_config_project_stage" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">1500</field>
+    </record>
+    <record id="ngsd_base.list_project_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">1600</field>
+    </record>
+    <record id="ngsd_base.role_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">1700</field>
+    </record>
+    <record id="ngsd_base.customer_type_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">1800</field>
+    </record>
+    <record id="qlda_tl_lhccda_menu" model="ir.ui.menu">
+        <field name="name">Loại hình cung cấp dự án</field>
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="action" ref="ngsd_crm.project_type_source_action"/>
+        <field name="sequence">1900</field>
+    </record>
+    <record id="ngsd_base.stage_type_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">2000</field>
+    </record>
+    <record id="project.menu_project_config_project" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+        <field name="sequence">2100</field>
+    </record>
+    <record id="ngsd_base.hr_overtime_setting_menu" model="ir.ui.menu">
+        <field name="sequence">2200</field>
+        <field name="parent_id" ref="qlda_tl_da_menu"/>
+    </record>
+
+    <record id="qlda_tl_pd_menu" model="ir.ui.menu">
+        <field name="name">Phê duyệt</field>
+        <field name="parent_id" ref="qlda_tl_menu"/>
+        <field name="sequence">2100</field>
+    </record>
+    <record id="ngsd_base.approve_role_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_pd_menu"/>
+        <field name="sequence">0</field>
+    </record>
+    <record id="ngsd_base.approve_flow_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_pd_menu"/>
+        <field name="sequence">100</field>
+    </record>
+
+    <record id="qlda_tl_rr_menu" model="ir.ui.menu">
+        <field name="name">Rủi ro</field>
+        <field name="parent_id" ref="qlda_tl_menu"/>
+        <field name="sequence">2200</field>
+    </record>
+    <record id="ngsd_base.risk_scope_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+    </record>
+    <record id="ngsd_base.iso_type_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+    </record>
+    <record id="ngsd_base.strategy_handle_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+    </record>
+    <record id="ngsd_base.effect_level_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+    </record>
+    <record id="ngsd_base.en_possible_rate_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+    </record>
+    <record id="ngsd_base.en_risk_sla_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+    </record>
+    <record id="ngsd_base.risk_level_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+    </record>
+    <record id="ngsd_base.risk_stage_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+        <field name="active" eval="False"/>
+    </record>
+    <record id="ngsd_base.inf_expand_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+    </record>
+    <record id="ngsd_base.risk_type_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_menu"/>
+    </record>
+    <record id="qlda_tl_rr_vd_menu" model="ir.ui.menu">
+        <field name="name">Vấn đề</field>
+        <field name="parent_id" ref="qlda_tl_menu"/>
+        <field name="sequence">2300</field>
+    </record>
+    <record id="ngsd_base.problem_level_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_vd_menu"/>
+    </record>
+    <record id="ngsd_base.problem_priority_menu" model="ir.ui.menu">
+        <field name="parent_id" ref="qlda_tl_rr_vd_menu"/>
+    </record>
+
+</odoo>

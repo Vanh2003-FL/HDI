@@ -1,0 +1,5 @@
+<odoo>
+    <record id="ngsd_base.requested_hr_overtime_act" model="ir.actions.act_window">
+        <field name="context">{'create': 1, 'search_default_filter_requested': 1, }</field>
+    </record>
+</odoo>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+            <record id="form_history_hr_contract" model="ir.ui.view">
+                <field name="name">form_history_hr_contract</field>
+                <field name="model">hr.contract</field>
+                <field name="priority">100000</field>
+                 <field name="arch" type="xml">
+                     <form string="Employee" js_class="hr_employee_form" class='o_employee_form_popup'>
+                        <chatter/><field name="message_follower_ids" groups="base.group_user"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </div>
+                    </form>
+                 </field>
+            </record>
+
+          <record id="view_hr_contract_form_inherit" model="ir.ui.view">
+                    <field name="name">hr.contract.form.inherit</field>
+                    <field name="model">hr.contract</field>
+                    <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='contract_type_id']" position="attributes">
+                            <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}</attribute>
+                        </xpath>
+                        <xpath expr="//header" position="inside">
+                            <button string="Hủy" type="object" name="action_cancel" button="btn-secondary" attrs="{'invisible':[('state','!=', 'open')]}"/>
+                            <button string="Lịch sử" type="object" name="button_show_history"/>
+                        </xpath>
+                        <xpath expr="//field[@name='name']" position="attributes">
+                            <attribute name="readonly">1</attribute>
+                        </xpath>
+                        <xpath expr="//field[@name='kanban_state']" position="attributes">
+                            <attribute name="invisible">1</attribute>
+                        </xpath>
+                        <xpath expr="//field[@name='date_start']" position="before">
+                            <field name="contract_date_id"/>
+                        </xpath>
+                        <xpath expr="//group[@name='notes_group']" position="before">
+                            <group>
+                                <field name="working_hour"/>
+                                <field name="basic_salary"/>
+                                <field name="contract_type" invisible="1"/>
+                                <field name="remuneration" attrs="{'invisible':[('contract_type','!=','hdkv')]}"/>
+                                <field name="payment_batch_ids" attrs="{'invisible':[('contract_type','!=','hdkv')]}">
+                                    <list editable="bottom">
+                                         <field name="name"/>
+                                         <field name="money"/>
+                                         <field name="note"/>
+                                    </list>
+                                </field>
+                                <field name="training_location" attrs="{'invisible':[('contract_type','!=','hddtf')]}"/>
+                                <field name="training_cost_ids" attrs="{'invisible':[('contract_type','!=','hddtf')]}">
+                                    <list editable="bottom">
+                                        <field name="sequence"/>
+                                        <field name="content"/>
+                                        <field name="unit_price"/>
+                                        <field name="training_time"/>
+                                        <field name="amount" sum="amount"/>
+                                    </list>
+                                </field>
+                                <field name="monthly_performance_bonus" attrs="{'invisible':[('contract_type','!=','plhdld')]}"/>
+                                <field name="lunch_allowance" attrs="{'invisible':[('contract_type','!=','plhdld')]}"/>
+                                <field name="phone_allowance" attrs="{'invisible':[('contract_type','!=','plhdld')]}"/>
+                                <field name="travel_allowance" attrs="{'invisible':[('contract_type','!=','plhdld')]}"/>
+                            </group>
+                        </xpath>
+                        <xpath expr="//page[@name='information']" position="attributes">
+                            <attribute name="invisible">1</attribute>
+                        </xpath>
+                        <xpath expr="//field[@name='hr_responsible_id']" position="attributes">
+                            <attribute name="required">0</attribute>
+                        </xpath>
+                        <xpath expr="//field[@name='hr_responsible_id']" position="after">
+                            <field name="extension_status"  attrs="{'readonly': False}"/>
+                        </xpath>
+                        <xpath expr="//div[@class='oe_chatter']" position="replace"/>
+                    </field>
+          </record>
+
+        <record id="hr_contract_view_tree" model="ir.ui.view">
+            <field name="name">hr.contract.tree</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='structure_type_id']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                 </xpath>
+            </field>
+        </record>
+
+       <record id="hr_contract_view_search_inherit" model="ir.ui.view">
+            <field name="name">hr.contract.search.inherit</field>
+            <field name="model">hr.contract</field>
+           <field name="inherit_id" ref="hr_contract.hr_contract_view_search"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='name']" position="attributes">
+                     <attribute name="string">Mã hợp đồng</attribute>
+                 </xpath>
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="name" string="Tất cả" filter_domain="['|','|','|','|','|','|',('name','ilike', self), ('employee_id','ilike', self), ('employee_barcode', 'ilike', self), ('job_id', 'ilike', self), ('department_id', 'ilike', self), ('search_contract_type', 'ilike', self), ('hr_responsible_id', 'ilike', self)]"/>
+                </xpath>
+                <xpath expr="//field[@name='employee_id']" position="before">
+                    <field name="employee_barcode"/>
+                 </xpath>
+                <xpath expr="//filter[@name='current_employee']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                 </xpath>
+                <xpath expr="//filter[@name='not_running']" position="attributes">
+                     <attribute name="domain">[('state', '=', 'close')]</attribute>
+                 </xpath>
+                <xpath expr="//filter[@name='activities_overdue']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                 </xpath>
+                <xpath expr="//filter[@name='activities_today']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                 </xpath>
+                <xpath expr="//filter[@name='activities_upcoming_all']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                 </xpath>
+                <xpath expr="//filter[@name='group_by_structure_type_id']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                 </xpath>
+            </field>
+       </record>
+
+        <record id="cron_job_atu_send_warning_contract" model="ir.cron">
+            <field name="name">Cảnh báo hợp đồng hết hạn</field>
+            <field name="model_id" ref="model_hr_contract"/>
+            <field name="state">code</field>
+            <field name="code">model.search([('date_end', '!=', False), ('state', '=', 'open')]).action_send_warning_contract()</field>
+            <field name='interval_number'>1</field>
+            <field name="nextcall" eval="(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 00:00:01')"/>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">1</field>
+            <field name="doall">1</field>
+        </record>
+
+        <record id="view_confirm_cancel_contract_wizard" model="ir.ui.view">
+            <field name="name">confirm.cancel.contract.wizard.form</field>
+            <field name="model">confirm.cancel.hr.contract.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Confirm Cancel Contract">
+                    <group>
+                        <p>Bạn đang thực hiện huỷ hợp đồng, bạn có muốn tiếp tục không ?</p>
+                    </group>
+                    <footer>
+                        <button string="Xác nhận" type="object" name="action_confirm" class="btn-primary"/>
+                        <button string="Huỷ bỏ" type="object" name="action_cancel" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="action_confirm_cancel_contract_wizard" model="ir.actions.act_window">
+            <field name="name">Confirm Cancel Contract</field>
+            <field name="res_model">confirm.cancel.hr.contract.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="cron_job_atu_change_status" model="ir.cron">
+            <field name="name">Chuyển trạng thái hợp đồng</field>
+            <field name="model_id" ref="model_hr_contract"/>
+            <field name="state">code</field>
+            <field name="code">model.action_change_state_contract()</field>
+            <field name='interval_number'>1</field>
+            <field name="nextcall" eval="(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 00:00:01')"/>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">1</field>
+            <field name="doall">1</field>
+        </record>
+
+        <record id="contract_date_tree" model="ir.ui.view">
+            <field name="name">contract.date</field>
+            <field name="model">contract.date</field>
+            <field name="arch" type="xml">
+                <list editable="top">
+                    <field name="name"/>
+                    <field name="period"/>
+                    <field name="unit"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="contract_waring_tree" model="ir.ui.view">
+            <field name="name">contract.warning</field>
+            <field name="model">contract.warning</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="contract_type_ids" widget="many2many_tags"/>
+                    <field name="advance_waring_period"/>
+                </list>
+            </field>
+        </record>
+        <record id="contract_waring_form" model="ir.ui.view">
+            <field name="name">contract.warning.form</field>
+            <field name="model">contract.warning</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="contract_type_ids" widget="many2many_tags"/>
+                            <field name="advance_waring_period"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

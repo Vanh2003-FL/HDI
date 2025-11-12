@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsc_nonproject_resource_task_view_form" model="ir.ui.view">
+            <field name="name">ngsc.nonproject.resource.task.view.form</field>
+            <field name="model">en.nonproject.task</field>
+            <field name="inherit_id" ref="ngsd_base.en_nonproject_task_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='en_task_type']" position="after">
+                    <field name="crm_lead_id" options="{'no_create': True, 'no_open': True}"
+                           attrs="{'invisible': ['|',('en_task_type', '=', False),('en_task_type', 'not in', ['support', 'presale'])],
+                                   'required': [('en_task_type', 'in', ['support', 'presale'])]}"/>
+                    <field name="partner_id"
+                           attrs="{'invisible': ['|',('en_task_type', '=', False),('en_task_type', 'not in', ['support', 'presale'])]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

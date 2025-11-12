@@ -1,0 +1,113 @@
+<odoo>
+    <data noupdate="1">
+        <record id="task_evaluation_remind_reviewer_mail_template" model="mail.template">
+            <field name="name">[Đánh giá hiệu suất] Nhắc nhở Người giám sát đánh giá công việc tháng N-1</field>
+            <field name="model_id" ref="model_task_evaluation"/>
+            <field name="subject">Nhắc nhở đánh giá chất lượng công việc trong tháng {{ object.month_evaluation }} cần
+                phê duyệt
+            </field>
+            <field name="email_to">{{ object.reviewer_id.email_formatted }}</field>
+            <field name="partner_to"/>
+            <field name="body_html"><![CDATA[
+            <div>
+                <p>Xin chào <t t-esc="object.reviewer_id.name"/>,</p>
+                <p>Hiện anh/chị đang có danh sách đánh giá chất lượng công việc trong tháng <t t-esc="object.month_evaluation"/> cần phê duyệt:</p>
+                <t t-foreach="ctx.get('tasks')" t-as="task">
+                  <p>--- <t t-esc="task.name"/></p>
+                </t>
+                <p style="margin-top: 24px; margin-bottom: 16px;">
+                    <a t-att-href="ctx.get('url')" style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
+                        Xem danh sách
+                    </a>
+                </p>
+                <p>Anh/chị vui lòng kiểm tra danh sách trên.</p>
+                <p>Trân trọng!</p>
+            </div>
+        ]]></field>
+        </record>
+
+        <record id="task_evaluation_remind_manager_mail_template" model="mail.template">
+            <field name="name">[Đánh giá hiệu suất] Nhắc nhở QLTT/QLGT đánh giá hiệu suất tháng N-1</field>
+            <field name="model_id" ref="model_ngsc_hr_performance_evaluation"/>
+            <field name="subject">Nhắc nhở đánh giá hiệu suất công việc trong tháng {{object.month_display }} cần phê duyệt</field>
+            <field name="email_from"/>
+            <field name="email_to">{{ ctx.get('manager_email') }}</field>
+            <field name="partner_to"/>
+            <field name="body_html"><![CDATA[
+                    <div>
+                        <p>Xin chào <t t-esc="ctx.get('manager_name')"/>,</p>
+                        <p>Hiện anh/chị đang có danh sách đánh giá hiệu suất công việc trong tháng <t t-esc="object.month_display"/> cần phê duyệt:</p>
+                        <t t-foreach="ctx.get('evaluations')" t-as="line">
+                          <p>- <t t-esc="line.employee_id.name"/></p>
+                        </t>
+                        <p>Anh/chị vui lòng kiểm tra danh sách trên.</p>
+                        <p style="margin-top: 24px; margin-bottom: 16px;">
+                            <a t-att-href="ctx.get('url')" style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
+                                Xem danh sách
+                            </a>
+                        </p>
+                        <p>Trân trọng!</p>
+                    </div>
+                ]]></field>
+        </record>
+    </data>
+    <data>
+        <record id="performance_remind_evaluation_mail_template" model="mail.template">
+            <field name="name">[Đánh giá hiệu suất] Nhắc nhở hoàn thành Đánh giá thái độ</field>
+            <field name="model_id" ref="model_ngsc_hr_performance_evaluation"/>
+            <field name="subject">Nhắc nhở hoàn thành Đánh giá thái độ</field>
+            <field name="email_from"/>
+            <field name="email_to"></field>
+            <field name="partner_to"/>
+            <field name="body_html"><![CDATA[
+            <div>
+                <p>Kính gửi Anh/Chị Quản lý,</p>
+                <br/>
+                <p>Chúng tôi xin gửi email này để nhắc nhở về việc hoàn thành công tác <b>Đánh giá thái độ</b> của các thành viên trực thuộc trong kỳ đánh giá tháng <t t-esc="object.month_display"/></p>
+                <p>Hiện hệ thống ghi nhận Anh/Chị vẫn còn bản ghi cần đánh giá của nhân viên.</p>
+                <p>Hạn chót để hoàn thành đánh giá thái độ là <b>trước <t t-esc="ctx.get('deadline')"/>.</b></p>
+                <p>Việc hoàn thành đúng hạn sẽ giúp toàn bộ quy trình đánh giá chung của công ty không bị gián đoạn.</p>
+                <p>Trong trường hợp cần hỗ trợ, vui lòng liên hệ với Phòng Nhân sự (Mr. Hữu Anh – <a href="mailto:anhnh1@ngs.com.vn">anhnh1@ngs.com.vn</a> hoặc Ms. Tú – <a href="mailto:tudta@ngs.com.vn">tudta@ngs.com.vn</a>) để được hỗ trợ kịp thời.</p>
+                <p><b>Trân trọng.</b></p>
+                <p><b>-----</b></p>
+                <p><b>Phòng Nhân sự</b></p>
+                <br/>
+                <br/>
+                <p><b>CÔNG TY CỔ PHẦN TƯ VẤN CÔNG NGHỆ NGS</b></p>
+                <p>Email: <a href="mailto:hr_ngsc@ngs.com.vn">hr_ngsc@ngs.com.vn</a> |</p>
+                <p>Head office: 4th Floor, 6th Element Building, Nguyen Van Huyen St., Xuan La Ward, Tay Ho Dist., Hanoi, Vietnam</p>
+                <img src="ngsc_performance_evaluation/static/src/image/ngsc.jpg" alt="NGSC" width="200" align="left" style="display:block; margin:auto;">
+            </div>
+        ]]></field>
+        </record>
+
+        <record id="task_remind_evaluation_mail_template" model="mail.template">
+            <field name="name">[Đánh giá hiệu suất] Nhắc nhở hoàn thành Đánh giá chất lượng công việc</field>
+            <field name="model_id" ref="model_task_evaluation"/>
+            <field name="subject">Nhắc nhở hoàn thành Đánh giá chất lượng công việc</field>
+            <field name="email_from"/>
+            <field name="email_to"></field>
+            <field name="partner_to"/>
+            <field name="body_html"><![CDATA[
+            <div>
+                <p>Kính gửi Anh/Chị Quản lý,</p>
+                <br/>
+                <p>Chúng tôi xin gửi email này để nhắc nhở về việc hoàn thành công tác <b>Đánh giá chất lượng công việc</b> của các thành viên trực thuộc trong kỳ đánh giá tháng <t t-esc="object.month_evaluation"/></p>
+                <p>Hiện hệ thống ghi nhận Anh/Chị vẫn còn bản ghi cần đánh giá của nhân viên.</p>
+                <p>Hạn chót để hoàn thành đánh giá là <b>trước <t t-esc="ctx.get('deadline')"/>.</b></p>
+                <p>Việc hoàn thành đúng hạn sẽ giúp toàn bộ quy trình đánh giá chung của công ty không bị gián đoạn.</p>
+                <p>Trong trường hợp cần hỗ trợ, vui lòng liên hệ với Phòng Nhân sự (Mr. Hữu Anh – <a href="mailto:anhnh1@ngs.com.vn">anhnh1@ngs.com.vn</a> hoặc Ms. Tú – <a href="mailto:tudta@ngs.com.vn">tudta@ngs.com.vn</a>) để được hỗ trợ kịp thời.</p>
+                <p><b>Trân trọng.</b></p>
+                <p><b>-----</b></p>
+                <p><b>Phòng Nhân sự</b></p>
+                <br/>
+                <br/>
+                <p><b>CÔNG TY CỔ PHẦN TƯ VẤN CÔNG NGHỆ NGS</b></p>
+                <p>Email: <a href="mailto:hr_ngsc@ngs.com.vn">hr_ngsc@ngs.com.vn</a> |</p>
+                <p>Head office: 4th Floor, 6th Element Building, Nguyen Van Huyen St., Xuan La Ward, Tay Ho Dist., Hanoi, Vietnam</p>
+                <img src="ngsc_performance_evaluation/static/src/image/ngsc.jpg" alt="NGSC" width="200" align="left" style="display:block; margin:auto;">
+            </div>
+        ]]></field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_attendance_explanation_list" model="ir.ui.view">
+            <field name="name">hr.attendance.explanation</field>
+            <field name="model">hr.attendance.explanation</field>
+            <field name="arch" type="xml">
+                <list string="Giải trình chấm công" default_order="create_date desc">
+                    <header>
+                        <button name="mass_button_approve" string="Phê duyệt giải trình" type="object" class="btn-primary ml-2"/>
+                        <button name="mass_button_refuse" string="Từ chối giải trình" type="object" class="btn-primary ml-2"/>
+                    </header>
+                    <field name="employee_barcode"/>
+                    <field name="employee_id"/>
+                    <field name="en_area_id" optional="hide"/>
+                    <field name="create_date" string="Ngày đề nghị"/>
+                    <field name="hr_attendance_id"/>
+                    <field name="submission_type_id"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+        <record id="hr_attendance_explanation_form" model="ir.ui.view">
+            <field name="name">hr_attendance_explanation_form</field>
+            <field name="model">hr.attendance.explanation</field>
+             <field name="arch" type="xml">
+                 <form string="Giải trình chấm công">
+                     <header>
+                         <field name="condition_visible_button_refuse_aprrove" invisible="1"/>
+                         <button name="send_approve" string="Gửi duyệt" type="object" attrs="{'invisible': [('state', '!=', 'new')]}"/>
+                         <button name="button_draft" string="Chuyển về Mới" type="object" attrs="{'invisible': [('state', '!=', 'to_approve')]}"/>
+                         <button name="button_cancel" string="Hủy" type="object" attrs="{'invisible': [('state', '!=', 'new')]}"/>
+                         <button name="button_approve" string="Duyệt" type="object" attrs="{'invisible': ['|',('state', '!=', 'to_approve'),('condition_visible_button_refuse_aprrove', '=', False)]}"/>
+                         <button name="button_refuse" string="Từ chối" type="object" attrs="{'invisible': ['|',('state', '!=', 'to_approve'),('condition_visible_button_refuse_aprrove', '=', False)]}"/>
+                         <field name="state" widget="statusbar"/>
+                     </header>
+                     <sheet>
+                         <div class="oe_button_box" name="button_box">
+                            <field name="show_action_view_timesheet" invisible="1"/>
+                            <button type="object" name="action_view_timesheet" class="oe_stat_button" icon="fa-file-o" attrs="{'invisible': [('show_action_view_timesheet', '=', False)]}">
+                                Timesheet
+                            </button>
+                        </div>
+                        <group>
+                             <field name="submission_code" invisible="1"/>
+                             <field name="used_explanation_date" invisible="1"/>
+                             <field name="name"/>
+                             <field name="employee_id" options="{'no_create': True, 'no_open': True}"/>
+                             <field name="submission_type_id" options="{'no_create': True, 'no_open': True}"/>
+                             <field name="hr_attendance_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('used_explanation_date', '=', True)], 'required': [('used_explanation_date', '=', False)]}"/>
+                             <field name="explanation_date" attrs="{'invisible': [('used_explanation_date', '=', False)], 'required': [('used_explanation_date', '=', True)]}"/>
+                             <field name="explanation_reason"/>
+                             <field name="reason_for_refuse" attrs="{'invisible': [('state', '!=', 'refuse')]}"/>
+                         </group>
+                         <group>
+                             <notebook>
+                                <page string="Chi tiết" name="detail">
+                                    <field name="line_ids" attrs="{'invisible': [('submission_code', 'in', ['TSDA', 'TSNDA'])]}">
+                                        <list editable="bottom">
+                                            <field name="type"/>
+                                            <field name="time" widget="float_time"/>
+                                        </list>
+                                    </field>
+                                </page>
+                                 <page string="Thông tin phê duyệt" name="infor_approval">
+                                    <group>
+                                        <field name="approver_ids" nolabel="1" readonly="True">
+                                            <list>
+                                                <field name="user_id" string="Người duyệt"/>
+                                                <field name="role_selection"/>
+                                                <field name="status"/>
+                                            </list>
+                                        </field>
+                                    </group>
+                                </page>
+                             </notebook>
+                         </group>
+                     </sheet>
+
+                 </form>
+             </field>
+        </record>
+         <record id="hr_attendance_explanation_search" model="ir.ui.view">
+            <field name="name">hr.attendance.explanation</field>
+            <field name="model">hr.attendance.explanation</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="employee_id"/>
+                    <field name="employee_id" filter_domain="[('employee_barcode', '=', self)]" string="Mã nhân sự"/>
+                    <filter string="Yêu cầu của tôi" name="filter_my_approve" domain="[('employee_id.user_id', '=', uid)]"/>
+                    <filter string="Cần phê duyệt" name="filter_need_approve" domain="[('check_need_approve', '=', True)]"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Ngày điều chỉnh" name="group_by_hr_attendance_id" context="{'group_by': 'hr_attendance_id'}"/>
+                        <filter string="Loại giải trình" name="group_by_submission_type_id" context="{'group_by': 'submission_type_id'}"/>
+                        <filter string="Trạng thái" name="group_by_state" context="{'group_by': 'state'}"/>
+                        <filter string="Nhân viên" name="group_by_employee_id" context="{'group_by': 'employee_id'}"/>
+                </group>
+                </search>
+            </field>
+         </record>
+        <record id="submission_type_list" model="ir.ui.view">
+            <field name="name">submission.type</field>
+            <field name="model">submission.type</field>
+            <field name="arch" type="xml">
+                <list string="Loại giải trình" editable="top">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="mark_count"/>
+                    <field name="used_explanation_date"/>
+                </list>
+            </field>
+        </record>
+
+    </data>
+</odoo>

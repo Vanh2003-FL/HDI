@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="request_support_plane" model="approval.request.support">
+        <field name="name">Máy bay</field>
+        <field name="key">plane</field>
+    </record>
+    <record id="request_support_car" model="approval.request.support">
+        <field name="name">Xe</field>
+        <field name="key">car</field>
+    </record>
+    <record id="request_support_hotel" model="approval.request.support">
+        <field name="name">Khách sạn</field>
+        <field name="key">hotel</field>
+    </record>
+
+     <record id="seq_new_asset" model="ir.sequence">
+            <field name="name">Cấp TSCĐ</field>
+            <field name="code">seq.new.asset</field>
+            <field name="prefix">TS</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="active" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+    <record id="seq_old_asset" model="ir.sequence">
+            <field name="name">Sửa chữa TSCĐ</field>
+            <field name="code">seq.old.asset</field>
+            <field name="prefix">SC</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="active" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    <record id="seq_person_asset" model="ir.sequence">
+            <field name="name">Đăng ký sử dụng TSCN</field>
+            <field name="code">seq.person.asset</field>
+            <field name="prefix">CN</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="active" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+    
+    <record id="seq_code_business_plan" model="ir.sequence">
+        <field name="name">Mã KHCT</field>
+        <field name="code">code.business.plan</field>
+        <field name="prefix">KHCT</field>
+        <field name="padding">4</field>
+        <field name="number_increment">1</field>
+        <field name="active" eval="True"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_code_approval_business" model="ir.sequence">
+        <field name="name">Mã Yêu cầu công tác</field>
+        <field name="code">seq.approval.business</field>
+        <field name="prefix">CT</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+        <field name="active" eval="True"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_code_approval_car" model="ir.sequence">
+        <field name="name">Đặt xe nội bộ</field>
+        <field name="code">seq.approval.car</field>
+        <field name="prefix">X</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+        <field name="active" eval="True"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_code_approval_vpp" model="ir.sequence">
+        <field name="name">Văn phòng phẩm</field>
+        <field name="code">seq.approval.vpp</field>
+        <field name="prefix">VPP</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+        <field name="active" eval="True"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_entrust_role_form" model="ir.ui.view">
+        <field name="name">entrust.role.form</field>
+        <field name="model">entrust.role</field>
+        <field name="arch" type="xml">
+            <form string="Role">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page name="access_rights" string="Quyền truy cập">
+                            <field name="groups_id"/>
+                        </page>
+<!--                        <page name="restrict_menu" string="Chặn truy cập menu">-->
+<!--                            <field name="disallowed_menu_ids" options="{'no_create_edit': True, 'no_quick_create': True}" nolabel="1"/>-->
+<!--                        </page>-->
+                        <page string="Người Dùng">
+                            <field name="user_ids" widget="many2many">
+                                <list create="false" edit="false">
+                                    <field name="name"/>
+                                    <field name="login"/>
+                                    <field name="lang"/>
+                                    <field name="login_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_entrust_role_tree" model="ir.ui.view">
+        <field name="name">entrust.role.tree</field>
+        <field name="model">entrust.role</field>
+        <field name="arch" type="xml">
+            <list string="Vai Trò">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="role_groups_view" model="ir.ui.view">
+        <field name="name">entrust.roles.groups</field>
+        <field name="model">entrust.role</field>
+        <field name="inherit_id" ref="view_entrust_role_form"/>
+        <field name="arch" type="xml">
+            <!-- dummy, will be modified by groups -->
+            <field name="groups_id" position="after"/>
+        </field>
+    </record>
+
+    <!-- dummy update on group, to force the view above to be update -->
+    <record model="res.groups" id="base.group_no_one"/>
+
+    <record id="role_system" model="ir.actions.act_window">
+        <field name="name">Vai trò</field>
+        <field name="res_model">entrust.role</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="role_company_menu"
+              name="Vai trò"
+              parent="base.menu_users"
+              action="role_system"
+              groups="base.group_erp_manager"
+              sequence="0"/>
+</odoo>

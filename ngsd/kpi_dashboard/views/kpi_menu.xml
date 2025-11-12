@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- CONFIGURATION -->
+        <record id="ngsd_crm_dashboard" model="ir.actions.act_window">
+            <field name="name">Bảng thông tin</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kpi.dashboard</field>
+            <field name="view_mode">dashboard</field>
+            <field name="res_id" ref="demo_dashboard"/>
+        </record>
+        <record id="ngsd_crm_dashboard_gm" model="ir.actions.act_window">
+            <field name="name">Bảng thông tin</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kpi.dashboard</field>
+            <field name="view_mode">dashboard</field>
+            <field name="res_id" ref="gm_demo_dashboard"/>
+        </record>
+
+        <menuitem id="ngsd_crm_dashboard_menu" name="Bảng thông tin" parent="ngsd_menu.crm_noti_not_target" sequence="1" action="ngsd_crm_dashboard"/>
+        <menuitem id="ngsd_crm_dashboard_gm_menu" name="Bảng thông tin GM" parent="ngsd_menu.crm_noti_not_target" sequence="1" action="ngsd_crm_dashboard_gm"/>
+
+</odoo>

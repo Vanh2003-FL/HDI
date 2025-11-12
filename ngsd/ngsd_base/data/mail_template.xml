@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="SAnoti" model="mail.template">
+        <field name="name">Gửi noti khi gắn Lead</field>
+        <field name="model_id" ref="crm.model_crm_lead"/>
+        <field name="subject">Cơ hội</field>
+        <field name="email_from"></field>
+        <field name="email_to"></field>
+        <field name="partner_to"></field>
+        <field name="body_html" type="html">
+
+            <p dir="ltr"
+               style="line-height:1.38;background-color:#ffffff;margin-top:12pt;margin-bottom:0pt;padding:0pt 0pt 12pt 0pt;"
+               id="docs-internal-guid-a5a46523-7fff-ab8c-4dc7-37daa2360430">
+                <span style="font-size:11pt;font-family:'Times New Roman';color:#222222;background-color:#ffffff;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;">
+                    Bạn vừa được gắn vào cơ hội: <b><t t-out="ctx.get('name')"/></b><br/>
+                    Link cơ hội: <t t-out="ctx.get('link')"/><br/>
+                    Thanks!<br/>
+                    __________________________________________________________
+                </span>
+            </p>
+        </field>
+    </record>
+</odoo>

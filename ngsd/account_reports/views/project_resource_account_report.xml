@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_project_resource_account_report" model="ir.actions.client">
+        <field name="name">Nguồn lực dự án</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'model': 'project.resource.account.report'}"/>
+    </record>
+
+    <record id="project_resource_account_wizard_form" model="ir.ui.view">
+        <field name="model">project.resource.account.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="project_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                        <field name="state_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                        <field name="block_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                        <field name="department_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string='Xác nhận' name="do" type="object" class="oe_highlight"/>
+                    <button string="Hủy" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="project_resource_account_wizard_act" model="ir.actions.act_window">
+        <field name="res_model">project.resource.account.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="menu_project_resource_action_report" model="ir.ui.menu">
+        <field name="name">Nguồn lực dự án</field>
+        <field name="action" ref="project_resource_account_wizard_act"/>
+        <field name="groups_id" eval="[(6, 0, [ref('ngsd_base.group_gdkndu'), ref('ngsd_base.group_tpvh'), ref('ngsd_base.group_gdkv'), ref('ngsd_base.group_tptc'), ref('ngsd_base.group_pm'), ref('ngsd_base.group_qal'), ref('ngsd_base.group_qam'), ref('ngsd_base.group_userhr')])]"/>
+    </record>
+
+    <record id="action_run_resource_summary_cron" model="ir.actions.server">
+        <field name="name">Tính toán tổng hợp nguồn lực dự án</field>
+        <field name="model_id" ref="model_project_resource_summary"/>
+        <field name="state">code</field>
+        <field name="code">model._schedule_compute_resource_summary()</field>
+    </record>
+
+    <data>
+        <menuitem id="cron_project_resource_summary"
+                  name="Tính toán tổng hợp nguồn lực dự án"
+                  parent="ngsd_menu.qlda_report_root_menu"
+                  action="action_run_resource_summary_cron"
+                  sequence="25"/>
+    </data>
+</odoo>

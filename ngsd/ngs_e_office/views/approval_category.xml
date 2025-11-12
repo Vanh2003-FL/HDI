@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ngs_approval_category_view_form" model="ir.ui.view">
+        <field name="name">ngs_approval_category_view_form</field>
+        <field name="model">approval.category</field>
+        <field name="inherit_id" ref="approvals.approval_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='approval_type']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='has_location']" position="after">
+                <field name="has_job" widget="radio" options="{'horizontal': true}"/>
+                <field name="has_department" widget="radio" options="{'horizontal': true}"/>
+                <field name="has_phone" widget="radio" options="{'horizontal': true}"/>
+                <field name="has_hr_department" widget="radio" options="{'horizontal': true}"/>
+                <field name="has_hr_user" widget="radio" options="{'horizontal': true}"/>
+                <field name="has_expected_return_date" widget="radio" options="{'horizontal': true}"/>
+                <field name="has_actual_return_date" widget="radio" options="{'horizontal': true}"/>
+            </xpath>
+            <xpath expr="//page[@name='options']//group//group[@name='approvers']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="approvals.approval_category_action_new_request" model="ir.actions.act_window">
+         <field name="domain">[('approval_type', 'not in', ['new_asset', 'old_asset', 'person_asset'])]</field>
+    </record>
+
+    <record id="approval_category_view_kanban_inherit" model="ir.ui.view">
+        <field name="name">approval.category.views.kanban.inherit</field>
+        <field name="model">approval.category</field>
+        <field name="inherit_id" ref="approvals.approval_category_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(approvals.approval_request_action_to_review_category)d']" position="replace">
+                    <button type="object" class="btn btn-sm btn-secondary float-right" name="action_request" groups="approvals.group_approval_user">
+                        To Review: <field name="request_to_validate_count"/>
+                    </button>
+                </xpath>
+        </field>
+    </record>
+</odoo>

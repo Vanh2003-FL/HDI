@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="skill_view_action" model="ir.actions.act_window">
+            <field name="name">Kỹ năng</field>
+            <field name="res_model">ngsc.competency.skill</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+<!--        LIST VIEW -->
+        <record id="skill_view_list_tree" model="ir.ui.view">
+            <field name="name">ngsc.competency.skill.tree</field>
+            <field name="model">ngsc.competency.skill</field>
+            <field name="arch" type="xml">
+                <list delete="0">
+                    <field name="code"/>
+                    <field name="short_name"/>
+                    <field name="name"/>
+                    <field name="tag_id" widget="custom_badge" />
+                    <field name="skill_group_name"/>
+                    <field name="active_status"/>
+                    <field name="tag_color_code" invisible="1"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="skill_view_search" model="ir.ui.view">
+            <field name="name">ngsc.competency.skill.search</field>
+            <field name="model">ngsc.competency.skill</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="filter_draft" string="Lưu trữ" domain="[('active','=',False)]"/>
+                    <field name="code"/>
+                    <field name="short_name"/>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+
+<!--        FROM CREATE - EDIT -->
+        <record id="skill_view_form" model="ir.ui.view">
+            <field name="name">ngsc.competency.skill.form</field>
+            <field name="model">ngsc.competency.skill</field>
+            <field name="arch" type="xml">
+                <form string="skill" delete="0">
+                    <sheet>
+                        <h1>
+                             <field name="name" placeholder="VD: Kỹ năng đánh giá giải pháp"/>
+                        </h1>
+                        <group string="Thông tin chung">
+                            <field name="code" readonly="1"/>
+                            <field name="short_name" required="1"/>
+                            <field name="skill_group_id" string="Nhóm kỹ năng" required="1"/>
+                            <field name="active" />
+                            <field name="tag_id" domain="[('skill_group_id', '=', skill_group_id)]"/>
+                            <field name="description"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Mức độ">
+                                <field name="level_ids" context="{'default_fetch_fields': ['name', 'description']}">
+                                    <list create="false" editable="top" delete="false">
+                                        <field name="level_id" invisible="1"/> <!-- Hiển thị level_id -->
+                                        <field name="sequence" string="Cấp độ"/>
+                                        <field name="name" readonly="1" string="Tên mức độ"/>
+                                        <field name="description" readonly="1" string="Mô tả mức độ"/>
+                                        <field name="detail" required="1"/>                <!-- Chi tiết, cho phép chỉnh sửa -->
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+
+                     <chatter/><field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+<!--        Auto generate field code -->
+        <record id="sequence_skill_code" model="ir.sequence">
+            <field name="name">Skill Code Sequence</field>
+            <field name="code">ngsc.competency.skill.code</field>
+            <field name="prefix">SK</field> <!-- Tiền tố, ví dụ: SK0001 -->
+            <field name="padding">4</field> <!-- Độ dài số, ví dụ: 0001 -->
+            <field name="company_id" eval="False"/> <!-- Không giới hạn công ty -->
+        </record>
+
+    </data>
+</odoo>

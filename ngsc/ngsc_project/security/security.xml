@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ngsd_menu.group_qam_model_en_wbs_rule" model="ir.rule">
+            <field name="name">WBS của dự án mình là QA</field>
+            <field name="model_id" ref="ngsd_base.model_en_wbs"/>
+            <field name="domain_force">[('project_id.en_project_qa_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4,ref('ngsd_base.group_qam'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+    </data>
+    <data>
+        <record id="ngsd_menu.group_gdkndu_model_en_resource_planning_rule" model="ir.rule">
+            <field name="domain_force">['|',('project_id.en_department_id', '=', user.employee_id.department_id.id),('project_id.is_presale', '=', True)]</field>
+        </record>
+
+        <record id="ngsd_base.only_access_resource_planning_my_area" model="ir.rule">
+            <field name="domain_force">['|',('project_id.en_area_id.en_project_implementation_id', '=', user.id),('project_id.is_presale', '=', True)]</field>
+        </record>
+    </data>
+    <data>
+        <record id="documents.documents_folder_groups_rule" model="ir.rule">
+            <field name="domain_force">[('en_project_id.en_resource_project_ids.employee_id.user_id', '=', user.id), '|', ('employee_read_ids', 'in', [user.employee_id.id]), '|', ('all_employee_read', '=', True), ('employee_read_role_ids', 'in', [user.employee_id.id])]</field>
+        </record>
+
+        <record id="documents.documents_document_readonly_rule" model="ir.rule">
+            <field name="domain_force">[('folder_id.en_project_id.en_resource_project_ids.employee_id.user_id', '=', user.id), '|', ('folder_id.employee_read_ids', 'in', [user.employee_id.id]), '|', ('folder_id.all_employee_read', '=', True), ('folder_id.employee_read_role_ids', 'in', [user.employee_id.id])]</field>
+        </record>
+
+        <record id="ngsd_base.documents_folder_write_rule" model="ir.rule">
+            <field name="domain_force">[('en_project_id.en_resource_project_ids.employee_id.user_id', '=', user.id), '|', ('employee_write_ids', 'in', [user.employee_id.id]), '|', ('all_employee_read', '=', True), ('employee_write_role_ids', 'in', [user.employee_id.id])]</field>
+        </record>
+
+        <record id="documents.documents_document_write_rule" model="ir.rule">
+            <field name="domain_force">[('folder_id.en_project_id.en_resource_project_ids.employee_id.user_id', '=', user.id), '|', ('folder_id.employee_write_ids', 'in', [user.employee_id.id]), '|', ('folder_id.all_employee_read', '=', True), ('folder_id.employee_write_role_ids', 'in', [user.employee_id.id])]</field>
+        </record>
+    </data>
+</odoo>
