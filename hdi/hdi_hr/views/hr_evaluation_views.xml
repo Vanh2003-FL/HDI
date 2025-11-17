@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Evaluation Tree View -->
+    <record id="view_hr_evaluation_tree" model="ir.ui.view">
+        <field name="name">hr.evaluation.tree</field>
+        <field name="model">hr.evaluation</field>
+        <field name="arch" type="xml">
+            <list string="Đánh giá nhân viên" decoration-success="state=='approved'" decoration-info="state=='draft'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="evaluation_date"/>
+                <field name="evaluation_period"/>
+                <field name="total_score"/>
+                <field name="rating"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Evaluation Form View -->
+    <record id="view_hr_evaluation_form" model="ir.ui.view">
+        <field name="name">hr.evaluation.form</field>
+        <field name="model">hr.evaluation</field>
+        <field name="arch" type="xml">
+            <form string="Đánh giá nhân viên">
+                <header>
+                    <button name="action_submit" string="Gửi đánh giá" type="object" 
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_review" string="Xem xét" type="object" 
+                            class="btn-primary" invisible="state != 'submitted'"/>
+                    <button name="action_approve" string="Phê duyệt" type="object" 
+                            class="btn-primary" invisible="state != 'reviewed'"/>
+                    <button name="action_cancel" string="Hủy" type="object" 
+                            invisible="state in ['approved', 'cancelled']"/>
+                    <button name="action_reset_to_draft" string="Về nháp" type="object" 
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,reviewed,approved"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="job_id"/>
+                        </group>
+                        <group>
+                            <field name="evaluation_date"/>
+                            <field name="evaluation_period"/>
+                            <field name="evaluator_id"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Tiêu chí đánh giá">
+                            <group>
+                                <group string="Điểm số (0-100)">
+                                    <field name="work_quality_score"/>
+                                    <field name="productivity_score"/>
+                                    <field name="teamwork_score"/>
+                                    <field name="initiative_score"/>
+                                    <field name="discipline_score"/>
+                                </group>
+                                <group string="Kết quả">
+                                    <field name="total_score" widget="progressbar"/>
+                                    <field name="rating" widget="badge"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Nhận xét">
+                            <group>
+                                <field name="strengths" placeholder="Các điểm mạnh của nhân viên..."/>
+                                <field name="weaknesses" placeholder="Các điểm cần cải thiện..."/>
+                                <field name="recommendations" placeholder="Đề xuất phát triển..."/>
+                            </group>
+                        </page>
+                        
+                        <page string="Phản hồi nhân viên">
+                            <field name="employee_feedback" placeholder="Nhân viên có thể ghi nhận xét, phản hồi tại đây..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Evaluation Action -->
+    <record id="action_hr_evaluation" model="ir.actions.act_window">
+        <field name="name">Đánh giá nhân viên</field>
+        <field name="res_model">hr.evaluation</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo đánh giá nhân viên mới
+            </p>
+            <p>
+                Đánh giá định kỳ giúp theo dõi hiệu suất làm việc và phát triển nhân viên.
+            </p>
+        </field>
+    </record>
+</odoo>

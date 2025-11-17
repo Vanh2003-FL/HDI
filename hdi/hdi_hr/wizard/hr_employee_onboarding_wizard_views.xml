@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Onboarding Wizard Form -->
+    <record id="view_hr_employee_onboarding_wizard_form" model="ir.ui.view">
+        <field name="name">hr.employee.onboarding.wizard.form</field>
+        <field name="model">hr.employee.onboarding.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Onboarding Checklist">
+                <group>
+                    <field name="employee_id" readonly="1"/>
+                </group>
+                <separator string="Danh sách công việc"/>
+                <group>
+                    <field name="profile_completed"/>
+                    <field name="contract_signed"/>
+                    <field name="equipment_received"/>
+                    <field name="account_created"/>
+                    <field name="orientation_attended"/>
+                </group>
+                <group>
+                    <field name="notes" placeholder="Ghi chú thêm..."/>
+                </group>
+                <footer>
+                    <button string="Lưu" name="action_complete" type="object" class="btn-primary"/>
+                    <button string="Hủy" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

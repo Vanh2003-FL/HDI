@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Work Location Tree View -->
+    <record id="view_hr_work_location_tree" model="ir.ui.view">
+        <field name="name">hr.work.location.tree</field>
+        <field name="model">hr.work.location</field>
+        <field name="arch" type="xml">
+            <list string="Vị trí làm việc">
+                <field name="sequence" widget="handle"/>
+                <field name="code" optional="show"/>
+                <field name="name"/>
+                <field name="location_type"/>
+                <field name="latitude" optional="hide"/>
+                <field name="longitude" optional="hide"/>
+                <field name="max_distance_allowed"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Work Location Form View -->
+    <record id="view_hr_work_location_form" model="ir.ui.view">
+        <field name="name">hr.work.location.form</field>
+        <field name="model">hr.work.location</field>
+        <field name="arch" type="xml">
+            <form string="Vị trí làm việc">
+                <header>
+                    <button name="action_view_on_map" 
+                            string="Xem trên bản đồ" 
+                            type="object"
+                            class="oe_highlight"
+                            invisible="not latitude or not longitude"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_attendances" 
+                                type="object"
+                                class="oe_stat_button" 
+                                icon="fa-calendar-check-o">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Chấm công</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <widget name="web_ribbon" title="Không hoạt động" 
+                            bg_color="bg-danger" 
+                            invisible="active"/>
+                    
+                    <div class="oe_title">
+                        <label for="name" string="Tên địa điểm"/>
+                        <h1>
+                            <field name="name" placeholder="Văn phòng Hà Nội"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group name="basic_info" string="Thông tin cơ bản">
+                            <field name="code"/>
+                            <field name="location_type"/>
+                            <field name="sequence"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        
+                        <group name="location_settings" string="Cài đặt vị trí">
+                            <field name="max_distance_allowed"/>
+                            <field name="allow_overtime_attendance"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Địa chỉ">
+                        <field name="address" nolabel="1" placeholder="Nhập địa chỉ đầy đủ..."/>
+                    </group>
+                    
+                    <group string="Tọa độ GPS">
+                        <group>
+                            <field name="latitude" 
+                                   placeholder="Ví dụ: 21.028511"/>
+                            <field name="longitude" 
+                                   placeholder="Ví dụ: 105.804817"/>
+                        </group>
+                        <group>
+                            <field name="location_url" widget="url" 
+                                   text="Xem trên Google Maps"
+                                   invisible="not latitude or not longitude"/>
+                        </group>
+                    </group>
+                    
+                    <!-- Map preview -->
+                    <div class="o_work_location_map_preview" 
+                         invisible="not latitude or not longitude">
+                        <field name="location_url" widget="embedded_iframe" 
+                               nolabel="1" 
+                               invisible="not latitude or not longitude"/>
+                    </div>
+                    
+                    <group string="Ghi chú">
+                        <field name="note" nolabel="1" 
+                               placeholder="Thêm ghi chú về địa điểm..."/>
+                    </group>
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Work Location Search View -->
+    <record id="view_hr_work_location_search" model="ir.ui.view">
+        <field name="name">hr.work.location.search</field>
+        <field name="model">hr.work.location</field>
+        <field name="arch" type="xml">
+            <search string="Vị trí làm việc">
+                <field name="name" 
+                       filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+                <field name="address"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                
+                <filter name="active" string="Hoạt động" 
+                        domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Không hoạt động" 
+                        domain="[('active', '=', False)]"/>
+                
+                <separator/>
+                <filter name="no_gps" string="Chưa có GPS" 
+                        domain="['|', ('latitude', '=', False), ('longitude', '=', False)]"/>
+                <filter name="has_gps" string="Có GPS" 
+                        domain="[('latitude', '!=', False), ('longitude', '!=', False)]"/>
+                
+                <separator/>
+                <filter name="office_type" string="Văn phòng" 
+                        domain="[('location_type', '=', 'office')]"/>
+                <filter name="remote_type" string="Làm từ xa" 
+                        domain="[('location_type', '=', 'home')]"/>
+                
+                <group expand="0" string="Nhóm theo">
+                    <filter name="group_company" string="Công ty" 
+                            context="{'group_by': 'company_id'}"
+                            groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <!-- Work Location Action -->
+    <record id="action_hr_work_location" model="ir.actions.act_window">
+        <field name="name">Địa điểm làm việc</field>
+        <field name="res_model">hr.work.location</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo vị trí làm việc mới
+            </p>
+            <p>
+                Quản lý các văn phòng và địa điểm làm việc của công ty.<br/>
+                Mỗi vị trí có thể được cấu hình với tọa độ GPS và khoảng cách cho phép 
+                để kiểm soát chấm công.
+            </p>
+        </field>
+    </record>
+
+</odoo>

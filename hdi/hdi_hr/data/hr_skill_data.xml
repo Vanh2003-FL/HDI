@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Skill Types -->
+        <record id="skill_type_technical" model="hdi.skill.type">
+            <field name="name">Kỹ năng kỹ thuật</field>
+        </record>
+        
+        <record id="skill_type_language" model="hdi.skill.type">
+            <field name="name">Ngoại ngữ</field>
+        </record>
+        
+        <record id="skill_type_soft" model="hdi.skill.type">
+            <field name="name">Kỹ năng mềm</field>
+        </record>
+        
+        <record id="skill_type_management" model="hdi.skill.type">
+            <field name="name">Quản lý</field>
+        </record>
+        
+        <!-- Technical Skills -->
+        <record id="skill_python" model="hdi.skill">
+            <field name="name">Python Programming</field>
+            <field name="skill_type_id" ref="skill_type_technical"/>
+        </record>
+        
+        <record id="skill_javascript" model="hdi.skill">
+            <field name="name">JavaScript</field>
+            <field name="skill_type_id" ref="skill_type_technical"/>
+        </record>
+        
+        <record id="skill_odoo" model="hdi.skill">
+            <field name="name">Odoo Development</field>
+            <field name="skill_type_id" ref="skill_type_technical"/>
+        </record>
+        
+        <record id="skill_database" model="hdi.skill">
+            <field name="name">Database Management</field>
+            <field name="skill_type_id" ref="skill_type_technical"/>
+        </record>
+        
+        <!-- Languages -->
+        <record id="skill_english" model="hdi.skill">
+            <field name="name">Tiếng Anh</field>
+            <field name="skill_type_id" ref="skill_type_language"/>
+        </record>
+        
+        <record id="skill_vietnamese" model="hdi.skill">
+            <field name="name">Tiếng Việt</field>
+            <field name="skill_type_id" ref="skill_type_language"/>
+        </record>
+        
+        <!-- Soft Skills -->
+        <record id="skill_communication" model="hdi.skill">
+            <field name="name">Giao tiếp</field>
+            <field name="skill_type_id" ref="skill_type_soft"/>
+        </record>
+        
+        <record id="skill_teamwork" model="hdi.skill">
+            <field name="name">Làm việc nhóm</field>
+            <field name="skill_type_id" ref="skill_type_soft"/>
+        </record>
+        
+        <record id="skill_problem_solving" model="hdi.skill">
+            <field name="name">Giải quyết vấn đề</field>
+            <field name="skill_type_id" ref="skill_type_soft"/>
+        </record>
+        
+        <!-- Management Skills -->
+        <record id="skill_project_management" model="hdi.skill">
+            <field name="name">Quản lý dự án</field>
+            <field name="skill_type_id" ref="skill_type_management"/>
+        </record>
+        
+        <record id="skill_team_leadership" model="hdi.skill">
+            <field name="name">Lãnh đạo nhóm</field>
+            <field name="skill_type_id" ref="skill_type_management"/>
+        </record>
+        
+    </data>
+</odoo>

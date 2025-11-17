@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Default Work Locations -->
+        <record id="work_location_hanoi_hq" model="hr.work.location">
+            <field name="name">Văn phòng Hà Nội</field>
+            <field name="code">HN-HQ</field>
+            <field name="sequence">10</field>
+            <field name="address">Số 1 Đường Láng, Đống Đa, Hà Nội, Việt Nam</field>
+            <field name="latitude">21.0285</field>
+            <field name="longitude">105.8048</field>
+            <field name="max_distance_allowed">0.5</field>
+            <field name="allow_overtime_attendance">True</field>
+        </record>
+        
+        <record id="work_location_hcm_branch" model="hr.work.location">
+            <field name="name">Chi nhánh TP.HCM</field>
+            <field name="code">HCM-BR</field>
+            <field name="sequence">20</field>
+            <field name="address">Số 1 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh, Việt Nam</field>
+            <field name="latitude">10.7769</field>
+            <field name="longitude">106.7009</field>
+            <field name="max_distance_allowed">0.5</field>
+            <field name="allow_overtime_attendance">True</field>
+        </record>
+        
+        <record id="work_location_remote" model="hr.work.location">
+            <field name="name">Làm việc từ xa</field>
+            <field name="code">REMOTE</field>
+            <field name="sequence">999</field>
+            <field name="address">Work From Home</field>
+            <field name="max_distance_allowed">0</field>
+            <field name="allow_overtime_attendance">True</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <!-- Skill Type Views -->
+    <record id="view_hr_skill_type_tree" model="ir.ui.view">
+        <field name="name">hdi.skill.type.tree</field>
+        <field name="model">hdi.skill.type</field>
+        <field name="arch" type="xml">
+            <list string="Loại kỹ năng">
+                <field name="name"/>
+                <field name="skill_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_skill_type_form" model="ir.ui.view">
+        <field name="name">hdi.skill.type.form</field>
+        <field name="model">hdi.skill.type</field>
+        <field name="arch" type="xml">
+            <form string="Loại kỹ năng">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="skill_count"/>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Kỹ năng">
+                            <field name="skill_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_skill_type" model="ir.actions.act_window">
+        <field name="name">Loại kỹ năng</field>
+        <field name="res_model">hdi.skill.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Skill Views -->
+    <record id="view_hr_skill_tree" model="ir.ui.view">
+        <field name="name">hdi.skill.tree</field>
+        <field name="model">hdi.skill</field>
+        <field name="arch" type="xml">
+            <list string="Kỹ năng">
+                <field name="name"/>
+                <field name="skill_type_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_skill_form" model="ir.ui.view">
+        <field name="name">hdi.skill.form</field>
+        <field name="model">hdi.skill</field>
+        <field name="arch" type="xml">
+            <form string="Kỹ năng">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="skill_type_id"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_skill" model="ir.actions.act_window">
+        <field name="name">Kỹ năng</field>
+        <field name="res_model">hdi.skill</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
