@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Main Office -->
+        <record id="work_location_main_office" model="hr.work.location">
+            <field name="name">Văn phòng chính</field>
+            <field name="code">MAIN</field>
+            <field name="address">123 Đường Lê Lợi, Quận 1, TP.HCM</field>
+            <field name="latitude">10.7769</field>
+            <field name="longitude">106.7009</field>
+            <field name="is_default" eval="True"/>
+            <field name="allowed_checkin_radius">100</field>
+            <field name="allowed_checkout_radius">500</field>
+            <field name="contact_person">Admin</field>
+            <field name="contact_phone">028-3824-xxxx</field>
+            <field name="contact_email">admin@hdi.com.vn</field>
+            <field name="description">Văn phòng chính của công ty HDI</field>
+        </record>
+
+        <!-- Branch Office -->
+        <record id="work_location_branch_office" model="hr.work.location">
+            <field name="name">Văn phòng chi nhánh</field>
+            <field name="code">BRANCH</field>
+            <field name="address">456 Đường Nguyễn Huệ, Quận 1, TP.HCM</field>
+            <field name="latitude">10.7758</field>
+            <field name="longitude">106.7017</field>
+            <field name="is_default" eval="False"/>
+            <field name="allowed_checkin_radius">100</field>
+            <field name="allowed_checkout_radius">300</field>
+            <field name="description">Văn phòng chi nhánh</field>
+        </record>
+
+        <!-- Remote Work -->
+        <record id="work_location_remote" model="hr.work.location">
+            <field name="name">Làm việc từ xa</field>
+            <field name="code">REMOTE</field>
+            <field name="address">Làm việc từ xa - Không giới hạn địa điểm</field>
+            <field name="is_default" eval="False"/>
+            <field name="allowed_checkin_radius">0</field>
+            <field name="allowed_checkout_radius">0</field>
+            <field name="description">Địa điểm dành cho nhân viên làm việc từ xa</field>
+        </record>
+
+        <!-- Work Schedule for Main Office -->
+        <record id="schedule_main_office_monday" model="work.location.schedule">
+            <field name="location_id" ref="work_location_main_office"/>
+            <field name="name">Ca hành chính</field>
+            <field name="dayofweek">0</field>
+            <field name="hour_from">8.0</field>
+            <field name="hour_to">17.0</field>
+        </record>
+
+        <record id="schedule_main_office_tuesday" model="work.location.schedule">
+            <field name="location_id" ref="work_location_main_office"/>
+            <field name="name">Ca hành chính</field>
+            <field name="dayofweek">1</field>
+            <field name="hour_from">8.0</field>
+            <field name="hour_to">17.0</field>
+        </record>
+
+        <record id="schedule_main_office_wednesday" model="work.location.schedule">
+            <field name="location_id" ref="work_location_main_office"/>
+            <field name="name">Ca hành chính</field>
+            <field name="dayofweek">2</field>
+            <field name="hour_from">8.0</field>
+            <field name="hour_to">17.0</field>
+        </record>
+
+        <record id="schedule_main_office_thursday" model="work.location.schedule">
+            <field name="location_id" ref="work_location_main_office"/>
+            <field name="name">Ca hành chính</field>
+            <field name="dayofweek">3</field>
+            <field name="hour_from">8.0</field>
+            <field name="hour_to">17.0</field>
+        </record>
+
+        <record id="schedule_main_office_friday" model="work.location.schedule">
+            <field name="location_id" ref="work_location_main_office"/>
+            <field name="name">Ca hành chính</field>
+            <field name="dayofweek">4</field>
+            <field name="hour_from">8.0</field>
+            <field name="hour_to">17.0</field>
+        </record>
+    </data>
+</odoo>

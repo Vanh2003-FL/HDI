@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo Work Locations -->
+        <record id="demo_work_location_factory" model="hr.work.location">
+            <field name="name">Nhà máy sản xuất</field>
+            <field name="code">FAC01</field>
+            <field name="address">Khu công nghiệp Tân Thuận, Quận 7, TP.HCM</field>
+            <field name="latitude">10.7380</field>
+            <field name="longitude">106.7224</field>
+            <field name="allowed_checkin_radius">200</field>
+            <field name="allowed_checkout_radius">300</field>
+            <field name="description">Nhà máy sản xuất chính</field>
+        </record>
+
+        <record id="demo_work_location_warehouse" model="hr.work.location">
+            <field name="name">Kho hàng</field>
+            <field name="code">WH01</field>
+            <field name="address">Đường Tân Thuận 2, Quận 7, TP.HCM</field>
+            <field name="latitude">10.7350</field>
+            <field name="longitude">106.7190</field>
+            <field name="allowed_checkin_radius">150</field>
+            <field name="allowed_checkout_radius">400</field>
+            <field name="description">Kho hàng trung tâm</field>
+        </record>
+
+        <!-- Demo Attendance (if employees exist) -->
+        <record id="demo_attendance_1" model="hr.attendance">
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="check_in" eval="(datetime.now() - timedelta(hours=8)).replace(hour=8, minute=30)"/>
+            <field name="check_out" eval="(datetime.now() - timedelta(hours=1)).replace(hour=17, minute=15)"/>
+            <field name="hdi_work_location_id" ref="work_location_main_office"/>
+            <field name="hdi_work_shift">full</field>
+        </record>
+
+        <record id="demo_attendance_2" model="hr.attendance">
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="check_in" eval="(datetime.now() - timedelta(days=1)).replace(hour=8, minute=45)"/>
+            <field name="check_out" eval="(datetime.now() - timedelta(days=1)).replace(hour=17, minute=0)"/>
+            <field name="hdi_work_location_id" ref="work_location_main_office"/>
+            <field name="hdi_work_shift">full</field>
+        </record>
+    </data>
+</odoo>

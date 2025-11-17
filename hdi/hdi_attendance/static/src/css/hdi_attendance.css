@@ -1,0 +1,100 @@
+/* HDI Attendance CSS */
+.hdi_attendance_dashboard {
+    padding: 20px;
+}
+
+.hdi_attendance_card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.hdi_attendance_status_normal {
+    color: #28a745;
+}
+
+.hdi_attendance_status_late {
+    color: #dc3545;
+}
+
+.hdi_attendance_status_early {
+    color: #ffc107;
+}
+
+.hdi_attendance_status_missing {
+    color: #6c757d;
+}
+
+.hdi_location_info {
+    background: #f8f9fa;
+    border-left: 4px solid #007bff;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.hdi_gps_button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.hdi_gps_button:hover {
+    background: #218838;
+}
+
+.hdi_warning_box {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 12px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.hdi_success_box {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 12px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+/* Attendance Calendar customization */
+.fc-event.attendance-late {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+.fc-event.attendance-early {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.fc-event.attendance-normal {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+}
+
+.fc-event.attendance-missing {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .hdi_attendance_dashboard {
+        padding: 10px;
+    }
+    
+    .hdi_attendance_card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+}
