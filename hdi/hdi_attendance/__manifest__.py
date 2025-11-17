@@ -53,10 +53,10 @@
         
         # Views - Core Models
         'views/hr_attendance_views.xml',
-        'views/hr_attendance_calendar_views.xml',
-        'views/hr_attendance_my_views.xml',
+        # 'views/hr_attendance_calendar_views.xml',
+        # 'views/hr_attendance_my_views.xml',
         'views/hr_work_location_views.xml',
-        'views/hr_employee_views.xml',
+        # 'views/hr_employee_views.xml',
         
         # Views - Configuration
         'views/attendance_settings_views.xml',
@@ -66,20 +66,20 @@
         # Wizards
         'wizard/attendance_checkin_wizard_views.xml',
         'wizard/attendance_explanation_wizard_views.xml',
-        'wizard/attendance_report_wizard_views.xml',
-        'wizard/attendance_bulk_update_wizard_views.xml',
+        # 'wizard/attendance_report_wizard_views.xml',
+        # 'wizard/attendance_bulk_update_wizard_views.xml',
         
         # Reports
-        'report/attendance_report_templates.xml',
-        'report/attendance_summary_report.xml',
+        # 'report/attendance_report_templates.xml',
+        # 'report/attendance_summary_report.xml',
         
         # Menu
         'views/hdi_attendance_menu.xml',
     ],
     
     'demo': [
-        'demo/hr_work_location_demo.xml',
-        'demo/hr_attendance_demo.xml',
+        # 'demo/hr_work_location_demo.xml',
+        # 'demo/hr_attendance_demo.xml',
     ],
     
     'assets': {

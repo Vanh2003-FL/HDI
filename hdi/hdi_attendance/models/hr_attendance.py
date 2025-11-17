@@ -7,7 +7,6 @@ import logging
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_round
-from odoo.addons.resource.models.resource import float_to_time
 
 _logger = logging.getLogger(__name__)
 
