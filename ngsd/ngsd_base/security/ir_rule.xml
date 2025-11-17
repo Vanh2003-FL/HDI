@@ -525,6 +525,8 @@
         <field name="perm_unlink" eval="0"/>
     </record>
 
+    <!-- Commented out due to changed external IDs in Odoo 18 -->
+    <!--
     <function name="write" model="ir.rule">
         <function name="search" model="ir.rule">
             <value model="ir.rule" eval="[('id', 'in', [obj().env.ref('base.res_partner_portal_public_rule').id,obj().env.ref('base.res_partner_rule_private_employee').id,obj().env.ref('base.res_partner_rule_private_group').id])]"/>
@@ -532,6 +534,9 @@
 
         <value eval="{'active': False}"/>
     </function>
+    -->
+    <!-- Commented out due to potential external ID issues in Odoo 18 -->
+    <!--
     <function name="write" model="ir.rule">
         <function name="search" model="ir.rule">
             <value model="ir.rule" eval="[('id', 'in', [obj().env.ref('base.res_partner_rule').id])]"/>
@@ -539,6 +544,7 @@
 
         <value eval="{'perm_write': 0, 'perm_create': 0, 'perm_unlink': 0}"/>
     </function>
+    -->
 
     <record id="access_user_to_internal_project" model="ir.rule">
         <field name="name">Quyền tạo ra chạy ngầm (Không xóa, không active)</field>

@@ -9,12 +9,12 @@
                     <field name="is_readonly_model" invisible="1"/>
                     <field name="accessible_model_ids" invisible="1"/>
                     <field name="document_ids" widget="many2many_tags"/>
-                    <field name="model_id" attrs="{'readonly': [('is_readonly_model', '=', True)]}" options="{'no_open': True, 'no_create': True}" domain="[('id', 'in', accessible_model_ids)]"/>
-                    <field name="resource_ref" options="{'model_field': 'model_id', 'no_create': True}" attrs="{'invisible': [('model_id', '=', False)]}"/>
+                    <field name="model_id" readonly="is_readonly_model == True" options="{'no_open': True, 'no_create': True}" domain="[('id', 'in', accessible_model_ids)]"/>
+                    <field name="resource_ref" options="{'model_field': 'model_id', 'no_create': True}" invisible="model_id == False"/>
                 </group>
                 <footer>
                     <button name="link_to" type="object" data-hotkey="q"
-                            string="Link" class="oe_highlight" attrs="{'invisible': [('resource_ref', '=', False)]}"/>
+                            string="Link" class="oe_highlight" invisible="resource_ref == False"/>
                     <button special="cancel" data-hotkey="z" string="Cancel"/>
                 </footer>
             </form>

@@ -20,5 +20,4 @@
             "hr_attendance_geolocation/static/src/js/attendance_geolocation.js",
         ],
     },
-    "installable": False,  # Disabled - missing 'geopy' dependency not included in standard Odoo 18
 }

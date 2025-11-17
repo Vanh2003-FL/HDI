@@ -63,5 +63,5 @@ creates next activities for the related approvers.
         ],
     },
     'license': 'OEEL-1',
-    'installable': False,  # Disabled for Odoo 18 compatibility - XML views use deprecated attrs
+
 }

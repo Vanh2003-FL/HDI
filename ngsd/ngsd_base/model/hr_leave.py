@@ -2,7 +2,23 @@ from odoo import fields, models, api, _
 from odoo import models, fields, api, exceptions
 from odoo.exceptions import UserError
 from odoo.addons.hr_holidays.models.hr_leave import HolidaysRequest, DummyAttendance
-from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY, Intervals
+try:
+    from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY, Intervals
+except ImportError:
+    try:
+        from odoo.addons.resource.models.resource_mixin import float_to_time, HOURS_PER_DAY, Intervals
+    except ImportError:
+        # Fallback for Odoo 18 - these might be in different location or have different names
+        try:
+            from odoo.tools import float_to_time
+            HOURS_PER_DAY = 8
+            Intervals = None  # Will need to handle this separately
+        except ImportError:
+            # Define fallbacks
+            def float_to_time(hours):
+                return f"{int(hours):02d}:{int((hours % 1) * 60):02d}"
+            HOURS_PER_DAY = 8
+            Intervals = None
 # không được import date ở đây
 from datetime import datetime, timedelta, time
 from pytz import timezone, UTC
@@ -121,11 +137,19 @@ class HrLeaveType(models.Model):
         ### Creation of the allocation intervals ###
         for holiday_status_id in allocations.holiday_status_id:
             for employee_id in employee_ids:
-                allocation_intervals = Intervals([(
-                    fields.datetime.combine(allocation.date_from, time.min),
-                    fields.datetime.combine(allocation.date_to or fields.date.max, time.max),
-                    allocation)
-                    for allocation in allocations.filtered(lambda allocation: allocation.employee_id.id == employee_id and allocation.holiday_status_id == holiday_status_id)])
+                if Intervals is not None:
+                    allocation_intervals = Intervals([(
+                        fields.datetime.combine(allocation.date_from, time.min),
+                        fields.datetime.combine(allocation.date_to or fields.date.max, time.max),
+                        allocation)
+                        for allocation in allocations.filtered(lambda allocation: allocation.employee_id.id == employee_id and allocation.holiday_status_id == holiday_status_id)])
+                else:
+                    # Fallback: use simple list for Odoo 18
+                    allocation_intervals = [(
+                        fields.datetime.combine(allocation.date_from, time.min),
+                        fields.datetime.combine(allocation.date_to or fields.date.max, time.max),
+                        allocation)
+                        for allocation in allocations.filtered(lambda allocation: allocation.employee_id.id == employee_id and allocation.holiday_status_id == holiday_status_id)]
 
                 allocation_employees[employee_id][holiday_status_id] = allocation_intervals
 
@@ -144,11 +168,19 @@ class HrLeaveType(models.Model):
         if leaves:
             for holiday_status_id in leaves.holiday_status_id:
                 for employee_id in employee_ids:
-                    leave_intervals = Intervals([(
-                        fields.datetime.combine(leave.date_from, time.min),
-                        fields.datetime.combine(leave.date_to, time.max),
-                        leave)
-                        for leave in leaves.filtered(lambda leave: leave.employee_id.id == employee_id and leave.holiday_status_id == holiday_status_id)])
+                    if Intervals is not None:
+                        leave_intervals = Intervals([(
+                            fields.datetime.combine(leave.date_from, time.min),
+                            fields.datetime.combine(leave.date_to, time.max),
+                            leave)
+                            for leave in leaves.filtered(lambda leave: leave.employee_id.id == employee_id and leave.holiday_status_id == holiday_status_id)])
+                    else:
+                        # Fallback: use simple list for Odoo 18
+                        leave_intervals = [(
+                            fields.datetime.combine(leave.date_from, time.min),
+                            fields.datetime.combine(leave.date_to, time.max),
+                            leave)
+                            for leave in leaves.filtered(lambda leave: leave.employee_id.id == employee_id and leave.holiday_status_id == holiday_status_id)]
 
                     leaves_employees[employee_id][holiday_status_id] = leave_intervals
 
@@ -181,14 +213,17 @@ class HrLeaveType(models.Model):
                     if allocation_employees[employee_id][holiday_status_id]:
                         allocations = allocation_employees[employee_id][holiday_status_id] & leaves_interval_by_status[holiday_status_id]
                         available_allocations = self.env['hr.leave.allocation']
-                        for allocation_interval in allocations._items:
+                        # Handle both Intervals object and list fallback
+                        allocation_items = allocations._items if hasattr(allocations, '_items') else allocations
+                        for allocation_interval in allocation_items:
                             available_allocations |= allocation_interval[2]
                         # Consume the allocations that are close to expiration first
                         sorted_available_allocations = available_allocations.filtered(lambda allocation: allocation.date_to and not allocation.use_advance_leave).sorted(key='date_to')
                         sorted_available_allocations += available_allocations.filtered(lambda allocation: allocation.date_to and allocation.use_advance_leave).sorted(key='date_to')
                         sorted_available_allocations += available_allocations.filtered(lambda allocation: not allocation.date_to and not allocation.use_advance_leave)
                         sorted_available_allocations += available_allocations.filtered(lambda allocation: not allocation.date_to and allocation.use_advance_leave)
-                        leave_intervals = leaves_interval_by_status[holiday_status_id]._items
+                        leave_interval_obj = leaves_interval_by_status[holiday_status_id]
+                        leave_intervals = leave_interval_obj._items if hasattr(leave_interval_obj, '_items') else leave_interval_obj
                         for leave_interval in leave_intervals:
                             leaves = leave_interval[2]
                             for leave in leaves:
@@ -230,7 +265,8 @@ class HrLeaveType(models.Model):
                     fields.datetime.combine(date, time.max) + timedelta(days=5*365),
                     self.env['hr.leave'])])
                 search_date = date
-                for future_allocation_interval in future_allocation_intervals._items:
+                future_intervals = future_allocation_intervals._items if hasattr(future_allocation_intervals, '_items') else future_allocation_intervals
+                for future_allocation_interval in future_intervals:
                     if future_allocation_interval[0].date() > search_date:
                         continue
                     employee_quantity_available = future_allocation_interval[2].employee_id._get_work_days_data_batch(
@@ -436,6 +472,10 @@ class HrLeave(models.Model):
 
     request_hour_from = fields.Char(compute="_compute_hour_from", store=True)
     request_hour_to = fields.Char(compute="_compute_hour_to", store=True)
+    request_unit_custom = fields.Boolean('Custom Unit Request', default=False,
+                                        help="Allow custom time unit request")
+    number_of_hours_display = fields.Float('Display Hours', compute='_compute_number_of_hours_display', store=True)
+    number_of_days_display = fields.Float('Display Days', compute='_compute_number_of_days_display', store=True)
     advance_leave = fields.Float('Số phép ứng', compute='_get_is_advance_leave', store=True)
 
     employee_ids = fields.Many2many(
@@ -517,6 +557,16 @@ class HrLeave(models.Model):
         advance_leave = max(leave_days['virtual_advance_leave'] + leave_days['virtual_advance_leave_taken'], 0) - self.number_of_days
         return advance_leave < 0 and abs(advance_leave)
 
+    @api.depends('number_of_hours')
+    def _compute_number_of_hours_display(self):
+        for leave in self:
+            leave.number_of_hours_display = leave.number_of_hours
+
+    @api.depends('number_of_days')
+    def _compute_number_of_days_display(self):
+        for leave in self:
+            leave.number_of_days_display = leave.number_of_days
+
     @api.constrains('request_hour_from', 'request_hour_to')
     def check_valid_request_hour(self):
         for rec in self:
@@ -586,7 +636,7 @@ class HrLeave(models.Model):
             result['days'] = 0.25
         return result
 
-    @api.depends('number_of_hours_display', 'number_of_days_display', 'holiday_status_id')
+    @api.depends('number_of_days_display', 'holiday_status_id')
     def _compute_duration_display(self):
         super(HrLeave, self)._compute_duration_display()
         for leave in self:

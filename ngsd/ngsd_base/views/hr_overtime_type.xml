@@ -36,7 +36,7 @@
                             <field name="attendance_ids">
                                 <list editable="bottom" no_open="1">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="date" attrs="{'column_invisible': [('parent.is_holiday', '=', True)]}" />
+                                    <field name="date" column_invisible="parent.is_holiday" />
                                     <field name="day_period"/>
                                     <field name="time_start" widget="float_time" width="0.4"/>
                                     <field name="time_end" widget="float_time" width="0.4"/>

@@ -5,8 +5,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button string="Xác nhận" type="object" name="button_confirm" class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
-                    <button string="Phân bổ" type="object" name="allocate_leave" class="btn-primary" attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
+                    <button string="Xác nhận" type="object" name="button_confirm" class="btn-primary" invisible="state != 'draft'"/>
+                    <button string="Phân bổ" type="object" name="allocate_leave" class="btn-primary" invisible="state != 'confirm'"/>
                     <field name="state" widget="statusbar"/>
                 </header>
 
@@ -34,10 +34,10 @@
                         </group>
                         <group string="Thông tin nhân viên">
                             <field name="holiday_type" string="Chế độ"/>
-                            <field name="category_id" attrs="{'required': [('holiday_type', '=', 'category')], 'invisible': [('holiday_type', '!=', 'category')]}" />
-                            <field name="employee_ids" widget="many2many_tags" attrs="{'required': [('holiday_type', '=', 'employee')], 'invisible': [('holiday_type', '!=', 'employee')]}"/>
-                            <field name="department_id" attrs="{'required': [('holiday_type', '=', 'department')], 'invisible': [('holiday_type', '!=', 'department')]}"/>
-                            <field name="mode_company_id" string="Công ty" attrs="{'required': [('holiday_type', '=', 'company')], 'invisible': [('holiday_type', '!=', 'company')]}"/>
+                            <field name="category_id" required="holiday_type == 'category'" invisible="holiday_type != 'category'" />
+                            <field name="employee_ids" widget="many2many_tags" required="holiday_type == 'employee'" invisible="holiday_type != 'employee'"/>
+                            <field name="department_id" required="holiday_type == 'department'" invisible="holiday_type != 'department'"/>
+                            <field name="mode_company_id" string="Công ty" required="holiday_type == 'company'" invisible="holiday_type != 'company'"/>
                         </group>
                     </group>
                 </sheet>
@@ -73,17 +73,17 @@
         <field name="inherit_id" ref="hr_holidays.hr_leave_allocation_view_form_manager"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='date_to']" position="replace">
-                <field name="stop_at" widget="date" nolabel="1" readonly="0" placeholder="No Limit" attrs="{'readonly': [('allocation_type', '=', 'accrual'), ('state', 'not in', ('draft', 'confirm'))]}"/>
+                <field name="stop_at" widget="date" nolabel="1" readonly="allocation_type == 'accrual' and state not in ('draft', 'confirm')" placeholder="No Limit"/>
             </xpath>
            <xpath expr="//field[@name='number_of_days']" position="after">
-                <field name="date_to" widget="date" readonly="0" attrs="{'readonly': [('allocation_type', '=', 'accrual'), ('state', 'not in', ('draft', 'confirm'))]}"/>
+                <field name="date_to" widget="date" readonly="allocation_type == 'accrual' and state not in ('draft', 'confirm')"/>
                 <field name="use_advance_leave"/>
                 <field name="advance_leave"/>
            </xpath>
            <xpath expr="//field[@name='mode_company_id']" position="after">
-               <field name="has_exclude_employee" attrs="{'invisible': [('holiday_type', '=', 'employee')]}"/>
-               <label for="exclude_employee_domain" string=" " attrs="{'invisible': ['|', ('holiday_type', '=', 'employee'), ('has_exclude_employee', '=', False)]}"/>
-               <field name="exclude_employee_domain" nolabel="1" widget="domain" options="{'model': 'hr.employee'}" attrs="{'invisible': ['|', ('holiday_type', '=', 'employee'), ('has_exclude_employee', '=', False)]}"/>
+               <field name="has_exclude_employee" invisible="holiday_type == 'employee'"/>
+               <label for="exclude_employee_domain" string=" " invisible="holiday_type == 'employee' or not has_exclude_employee"/>
+               <field name="exclude_employee_domain" nolabel="1" widget="domain" options="{'model': 'hr.employee'}" invisible="holiday_type == 'employee' or not has_exclude_employee"/>
            </xpath>
         </field>
     </record>

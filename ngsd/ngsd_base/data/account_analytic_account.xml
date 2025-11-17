@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <!-- Create a default analytic plan required by Odoo 18 for analytic accounts -->
+    <record id="ngsd_analytic_plan_default" model="account.analytic.plan">
+        <field name="name">Default Analytic Plan</field>
+    </record>
+
     <record id="account_analytic_account_non_project_task" model="account.analytic.account">
         <field name="name">Non Project Task</field>
         <field name="active" eval="True"/>
+        <field name="plan_id" ref="ngsd_analytic_plan_default"/>
     </record>
 </odoo>

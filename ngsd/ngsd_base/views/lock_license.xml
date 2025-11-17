@@ -7,14 +7,14 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="action_lock" type="object" class="btn-primary" string="Khóa sổ" attrs="{'invisible': [('state', '!=', 'new')]}" />
+                        <button name="action_lock" type="object" class="btn-primary" string="Khóa sổ" invisible="state != 'new'" />
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
                         <group>
                             <group>
-                                <field name="date_lock" attrs="{'readonly': [('state', '!=', 'new')]}"/>
-                                <field name="type" attrs="{'readonly': [('state', '!=', 'new')]}"/>
+                                <field name="date_lock" readonly="state != 'new'"/>
+                                <field name="type" readonly="state != 'new'"/>
                                 <field name="create_uid" readonly="1" string="Người khóa sổ"/>
                             </group>
                         </group>

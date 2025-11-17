@@ -16,7 +16,14 @@ READONLY_STATES = {
     'approved': [('readonly', True)],
 }
 
-from odoo.addons.project.models.project import Task
+try:
+    from odoo.addons.project.models.project_task import Task
+except ImportError:
+    try:
+        from odoo.addons.project.models.project import Task
+    except ImportError:
+        # Fallback for different Odoo versions
+        Task = None
 
 def new_write(self, vals):
     # if len(self) == 1:
@@ -93,12 +100,12 @@ def new_write(self, vals):
     # rating on stage
     if 'stage_id' in vals and vals.get('stage_id'):
         tasks.filtered(lambda x: x.project_id.rating_active and x.project_id.rating_status == 'stage')._send_task_rating_mail(force_send=True)
-    for task in self:
-        if task.display_project_id != task.project_id and not task.parent_id:
-            # We must make the display_project_id follow the project_id if no parent_id set
-            task.display_project_id = task.project_id
+    # Note: display_project_id field handling removed for Odoo 18 compatibility
     return result
-Task.write = new_write
+
+# Only monkey patch if Task class was imported successfully
+if Task is not None:
+    Task.write = new_write
 
 
 class NGSLeave(models.Model):
@@ -1020,13 +1027,13 @@ class ProjectTask(models.Model):
                                  compute='_compute_project_id', recursive=True, store=True, readonly=False,
                                  index=True, tracking=True, check_company=True, change_default=True)
 
-    @api.depends('parent_id.project_id', 'display_project_id')
+    @api.depends('parent_id.project_id', 'en_task_position.project_id')
     def _compute_project_id(self):
         for task in self:
-            if task.parent_id:
-                task.project_id = task.display_project_id or task.parent_id.project_id
             if task.en_task_position and task.en_task_position.project_id:
                 task.project_id = task.en_task_position.project_id
+            elif task.parent_id and task.parent_id.project_id:
+                task.project_id = task.parent_id.project_id
 
     @api.model
     def _name_search(self, name, args=None, operator='ilike', limit=100, name_get_uid=None):

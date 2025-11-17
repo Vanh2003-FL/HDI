@@ -6,9 +6,8 @@
         <field name="state">code</field>
         <field name="code">env['x.sale.contract'].search([('state', '=', 'done'), '|', '&amp;', ('fixed_date_end', '!=', False), ('fixed_date_end', '&lt;', datetime.date.today()), '&amp;', ('fixed_date_end', '=', False), ('x_date_end', '&lt;', datetime.date.today())]).write({'state': 'expired'})</field>
         <field name='interval_number'>5</field>
-        <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 07:00:00')"/>
+        <field name="nextcall" eval="(datetime.now()).strftime('%Y-%m-%d 07:00:00')"/>
         <field name='interval_type'>days</field>
-        <field name="numbercall">-1</field>
         <field name="active">1</field>
     </record>
     <data>
@@ -19,9 +18,7 @@
             <field name="code">model._convert_resource_to_list_resource()</field>
             <field name='interval_number'>1</field>
             <field name='interval_type'>days</field>
-            <field name="numbercall">0</field>
             <field name="active">0</field>
-            <field name="doall">0</field>
         </record>
         <record id="departure_employee_everyday" model="ir.cron">
             <field name="name">Dừng nhân viên hàng ngày</field>
@@ -29,11 +26,9 @@
             <field name="state">code</field>
             <field name="code">model.action_departure_pause_employee()</field>
             <field name='interval_number'>1</field>
-            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 19:00:00')"/>
+            <field name="nextcall" eval="(datetime.now()).strftime('%Y-%m-%d 19:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
-            <field name="doall">1</field>
         </record>
         <record id="send_notify_expire_lender_employee" model="ir.cron">
             <field name="name">Gửi thông báo nhân viên sắp hết thời gian mượn</field>
@@ -41,11 +36,9 @@
             <field name="state">code</field>
             <field name="code">model.action_send_mail_ahead_schedule()</field>
             <field name='interval_number'>1</field>
-            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 01:00:00')"/>
+            <field name="nextcall" eval="(datetime.now()).strftime('%Y-%m-%d 01:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
-            <field name="doall">1</field>
         </record>
         <record id="return_employee_everyday" model="ir.cron">
             <field name="name">Trả nhân viên mượn khi hết hạn</field>
@@ -53,11 +46,9 @@
             <field name="state">code</field>
             <field name="code">model.action_return_on_time()</field>
             <field name='interval_number'>1</field>
-            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 00:10:00')"/>
+            <field name="nextcall" eval="(datetime.now()).strftime('%Y-%m-%d 00:10:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
-            <field name="doall">1</field>
         </record>
         <record id="send_mail_to_employee_cron" model="ir.cron">
             <field name="name">Gửi mail thông báo tới người dùng</field>
@@ -65,11 +56,9 @@
             <field name="state">code</field>
             <field name="code">model._cron_send_mail()</field>
             <field name='interval_number'>5</field>
-            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 00:00:00')"/>
+            <field name="nextcall" eval="(datetime.now()).strftime('%Y-%m-%d 00:00:00')"/>
             <field name='interval_type'>minutes</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
-            <field name="doall">0</field>
         </record>
     </data>
     <data>
@@ -81,9 +70,7 @@
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + timedelta(days=4 - datetime.today().weekday())).strftime('%Y-%m-%d 04:00:00')"/>
             <field name='interval_type'>weeks</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
-            <field name="doall">0</field>
         </record>
     </data>
     <data>
@@ -95,9 +82,7 @@
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + timedelta(days=1)).strftime('%Y-%m-%d 04:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
-            <field name="doall">0</field>
         </record>
     </data>
     <data>
@@ -109,9 +94,7 @@
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(months=1,day=1, days=-1)).strftime('%Y-%m-%d 04:00:00')"/>
             <field name='interval_type'>months</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
-            <field name="doall">0</field>
         </record>
         <record id="crm_lead_is_lost_cron" model="ir.cron">
             <field name="name">NGSD: Cập nhật lại trạng thái thua</field>
@@ -123,9 +106,7 @@ for task in tasks:
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(months=1,day=1, days=-1)).strftime('%Y-%m-%d 04:00:00')"/>
             <field name='interval_type'>months</field>
-            <field name="numbercall">-1</field>
             <field name="active">0</field>
-            <field name="doall">0</field>
         </record>
         <record id="auto_create_technical_compute" model="ir.cron">
             <field name="name">NGSD: Sinh sẵn bảng tech model để tính toán</field>
@@ -136,9 +117,7 @@ for task in tasks:
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 17:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
-            <field name="doall">0</field>
         </record>
         <record id="auto_create_technical_date" model="ir.cron">
             <field name="name">NGSD: Sinh sẵn bảng tech date để tính toán</field>
@@ -149,9 +128,7 @@ for task in tasks:
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 17:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
-            <field name="doall">0</field>
         </record>
         <record id="ir_cron_fill_date_qa" model="ir.cron">
             <field name="name">NGSD: Xử lý dữ liệ cũ Điền ngày tạo QA</field>
@@ -162,7 +139,6 @@ for task in tasks:
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 17:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">0</field>
         </record>
         <record id="ir_cron_update_workload_lender" model="ir.cron">
@@ -177,7 +153,6 @@ env['en.department.resource'].search([('lender_employee_detail_id', '=', id)]).w
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 17:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">0</field>
         </record>
         <record id="ir_cron_update_en_project_vicepm_ids_project" model="ir.cron">
@@ -193,7 +168,6 @@ for project in projects:
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 17:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">0</field>
         </record>
         <record id="ir_cron_recreate_missing_department_resource_lender" model="ir.cron">
@@ -220,7 +194,6 @@ for line in returns:
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 17:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">0</field>
         </record>
         <record id="ir_cron_recompute_date_old_en_hr_overtime" model="ir.cron">
@@ -233,7 +206,6 @@ model.sudo().search([]).recompute_date_old()
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 17:00:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">0</field>
         </record>
         <record id="ir_cron_employee_tag_cron_auto_apply" model="ir.cron">
@@ -244,7 +216,6 @@ model.sudo().search([]).recompute_date_old()
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 17:10:00')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
         </record>
         <record id="ir_cron_lock_license_action_change_date_expire" model="ir.cron">
@@ -255,7 +226,6 @@ model.sudo().search([]).recompute_date_old()
             <field name='interval_number'>5</field>
             <field name='interval_type'>minutes</field>
             <field name="nextcall" eval="(datetime.today() + relativedelta(minutes=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
         </record>
         <record id="ir_cron_lock_license_action_auto_lock_week" model="ir.cron">
@@ -266,7 +236,6 @@ model.sudo().search([]).recompute_date_old()
             <field name='interval_number'>1</field>
             <field name='interval_type'>weeks</field>
 <!--            <field name="nextcall" eval="(datetime.today() + relativedelta(weekday=0)).strftime('%Y-%m-%d 03:00:00')"/>-->
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
         </record>
         <record id="ir_cron_lock_license_action_auto_lock_month" model="ir.cron">
@@ -277,7 +246,6 @@ model.sudo().search([]).recompute_date_old()
             <field name='interval_number'>1</field>
             <field name='interval_type'>months</field>
 <!--            <field name="nextcall" eval="(datetime.today() + relativedelta(day=24)).strftime('%Y-%m-%d 17:00:00')"/>-->
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
         </record>
         <record id="ir_cron_auto_allocation_leave" model="ir.cron">
@@ -287,7 +255,6 @@ model.sudo().search([]).recompute_date_old()
             <field name="code">model.cron_allocation()</field>
             <field name='interval_number'>1</field>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
         </record>
         <record id="ir_cron_auto_allocation_leave_birthday" model="ir.cron">
@@ -297,7 +264,6 @@ model.sudo().search([]).recompute_date_old()
             <field name="code">model.cron_create_birthday_allocation()</field>
             <field name='interval_number'>1</field>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
             <field name="active">1</field>
         </record>
         <record id="hr_holidays.hr_leave_allocation_cron_accrual" model="ir.cron">

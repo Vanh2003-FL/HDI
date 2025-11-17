@@ -8,11 +8,11 @@
                     <field name="approve_ok" invisible="1"/>
                     <field name="is_borrower" invisible="1"/>
                     <field name="is_lender" invisible="1"/>
-                    <button string="Gửi duyệt" type="object" name="button_to_approve" attrs="{'invisible':['|','|',('is_borrower', '=', False),('state','!=','draft'),('id', '=', False)]}"/>
-                    <button string="Duyệt" type="object" name="button_approved" attrs="{'invisible':['|',('state','!=','to_approve'),('approve_ok','=',False)]}"/>
-                    <button string="Từ chối" type="object" name="button_refused" attrs="{'invisible':['|',('state','!=','to_approve'),('approve_ok','=',False)]}"/>
-                    <button string="Hủy" type="object" name="button_cancel" attrs="{'invisible':['|','|',('is_borrower', '=', False),('state','!=','draft'),('id', '=', False)]}"/>
-                    <button string="Tạo danh sách" type="object" name="new_lender_employee" attrs="{'invisible':['|',('is_lender', '=', False),('state','!=','approved')]}"/>
+                    <button string="Gửi duyệt" type="object" name="button_to_approve" invisible="not is_borrower or state != 'draft' or not id"/>
+                    <button string="Duyệt" type="object" name="button_approved" invisible="state != 'to_approve' or not approve_ok"/>
+                    <button string="Từ chối" type="object" name="button_refused" invisible="state != 'to_approve' or not approve_ok"/>
+                    <button string="Hủy" type="object" name="button_cancel" invisible="not is_borrower or state != 'draft' or not id"/>
+                    <button string="Tạo danh sách" type="object" name="new_lender_employee" invisible="not is_lender or state != 'approved'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,to_approve,approved"/>
                 </header>
                 <sheet>
@@ -31,7 +31,7 @@
                             <field name="code" readonly="1"/>
                         </group>
                         <group>
-                            <field name="date" attrs="{'readonly': [('is_borrower', '=', False)]}"/>
+                            <field name="date" readonly="not is_borrower"/>
                         </group>
                     </group>
                     <group>
@@ -42,13 +42,13 @@
                         </group>
                         <group string="Thông tin bên cho mượn">
                             <field name="lender_id"/>
-                            <field name="department_lender_id" attrs="{'readonly': [('is_borrower', '=', False)]}"/>
+                            <field name="department_lender_id" readonly="not is_borrower"/>
                             <field name="department_lender_ids" widget="many2many_tags" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Chi tiết mượn">
-                            <field name="borrow_employee_detail_ids" attrs="{'readonly': ['|',('is_borrower', '=', False),('state', '!=', 'draft')]}">
+                            <field name="borrow_employee_detail_ids" readonly="not is_borrower or state != 'draft'">
                                 <list editable="bottom">
                                     <field name="job_position_id"/>
                                     <field name="level_id"/>
@@ -56,7 +56,7 @@
                                     <field name="date_end"/>
                                     <field name="workload" widget="percentage"/>
                                     <field name="description"/>
-                                    <button string=" " name="button_en_copy" type="object" icon="fa-clipboard" attrs="{'invisible': ['|',('parent.is_borrower', '=', False),('parent.state', '!=', 'draft')]}"/>
+                                    <button string=" " name="button_en_copy" type="object" icon="fa-clipboard" invisible="not parent.is_borrower or parent.state != 'draft'"/>
                                 </list>
                             </field>
                         </page>
@@ -74,7 +74,8 @@
                         </page>
                     </notebook>
                 </sheet>
-                <chatter/><field name="message_follower_ids" widget="mail_followers"/>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
                     <field name="activity_ids" widget="mail_activity"/>
                     <field name="message_ids" widget="mail_thread"/>
                 </div>

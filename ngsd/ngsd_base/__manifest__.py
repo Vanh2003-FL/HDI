@@ -51,7 +51,6 @@
         'views/message_subtypes.xml',
         'views/email_data.xml',
         'views/res_company.xml',
-        'views/hr_employee.xml',
         'views/x_customer_category.xml',
         'views/x_customer_group.xml',
         'views/kpi_kpi.xml',
@@ -82,8 +81,9 @@
         'views/hr_leave_type.xml',
         'views/lock_license.xml',
         'views/ngs_leave_allocation.xml',
-
         'views/en_qa_report_work.xml',
+        'views/hr_employee.xml',
+
         'wizard/message_wizard.xml',
         'wizard/new_version_wbs_wizard.xml',
         'wizard/import_wbs_popup.xml',

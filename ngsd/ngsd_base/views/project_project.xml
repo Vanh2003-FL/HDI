@@ -154,24 +154,20 @@
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="tag_ids" position="after">
-                <field name="en_code" attrs="{'readonly':[('en_state','!=','draft')]}"/>
+                <field name="en_code" readonly="en_state != 'draft'"/>
                 <field name="is_presale" invisible="1"/>
                 <field name="is_internal"/>
                 <field name="en_area_id"
-                        attrs="{'required': [('is_presale', '=', False)]}"
+                        required="not is_presale"
                        options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
                 <field name="en_block_id"
-                        attrs="{'required': [('is_presale', '=', False)]}"
+                        required="not is_presale"
                        options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"
                        domain="['|', ('area_id', '=?', en_area_id),('en_area_ids', '=', en_area_id)]"/>
-                <field name="en_department_id" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}" domain="[('block_id', '=', en_block_id)]" attrs="{'required': [('is_presale', '=', False)]}"/>
+                <field name="en_department_id" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}" domain="[('block_id', '=', en_block_id)]" required="not is_presale"/>
                 <field name="en_project_type_id" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
                 <field name="en_list_project_id" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
                 <field name="en_project_model_id" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
-                <xpath expr="//label[@for='date_start']" position="move"/>
-                <xpath expr="//div[@name='dates']" position="move"/>
-                <xpath expr="//field[@name='company_id']" position="move"/>
-                <field name="tag_ids" position="move"/>
             </field>
             <field name="tag_ids" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -201,10 +197,10 @@
             </xpath>
             <xpath expr="//group" position="after">
                 <group>
-                    <group string="Thông tin khách hàng" attrs="{'invisible': [('is_internal', '=', True)]}">
+                    <group string="Thông tin khách hàng" invisible="is_internal">
                         <field name="en_customer_type_id"/>
                         <field name="partner_id" widget="res_partner_many2one" domain="[('is_customer','=',True)]"
-                               context="{'view_all_res_partner': True}" attrs="{'required': [('is_internal', '=', False)]}"/>
+                               context="{'view_all_res_partner': True}" required="not is_internal"/>
                         <field name="en_contract_type_id"/>
                         <field name="en_contract_number"/>
                         <field name="en_branch_id"/>
@@ -225,7 +221,7 @@
                     </group>
                 </group>
             </xpath>
-            <xpath expr="//div[@name='button_box']//field[@name='currency_id']" position="replace">
+            <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="to_project_dashboard" type="object" class="oe_stat_button" icon="fa-area-chart">
                     <span class="o_stat_text">
                         Dashboard Dự án
@@ -244,32 +240,25 @@
                     <field name="en_document_count" widget="statinfo"/>
                 </button>
             </xpath>
-            <xpath expr="//button[@name='%(project.act_project_project_2_project_task_all)d']" position="after">
-                <button class="oe_stat_button" type="object" name="to_work_plans" icon="fa-list-ul" groups="ngsd_base.group_tpvh,ngsd_base.group_gdkndu,ngsd_base.group_pm,ngsd_base.group_qal,ngsd_base.group_qam,ngsd_base.group_gdkv,ngsd_base.group_vpm">
-                    <field name="en_work_plans_count" widget="statinfo"/>
-                </button>
-            </xpath>
-            <xpath expr="//button[@name='%(project.project_milestone_all)d']" position="attributes">
-                <attribute name="groups">ngsd_base.group_tpvh,ngsd_base.group_gdkndu,ngsd_base.group_pm,ngsd_base.group_tvda,ngsd_base.group_qam,ngsd_base.group_gdkv,ngsd_base.group_vpm</attribute>
-            </xpath>
+            <!-- Đã xóa xpath button to_work_plans - project.act_project_project_2_project_task_all không tồn tại trong Odoo 18 -->
             <xpath expr="//group/group/field[@name='partner_id']" position="replace"/>
             <xpath expr="//field[@name='stage_id']" position="attributes">
                 <attribute name="options">{'fold_field': 'fold'}</attribute>
             </xpath>
             <xpath expr="//field[@name='stage_id']" position="before">
                 <field name="technical_field_27795" invisible="1"/>
-                <button name="button_new_wbs" groups="ngsd_base.group_pm,ngsd_base.group_vpm" string="Tạo WBS" type="object" attrs="{'invisible': [('en_wbs_ids','!=',[])]}"/>
-                <button name="button_project_account_report_wizard_act" groups="ngsd_base.group_tpvh,ngsd_base.group_gdkndu,ngsd_base.group_tptc,ngsd_base.group_pm,ngsd_base.group_qam,ngsd_base.group_vpm" string="Nguồn lực dự án" attrs="{'invisible':[('en_resource_ids','=',[])]}" type="object"/>
+                <button name="button_new_wbs" groups="ngsd_base.group_pm,ngsd_base.group_vpm" string="Tạo WBS" type="object" invisible="en_wbs_ids"/>
+                <button name="button_project_account_report_wizard_act" groups="ngsd_base.group_tpvh,ngsd_base.group_gdkndu,ngsd_base.group_tptc,ngsd_base.group_pm,ngsd_base.group_qam,ngsd_base.group_vpm" string="Nguồn lực dự án" invisible="not en_resource_ids" type="object"/>
                 <button name="button_view_qdtlda" string="Biểu mẫu QĐTL" type="object"/>
                 <button name="button_view_qddcda" string="Biểu mẫu QDĐC" type="object"/>
-                <button name="new_resource" groups="ngsd_base.group_pm,ngsd_base.group_vpm" string="Tạo kế hoạch NL" attrs="{'invisible':['|',('en_resource_ids','!=',[]),('en_state','not in',['draft','wait_for_execution','doing'])]}" type="object"/>
-                <button name="new_quality_control" groups="ngsd_base.group_qam,ngsd_base.group_qal,ngsd_base.group_pm,ngsd_base.group_gdkndu" string="Tạo KSCL" attrs="{'invisible':['|', ('en_quality_control_ids','!=',[]),('en_state','not in',['draft','wait_for_execution','doing'])]}" type="object"/>
-                <button name="button_en_wait_for_execution" groups="ngsd_base.group_qam" string="Chờ thực hiện" attrs="{'invisible':[('en_state','not in',['draft'])]}" type="object"/>
-                <button name="button_en_doing" groups="ngsd_base.group_qam" string="Thực hiện" attrs="{'invisible':[('en_state','not in',['wait_for_execution'])]}" type="object"/>
-                <button name="button_en_complete" groups="ngsd_base.group_qam" string="Hoàn thành" attrs="{'invisible':[('en_state','not in',['doing'])]}" type="object"/>
-                <button name="button_pending" groups="ngsd_base.group_qam" string="Trì hoãn" attrs="{'invisible':[('en_state','not in', ['draft', 'wait_for_execution', 'doing'])]}" type="object"/>
-                <button name="button_continue" groups="ngsd_base.group_qam" string="Tiếp tục" attrs="{'invisible':[('en_state','!=', 'pending')]}" type="object" class="oe_highlight"/>
-                <button name="button_en_cancel" groups="ngsd_base.group_qam" string="Hủy" attrs="{'invisible':[('en_state','not in',['draft', 'wait_for_execution', 'doing'])]}" type="object" confirm="Thực hiện thao tác hủy dự án này, tiếp tục?"/>
+                <button name="new_resource" groups="ngsd_base.group_pm,ngsd_base.group_vpm" string="Tạo kế hoạch NL" invisible="en_resource_ids or en_state not in ('draft','wait_for_execution','doing')" type="object"/>
+                <button name="new_quality_control" groups="ngsd_base.group_qam,ngsd_base.group_qal,ngsd_base.group_pm,ngsd_base.group_gdkndu" string="Tạo KSCL" invisible="en_quality_control_ids or en_state not in ('draft','wait_for_execution','doing')" type="object"/>
+                <button name="button_en_wait_for_execution" groups="ngsd_base.group_qam" string="Chờ thực hiện" invisible="en_state not in ('draft',)" type="object"/>
+                <button name="button_en_doing" groups="ngsd_base.group_qam" string="Thực hiện" invisible="en_state not in ('wait_for_execution',)" type="object"/>
+                <button name="button_en_complete" groups="ngsd_base.group_qam" string="Hoàn thành" invisible="en_state not in ('doing',)" type="object"/>
+                <button name="button_pending" groups="ngsd_base.group_qam" string="Trì hoãn" invisible="en_state not in ('draft', 'wait_for_execution', 'doing')" type="object"/>
+                <button name="button_continue" groups="ngsd_base.group_qam" string="Tiếp tục" invisible="en_state != 'pending'" type="object" class="oe_highlight"/>
+                <button name="button_en_cancel" groups="ngsd_base.group_qam" string="Hủy" invisible="en_state not in ('draft', 'wait_for_execution', 'doing')" type="object" confirm="Thực hiện thao tác hủy dự án này, tiếp tục?"/>
             </xpath>
             <xpath expr="//group[@name='extra_settings']" position="inside">
                 <field name="type_ids" widget="many2many_tags" domain="[('user_id','=',False)]"/>
@@ -302,7 +291,7 @@
                                     name="import_en_resource_project"
                                     type="object"
                                     string="Nhập Danh sách nhân sự"
-                                    attrs="{'invisible': [('id', '=', False)]}"
+                                    invisible="not id"
                             />
                        <br/>
 
@@ -317,20 +306,20 @@
                     </group>
                     <field name="en_resource_project_ids">
                         <list editable="bottom" decoration-muted="state == 'inactive'">
-                            <field name="type_id" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '=', 'inactive')]}" required="1"/>
+                            <field name="type_id" options="{'no_create': True, 'no_open': True}" readonly="state == 'inactive'" required="1"/>
                             <field name="employee_id" context="{'ctx_domain_resource_project': domain_resource_project}"/>
                             <field name="email"/>
-                            <field name="role_ids" widget="many2many_tags" attrs="{'readonly': [('state', '=', 'inactive')]}" required="1"/>
-                            <field name="en_job_position_ids" widget="many2many_tags" attrs="{'readonly': [('state', '=', 'inactive')]}" required="1"/>
-                            <field name="date_start" attrs="{'readonly': [('state', '=', 'inactive')]}" required="1"/>
-                            <field name="date_end" attrs="{'readonly': [('state', '=', 'inactive')]}" required="1"/>
+                            <field name="role_ids" widget="many2many_tags" readonly="state == 'inactive'" required="1"/>
+                            <field name="en_job_position_ids" widget="many2many_tags" readonly="state == 'inactive'" required="1"/>
+                            <field name="date_start" readonly="state == 'inactive'" required="1"/>
+                            <field name="date_end" readonly="state == 'inactive'" required="1"/>
                             <field name="is_borrow" optional="hide"/>
 <!--                            <field name="employee_borrow_ids" invisible="1"/>-->
                             <field name="department_id" invisible="1"/>
                             <field name="en_state"/>
                             <field name="date_leave" readonly="1" force_save="1"/>
                             <field name="state" readonly="1" force_save="1"/>
-                            <button confirm="Bạn chắc chắn muốn nhân sự này rời dự án, tiếp tục?" string="Rời dự án" name="button_leave_project" type="object" icon="fa-sign-out" attrs="{'invisible': [('state', '=', 'inactive')]}"/>
+                            <button confirm="Bạn chắc chắn muốn nhân sự này rời dự án, tiếp tục?" string="Rời dự án" name="button_leave_project" type="object" icon="fa-sign-out" invisible="state == 'inactive'"/>
                             <field name="domain_resource_project" invisible="1"/>
                         </list>
                     </field>
@@ -361,13 +350,13 @@
                         </div>
                     </div>
                 </page>
-                <page string="Kế hoạch WBS" attrs="{'invisible': [('show_wbs_tab', '=', False)]}">
+                <page string="Kế hoạch WBS" invisible="not show_wbs_tab">
                     <field name="show_wbs_tab" invisible="1"/>
                     <button class="btn-primary"
                             name="import_wbs"
                             type="object"
                             string="Nhập WBS"
-                            attrs="{'invisible': ['|',('en_wbs_ids','!=',[]), ('id', '=', False)]}"
+                            invisible="en_wbs_ids or not id"
                     />
 
                     <field name="en_wbs_ids" readonly="1">
@@ -375,17 +364,17 @@
                             <field name="version_number"/>
                             <field name="version_type"/>
                             <field name="state"/>
-                            <button name="action_open_new_tab" string="" type="object" icon="fa-external-link" help="Mở bản ghi mới"/>
+                            <button name="action_open_new_tab" string="" type="object" icon="fa-external-link" title="Mở bản ghi mới"/>
                         </list>
                     </field>
                 </page>
-                <page string="Kế hoạch nguồn lực" attrs="{'invisible': [('show_resource_tab', '=', False)]}">
+                <page string="Kế hoạch nguồn lực" invisible="not show_resource_tab">
                     <field name="show_resource_tab" invisible="1"/>
                     <button class="btn-primary oe_read_only"
                             name="import_en_resource_planning_line"
                             type="object"
                             string="Nhập Kế hoạch nguồn lực"
-                            attrs="{'invisible': [('show_import_button_viewer', '=', False)]}"
+                            invisible="not show_import_button_viewer"
                     />
                     <br/>
 
@@ -400,16 +389,16 @@
                             <field name="baseline_over" widget="percentage"/>
                             <field name="reason"/>
                             <field name="state"/>
-                            <button name="action_open_new_tab" string="" type="object" icon="fa-external-link" help="Mở bản ghi mới"/>
+                            <button name="action_open_new_tab" string="" type="object" icon="fa-external-link" title="Mở bản ghi mới"/>
                         </list>
                     </field>
                 </page>
-                <page string="KH KSCL dự án" attrs="{}" groups="ngsd_base.group_qam,ngsd_base.group_qal,ngsd_base.group_pm,ngsd_base.group_gdkndu,ngsd_base.group_vpm">
+                <page string="KH KSCL dự án" groups="ngsd_base.group_qam,ngsd_base.group_qal,ngsd_base.group_pm,ngsd_base.group_gdkndu,ngsd_base.group_vpm">
                     <button class="btn-primary"
                             name="import_en_quality_control"
                             type="object"
                             string="Nhập KH KSCL dự án"
-                            attrs="{'invisible': [('id', '=', False)]}"
+                            invisible="not id"
                     />
                     <br/>
                     <field name="en_quality_control_ids" readonly="1">
@@ -419,7 +408,7 @@
                             <field name="create_date" string="Ngày tạo"/>
                             <field name="reason"/>
                             <field name="state"/>
-                            <button name="action_open_new_tab" string="" type="object" icon="fa-external-link" help="Mở bản ghi mới"/>
+                            <button name="action_open_new_tab" string="" type="object" icon="fa-external-link" title="Mở bản ghi mới"/>
                         </list>
                     </field>
                 </page>
@@ -466,15 +455,12 @@
                 <attribute name="widget"></attribute>
                 <attribute name="options">{}</attribute>
             </xpath>
-            <xpath expr="//button[@name=%(project.project_share_wizard_action)d]" position="replace"/>
-            <xpath expr="//button[@name=%(project.project_share_wizard_action)d]" position="replace"/>
+            <!-- Đã xóa 2 xpath replace cho button project_share_wizard - không tồn tại trong Odoo 18 -->
             <xpath expr="//field[@name='company_id']" position="before">
                 <field name="en_real_start_date"/>
                 <field name="en_real_end_date"/>
             </xpath>
-            <xpath expr="//button[@name=%(project.act_project_project_2_project_task_all)d]" position="attributes">
-                <attribute name="groups">ngsd_base.group_tpvh,ngsd_base.group_gdkndu,ngsd_base.group_pm,ngsd_base.group_tvda,ngsd_base.group_qam,ngsd_base.group_gdkv,ngsd_base.group_vpm</attribute>
-            </xpath>
+            <!-- Đã xóa xpath attributes cho button task - project.act_project_project_2_project_task_all không tồn tại trong Odoo 18 -->
         </field>
     </record>
 
@@ -514,11 +500,11 @@
                     <field name="c_ok" invisible="1"/>
                     <field name="d_ok" invisible="1"/>
                     <field name="e_ok" invisible="1"/>
-                    <button name="button_en_a" type="object" string="Hủy" attrs="{'invisible':[('a_ok','=',False)]}"/>
-                    <button name="button_en_b" type="object" string="Gửi xem xét" attrs="{'invisible':[('b_ok','=',False)]}"/>
-                    <button name="button_en_c" type="object" string="Trì hoãn" attrs="{'invisible':[('c_ok','=',False)]}"/>
-                    <button name="button_en_d" type="object" string="Làm lại" attrs="{'invisible':[('d_ok','=',False)]}"/>
-                    <button name="button_en_e" type="object" string="Hoàn thành" attrs="{'invisible':[('e_ok','=',False)]}"/>
+                    <button name="button_en_a" type="object" string="Hủy" invisible="not a_ok"/>
+                    <button name="button_en_b" type="object" string="Gửi xem xét" invisible="not b_ok"/>
+                    <button name="button_en_c" type="object" string="Trì hoãn" invisible="not c_ok"/>
+                    <button name="button_en_d" type="object" string="Làm lại" invisible="not d_ok"/>
+                    <button name="button_en_e" type="object" string="Hoàn thành" invisible="not e_ok"/>
                     <field name="state" widget="statusbar" options="{'clickable': 1}" readonly="0"/>
                 </header>
                 <sheet>
@@ -602,7 +588,7 @@
                             <field name="doc_version"/>
                             <field name="real_ho_date"/>
                             <field name="out_assess"/>
-                            <field name="external_assesser" attrs="{'invisible':[('out_assess','=',False)]}"/>
+                            <field name="external_assesser" invisible="not out_assess"/>
                             <field name="description"/>
                             <field name="en_payment_milestone"/>
                             <field name="en_project_milestone"/>
@@ -614,14 +600,14 @@
                             <field name="doc_area"/>
                             <field name="handover_date"/>
                             <field name="out_approve"/>
-                            <field name="external_approver" attrs="{'invisible':[('out_approve','=',False)]}"/>
+                            <field name="external_approver" invisible="not out_approve"/>
                             <field name="product_url" widget="url"/>
                             <field name="data_attachment" filename="file_name"/>
                             <field name="file_name" invisible="1"/>
                         </group>
                     </group>
                 </sheet>
-                <chatter/><field name="message_follower_ids" groups="base.group_user"/>
+                <div class="oe_chatter"><field name="message_follower_ids"/>
                     <field name="activity_ids"/>
                     <field name="message_ids"/>
                 </div>
@@ -649,10 +635,7 @@
         <field name="inherit_id" ref="project.view_project_project_filter"/>
         <field name="priority">1000</field>
         <field name="arch" type="xml">
-            <xpath expr="//filter[@name='status']" position="replace"/>
-            <xpath expr="//field[@name='sale_order_id']" position="replace"/>
-            <xpath expr="//field[@name='analytic_account_id']" position="replace"/>
-            <xpath expr="//field[@name='tag_ids']" position="replace"/>
+            <!-- Đã xóa 4 xpath replace - các field/filter không tồn tại trong Odoo 18: status, sale_order_id, analytic_account_id, tag_ids -->
             <xpath expr="//field[@name='name']" position="after">
                 <field name="en_code"/>
                 <field name="en_project_qa_id"/>
@@ -699,11 +682,11 @@
                     <field name="c_ok" invisible="1"/>
                     <field name="d_ok" invisible="1"/>
                     <field name="e_ok" invisible="1"/>
-                    <button name="button_en_a" type="object" string="Hủy" attrs="{'invisible':[('a_ok','=',False)]}"/>
-                    <button name="button_en_b" type="object" string="Gửi xem xét" attrs="{'invisible':[('b_ok','=',False)]}"/>
-                    <button name="button_en_c" type="object" string="Trì hoãn" attrs="{'invisible':[('c_ok','=',False)]}"/>
-                    <button name="button_en_d" type="object" string="Làm lại" attrs="{'invisible':[('d_ok','=',False)]}"/>
-                    <button name="button_en_e" type="object" string="Hoàn thành" attrs="{'invisible':[('e_ok','=',False)]}"/>
+                    <button name="button_en_a" type="object" string="Hủy" invisible="not a_ok"/>
+                    <button name="button_en_b" type="object" string="Gửi xem xét" invisible="not b_ok"/>
+                    <button name="button_en_c" type="object" string="Trì hoãn" invisible="not c_ok"/>
+                    <button name="button_en_d" type="object" string="Làm lại" invisible="not d_ok"/>
+                    <button name="button_en_e" type="object" string="Hoàn thành" invisible="not e_ok"/>
                     <field name="state" widget="statusbar" options="{'clickable': 1}" readonly="0"/>
                 </header>
                 <sheet>
@@ -730,10 +713,10 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Gói việc con" attrs="{'invisible':[('task_ids','!=',[])]}">
+                        <page string="Gói việc con" invisible="task_ids">
                             <field name="child_ids" options="{'create':[('wbs_state','!=','approved')],'delete':[('wbs_state','!=','approved')]}" context="{'default_user_id': user_id, 'default_date_start': date_start, 'default_date_end': date_end}"/>
                         </page>
-                        <page string="Công việc" attrs="{'invisible':[('child_ids','!=',[])]}">
+                        <page string="Công việc" invisible="child_ids">
                             <field name="task_ids" options="{'create':[('wbs_state','!=','approved')],'delete':[('wbs_state','!=','approved')]}" context="{'default_en_start_date': date_start, 'default_date_deadline': date_end, 'default_project_id': project_id}">
                                 <list class="allow_list_copy">
                                     <field name="en_task_code"/>
@@ -747,7 +730,7 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Sản phẩm bàn giao" attrs="{'invisible':[('handover_doc','=',False)]}">
+                        <page string="Sản phẩm bàn giao" invisible="not handover_doc">
                             <field name="document_ids" context="{'form_view_ref': 'ngsd_base.project_document_form1'}"/>
                         </page>
                     </notebook>

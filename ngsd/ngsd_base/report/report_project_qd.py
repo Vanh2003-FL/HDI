@@ -1,8 +1,14 @@
 from odoo import fields, models, api, exceptions
 from datetime import timedelta
 from odoo.exceptions import ValidationError, UserError
-from docxtpl import DocxTemplate
 import pathlib
+
+try:
+    from docxtpl import DocxTemplate
+    DOCXTPL_AVAILABLE = True
+except ImportError:
+    DocxTemplate = None
+    DOCXTPL_AVAILABLE = False
 
 
 class ReportQDTLDA(models.AbstractModel):
@@ -10,6 +16,8 @@ class ReportQDTLDA(models.AbstractModel):
     _inherit = 'report.report_docx.abstract'
 
     def generate_docx_report(self, data, objs):
+        if not DOCXTPL_AVAILABLE:
+            raise ValidationError('Gói docxtpl chưa được cài đặt. Vui lòng cài đặt: pip install python-docx docxtpl')
         if not objs:
             raise ValidationError('Không tìm thấy bản ghi Dự án!')
         template_name = 'qdtlda.docx'

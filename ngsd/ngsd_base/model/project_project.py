@@ -48,9 +48,9 @@ class DocumentsFolder(models.Model):
   _inherit = 'documents.folder'
 
   group_ids = fields.Many2many(
-    default=lambda self: self.env.user.from_groups_with_love)
+      default=lambda self: self.env.user.from_groups_with_love)
   read_group_ids = fields.Many2many(
-    default=lambda self: self.env.user.from_groups_with_love)
+      default=lambda self: self.env.user.from_groups_with_love)
 
   role_write_ids = fields.Many2many('en.role', 'folder_role_1',
                                     string='Vai trò KHNL được ghi')
@@ -133,8 +133,8 @@ class DocumentsFolder(models.Model):
   def _compute_can_download(self):
     for rec in self:
       rec.can_download = self.env.user.employee_id in (
-            rec.employee_write_ids | rec.employee_write_role_ids | rec.employee_read_ids | rec.employee_read_role_ids) or rec.check_access_rights(
-        'read', raise_exception=False)
+          rec.employee_write_ids | rec.employee_write_role_ids | rec.employee_read_ids | rec.employee_read_role_ids) or rec.check_access_rights(
+          'read', raise_exception=False)
 
 
 class ProjectProjectStage(models.Model):
@@ -220,12 +220,12 @@ class InfProject(models.Model):
       if not rec.technical_field_28197: continue
       if rec.type == 'BMM':
         value = sum(rec.project_id.en_bmm_ids.filtered(
-          lambda x: x.date == rec.technical_field_28197).mapped('bmm'))
+            lambda x: x.date == rec.technical_field_28197).mapped('bmm'))
         rec.sudo().write({'value': value})
       if rec.type == 'Plan':
         a = rec.technical_field_28197
         b = rec.technical_field_28197 + relativedelta(day=1) + relativedelta(
-          months=1) + relativedelta(days=-1)
+            months=1) + relativedelta(days=-1)
         value = 0
         for line in rec.project_id.en_resource_id.order_line:
           if line.date_start > b: continue
@@ -239,17 +239,17 @@ class InfProject(models.Model):
               relativedelta(months=1)):
             compared_from = (date_step + relativedelta(day=1)).date()
             compared_to = (
-                  date_step + relativedelta(months=1, day=1, days=-1)).date()
+                date_step + relativedelta(months=1, day=1, days=-1)).date()
             x = 0
             y = 0
             tech_data = self.env[
               'en.technical.model'].convert_daterange_to_data(employee,
                                                               datetime.combine(
-                                                                compared_from,
-                                                                time.min),
+                                                                  compared_from,
+                                                                  time.min),
                                                               datetime.combine(
-                                                                compared_to,
-                                                                time.max))
+                                                                  compared_to,
+                                                                  time.max))
             for d in tech_data:
               tech = tech_data.get(d)
               if tech and tech.get('tech') != 'off':
@@ -262,11 +262,11 @@ class InfProject(models.Model):
       if rec.type == 'MM actual':
         a = rec.technical_field_28197
         b = rec.technical_field_28197 + relativedelta(day=1) + relativedelta(
-          months=1) + relativedelta(days=-1)
+            months=1) + relativedelta(days=-1)
         value = sum(line.mm for line in rec.project_id.task_ids.filtered(
-          lambda x: x.en_wbs_state == 'approved').mapped(
-          'timesheet_ids').filtered(
-          lambda x: x.en_state == 'approved' and a <= x.date <= b))
+            lambda x: x.en_wbs_state == 'approved').mapped(
+            'timesheet_ids').filtered(
+            lambda x: x.en_state == 'approved' and a <= x.date <= b))
         rec.sudo().write({'value': value})
     return super().read(fields, load)
 
@@ -338,7 +338,7 @@ class ProjectProject(models.Model):
   def _compute_can_view_draft(self):
     for rec in self:
       rec.can_view_draft = self.env.user.has_group(
-        'base.group_system,ngsd_base.group_qal')
+          'base.group_system,ngsd_base.group_qal')
 
   def _search_can_view_draft(self, operator, value):
     if self.env.user.has_group('base.group_system,ngsd_base.group_qal'):
@@ -392,7 +392,7 @@ class ProjectProject(models.Model):
       en_mm_actual = 0
       en_mm_actual += sum(line.mm for line in
                           rec.task_ids.mapped('timesheet_ids').filtered(
-                            lambda x: x.en_state == 'approved'))
+                              lambda x: x.en_state == 'approved'))
       rec.en_mm_actual = en_mm_actual
 
   total_timesheet_time = fields.Integer(groups='base.group_user')
@@ -434,7 +434,7 @@ class ProjectProject(models.Model):
   def _compute_mm_conversion(self):
     for rec in self:
       rec.mm_conversion = rec.en_resource_ids.filtered(
-        lambda x: x.state == 'approved').mm_conversion or 0
+          lambda x: x.state == 'approved').mm_conversion or 0
 
   def button_view_qdtlda(self):
     return self.env.ref('ngsd_base.report_qdtlda_action').report_action(self)
@@ -448,13 +448,11 @@ class ProjectProject(models.Model):
     if name:
       return self._search(expression.AND(
           [['|', ('en_code', operator, name), ('name', operator, name)], args]),
-                          limit=limit, access_rights_uid=name_get_uid)
+          limit=limit, access_rights_uid=name_get_uid)
     res = super()._name_search(name, args, operator, limit, name_get_uid)
     return res
 
-  analytic_account_id = fields.Many2one(
-    default=lambda self: self.env['account.analytic.account'].search([],
-                                                                     limit=1))
+  # Remove problematic analytic_account_id redefinition for Odoo 18 compatibility
   show_wbs_tab = fields.Boolean(compute='compute_show_wbs_tab')
   is_internal = fields.Boolean(string='Dự án nội bộ')
 
@@ -519,7 +517,7 @@ class ProjectProject(models.Model):
       for date_step in date_utils.date_range(datetime_start, datetime_end,
                                              relativedelta(months=1)):
         match_month_bmm = rec.en_bmm_ids.filtered(
-          lambda b: b.month_txt == date_step.strftime('%m/%Y'))
+            lambda b: b.month_txt == date_step.strftime('%m/%Y'))
         if match_month_bmm:
           matched_bmm |= match_month_bmm
         else:
@@ -561,12 +559,12 @@ class ProjectProject(models.Model):
     return action
 
   type_ids = fields.Many2many(
-    default=lambda self: self.env['project.task.type'].search(
-        [('en_mark', '!=', 'b'), ('en_mark', '!=', False),
-         ('user_id', '=', False)], order='en_mark asc') | self.env[
-                           'project.task.type'].search(
-        [('en_mark', '=', 'b'), ('en_mark', '!=', False),
-         ('user_id', '=', False)], order='en_mark asc'))
+      default=lambda self: self.env['project.task.type'].search(
+          [('en_mark', '!=', 'b'), ('en_mark', '!=', False),
+           ('user_id', '=', False)], order='en_mark asc') | self.env[
+                             'project.task.type'].search(
+          [('en_mark', '=', 'b'), ('en_mark', '!=', False),
+           ('user_id', '=', False)], order='en_mark asc'))
 
   en_problem_ids = fields.One2many(string='Các vấn đề',
                                    comodel_name='en.problem',
@@ -589,9 +587,10 @@ class ProjectProject(models.Model):
 
   def button_project_account_report_wizard_act(self):
     return self.open_form_or_tree_view(
-      'account_reports.project_account_report_wizard_act', False, False,
-      {'default_project_id': self.id}, 'Kế hoạch nguồn lực sử dụng trong dự án',
-      'new')
+        'account_reports.project_account_report_wizard_act', False, False,
+        {'default_project_id': self.id},
+        'Kế hoạch nguồn lực sử dụng trong dự án',
+        'new')
 
   def new_resource(self):
     return self.open_form_or_tree_view('ngsd_base.resource_planning_act', False,
@@ -635,12 +634,12 @@ class ProjectProject(models.Model):
         if not risk_stage_cancel:
           raise UserError('Chưa thiết lập Tình trạng "Hủy"')
         rec.en_resource_ids.filtered(
-          lambda r: r.state in ['draft', 'to_approve']).write(
+            lambda r: r.state in ['draft', 'to_approve']).write(
             {'state': 'refused'})
         rec.en_resource_ids.filtered(lambda r: r.state in ['approved']).write(
             {'state': 'expire'})
         rec.en_wbs_ids.filtered(
-          lambda r: r.state in ['draft', 'awaiting']).write(
+            lambda r: r.state in ['draft', 'awaiting']).write(
             {'state': 'refused'})
         rec.en_wbs_ids.filtered(lambda r: r.state in ['approved']).write(
             {'state': 'inactive'})
@@ -730,7 +729,7 @@ class ProjectProject(models.Model):
 
   def to_folder(self):
     action = self.env["ir.actions.act_window"]._for_xml_id(
-      'documents.document_action')
+        'documents.document_action')
     action['context'] = {'default_en_project_id': self.id}
     action['domain'] = [('folder_id.en_project_id', '=', self.id)]
     return action
@@ -787,7 +786,7 @@ class ProjectProject(models.Model):
         raise UserError('Bạn không có quyền sửa trường import')
     if 'name' in vals:
       self.mapped('en_folder_ids').filtered(
-        lambda x: x.technical_field_27203).sudo().write(
+          lambda x: x.technical_field_27203).sudo().write(
           {'name': vals.get('name')})
     if 'en_code' in vals:
       for rec in self:
@@ -830,11 +829,11 @@ class ProjectProject(models.Model):
          '|',
          ('stage_id.fold', '=', False),
          ('stage_id', '=', False)],
-        ['project_id', 'display_project_id:count'], ['project_id'])
+        ['project_id', 'project_id:count'], ['project_id'])
     result_wo_subtask = defaultdict(int)
     result_with_subtasks = defaultdict(int)
     for data in task_data:
-      result_wo_subtask[data['project_id'][0]] += data['display_project_id']
+      result_wo_subtask[data['project_id'][0]] += data['project_id_count']
       result_with_subtasks[data['project_id'][0]] += data['project_id_count']
     for project in self:
       project.task_count = result_wo_subtask[project.id]
@@ -853,7 +852,7 @@ class ProjectProject(models.Model):
             req.with_context(lang=self.env.user.lang).field_description]
       if missed_fields:
         raise exceptions.ValidationError(
-          f"Chưa điền các thông tin bắt buộc tại {', '.join(missed_fields)}")
+            f"Chưa điền các thông tin bắt buộc tại {', '.join(missed_fields)}")
 
   en_link_system = fields.Char(string='Hệ thống liên kết')
   en_customer_type_id = fields.Many2one(string='Loại khách hàng',
@@ -881,15 +880,15 @@ class ProjectProject(models.Model):
   en_bmm = fields.Float(string='BMM', default=0, compute='_compute_en_bmm',
                         store=True)
 
-  # @api.depends('en_bmm_ids.bmm')
-  # def _compute_en_bmm(self):
-  #     for rec in self:
-  #         rec.en_bmm = sum(rec.en_bmm_ids.mapped('bmm'))
+  @api.depends('en_bmm_ids.bmm')
+  def _compute_en_bmm(self):
+    for rec in self:
+      rec.en_bmm = sum(rec.en_bmm_ids.mapped('bmm'))
 
-  # @api.constrains('en_bmm_ids')
-  # def _constrains_en_bmm(self):
-  #     if any(rec.en_bmm <= 0 for rec in self):
-  #         raise exceptions.ValidationError('Bạn cần phải nhập BMM cho dự án')
+  @api.constrains('en_bmm_ids')
+  def _constrains_en_bmm(self):
+    if any(rec.en_bmm <= 0 for rec in self):
+      raise exceptions.ValidationError('Bạn cần phải nhập BMM cho dự án')
 
   en_response_rate = fields.Float(string='Cam kết tỉ lệ phản hồi', default=0)
   en_processing_rate = fields.Float(string='Cam kết tỉ lệ xử lý', default=0)
@@ -901,10 +900,10 @@ class ProjectProject(models.Model):
       if rec.en_code and self.sudo().with_context(
           active_test=False).search_count([('en_code', '=', rec.en_code)]) > 1:
         raise exceptions.ValidationError(
-          f' “Mã dự án” của dự án đang thao tác trùng với các bản ghi khác')
+            f' “Mã dự án” của dự án đang thao tác trùng với các bản ghi khác')
       if ' ' in rec.en_code:
         raise exceptions.ValidationError(
-          f'Mã dự án không thể chứa khoảng trắng!')
+            f'Mã dự án không thể chứa khoảng trắng!')
 
   en_department_id = fields.Many2one(string='Trung tâm',
                                      comodel_name='hr.department',
@@ -1032,7 +1031,7 @@ class ProjectProject(models.Model):
       en_current_version = self.env['en.wbs']
       if rec.en_wbs_ids.filtered(lambda x: x.state == 'approved'):
         en_current_version = \
-        rec.en_wbs_ids.filtered(lambda x: x.state == 'approved')[-1]
+          rec.en_wbs_ids.filtered(lambda x: x.state == 'approved')[-1]
       rec.en_current_version = en_current_version
 
   en_planned_resource = fields.Float(string='Tổng nguồn lực (MM)',
@@ -1065,17 +1064,17 @@ class ProjectProject(models.Model):
   def import_wbs(self):
     if self.en_wbs_ids.filtered(lambda w: w.state in ['draft', 'awaiting']):
       raise UserError(
-        'Không thể tạo nhiều wbs chưa được duyệt, vui lòng kiểm tra lại.')
+          'Không thể tạo nhiều wbs chưa được duyệt, vui lòng kiểm tra lại.')
     return self.env['ir.actions.act_window']._for_xml_id(
-      'ngsd_base.form_view_import_wbs_popup_act')
+        'ngsd_base.form_view_import_wbs_popup_act')
 
   def import_en_resource_planning_line(self):
     if self.en_resource_ids.filtered(
         lambda w: w.state in ['draft', 'to_approve']):
       raise UserError(
-        'Không thể tạo nhiều KHNL chưa được duyệt, vui lòng kiểm tra lại.')
+          'Không thể tạo nhiều KHNL chưa được duyệt, vui lòng kiểm tra lại.')
     action = self.env['ir.actions.client']._for_xml_id(
-      'ngsd_base.action_en_resource_planning_line_import')
+        'ngsd_base.action_en_resource_planning_line_import')
     action['params']['res_id'] = self.id
     return action
 
@@ -1083,8 +1082,8 @@ class ProjectProject(models.Model):
   allow_task_dependencies = fields.Boolean(default=False)
 
   en_work_plans_ids = fields.One2many(
-    string='Công việc hoàn thành & Kế hoạch tiếp theo',
-    comodel_name='en.work.plans', inverse_name='project_id')
+      string='Công việc hoàn thành & Kế hoạch tiếp theo',
+      comodel_name='en.work.plans', inverse_name='project_id')
   en_work_plans_count = fields.Integer(string='Cập nhật báo cáo tuần',
                                        compute_sudo=True,
                                        compute='_compute_en_work_plans_count')
@@ -1119,15 +1118,15 @@ class ProjectProject(models.Model):
     if self.en_quality_control_ids.filtered(
         lambda w: w.state in ['draft', 'to_approve']):
       raise UserError(
-        'Không thể tạo nhiều KH KSCL chưa được duyệt, vui lòng kiểm tra lại.')
+          'Không thể tạo nhiều KH KSCL chưa được duyệt, vui lòng kiểm tra lại.')
     action = self.env['ir.actions.client']._for_xml_id(
-      'ngsd_base.action_quality_control_import')
+        'ngsd_base.action_quality_control_import')
     action['params']['res_id'] = self.id
     return action
 
   def import_en_resource_project(self):
     action = self.env['ir.actions.client']._for_xml_id(
-      'ngsd_base.action_en_resource_project_import')
+        'ngsd_base.action_en_resource_project_import')
     action['params']['res_id'] = self.id
     return action
 
@@ -1200,8 +1199,8 @@ class ProjectProject(models.Model):
           if en_job_position_id and en_job_position_id not in \
               data_create[employee_id]['en_job_position_ids']:
             data_create[employee_id]['en_job_position_ids'] = \
-            data_create[employee_id]['en_job_position_ids'] + [
-              en_job_position_id]
+              data_create[employee_id]['en_job_position_ids'] + [
+                en_job_position_id]
           if date_start < data_create[employee_id]['date_start']:
             data_create[employee_id]['date_start'] = date_start
           if date_end > data_create[employee_id]['date_end']:
@@ -1216,7 +1215,7 @@ class ProjectProject(models.Model):
         Subscribe to all existing active tasks when subscribing to a project
         """
     res = super(ProjectProject, self.sudo()).message_subscribe(
-      partner_ids=partner_ids, subtype_ids=subtype_ids)
+        partner_ids=partner_ids, subtype_ids=subtype_ids)
 
     return res
 
@@ -1226,9 +1225,11 @@ class ProjectProject(models.Model):
     if attributes and not 'readonly' in attributes:
       return res
     for fname in res:
-      if res[fname]['readonly']:
+      # Check if 'readonly' key exists and if the field is readonly
+      field_info = res[fname]
+      if field_info.get('readonly', False):
         continue
-      res[fname].update({
+      field_info.update({
         'readonly_domain': "[('en_state', 'in', ['pending', 'complete'])]"
       })
     return res
@@ -1255,19 +1256,19 @@ class ProjectStage(models.Model):
 
   def copy(self, default=None):
     new_project_stage_id = super(ProjectStage, self.with_context(
-      default_order_line=False)).copy(default)
+        default_order_line=False)).copy(default)
     project_stage = self.browse(new_project_stage_id.id)
     workpackages = self.env['en.workpackage']
     # We want to copy archived task, but do not propagate an active_test context key
     workpackage_ids = self.env['en.workpackage'].with_context(
-      active_test=False).search([('project_stage_id', '=', self.id)],
-                                order='parent_id').ids
+        active_test=False).search([('project_stage_id', '=', self.id)],
+                                  order='parent_id').ids
     old_to_new_tasks = {}
     all_workpackages = self.env['en.workpackage'].browse(workpackage_ids)
     newest_resource = self.env['en.resource.planning']
     if self._context.get('newest_resource'):
       newest_resource = self.env['en.resource.planning'].browse(
-        self._context.get('newest_resource'))
+          self._context.get('newest_resource'))
     for workpackage in all_workpackages:
       # preserve task name and stage, normally altered during copy
       defaults = {'wbs_version_old': workpackage.wbs_version.id}
@@ -1356,7 +1357,7 @@ class ProjectStage(models.Model):
                            compute_sudo=True, compute='_compute_stage_code',
                            store=True)
   seq_id = fields.Integer(string='💰', default=lambda self: int(
-    self.env['ir.sequence'].next_by_code('seq.id')), copy=False)
+      self.env['ir.sequence'].next_by_code('seq.id')), copy=False)
 
   @api.depends("wbs_version.project_stage_ids", "seq_id")
   def _compute_stage_code(self):
@@ -1374,7 +1375,7 @@ class ProjectStage(models.Model):
     if date_gt_error:
       lst = [f'\t- {s.stage_code}: {s.name}' for s in date_gt_error]
       text = (
-            f'Ngày bắt đầu giai đoạn không được nhỏ hơn Ngày bắt đầu dự án. Giai đoạn lỗi gồm:\n' + '\n'.join(
+          f'Ngày bắt đầu giai đoạn không được nhỏ hơn Ngày bắt đầu dự án. Giai đoạn lỗi gồm:\n' + '\n'.join(
           lst))
       self.env.user.notify_warning(text, 'Cảnh báo')
     date_lt_error = self.filtered(lambda
@@ -1382,7 +1383,7 @@ class ProjectStage(models.Model):
     if date_lt_error:
       lst = [f'\t- {s.stage_code}: {s.name}' for s in date_lt_error]
       text_1 = (
-            f'Ngày kết thúc giai đoạn không được lớn hơn Ngày kết thúc dự án. Giai đoạn lỗi gồm:\n' + '\n'.join(
+          f'Ngày kết thúc giai đoạn không được lớn hơn Ngày kết thúc dự án. Giai đoạn lỗi gồm:\n' + '\n'.join(
           lst))
       self.env.user.notify_warning(text_1, 'Cảnh báo')
     date_error = self.filtered(lambda
@@ -1390,7 +1391,7 @@ class ProjectStage(models.Model):
     if date_error:
       lst = [f'\t- {s.stage_code}: {s.name}' for s in date_error]
       text_2 = (
-            f'Ngày bắt đầu giai đoạn không được lớn hơn Ngày kết thúc giai đoạn. Giai đoạn lỗi gồm:\n' + '\n'.join(
+          f'Ngày bắt đầu giai đoạn không được lớn hơn Ngày kết thúc giai đoạn. Giai đoạn lỗi gồm:\n' + '\n'.join(
           lst))
       self.env.user.notify_warning(text_2, 'Cảnh báo')
 
@@ -1400,22 +1401,22 @@ class ProjectStage(models.Model):
     if date_gt_error:
       lst = [f'\t- {s.stage_code}: {s.name}' for s in date_gt_error]
       raise exceptions.ValidationError(
-        f'Ngày bắt đầu giai đoạn không được nhỏ hơn Ngày bắt đầu dự án. Giai đoạn lỗi gồm:\n' + '\n'.join(
-          lst))
+          f'Ngày bắt đầu giai đoạn không được nhỏ hơn Ngày bắt đầu dự án. Giai đoạn lỗi gồm:\n' + '\n'.join(
+              lst))
     date_lt_error = self.filtered(lambda
                                       rec: rec.project_id.date and rec.end_date and rec.end_date > rec.project_id.date)
     if date_lt_error:
       lst = [f'\t- {s.stage_code}: {s.name}' for s in date_lt_error]
       raise exceptions.ValidationError(
-        f'Ngày kết thúc giai đoạn không được lớn hơn Ngày kết thúc dự án. Giai đoạn lỗi gồm:\n' + '\n'.join(
-          lst))
+          f'Ngày kết thúc giai đoạn không được lớn hơn Ngày kết thúc dự án. Giai đoạn lỗi gồm:\n' + '\n'.join(
+              lst))
     date_error = self.filtered(lambda
                                    rec: rec.end_date and rec.start_date and rec.end_date < rec.start_date)
     if date_error:
       lst = [f'\t- {s.stage_code}: {s.name}' for s in date_error]
       raise exceptions.ValidationError(
-        f'Ngày bắt đầu giai đoạn không được lớn hơn Ngày kết thúc giai đoạn. Giai đoạn lỗi gồm:\n' + '\n'.join(
-          lst))
+          f'Ngày bắt đầu giai đoạn không được lớn hơn Ngày kết thúc giai đoạn. Giai đoạn lỗi gồm:\n' + '\n'.join(
+              lst))
 
   start_date = fields.Date(string='Ngày bắt đầu', required=True)
   end_date = fields.Date(string='Ngày kết thúc', required=True)
@@ -1433,8 +1434,8 @@ class ProjectStage(models.Model):
         technical_field_27058 = sum(
             [child.technical_field_27058 * child.technical_field_27058a for
              child in rec.order_line]) / sum(
-          rec.order_line.mapped('technical_field_27058a')) if sum(
-          rec.order_line.mapped('technical_field_27058a')) else 0
+            rec.order_line.mapped('technical_field_27058a')) if sum(
+            rec.order_line.mapped('technical_field_27058a')) else 0
       rec.technical_field_27058 = min(technical_field_27058, 1)
 
   technical_field_27058a = fields.Float(string='🚑', compute_sudo=True,
@@ -1445,7 +1446,7 @@ class ProjectStage(models.Model):
     for rec in self:
       rec.technical_field_27058a = sum(self.env['project.task'].search(
           [('en_task_position', 'child_of', rec.order_line.ids)]).mapped(
-        'planned_hours'))
+          'planned_hours'))
 
   en_approver_id = fields.Many2one(string='Người xem xét',
                                    comodel_name='res.users', compute_sudo=True,
@@ -1475,9 +1476,9 @@ class ProjectStage(models.Model):
       rec.b_ok = task_ids and all(
           task.stage_id.en_mark in ['b', 'g'] for task in task_ids)
       rec.c_ok = task_ids and (
-            all(task.stage_id.en_mark in ['e'] for task in task_ids) or (
-              any(task.stage_id.en_mark in ['e'] for task in task_ids) and all(
-              task.stage_id.en_mark in ['g'] for task in task_ids)))
+          all(task.stage_id.en_mark in ['e'] for task in task_ids) or (
+          any(task.stage_id.en_mark in ['e'] for task in task_ids) and all(
+          task.stage_id.en_mark in ['g'] for task in task_ids)))
       rec.d_ok = task_ids and any(task.stage_id.en_mark in ['f'] for task in
                                   task_ids) and self.env.user == rec.en_approver_id
       rec.e_ok = task_ids and all(
@@ -1684,7 +1685,7 @@ class Workpackage(models.Model):
         data_write = defaults.copy()
         data_write.update(data_default)
         new_task = task.with_context(mail_auto_subscribe_no_notify=True).copy(
-          data_write)
+            data_write)
         tasks += new_task
     # project.write({'task_ids': [(6, 0, tasks.ids)]})
     return workpackage
@@ -1713,7 +1714,7 @@ class Workpackage(models.Model):
   def _compute_technical_field_27536(self):
     for rec in self:
       rec.technical_field_27536 = rec.project_id.en_resource_project_ids.mapped(
-        'employee_id.user_id')
+          'employee_id.user_id')
 
   en_approver_id = fields.Many2one(string='Người xem xét',
                                    comodel_name='res.users', compute_sudo=True,
@@ -1742,9 +1743,9 @@ class Workpackage(models.Model):
       rec.b_ok = task_ids and all(
           task.stage_id.en_mark in ['b', 'g'] for task in task_ids)
       rec.c_ok = task_ids and (
-            all(task.stage_id.en_mark in ['e'] for task in task_ids) or (
-              any(task.stage_id.en_mark in ['e'] for task in task_ids) and all(
-              task.stage_id.en_mark in ['g'] for task in task_ids)))
+          all(task.stage_id.en_mark in ['e'] for task in task_ids) or (
+          any(task.stage_id.en_mark in ['e'] for task in task_ids) and all(
+          task.stage_id.en_mark in ['g'] for task in task_ids)))
       rec.d_ok = task_ids and any(task.stage_id.en_mark in ['f'] for task in
                                   task_ids) and self.env.user == rec.en_approver_id
       rec.e_ok = task_ids and all(
@@ -1823,7 +1824,7 @@ class Workpackage(models.Model):
       raise ValidationError('You cannot create recursive records.')
 
   seq_id = fields.Integer(string='💰', default=lambda self: int(
-    self.env['ir.sequence'].next_by_code('seq.id')), copy=False)
+      self.env['ir.sequence'].next_by_code('seq.id')), copy=False)
   state = fields.Selection(string='Trạng thái',
                            selection=[('draft', 'Chờ thực hiện'),
                                       ('ongoing', 'Đang thực hiện'),
@@ -1969,14 +1970,14 @@ class Workpackage(models.Model):
         technical_field_27058 = sum(
             [child.technical_field_27058 * child.technical_field_27058a for
              child in rec.child_ids]) / sum(
-          rec.child_ids.mapped('technical_field_27058a')) if sum(
-          rec.child_ids.mapped('technical_field_27058a')) else 0
+            rec.child_ids.mapped('technical_field_27058a')) if sum(
+            rec.child_ids.mapped('technical_field_27058a')) else 0
       else:
         task_ids = rec.task_ids.filtered(lambda x: x.stage_id.en_mark != 'b')
         technical_field_27058 = sum(
             [task.technical_field_27058 * task.planned_hours for task in
              task_ids]) / sum(task_ids.mapped('planned_hours')) if sum(
-          task_ids.mapped('planned_hours')) else 0
+            task_ids.mapped('planned_hours')) else 0
       rec.technical_field_27058 = min(technical_field_27058, 1)
 
   technical_field_27058a = fields.Float(string='🚑', compute_sudo=True,
@@ -1989,15 +1990,15 @@ class Workpackage(models.Model):
       if rec.date_end and rec.date_start and rec.date_end <= date(2024, 3, 31):
         technical_field_27058a = self.env[
           'en.technical.model'].convert_daterange_to_hours(
-          rec.user_id.employee_id, rec.date_start,
-          rec.date_end) if rec.user_id.employee_id else 0
+            rec.user_id.employee_id, rec.date_start,
+            rec.date_end) if rec.user_id.employee_id else 0
       elif rec.child_ids:
         technical_field_27058a = sum(
-          rec.child_ids.mapped('technical_field_27058a'))
+            rec.child_ids.mapped('technical_field_27058a'))
       else:
         technical_field_27058a = sum(
-          rec.task_ids.filtered(lambda x: x.stage_id.en_mark != 'b').mapped(
-            'planned_hours'))
+            rec.task_ids.filtered(lambda x: x.stage_id.en_mark != 'b').mapped(
+                'planned_hours'))
 
       rec.technical_field_27058a = technical_field_27058a
 
@@ -2011,14 +2012,14 @@ class Workpackage(models.Model):
       if rec.date_end and rec.date_start and rec.date_end <= date(2024, 3, 31):
         effective_hours = self.env[
           'en.technical.model'].convert_daterange_to_hours(
-          rec.user_id.employee_id, rec.date_start,
-          rec.date_end) if rec.user_id.employee_id else 0
+            rec.user_id.employee_id, rec.date_start,
+            rec.date_end) if rec.user_id.employee_id else 0
       elif rec.child_ids:
         effective_hours = sum(rec.child_ids.mapped('effective_hours'))
       else:
         effective_hours = sum(
-          rec.task_ids.filtered(lambda x: x.stage_id.en_mark != 'b').mapped(
-            'effective_hours'))
+            rec.task_ids.filtered(lambda x: x.stage_id.en_mark != 'b').mapped(
+                'effective_hours'))
 
       rec.effective_hours = effective_hours
 
@@ -2034,15 +2035,15 @@ class Workpackage(models.Model):
         en_progress = sum(
             [child.en_progress * child.technical_field_27058a for child in
              rec.child_ids]) / sum(
-          rec.child_ids.mapped('technical_field_27058a')) if sum(
-          rec.child_ids.mapped('technical_field_27058a')) else 0
+            rec.child_ids.mapped('technical_field_27058a')) if sum(
+            rec.child_ids.mapped('technical_field_27058a')) else 0
         # en_progress = sum(rec.child_ids.mapped('en_progress')) / len(rec.child_ids)
       else:
         task_ids = rec.task_ids.filtered(lambda x: x.stage_id.en_mark != 'b')
         en_progress = sum(
             [task.en_progress * task.planned_hours for task in task_ids]) / sum(
-          task_ids.mapped('planned_hours')) if sum(
-          task_ids.mapped('planned_hours')) else 0
+            task_ids.mapped('planned_hours')) if sum(
+            task_ids.mapped('planned_hours')) else 0
       rec.en_progress = min(en_progress, 1)
 
   document_ids = fields.One2many(copy=True, string='Sản phẩm bàn giao',
@@ -2058,7 +2059,7 @@ class Workpackage(models.Model):
         f'\t- {w.wp_code}: {w.name} - {w.project_stage_id.stage_code}: {w.project_stage_id.name}'
         for w in date_stage_start_error]
       text = (
-            f"Ngày bắt đầu gói việc không được nhỏ hơn ngày bắt đầu của giai đoạn. Cặp gói việc - giai đoạn lỗi gồm:\n" + '\n'.join(
+          f"Ngày bắt đầu gói việc không được nhỏ hơn ngày bắt đầu của giai đoạn. Cặp gói việc - giai đoạn lỗi gồm:\n" + '\n'.join(
           lst))
       self.env.user.notify_warning(text, 'Cảnh báo')
     date_stage_end_error = self.filtered(lambda
@@ -2068,7 +2069,7 @@ class Workpackage(models.Model):
         f'\t- {w.wp_code}: {w.name} - {w.project_stage_id.stage_code}: {w.project_stage_id.name}'
         for w in date_stage_end_error]
       text_1 = (
-            f"Ngày kết thúc gói việc không được lớn hơn ngày kết thúc giai đoạn. Cặp gói việc - giai đoạn lỗi gồm:\n" + '\n'.join(
+          f"Ngày kết thúc gói việc không được lớn hơn ngày kết thúc giai đoạn. Cặp gói việc - giai đoạn lỗi gồm:\n" + '\n'.join(
           lst))
       self.env.user.notify_warning(text_1, 'Cảnh báo')
     date_lt_parent_error = self.filtered(lambda
@@ -2078,16 +2079,16 @@ class Workpackage(models.Model):
         f'\t- {w.wp_code}: {w.name} - {w.parent_id.wp_code}: {w.parent_id.name}'
         for w in date_lt_parent_error]
       text_2 = (
-            f"Ngày bắt đầu gói việc con không được nhỏ hơn ngày bắt đầu gói việc cha của nó. Cặp gói việc  lỗi gồm:\n" + '\n'.join(
+          f"Ngày bắt đầu gói việc con không được nhỏ hơn ngày bắt đầu gói việc cha của nó. Cặp gói việc  lỗi gồm:\n" + '\n'.join(
           lst))
       self.env.user.notify_warning(text_2, 'Cảnh báo')
     date_gt_error = self.filtered(lambda
                                       rec: rec.date_start and rec.date_end and rec.project_stage_id and not (
-          rec.date_start <= rec.date_end <= rec.project_stage_id.end_date))
+        rec.date_start <= rec.date_end <= rec.project_stage_id.end_date))
     if date_gt_error:
       lst = [f'\t- {w.wp_code}: {w.name}' for w in date_gt_error]
       text_3 = (
-            f"Ngày bắt đầu gói việc không được lớn hơn ngày kết thúc gói việc. Vị trí gói việc lỗi gồm:\n" + '\n'.join(
+          f"Ngày bắt đầu gói việc không được lớn hơn ngày kết thúc gói việc. Vị trí gói việc lỗi gồm:\n" + '\n'.join(
           lst))
       self.env.user.notify_warning(text_3, 'Cảnh báo')
 
@@ -2099,8 +2100,8 @@ class Workpackage(models.Model):
         f'\t- {w.wp_code}: {w.name} - {w.project_stage_id.stage_code}: {w.project_stage_id.name}'
         for w in date_stage_start_error]
       raise exceptions.ValidationError(
-        f"Ngày bắt đầu gói việc không được nhỏ hơn ngày bắt đầu của giai đoạn. Cặp gói việc - giai đoạn lỗi gồm:\n" + '\n'.join(
-          lst))
+          f"Ngày bắt đầu gói việc không được nhỏ hơn ngày bắt đầu của giai đoạn. Cặp gói việc - giai đoạn lỗi gồm:\n" + '\n'.join(
+              lst))
     date_stage_end_error = self.filtered(lambda
                                              rec: not rec.parent_id and rec.date_end and rec.project_stage_id.end_date and rec.date_end > rec.project_stage_id.end_date)
     if date_stage_end_error:
@@ -2108,8 +2109,8 @@ class Workpackage(models.Model):
         f'\t- {w.wp_code}: {w.name} - {w.project_stage_id.stage_code}: {w.project_stage_id.name}'
         for w in date_stage_end_error]
       raise exceptions.ValidationError(
-        f"Ngày kết thúc gói việc không được lớn hơn ngày kết thúc giai đoạn. Cặp gói việc - giai đoạn lỗi gồm:\n" + '\n'.join(
-          lst))
+          f"Ngày kết thúc gói việc không được lớn hơn ngày kết thúc giai đoạn. Cặp gói việc - giai đoạn lỗi gồm:\n" + '\n'.join(
+              lst))
     date_lt_parent_error = self.filtered(lambda
                                              rec: rec.parent_id and rec.date_start and rec.parent_id.date_start and rec.date_start < rec.parent_id.date_start)
     if date_lt_parent_error:
@@ -2117,16 +2118,16 @@ class Workpackage(models.Model):
         f'\t- {w.wp_code}: {w.name} - {w.parent_id.wp_code}: {w.parent_id.name}'
         for w in date_lt_parent_error]
       raise exceptions.ValidationError(
-        f"Ngày bắt đầu gói việc con không được nhỏ hơn ngày bắt đầu gói việc cha của nó. Cặp gói việc  lỗi gồm:\n" + '\n'.join(
-          lst))
+          f"Ngày bắt đầu gói việc con không được nhỏ hơn ngày bắt đầu gói việc cha của nó. Cặp gói việc  lỗi gồm:\n" + '\n'.join(
+              lst))
     date_gt_error = self.filtered(lambda
                                       rec: rec.date_start and rec.date_end and rec.project_stage_id and not (
-          rec.date_start <= rec.date_end <= rec.project_stage_id.end_date))
+        rec.date_start <= rec.date_end <= rec.project_stage_id.end_date))
     if date_gt_error:
       lst = [f'\t- {w.wp_code}: {w.name}' for w in date_gt_error]
       raise exceptions.ValidationError(
-        f"Ngày bắt đầu gói việc không được lớn hơn ngày kết thúc gói việc. Vị trí gói việc lỗi gồm:\n" + '\n'.join(
-          lst))
+          f"Ngày bắt đầu gói việc không được lớn hơn ngày kết thúc gói việc. Vị trí gói việc lỗi gồm:\n" + '\n'.join(
+              lst))
 
   @api.model
   def _name_search(self, name, args=None, operator='ilike', limit=100,
@@ -2210,7 +2211,7 @@ class Wbs(models.Model):
 
   def _get_employee_data(self, level=0, position=False):
     records = self.resource_plan_id.order_line.filtered(
-      lambda x: x.job_position_id.id == position)
+        lambda x: x.job_position_id.id == position)
     record = self.env['en.job.position'].browse(position)
     a = []
     for r in records:
@@ -2231,7 +2232,7 @@ class Wbs(models.Model):
     for employee in child_ids:
       data = self._get_employee_data(level, employee.id)
       employee_child_ids = self.env['en.job.position'].search(
-        default_domain + self._get_employee_domain(employee.id))
+          default_domain + self._get_employee_domain(employee.id))
       if employee_child_ids:
         data.update({"children": self._get_children_data(employee_child_ids,
                                                          (level + 1) % 5)})
@@ -2252,7 +2253,7 @@ class Wbs(models.Model):
       child_data = self._get_employee_data(position=top_employee.id)
       # If any child we fetch data recursively for childs of top employee
       top_employee_child_ids = self.env['en.job.position'].search(
-        default_domain + self._get_employee_domain(top_employee.id))
+          default_domain + self._get_employee_domain(top_employee.id))
       if top_employee_child_ids:
         child_data.update(
             {"children": self._get_children_data(top_employee_child_ids, 1)})
@@ -2271,7 +2272,7 @@ class Wbs(models.Model):
     return record.do()
 
   seq_id = fields.Integer(string='💰', default=lambda self: int(
-    self.env['ir.sequence'].next_by_code('seq.id')), copy=False)
+      self.env['ir.sequence'].next_by_code('seq.id')), copy=False)
   version_number = fields.Char(string='Số phiên bản', compute_sudo=True,
                                compute='_compute_version_number', store=True,
                                readonly=True, copy=False)
@@ -2290,7 +2291,7 @@ class Wbs(models.Model):
         "project_id"):
       sequence = 1
       wbs = project.en_wbs_ids.filtered(
-        lambda x: not x.parent_id and x.version_type == 'plan')
+          lambda x: not x.parent_id and x.version_type == 'plan')
       for line in sorted(wbs, key=lambda l: l.seq_id):
         line.version_number = f"0.{sequence}"
         sequence += 1
@@ -2299,7 +2300,7 @@ class Wbs(models.Model):
         "project_id"):
       sequence = 1
       wbs = project.en_wbs_ids.filtered(
-        lambda x: not x.parent_id and not x.version_type == 'plan')
+          lambda x: not x.parent_id and not x.version_type == 'plan')
       for line in sorted(wbs, key=lambda l: l.seq_id):
         line.version_number = f"{sequence}.0"
         sequence += 1
@@ -2310,8 +2311,8 @@ class Wbs(models.Model):
 
   def button_version_account_report_wizard_act(self):
     return self.open_form_or_tree_view(
-      'account_reports.version_account_report_wizard_act', False, False,
-      {'default_current_wbs_id': self.id}, 'Chọn phiên bản so sánh', 'new')
+        'account_reports.version_account_report_wizard_act', False, False,
+        {'default_current_wbs_id': self.id}, 'Chọn phiên bản so sánh', 'new')
 
   technical_field_27795 = fields.Boolean(string='🚑',
                                          compute='_compute_technical_field_27795')
@@ -2344,7 +2345,7 @@ class Wbs(models.Model):
     if not self.project_id.project_decision_ids.filtered(
         lambda d: d.state == 'approved'):
       raise UserError(
-        "Dự án chưa có QĐ Thành lập dự án, vui lòng tạo quyết định trước.")
+          "Dự án chưa có QĐ Thành lập dự án, vui lòng tạo quyết định trước.")
     return {
       'name': 'Xác nhận',
       'type': 'ir.actions.act_window',
@@ -2420,7 +2421,7 @@ class Wbs(models.Model):
         rec.state in ['approved', 'inactive', 'refused', 'awaiting'] for rec in
         self):
       raise exceptions.UserError(
-        'Không cho phép xóa WBS ở trạng thái khác Nháp')
+          'Không cho phép xóa WBS ở trạng thái khác Nháp')
     self.env['project.task'].search(
         [('en_task_position.wbs_version', 'in', self.ids)]).sudo().unlink()
     self.env['en.workpackage'].search(
@@ -2440,7 +2441,7 @@ class Wbs(models.Model):
            ('state', '=', 'approved')]).write({'state': 'inactive'})
       tasks = self.env['project.task'].search([('en_task_position', 'child_of',
                                                 (
-                                                      self.workpackage_ids | self.project_stage_ids.mapped(
+                                                    self.workpackage_ids | self.project_stage_ids.mapped(
                                                     'order_line')).ids)])
       for task in tasks:
         task = task.sudo()
@@ -2636,14 +2637,23 @@ class Wbs(models.Model):
         planned_resource += line.mm * line.workload
       rec.planned_resource = planned_resource
 
-  @api.model
-  def create(self, vals):
-    need_check_constrains_start_deadline_date = self.check_need_en_constrains_start_deadline_date(
-      vals)
+  @api.model_create_multi
+  def create(self, vals_list):
+    # Handle both single record and batch creation
+    if not isinstance(vals_list, list):
+      vals_list = [vals_list]
+
+    need_check_list = []
+    for vals in vals_list:
+      need_check_constrains_start_deadline_date = self.check_need_en_constrains_start_deadline_date(
+        vals)
+      need_check_list.append(need_check_constrains_start_deadline_date)
+
     res = super(Wbs, self.with_context(
-      skip_constrains_start_deadline_date=need_check_constrains_start_deadline_date)).create(
-      vals)
-    if need_check_constrains_start_deadline_date:
+        skip_constrains_start_deadline_date=any(need_check_list))).create(
+      vals_list)
+
+    if any(need_check_list):
       res.workpackage_ids.task_ids._en_constrains_start_deadline_date()
     return res
 
@@ -2657,14 +2667,14 @@ class Wbs(models.Model):
       else:
         vals.pop('workpackage_ids')
     need_check_constrains_start_deadline_date = self.check_need_en_constrains_start_deadline_date(
-      vals)
+        vals)
     if self._context.get('allow_active'):
       vals['active'] = True
     if vals.get('active'):
       self.check_all_task_constrain()
     res = super(Wbs, self.with_context(
-      skip_constrains_start_deadline_date=need_check_constrains_start_deadline_date)).write(
-      vals)
+        skip_constrains_start_deadline_date=need_check_constrains_start_deadline_date)).write(
+        vals)
     if need_check_constrains_start_deadline_date:
       self.workpackage_ids.task_ids._en_constrains_start_deadline_date()
     return res
@@ -2703,19 +2713,19 @@ class Wbs(models.Model):
 
   def import_workpackage_action(self):
     action = self.env['ir.actions.client']._for_xml_id(
-      'ngsd_base.action_en_workpackage_line_import')
+        'ngsd_base.action_en_workpackage_line_import')
     action['params']['res_id'] = self.id
     return action
 
   def import_project_stage_action(self):
     action = self.env['ir.actions.client']._for_xml_id(
-      'ngsd_base.action_en_project_stage_line_import')
+        'ngsd_base.action_en_project_stage_line_import')
     action['params']['res_id'] = self.id
     return action
 
   def import_project_task_action(self):
     action = self.env['ir.actions.client']._for_xml_id(
-      'ngsd_base.action_project_task_line_import')
+        'ngsd_base.action_project_task_line_import')
     action['params']['res_id'] = self.id
     return action
 
@@ -2800,13 +2810,13 @@ class RiskLevel(models.Model):
   def _en_constrains_min_max(self):
     if any(rec.min > rec.max for rec in self):
       raise exceptions.ValidationError(
-        'Điểm chặn dưới không thể lớn hơn điểm chặn trên!')
+          'Điểm chặn dưới không thể lớn hơn điểm chặn trên!')
     for rec in self:
       if self.search_count(
           [('id', '!=', rec.id), ('max', '>=', rec.min), ('min', '<=', rec.max),
            ('type', '=', rec.type)]):
         raise UserError(
-          f"Khoảng điểm bị trùng lặp với mức độ {', '.join(self.search([('id', '!=', rec.id), ('max', '>=', rec.min), ('min', '<=', rec.max), ('type', '=', rec.type)]).mapped('name'))}!")
+            f"Khoảng điểm bị trùng lặp với mức độ {', '.join(self.search([('id', '!=', rec.id), ('max', '>=', rec.min), ('min', '<=', rec.max), ('type', '=', rec.type)]).mapped('name'))}!")
 
   type = fields.Selection(string='Loại',
                           selection=[('rr', 'Rủi ro'), ('ch', 'Cơ hội')])
@@ -2859,13 +2869,18 @@ class QaEvaluate(models.Model):
       else:
         rec.email_pm = False
 
-  @api.model
-  def create(self, vals):
-    res = super(QaEvaluate, self).create(vals)
-    if vals.get('date'):
-      res.create_date = vals.get('date')
-    if not res.date:
-      res.date = res.create_date
+  @api.model_create_multi
+  def create(self, vals_list):
+    # Handle both single record and batch creation
+    if not isinstance(vals_list, list):
+      vals_list = [vals_list]
+
+    res = super().create(vals_list)
+    for record, vals in zip(res, vals_list):
+      if vals.get('date'):
+        record.create_date = vals.get('date')
+      if not record.date:
+        record.date = record.create_date
     return res
 
 
@@ -2951,10 +2966,11 @@ class Risk(models.Model):
     for rec in self:
       if not rec.en_create_date or not rec.deadline: continue
       create_date = timezone(self.env.user.tz or 'UTC').localize(
-        datetime.combine(rec.en_create_date, time.min)).astimezone(UTC).replace(
-        tzinfo=None)
+          datetime.combine(rec.en_create_date, time.min)).astimezone(
+        UTC).replace(
+          tzinfo=None)
       if create_date > rec.deadline: raise exceptions.ValidationError(
-        'Hạn hoàn thành phải lớn hơn hoặc bằng Ngày nhận diện!')
+          'Hạn hoàn thành phải lớn hơn hoặc bằng Ngày nhận diện!')
 
   possible_id = fields.Many2one("en.possible.rate",
                                 string='Đánh giá khả năng xảy ra',
@@ -3038,16 +3054,16 @@ class Risk(models.Model):
                       rec[1] == record_leftover[-1].id]
             if isinstance(result[0][-1], dict):
               risk_level_id = self.env['en.risk.level'].browse(
-                result[0][-1].get('risk_level_id'))
+                  result[0][-1].get('risk_level_id'))
               if risk_level_id.name != 'Thấp':
                 raise UserError(
-                  "Mức độ rủi ro/cơ hội chưa ở mức Thấp, chưa thể Đóng rủi ro này")
+                    "Mức độ rủi ro/cơ hội chưa ở mức Thấp, chưa thể Đóng rủi ro này")
             else:
               raise UserError(
-                "Mức độ rủi ro/cơ hội chưa ở mức Thấp, chưa thể Đóng rủi ro này")
+                  "Mức độ rủi ro/cơ hội chưa ở mức Thấp, chưa thể Đóng rủi ro này")
           else:
             raise UserError(
-              "Mức độ rủi ro/cơ hội chưa ở mức Thấp, chưa thể Đóng rủi ro này")
+                "Mức độ rủi ro/cơ hội chưa ở mức Thấp, chưa thể Đóng rủi ro này")
 
     return super().write(vals)
 
@@ -3093,9 +3109,9 @@ class EnRiskSolution(models.Model):
   name = fields.Text('Biện pháp', required=1, readonly=True,
                      states={'draft': [('readonly', False)]})
   state = fields.Selection(
-    selection=[('draft', 'Mới'), ('to_approve', 'Chờ duyệt'),
-               ('approved', 'Đã duyệt'), ('refused', 'Từ chối')], required=1,
-    default='draft', string='Trạng thái', readonly=1)
+      selection=[('draft', 'Mới'), ('to_approve', 'Chờ duyệt'),
+                 ('approved', 'Đã duyệt'), ('refused', 'Từ chối')], required=1,
+      default='draft', string='Trạng thái', readonly=1)
   note = fields.Text('Ghi chú', readonly=True,
                      states={'draft': [('readonly', False)]})
 
@@ -3176,8 +3192,8 @@ class ResourceProject(models.Model):
   department_id = fields.Many2one(related='project_id.en_department_id')
   date_leave = fields.Date('Ngày rời dự án')
   state = fields.Selection(
-    selection=[('active', 'Còn hiệu lực'), ('inactive', 'Hết hiệu lực'), ],
-    default='active', string='Trạng thái trong dự án')
+      selection=[('active', 'Còn hiệu lực'), ('inactive', 'Hết hiệu lực'), ],
+      default='active', string='Trạng thái trong dự án')
   employee_borrow_ids = fields.Many2many('hr.employee',
                                          string='Nhân sự đang mượn',
                                          compute='_compute_employee_borrow',
@@ -3223,7 +3239,7 @@ class ResourceProject(models.Model):
           break
       if not out_time:
         raise ValidationError(
-          f'Quãng thời gian của nhân sự {rec.employee_id.name} phải nằm trong quãng thời gian mượn của nhân sự này')
+            f'Quãng thời gian của nhân sự {rec.employee_id.name} phải nằm trong quãng thời gian mượn của nhân sự này')
 
   def button_leave_project(self):
     return {
@@ -3281,7 +3297,7 @@ class ResourceProject(models.Model):
                                       ('date_leave', '>', rec.date_start)])
       if resource_project:
         raise UserError(
-          f'Thời gian nhân sự {rec.employee_id.name} tham gia dự án phải nằm ngoài khoảng thời gian tham gia dự án trước đó.')
+            f'Thời gian nhân sự {rec.employee_id.name} tham gia dự án phải nằm ngoài khoảng thời gian tham gia dự án trước đó.')
 
   @api.constrains('employee_id')
   def _check_employee_id(self):
@@ -3329,7 +3345,7 @@ class ResourceProject(models.Model):
           rec.date_start and rec.project_id.date_start and rec.date_start < rec.project_id.date_start) or (
           rec.date_end and rec.project_id.date and rec.date_end > rec.project_id.date):
         raise exceptions.UserError(
-          f'Thời gian sử dụng nguồn lực {rec.employee_id.display_name} phải nằm trong khoảng thời gian của dự án!')
+            f'Thời gian sử dụng nguồn lực {rec.employee_id.display_name} phải nằm trong khoảng thời gian của dự án!')
       # if rec.date_end and rec.order_id.project_id.date and rec.date_end > rec.order_id.project_id.date:
       #     raise exceptions.UserError('KHNL phải nằm trong thời gian bắt đầu và kết thúc dự án')
       if rec.date_start and rec.date_end and rec.date_start > rec.date_end:
@@ -3428,7 +3444,7 @@ class HistoryResource(models.Model):
         if (int(rec.month) < month_start and int(rec.year) <= year_start) or (
             int(rec.month) > month_end and int(rec.year) >= year_end):
           raise ValidationError(
-            'Tháng năm của Lịch sử nguồn lực phải nằm trong khoảng thời gian của dự án')
+              'Tháng năm của Lịch sử nguồn lực phải nằm trong khoảng thời gian của dự án')
 
   def _calculator_year_selection(self):
     year = 2015
@@ -3451,10 +3467,15 @@ class HrEmployee(models.Model):
       args.extend(eval(_domain))
     return super()._name_search(name, args, operator, limit, name_get_uid)
 
-  def _search(self, args, offset=0, limit=None, order=None, count=False,
-      access_rights_uid=None):
+  def _search(self, args, offset=0, limit=None, order=None, count=False):
     args = args or []
     if 'ctx_domain_resource_project' in self.env.context:
       _domain = self.env.context.get('ctx_domain_resource_project')
       args.extend(eval(_domain))
-    return super()._search(args, offset, limit, order, count, access_rights_uid)
+
+    # In Odoo 18, handle count parameter properly
+    if count:
+      # For count queries, call the parent method differently
+      return self.search_count(args)
+    else:
+      return super()._search(args, offset=offset, limit=limit, order=order)
