@@ -1,30 +1,32 @@
-odoo.define('ngsd_base.TimesheetGeneral', function (require) {
-    'use strict';
+/** @odoo-module **/
 
-    const viewRegistry = require('web.view_registry');
+import { CalendarRenderer } from '@web/views/calendar/calendar_renderer';
+import { CalendarPopover } from '@web/views/calendar/calendar_popover';
+import { CalendarView } from '@web/views/calendar/calendar_view';
+import { registry } from '@web/core/registry';
 
-    const CalendarRenderer = require('web.CalendarRenderer');
-    const CalendarPopover = require('web.CalendarPopover');
-    const CalendarView = require('web.CalendarView');
+const viewRegistry = registry.category('views');
 
-    const TSCalendarPopover = CalendarPopover.extend({
-        isEventEditable() {
-            return false;
-        },
-    })
+export class TSCalendarPopover extends CalendarPopover {
+    isEventEditable() {
+        return false;
+    }
+}
 
-    const TSCalendarRenderer = CalendarRenderer.extend({
-        config: _.extend({}, CalendarRenderer.prototype.config, {
-            CalendarPopover: TSCalendarPopover,
-        }),
-    })
+export class TSCalendarRenderer extends CalendarRenderer {
+    static components = {
+        ...CalendarRenderer.components,
+        CalendarPopover: TSCalendarPopover,
+    };
+}
 
-    const TSCalendarView = CalendarView.extend({
-        config: Object.assign({}, CalendarView.prototype.config, {
-            Renderer: TSCalendarRenderer,
-        }),
-    });
+export class TSCalendarView extends CalendarView {
+    static components = {
+        ...CalendarView.components,
+        Renderer: TSCalendarRenderer,
+    };
+}
 
-    viewRegistry.add('timesheet_general', TSCalendarView);
-    return CalendarView;
+viewRegistry.add('timesheet_general', {
+    ...TSCalendarView,
 });

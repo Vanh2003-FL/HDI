@@ -1,4 +1,4 @@
-from odoo import *
+from odoo import api, fields, models, _
 
 READONLY_STATES = {
     'to_approve': [('readonly', True)],

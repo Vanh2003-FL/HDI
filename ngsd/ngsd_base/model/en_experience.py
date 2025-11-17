@@ -1,4 +1,4 @@
-from odoo import *
+from odoo import api, fields, models
 
 
 class ENExperience(models.Model):

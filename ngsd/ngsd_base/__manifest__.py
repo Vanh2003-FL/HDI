@@ -1,5 +1,6 @@
 {
     'name': 'NGSD Base',
+    'version': '18.0.1.0.0',
     'summary': '(☞ﾟヮﾟ)☞ Entrust Consulting (❁´◡`❁)',
     'author': '(☞ﾟヮﾟ)☞ Entrust Consulting (❁´◡`❁)',
     'website': "http://entrustlab.com",
@@ -16,21 +17,20 @@
         'account',
         'hr_timesheet',
         'sale_management',
-        'hr',
         'hr_contract',
         'hr_skills',
         'website',
         'website_blog',
-        'web_notify',
-        'ngsd_report_xlsx',
-        'ngsd_entrust_dev_helper',
-        'web_widget_dropdown_dynamic',
-        'web_field_o2m_duplicate_row',
-        'ngsd_report_docx',
+        # 'web_notify',  # Not available in Odoo 18
+        # 'ngsd_report_xlsx',  # Custom module not yet converted
+        # 'ngsd_entrust_dev_helper',  # Custom module not yet converted
+        # 'web_widget_dropdown_dynamic',  # Not available in Odoo 18
+        # 'web_field_o2m_duplicate_row',  # Not available in Odoo 18
+        # 'ngsd_report_docx',  # Custom module not yet converted
         'hr_recruitment',
         'website_hr_recruitment',
-        'hr_org_chart_overview',
-        'entrust_access',
+        # 'hr_org_chart_overview',  # Not available in Odoo 18
+        # 'entrust_access',  # Custom module not yet converted
         'web_editor',
     ],
     'data': [
@@ -98,16 +98,17 @@
 
     ],
     'license': 'LGPL-3',
+    'installable': True,
+    'auto_install': False,
     "assets": {
-        "web.assets_qweb": [
-            "ngsd_base/static/src/xml/**/*",
-        ],
         "web.assets_common": [
             "ngsd_base/static/src/js/tempusdominus.js",
         ],
         "web.assets_backend": [
             "ngsd_base/static/src/js/*.js",
             "ngsd_base/static/src/scss/*.scss",
+            "ngsd_base/static/src/xml/**/*",
         ],
     },
+}
 }

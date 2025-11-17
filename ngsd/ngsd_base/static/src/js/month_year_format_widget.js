@@ -1,53 +1,50 @@
 
-odoo.define('month_year_widget.month_year_format', function (require) {
-    "use strict";
+/** @odoo-module **/
 
-    var fieldRegistry = require('web.field_registry');
-    var DateWidget = require('web.datepicker').DateWidget;
-    var FieldDate = require('web.basic_fields').FieldDate;
-    var time = require('web.time');
+import { registry } from '@web/core/registry';
+import { DateField } from '@web/views/fields/date/date_field';
+import { DatePicker } from '@web/core/datepicker/datepicker';
+import { formatDate, parseDate } from '@web/core/l10n/dates';
 
+const fieldRegistry = registry.category('fields');
 
-    // Modified DateWidget to be used used for month and years
-    var MonthYearDateWidget = DateWidget.extend({
+// Modified DatePicker to be used for month and years
+class MonthYearDatePicker extends DatePicker {
 
-        _parseMonthYearDate: function (value, field, options) {
-            if (!value) {
-                return false;
-            }
-            var datePattern = this.options.format;
-            var datePatternWoZero = datePattern.replace('MM','M');
-            var date;
-            if (options && options.isUTC) {
-                date = moment.utc(value);
-            } else {
-                date = moment.utc(value, [datePattern, datePatternWoZero, moment.ISO_8601], true);
-            }
-            if (date.isValid()) {
-                if (date.year() === 0) {
-                    date.year(moment.utc().year());
-                }
-                if (date.year() >= 1900) {
-                    date.toJSON = function () {
-                        return this.clone().locale('en').format('YYYY-MM-DD');
-                    };
-                    return date;
-                }
-            }
-            throw new Error(_.str.sprintf(core._t("'%s' is not a correct date"), value));
-        },
-
-        _parseClient: function (v) {
-            return this._parseMonthYearDate(v, null, {timezone: false});
+    _parseMonthYearDate(value, field, options) {
+        if (!value) {
+            return false;
         }
+        const datePattern = this.options.format;
+        const datePatternWoZero = datePattern.replace('MM','M');
+        let date;
+        if (options && options.isUTC) {
+            date = moment.utc(value);
+        } else {
+            date = moment.utc(value, [datePattern, datePatternWoZero, moment.ISO_8601], true);
+        }
+        if (date.isValid()) {
+            if (date.year() === 0) {
+                date.year(moment.utc().year());
+            }
+            if (date.year() >= 1900) {
+                date.toJSON = function () {
+                    return this.clone().locale('en').format('YYYY-MM-DD');
+                };
+                return date;
+            }
+        }
+        throw new Error(`'${value}' is not a correct date`);
+    }
 
-    });
+    _parseClient(v) {
+        return this._parseMonthYearDate(v, null, {timezone: false});
+    }
+}
 
-    // Widget 'month_year_format' to be added from the xml at field declaration
-    var MonthYearFormatFieldDate = FieldDate.extend({
-        supportedFieldTypes: ['date'],
-
-        init: function () {
+// Widget 'month_year_format' to be added from the xml at field declaration
+export class MonthYearFormatFieldDate extends DateField {
+    static supportedTypes = ['date'];
             this._super.apply(this, arguments);
             this.datepickerOptions = _.defaults(
                 {},

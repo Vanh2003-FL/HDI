@@ -92,12 +92,14 @@
             </form>
         </field>
     </record>
+    <!-- Commented out due to missing hr_org_chart_overview module
     <record id="action_org_chart_overview" model="ir.actions.client">
         <field name="name">Sơ đồ tổ chức dự án</field>
         <field name="tag">hr_org_chart_overview</field>
         <field name="target">main</field>
         <field name="params">{'model': 'en.resource.planning'}</field>
     </record>
+    -->
     <record id="refuse_reason_form" model="ir.ui.view">
         <field name="model">en.refuse.reason.wizard</field>
         <field name="arch" type="xml">

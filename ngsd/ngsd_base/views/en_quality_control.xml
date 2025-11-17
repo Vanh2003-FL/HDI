@@ -10,10 +10,10 @@
                     <field name="approve_ok" invisible="1"/>
                     <field name="technical_field_27766" invisible="1"/>
                     <field name="is_pm_project" invisible="1"/>
-                    <button string="Tạo phiên bản mới" type="object" name="new_resource" attrs="{'invisible':['|',('is_pm_project','=',False), ('state', '!=', 'approved')]}"/>
-                    <button string="Gửi duyệt" type="object" name="button_to_approve" attrs="{'invisible':['|',('state','!=','draft'),('sent_ok','=',False)]}"/>
-                    <button string="Duyệt" type="object" name="button_approved" attrs="{'invisible':['|',('state','!=','to_approve'),('approve_ok','=',False)]}"/>
-                    <button string="Từ chối" type="object" name="button_refused" attrs="{'invisible':['|',('state','!=','to_approve'),('approve_ok','=',False)]}"/>
+                    <button string="Tạo phiên bản mới" type="object" name="new_resource" invisible="not is_pm_project or state != 'approved'"/>
+                    <button string="Gửi duyệt" type="object" name="button_to_approve" invisible="state != 'draft' or not sent_ok"/>
+                    <button string="Duyệt" type="object" name="button_approved" invisible="state != 'to_approve' or not approve_ok"/>
+                    <button string="Từ chối" type="object" name="button_refused" invisible="state != 'to_approve' or not approve_ok"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,to_approve,approved"/>
                 </header>
                 <sheet>
