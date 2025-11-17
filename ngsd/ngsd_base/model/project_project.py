@@ -436,11 +436,12 @@ class ProjectProject(models.Model):
       rec.mm_conversion = rec.en_resource_ids.filtered(
           lambda x: x.state == 'approved').mm_conversion or 0
 
-  def button_view_qdtlda(self):
-    return self.env.ref('ngsd_base.report_qdtlda_action').report_action(self)
+  # Temporarily disabled due to missing ngsd_report_docx module
+  # def button_view_qdtlda(self):
+  #   return self.env.ref('ngsd_base.report_qdtlda_action').report_action(self)
 
-  def button_view_qddcda(self):
-    return self.env.ref('ngsd_base.report_qddcda_action').report_action(self)
+  # def button_view_qddcda(self):
+  #   return self.env.ref('ngsd_base.report_qddcda_action').report_action(self)
 
   @api.model
   def _name_search(self, name, args=None, operator='ilike', limit=100,

@@ -55,7 +55,8 @@ class HROverviewReportPopup(models.TransientModel):
         action = {
             'type': 'ir.actions.client',
             'name': name,
-            'tag': 'hr_org_chart_overview',
+            # 'tag': 'hr_org_chart_overview',  # Module not available in Odoo 18
+            'tag': 'display_notification',  # Temporary fallback
             'params': {
                 'model': self.model,
             },

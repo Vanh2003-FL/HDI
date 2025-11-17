@@ -251,8 +251,10 @@
                 <field name="technical_field_27795" invisible="1"/>
                 <button name="button_new_wbs" groups="ngsd_base.group_pm,ngsd_base.group_vpm" string="Tạo WBS" type="object" invisible="en_wbs_ids"/>
                 <button name="button_project_account_report_wizard_act" groups="ngsd_base.group_tpvh,ngsd_base.group_gdkndu,ngsd_base.group_tptc,ngsd_base.group_pm,ngsd_base.group_qam,ngsd_base.group_vpm" string="Nguồn lực dự án" invisible="not en_resource_ids" type="object"/>
+                <!-- Temporarily disabled due to missing ngsd_report_docx module
                 <button name="button_view_qdtlda" string="Biểu mẫu QĐTL" type="object"/>
                 <button name="button_view_qddcda" string="Biểu mẫu QDĐC" type="object"/>
+                -->
                 <button name="new_resource" groups="ngsd_base.group_pm,ngsd_base.group_vpm" string="Tạo kế hoạch NL" invisible="en_resource_ids or en_state not in ('draft','wait_for_execution','doing')" type="object"/>
                 <button name="new_quality_control" groups="ngsd_base.group_qam,ngsd_base.group_qal,ngsd_base.group_pm,ngsd_base.group_gdkndu" string="Tạo KSCL" invisible="en_quality_control_ids or en_state not in ('draft','wait_for_execution','doing')" type="object"/>
                 <button name="button_en_wait_for_execution" groups="ngsd_base.group_qam" string="Chờ thực hiện" invisible="en_state not in ('draft',)" type="object"/>
