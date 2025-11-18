@@ -62,7 +62,8 @@
     'assets': {
         'web.assets_backend': [
             'hdi_attendance/static/src/js/hr_attendance_block_click.js',
-            'hdi_attendance/static/src/js/hr_attendance_kiosk.js',
+            'hdi_attendance/static/src/js/attendance_kiosk.js',
+            'hdi_attendance/static/src/xml/attendance_kiosk.xml',
         ],
     },
     
