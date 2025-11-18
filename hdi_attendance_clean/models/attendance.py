@@ -28,8 +28,27 @@ class HdiAttendance(models.Model):
     
     status = fields.Selection([
         ('checkin', 'Checked In'),
-        ('checkout', 'Checked Out'),
+        ('checkout', 'Checked Out')
     ], string='Status', compute='_compute_status', store=True)
+    
+    color = fields.Integer(string="Màu", compute='_compute_color', store=False)
+    warning_message = fields.Text(string='Thông báo', compute='_compute_color')
+    
+    @api.depends('check_out', 'worked_hours')
+    def _compute_color(self):
+        for rec in self:
+            warning_message = []
+            color = 10  # Màu xanh mặc định
+            
+            if not rec.check_out:
+                warning_message.append('Chưa check-out')
+                color = 1  # Màu đỏ
+            elif rec.worked_hours < 7.5:
+                warning_message.append('Không đủ giờ công')
+                color = 1  # Màu đỏ
+            
+            rec.color = color
+            rec.warning_message = '\n'.join(warning_message) if warning_message else False
     
     note = fields.Text(string='Note')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
