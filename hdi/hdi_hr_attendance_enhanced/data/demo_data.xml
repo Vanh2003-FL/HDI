@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Demo Work Locations -->
+        <record id="work_location_hanoi" model="hr.work.location">
+            <field name="name">Chi nhánh Hà Nội</field>
+            <field name="address">48 Tô Hiệu, Hà Đông, Hà Nội</field>
+            <field name="latitude">21.0285</field>
+            <field name="longitude">105.8542</field>
+            <field name="radius">500</field>
+            <field name="is_default" eval="True"/>
+        </record>
+        
+        <record id="work_location_hcm" model="hr.work.location">
+            <field name="name">Chi nhánh TP.HCM</field>
+            <field name="address">Đường Nguyễn Văn Linh, Quận 7, TP.HCM</field>
+            <field name="latitude">10.7769</field>
+            <field name="longitude">106.7009</field>
+            <field name="radius">500</field>
+        </record>
+        
+        <record id="work_location_danang" model="hr.work.location">
+            <field name="name">Chi nhánh Đà Nẵng</field>
+            <field name="address">Đường Lê Duẩn, Quận Hải Châu, Đà Nẵng</field>
+            <field name="latitude">16.0544</field>
+            <field name="longitude">108.2022</field>
+            <field name="radius">500</field>
+        </record>
+        
+        <record id="work_location_remote" model="hr.work.location">
+            <field name="name">Làm việc từ xa (Remote)</field>
+            <field name="address">Remote Work</field>
+            <field name="radius">0</field>
+        </record>
+        
+    </data>
+</odoo>

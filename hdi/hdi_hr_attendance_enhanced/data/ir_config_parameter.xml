@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Default Configuration Parameters -->
+    <record id="param_geolocation_enabled" model="ir.config_parameter">
+        <field name="key">hdi_hr_attendance_enhanced.geolocation_enabled</field>
+        <field name="value">True</field>
+    </record>
+    
+    <record id="param_geolocation_required" model="ir.config_parameter">
+        <field name="key">hdi_hr_attendance_enhanced.geolocation_required</field>
+        <field name="value">False</field>
+    </record>
+    
+    <record id="param_queue_enabled" model="ir.config_parameter">
+        <field name="key">hdi_hr_attendance_enhanced.queue_enabled</field>
+        <field name="value">True</field>
+    </record>
+    
+    <record id="param_offline_mode" model="ir.config_parameter">
+        <field name="key">hdi_hr_attendance_enhanced.offline_mode</field>
+        <field name="value">True</field>
+    </record>
+    
+    <record id="param_check_radius" model="ir.config_parameter">
+        <field name="key">hdi_hr_attendance_enhanced.check_radius</field>
+        <field name="value">True</field>
+    </record>
+    
+    <record id="param_default_radius" model="ir.config_parameter">
+        <field name="key">hdi_hr_attendance_enhanced.default_radius</field>
+        <field name="value">500</field>
+    </record>
+    
+    <record id="param_auto_process" model="ir.config_parameter">
+        <field name="key">hdi_hr_attendance_enhanced.auto_process</field>
+        <field name="value">True</field>
+    </record>
+
+</odoo>

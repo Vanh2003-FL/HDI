@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Attendance Tree View - Inherit -->
+    <record id="view_hr_attendance_tree_enhanced" model="ir.ui.view">
+        <field name="name">hr.attendance.tree.enhanced</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="work_location_id"/>
+            </xpath>
+            <xpath expr="//field[@name='check_in']" position="after">
+                <field name="check_in_address" optional="hide"/>
+                <field name="check_in_distance" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='check_out']" position="after">
+                <field name="check_out_address" optional="hide"/>
+                <field name="check_out_distance" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='worked_hours']" position="after">
+                <field name="is_outside_radius" optional="show" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Attendance Form View - Inherit -->
+    <record id="view_hr_attendance_form_enhanced" model="ir.ui.view">
+        <field name="name">hr.attendance.form.enhanced</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="work_location_id"/>
+            </xpath>
+            
+            <xpath expr="//group[@name='attendance_details']" position="after">
+                <group string="Thông tin GPS Check-in" invisible="not check_in_latitude">
+                    <group>
+                        <field name="check_in_latitude"/>
+                        <field name="check_in_longitude"/>
+                        <field name="check_in_coordinates"/>
+                    </group>
+                    <group>
+                        <field name="check_in_address"/>
+                        <field name="check_in_distance"/>
+                        <field name="check_in_google_maps" widget="url" string="Google Maps"/>
+                    </group>
+                </group>
+                
+                <group string="Thông tin GPS Check-out" invisible="not check_out_latitude">
+                    <group>
+                        <field name="check_out_latitude"/>
+                        <field name="check_out_longitude"/>
+                        <field name="check_out_coordinates"/>
+                    </group>
+                    <group>
+                        <field name="check_out_address"/>
+                        <field name="check_out_distance"/>
+                        <field name="check_out_google_maps" widget="url" string="Google Maps"/>
+                    </group>
+                </group>
+                
+                <group string="Cảnh báo" invisible="not is_outside_radius">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fa fa-exclamation-triangle me-2"/>
+                        <strong>Cảnh báo:</strong> Chấm công ngoài bán kính cho phép!
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Attendance Search View - Inherit -->
+    <record id="view_hr_attendance_search_enhanced" model="ir.ui.view">
+        <field name="name">hr.attendance.search.enhanced</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="work_location_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='today']" position="after">
+                <filter name="outside_radius" string="Ngoài bán kính" 
+                        domain="[('is_outside_radius', '=', True)]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter name="group_location" string="Địa điểm" 
+                        context="{'group_by': 'work_location_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

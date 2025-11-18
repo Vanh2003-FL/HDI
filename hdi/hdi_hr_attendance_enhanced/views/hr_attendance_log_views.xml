@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Attendance Log Tree View -->
+    <record id="view_hr_attendance_log_tree" model="ir.ui.view">
+        <field name="name">hr.attendance.log.tree</field>
+        <field name="model">hr.attendance.log</field>
+        <field name="arch" type="xml">
+            <tree string="Attendance Logs" decoration-info="state=='pending'" 
+                  decoration-success="state=='processed'" decoration-danger="state=='failed'">
+                <field name="employee_id"/>
+                <field name="action"/>
+                <field name="timestamp"/>
+                <field name="work_location_id"/>
+                <field name="state" widget="badge" 
+                       decoration-info="state=='pending'"
+                       decoration-warning="state=='processing'"
+                       decoration-success="state=='processed'"
+                       decoration-danger="state in ('failed', 'rejected')"/>
+                <field name="processed" widget="boolean_toggle"/>
+                <field name="retry_count"/>
+                <field name="attendance_id"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- Attendance Log Form View -->
+    <record id="view_hr_attendance_log_form" model="ir.ui.view">
+        <field name="name">hr.attendance.log.form</field>
+        <field name="model">hr.attendance.log</field>
+        <field name="arch" type="xml">
+            <form string="Attendance Log">
+                <header>
+                    <button name="action_process" string="Xử lý ngay" type="object" 
+                            class="btn-primary" invisible="processed"/>
+                    <button name="action_approve" string="Phê duyệt" type="object" 
+                            class="btn-success" invisible="processed"/>
+                    <button name="action_reject" string="Từ chối" type="object" 
+                            class="btn-danger" invisible="processed"/>
+                    <field name="state" widget="statusbar" 
+                           statusbar_visible="pending,processing,processed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(hr_attendance.hr_attendance_action_employee)d" 
+                                type="action" class="oe_stat_button" icon="fa-clock-o"
+                                context="{'search_default_employee_id': employee_id}"
+                                invisible="not attendance_id">
+                            <field name="attendance_id" widget="statinfo" 
+                                   string="Attendance"/>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group string="Thông tin cơ bản">
+                            <field name="employee_id"/>
+                            <field name="action"/>
+                            <field name="timestamp"/>
+                            <field name="work_location_id"/>
+                        </group>
+                        <group string="GPS Data">
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Trạng thái xử lý">
+                        <group>
+                            <field name="processed" widget="boolean_toggle"/>
+                            <field name="retry_count"/>
+                        </group>
+                        <group>
+                            <field name="approver_id"/>
+                            <field name="approval_date"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Ghi chú">
+                            <group>
+                                <field name="process_note" nolabel="1"/>
+                                <field name="approval_note" nolabel="1"/>
+                                <field name="error_message" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Attendance Log Search View -->
+    <record id="view_hr_attendance_log_search" model="ir.ui.view">
+        <field name="name">hr.attendance.log.search</field>
+        <field name="model">hr.attendance.log</field>
+        <field name="arch" type="xml">
+            <search string="Attendance Logs">
+                <field name="employee_id"/>
+                <field name="work_location_id"/>
+                <filter name="pending" string="Chờ xử lý" 
+                        domain="[('state', '=', 'pending')]"/>
+                <filter name="processing" string="Đang xử lý" 
+                        domain="[('state', '=', 'processing')]"/>
+                <filter name="processed" string="Đã xử lý" 
+                        domain="[('state', '=', 'processed')]"/>
+                <filter name="failed" string="Thất bại" 
+                        domain="[('state', '=', 'failed')]"/>
+                <separator/>
+                <filter name="today" string="Hôm nay" 
+                        domain="[('timestamp', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')),
+                                 ('timestamp', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_employee" string="Nhân viên" 
+                            context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_action" string="Hành động" 
+                            context="{'group_by': 'action'}"/>
+                    <filter name="group_state" string="Trạng thái" 
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_location" string="Địa điểm" 
+                            context="{'group_by': 'work_location_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <!-- Attendance Log Action -->
+    <record id="action_hr_attendance_log" model="ir.actions.act_window">
+        <field name="name">Attendance Logs</field>
+        <field name="res_model">hr.attendance.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_pending': 1}</field>
+    </record>
+
+</odoo>

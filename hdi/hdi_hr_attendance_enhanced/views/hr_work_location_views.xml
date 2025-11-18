@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Work Location Tree View -->
+    <record id="view_hr_work_location_tree" model="ir.ui.view">
+        <field name="name">hr.work.location.tree</field>
+        <field name="model">hr.work.location</field>
+        <field name="arch" type="xml">
+            <tree string="Địa điểm làm việc">
+                <field name="name"/>
+                <field name="address"/>
+                <field name="coordinates_display"/>
+                <field name="radius"/>
+                <field name="is_default"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- Work Location Form View -->
+    <record id="view_hr_work_location_form" model="ir.ui.view">
+        <field name="name">hr.work.location.form</field>
+        <field name="model">hr.work.location</field>
+        <field name="arch" type="xml">
+            <form string="Địa điểm làm việc">
+                <header>
+                    <button name="action_open_google_maps" string="Xem trên Google Maps" 
+                            type="object" class="btn-primary"
+                            invisible="not google_maps_url"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Mặc định" bg_color="text-bg-success" 
+                            invisible="not is_default"/>
+                    
+                    <group>
+                        <group string="Thông tin cơ bản">
+                            <field name="name"/>
+                            <field name="address"/>
+                            <field name="is_default"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Tọa độ GPS">
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                            <field name="coordinates_display"/>
+                            <field name="google_maps_url" widget="url"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Cài đặt">
+                        <field name="radius"/>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Thống kê">
+                            <group>
+                                <button name="action_view_attendances" string="Xem chấm công"
+                                        type="object" class="btn-link"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Work Location Action -->
+    <record id="action_hr_work_location" model="ir.actions.act_window">
+        <field name="name">Địa điểm làm việc</field>
+        <field name="res_model">hr.work.location</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
