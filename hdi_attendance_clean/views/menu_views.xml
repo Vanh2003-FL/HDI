@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_hdi_attendance_root"
+              name="HDI Attendance"
+              sequence="50"
+              web_icon="hdi_attendance_clean,static/description/icon.png"/>
+
+    <!-- Attendance Menu -->
+    <menuitem id="menu_hdi_attendance"
+              name="Attendances"
+              parent="menu_hdi_attendance_root"
+              action="action_hdi_attendance"
+              sequence="10"/>
+
+    <!-- Work Location Menu -->
+    <menuitem id="menu_hdi_work_location"
+              name="Work Locations"
+              parent="menu_hdi_attendance_root"
+              action="action_hdi_work_location"
+              sequence="20"/>
+</odoo>

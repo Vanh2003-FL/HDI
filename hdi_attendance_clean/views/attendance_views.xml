@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Attendance Tree View -->
+    <record id="view_hdi_attendance_tree" model="ir.ui.view">
+        <field name="name">hdi.attendance.tree</field>
+        <field name="model">hdi.attendance</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="status == 'checkout'" decoration-info="status == 'checkin'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="worked_hours" widget="float_time"/>
+                <field name="work_location_id"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Attendance Form View -->
+    <record id="view_hdi_attendance_form" model="ir.ui.view">
+        <field name="name">hdi.attendance.form</field>
+        <field name="model">hdi.attendance</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_checkout" string="Check Out" type="object" 
+                            class="btn-primary" invisible="check_out"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="work_location_id"/>
+                        </group>
+                        <group>
+                            <field name="check_in"/>
+                            <field name="check_out"/>
+                            <field name="worked_hours" widget="float_time"/>
+                        </group>
+                    </group>
+                    <group string="GPS Coordinates">
+                        <group>
+                            <label for="checkin_latitude" string="Check-in Location"/>
+                            <div class="o_row">
+                                <field name="checkin_latitude"/>
+                                <field name="checkin_longitude"/>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="checkout_latitude" string="Check-out Location"/>
+                            <div class="o_row">
+                                <field name="checkout_latitude"/>
+                                <field name="checkout_longitude"/>
+                            </div>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Notes..."/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Attendance Search View -->
+    <record id="view_hdi_attendance_search" model="ir.ui.view">
+        <field name="name">hdi.attendance.search</field>
+        <field name="model">hdi.attendance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id"/>
+                <field name="work_location_id"/>
+                <filter name="checkin" string="Checked In" domain="[('check_out', '=', False)]"/>
+                <filter name="checkout" string="Checked Out" domain="[('check_out', '!=', False)]"/>
+                <separator/>
+                <filter name="today" string="Today" domain="[('check_in', '&gt;=', datetime.datetime.now().replace(hour=0, minute=0, second=0))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_location" string="Work Location" context="{'group_by': 'work_location_id'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'check_in:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Attendance Action -->
+    <record id="action_hdi_attendance" model="ir.actions.act_window">
+        <field name="name">Attendances</field>
+        <field name="res_model">hdi.attendance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+</odoo>
