@@ -5,14 +5,21 @@
         <field name="name">hdi.attendance.tree</field>
         <field name="model">hdi.attendance</field>
         <field name="arch" type="xml">
-            <tree decoration-success="status == 'checkout'" decoration-info="status == 'checkin'">
-                <field name="name"/>
-                <field name="employee_id"/>
-                <field name="check_in"/>
-                <field name="check_out"/>
-                <field name="worked_hours" widget="float_time"/>
-                <field name="work_location_id"/>
-                <field name="status"/>
+            <tree string="Danh sách chấm công" 
+                  decoration-success="status == 'checkout'" 
+                  decoration-info="status == 'checkin'"
+                  decoration-muted="check_out"
+                  sample="1">
+                <field name="name" string="Mã"/>
+                <field name="employee_id" string="Nhân viên"/>
+                <field name="check_in" string="Giờ vào"/>
+                <field name="check_out" string="Giờ ra"/>
+                <field name="worked_hours" string="Giờ làm" widget="float_time"/>
+                <field name="work_location_id" string="Địa điểm"/>
+                <field name="status" string="Trạng thái" widget="badge" 
+                       decoration-success="status == 'checkout'" 
+                       decoration-info="status == 'checkin'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
             </tree>
         </field>
     </record>
@@ -22,47 +29,64 @@
         <field name="name">hdi.attendance.form</field>
         <field name="model">hdi.attendance</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Chấm công">
                 <header>
                     <button name="action_checkout" string="Check Out" type="object" 
-                            class="btn-primary" invisible="check_out"/>
-                    <field name="status" widget="statusbar"/>
+                            class="oe_highlight" invisible="check_out"/>
+                    <field name="status" widget="statusbar" statusbar_visible="checkin,checkout"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_checkout" 
+                                icon="fa-clock-o" invisible="check_out">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Check Out</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Đã Check Out" bg_color="text-bg-success" invisible="not check_out"/>
                     <div class="oe_title">
-                        <h1><field name="name"/></h1>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" readonly="1"/></h1>
                     </div>
                     <group>
-                        <group>
-                            <field name="employee_id"/>
-                            <field name="work_location_id"/>
+                        <group string="Thông tin nhân viên">
+                            <field name="employee_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="work_location_id" options="{'no_create_edit': True}"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
                         </group>
-                        <group>
-                            <field name="check_in"/>
-                            <field name="check_out"/>
-                            <field name="worked_hours" widget="float_time"/>
-                        </group>
-                    </group>
-                    <group string="GPS Coordinates">
-                        <group>
-                            <label for="checkin_latitude" string="Check-in Location"/>
-                            <div class="o_row">
-                                <field name="checkin_latitude"/>
-                                <field name="checkin_longitude"/>
-                            </div>
-                        </group>
-                        <group>
-                            <label for="checkout_latitude" string="Check-out Location"/>
-                            <div class="o_row">
-                                <field name="checkout_latitude"/>
-                                <field name="checkout_longitude"/>
-                            </div>
+                        <group string="Thời gian">
+                            <field name="check_in" required="1"/>
+                            <field name="check_out" readonly="1"/>
+                            <field name="worked_hours" widget="float_time" readonly="1"/>
                         </group>
                     </group>
-                    <field name="note" placeholder="Notes..."/>
+                    <notebook>
+                        <page string="Thông tin GPS" name="gps_info">
+                            <group>
+                                <group string="Check-in Location">
+                                    <label for="checkin_latitude" string="Tọa độ"/>
+                                    <div class="o_row">
+                                        <field name="checkin_latitude" placeholder="Vĩ độ"/>
+                                        <field name="checkin_longitude" placeholder="Kinh độ"/>
+                                    </div>
+                                </group>
+                                <group string="Check-out Location">
+                                    <label for="checkout_latitude" string="Tọa độ"/>
+                                    <div class="o_row">
+                                        <field name="checkout_latitude" placeholder="Vĩ độ"/>
+                                        <field name="checkout_longitude" placeholder="Kinh độ"/>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Ghi chú" name="notes">
+                            <field name="note" placeholder="Ghi chú thêm về buổi làm việc..."/>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
+                    <field name="message_follower_ids" groups="base.group_user"/>
                     <field name="activity_ids"/>
                     <field name="message_ids"/>
                 </div>
@@ -75,17 +99,31 @@
         <field name="name">hdi.attendance.search</field>
         <field name="model">hdi.attendance</field>
         <field name="arch" type="xml">
-            <search>
-                <field name="employee_id"/>
-                <field name="work_location_id"/>
-                <filter name="checkin" string="Checked In" domain="[('check_out', '=', False)]"/>
-                <filter name="checkout" string="Checked Out" domain="[('check_out', '!=', False)]"/>
+            <search string="Tìm kiếm chấm công">
+                <field name="name" string="Mã" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="employee_id" string="Nhân viên"/>
+                <field name="work_location_id" string="Địa điểm"/>
                 <separator/>
-                <filter name="today" string="Today" domain="[('check_in', '&gt;=', datetime.datetime.now().replace(hour=0, minute=0, second=0))]"/>
-                <group expand="0" string="Group By">
-                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
-                    <filter name="group_location" string="Work Location" context="{'group_by': 'work_location_id'}"/>
-                    <filter name="group_date" string="Date" context="{'group_by': 'check_in:day'}"/>
+                <filter name="checkin" string="Đang làm việc" domain="[('check_out', '=', False)]"/>
+                <filter name="checkout" string="Đã check out" domain="[('check_out', '!=', False)]"/>
+                <separator/>
+                <filter name="today" string="Hôm nay" 
+                        domain="[('check_in', '&gt;=', datetime.datetime.now().replace(hour=0, minute=0, second=0)), 
+                                 ('check_in', '&lt;=', datetime.datetime.now().replace(hour=23, minute=59, second=59))]"/>
+                <filter name="this_week" string="Tuần này"
+                        domain="[('check_in', '&gt;=', (context_today - datetime.timedelta(days=context_today.weekday())).strftime('%Y-%m-%d')),
+                                 ('check_in', '&lt;=', (context_today + datetime.timedelta(days=6-context_today.weekday())).strftime('%Y-%m-%d 23:59:59'))]"/>
+                <filter name="this_month" string="Tháng này"
+                        domain="[('check_in', '&gt;=', datetime.datetime.now().replace(day=1, hour=0, minute=0, second=0)),
+                                 ('check_in', '&lt;=', datetime.datetime.now().replace(hour=23, minute=59, second=59))]"/>
+                <separator/>
+                <filter string="Chấm công của tôi" name="my_attendance" 
+                        domain="[('employee_id.user_id', '=', uid)]"/>
+                <group expand="0" string="Nhóm theo">
+                    <filter name="group_employee" string="Nhân viên" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_location" string="Địa điểm" context="{'group_by': 'work_location_id'}"/>
+                    <filter name="group_date" string="Ngày" context="{'group_by': 'check_in:day'}"/>
+                    <filter name="group_status" string="Trạng thái" context="{'group_by': 'status'}"/>
                 </group>
             </search>
         </field>
@@ -93,9 +131,100 @@
 
     <!-- Attendance Action -->
     <record id="action_hdi_attendance" model="ir.actions.act_window">
-        <field name="name">Attendances</field>
+        <field name="name">Chấm công</field>
         <field name="res_model">hdi.attendance</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
         <field name="context">{'search_default_today': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo bản ghi chấm công mới
+            </p>
+            <p>
+                Theo dõi giờ vào, giờ ra và thời gian làm việc của nhân viên.
+            </p>
+        </field>
+    </record>
+
+    <!-- Attendance Kanban View -->
+    <record id="view_hdi_attendance_kanban" model="ir.ui.view">
+        <field name="name">hdi.attendance.kanban</field>
+        <field name="model">hdi.attendance</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="worked_hours"/>
+                <field name="status"/>
+                <field name="work_location_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title"><field name="employee_id"/></strong>
+                                    <div class="o_kanban_record_subtitle">
+                                        <field name="name"/> - <field name="check_in" widget="datetime"/>
+                                    </div>
+                                </div>
+                                <span class="float-end">
+                                    <field name="status" widget="badge" 
+                                           decoration-success="status == 'checkout'" 
+                                           decoration-info="status == 'checkin'"/>
+                                </span>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="work_location_id"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="worked_hours" widget="float_time"/> giờ
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Attendance Calendar View -->
+    <record id="view_hdi_attendance_calendar" model="ir.ui.view">
+        <field name="name">hdi.attendance.calendar</field>
+        <field name="model">hdi.attendance</field>
+        <field name="arch" type="xml">
+            <calendar string="Lịch chấm công" date_start="check_in" date_stop="check_out" 
+                      color="employee_id" mode="month" quick_add="False">
+                <field name="employee_id"/>
+                <field name="work_location_id"/>
+                <field name="worked_hours"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Attendance Pivot View -->
+    <record id="view_hdi_attendance_pivot" model="ir.ui.view">
+        <field name="name">hdi.attendance.pivot</field>
+        <field name="model">hdi.attendance</field>
+        <field name="arch" type="xml">
+            <pivot string="Phân tích chấm công" sample="1">
+                <field name="employee_id" type="row"/>
+                <field name="check_in" interval="month" type="col"/>
+                <field name="worked_hours" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Attendance Graph View -->
+    <record id="view_hdi_attendance_graph" model="ir.ui.view">
+        <field name="name">hdi.attendance.graph</field>
+        <field name="model">hdi.attendance</field>
+        <field name="arch" type="xml">
+            <graph string="Biểu đồ chấm công" sample="1">
+                <field name="employee_id"/>
+                <field name="worked_hours" type="measure"/>
+            </graph>
+        </field>
     </record>
 </odoo>

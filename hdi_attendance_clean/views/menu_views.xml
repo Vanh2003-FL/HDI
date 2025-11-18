@@ -2,21 +2,31 @@
 <odoo>
     <!-- Main Menu -->
     <menuitem id="menu_hdi_attendance_root"
-              name="HDI Attendance"
+              name="Chấm công HDI"
               sequence="50"
               web_icon="hdi_attendance_clean,static/description/icon.png"/>
 
-    <!-- Attendance Menu -->
-    <menuitem id="menu_hdi_attendance"
-              name="Attendances"
+    <!-- Attendance Submenu -->
+    <menuitem id="menu_hdi_attendance_main"
+              name="Chấm công"
               parent="menu_hdi_attendance_root"
+              sequence="10"/>
+
+    <menuitem id="menu_hdi_attendance"
+              name="Danh sách chấm công"
+              parent="menu_hdi_attendance_main"
               action="action_hdi_attendance"
               sequence="10"/>
 
-    <!-- Work Location Menu -->
-    <menuitem id="menu_hdi_work_location"
-              name="Work Locations"
+    <!-- Configuration Submenu -->
+    <menuitem id="menu_hdi_attendance_config"
+              name="Cấu hình"
               parent="menu_hdi_attendance_root"
+              sequence="90"/>
+
+    <menuitem id="menu_hdi_work_location"
+              name="Địa điểm làm việc"
+              parent="menu_hdi_attendance_config"
               action="action_hdi_work_location"
-              sequence="20"/>
+              sequence="10"/>
 </odoo>
