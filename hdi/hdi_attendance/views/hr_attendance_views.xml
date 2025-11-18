@@ -21,19 +21,6 @@
         </field>
     </record>
 
-    <!-- Inherit Attendance Tree View -->
-    <record id="view_attendance_tree_inherit_hdi" model="ir.ui.view">
-        <field name="name">hr.attendance.tree.inherit.hdi</field>
-        <field name="model">hr.attendance</field>
-        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='check_out']" position="after">
-                <field name="work_location_id" optional="hide"/>
-                <field name="explanation_id" optional="hide"/>
-            </xpath>
-        </field>
-    </record>
-
     <!-- My Attendance Action -->
     <record id="own_hr_attendance_action" model="ir.actions.act_window">
         <field name="name">Chấm công của tôi</field>
