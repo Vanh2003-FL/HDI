@@ -39,11 +39,12 @@ class HrAttendanceExplanation(models.Model):
     approval_date = fields.Datetime(string='Ngày phê duyệt')
     refusal_reason = fields.Text(string='Lý do từ chối')
     
-    @api.model
-    def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('hr.attendance.explanation') or _('New')
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', _('New')) == _('New'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('hr.attendance.explanation') or _('New')
+        return super().create(vals_list)
     
     def action_submit(self):
         """Submit explanation for approval"""

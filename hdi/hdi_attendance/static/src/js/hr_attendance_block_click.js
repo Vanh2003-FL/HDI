@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 import { registry } from "@web/core/registry";
-import { Component } from "@odoo/owl";
+import { patch } from "@web/core/utils/patch";
 
 /**
  * HDI Attendance - Block Double Click
@@ -10,33 +10,43 @@ import { Component } from "@odoo/owl";
 
 let isProcessing = false;
 
-// Override the attendance action to prevent double clicks
-const originalAttendanceAction = odoo.__DEBUG__.services["action"].doAction;
-
-if (originalAttendanceAction) {
-    odoo.__DEBUG__.services["action"].doAction = function (action, options) {
-        // Check if this is an attendance check in/out action
-        if (action && action.type === 'ir.actions.client' && 
-            (action.tag === 'hr_attendance_kiosk_mode' || 
-             action.context?.attendance_action)) {
-            
-            if (isProcessing) {
-                console.log('HDI Attendance: Blocking duplicate request');
-                return Promise.reject('Request already in progress');
+// Patch the action service to prevent double clicks
+const actionService = {
+    dependencies: ["action"],
+    start(env, { action: actionService }) {
+        const originalDoAction = actionService.doAction.bind(actionService);
+        
+        actionService.doAction = async (actionRequest, options = {}) => {
+            // Check if this is an attendance action
+            if (actionRequest && 
+                (actionRequest.tag === 'hr_attendance_kiosk_mode' || 
+                 actionRequest.context?.attendance_action)) {
+                
+                if (isProcessing) {
+                    console.log('HDI Attendance: Blocking duplicate request');
+                    return Promise.reject(new Error('Request already in progress'));
+                }
+                
+                isProcessing = true;
+                
+                try {
+                    const result = await originalDoAction(actionRequest, options);
+                    return result;
+                } finally {
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        isProcessing = false;
+                    }, 3000);
+                }
             }
             
-            isProcessing = true;
-            
-            return originalAttendanceAction.call(this, action, options).finally(() => {
-                // Reset after 3 seconds to prevent issues
-                setTimeout(() => {
-                    isProcessing = false;
-                }, 3000);
-            });
-        }
+            return originalDoAction(actionRequest, options);
+        };
         
-        return originalAttendanceAction.call(this, action, options);
-    };
-}
+        console.log('HDI Attendance: Block click protection loaded');
+        return actionService;
+    },
+};
 
-console.log('HDI Attendance: Block click protection loaded');
+registry.category("services").add("hdi_attendance_block_click", actionService);
+

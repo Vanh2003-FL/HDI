@@ -65,9 +65,6 @@
             'hdi_attendance/static/src/js/hr_attendance_block_click.js',
             'hdi_attendance/static/src/js/hr_attendance_kiosk.js',
         ],
-        'web.assets_qweb': [
-            'hdi_attendance/static/src/xml/attendance_templates.xml',
-        ],
     },
     
     'images': ['static/description/icon.png'],

@@ -10,7 +10,6 @@ class HrAttendance(models.Model):
     _inherit = 'hr.attendance'
 
     # Additional fields
-    work_location_id = fields.Many2one('hr.work.location', string='Địa điểm làm việc')
     note = fields.Text(string='Ghi chú')
     explanation_required = fields.Boolean(string='Cần giải trình', compute='_compute_explanation_required', store=True)
     explanation_id = fields.Many2one('hr.attendance.explanation', string='Giải trình', readonly=True)
