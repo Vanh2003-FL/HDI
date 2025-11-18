@@ -32,10 +32,10 @@
                             class="oe_highlight" invisible="state != 'draft'"/>
                     <button name="action_approve" string="Phê duyệt" type="object" 
                             class="oe_highlight" invisible="state != 'submitted'" 
-                            groups="hr_attendance.group_hr_attendance_manager"/>
+                            groups="hdi_attendance.group_attendance_manager"/>
                     <button name="action_refuse" string="Từ chối" type="object" 
                             invisible="state != 'submitted'" 
-                            groups="hr_attendance.group_hr_attendance_manager"/>
+                            groups="hdi_attendance.group_attendance_manager"/>
                     <button name="action_reset_to_draft" string="Đặt lại nháp" type="object" 
                             invisible="state == 'draft'"/>
                     <field name="state" widget="statusbar" 
