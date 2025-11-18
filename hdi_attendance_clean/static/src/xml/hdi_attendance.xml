@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <!-- Location Selector for My Attendances -->
+    <t t-name="hdi_attendance.HdiAttendanceLocationSelector" t-inherit="hr_attendance.HrAttendanceMyMainMenu" t-inherit-mode="extension">
+        <xpath expr="//h4[hasclass('mt0')]" position="before">
+            <t t-set="checked_in" t-value="widget.employee.attendance_state=='checked_in'"/>
+            <t t-set="en_checked_diff_ok" t-value="widget.en_checked_diff_ok == true"/>
+            <div class="mb-3" t-if="!checked_in or (checked_in and en_checked_diff_ok)">
+                <div class="row align-items-center">
+                    <label class="col-4 col-form-label fw-bold" for="hdi_location_id">Địa điểm làm việc</label>
+                    <div class="col-8">
+                        <select class="form-select" id="hdi_location_id" name="hdi_location_id">
+                            <t t-foreach="widget.locations" t-as="location">
+                                <option t-att-value="location.id" 
+                                        t-att-selected="location.default_value == location.id ? 'selected' : undefined">
+                                    <t t-esc="location.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+    <!-- Hide dismiss button in greeting message -->
+    <t t-name="hdi_attendance.HdiAttendanceGreetingMessage" t-inherit="hr_attendance.HrAttendanceGreetingMessage" t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('o_hr_attendance_button_dismiss')]" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+    </t>
+</templates>

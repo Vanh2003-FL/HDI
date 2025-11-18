@@ -9,7 +9,7 @@
     <!-- Action: Chấm công của tôi -->
     <record id="action_my_hdi_attendance" model="ir.actions.act_window">
         <field name="name">Chấm công của tôi</field>
-        <field name="res_model">hdi.attendance</field>
+        <field name="res_model">hr.attendance</field>
         <field name="view_mode">calendar,list,kanban,form</field>
         <field name="domain">[('employee_id.user_id', '=', uid)]</field>
         <field name="context">{'search_default_today': 1}</field>

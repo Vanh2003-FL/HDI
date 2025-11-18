@@ -2,8 +2,8 @@
 <odoo>
     <!-- Attendance List View -->
     <record id="view_hdi_attendance_list" model="ir.ui.view">
-        <field name="name">hdi.attendance.list</field>
-        <field name="model">hdi.attendance</field>
+        <field name="name">hr.attendance.list</field>
+        <field name="model">hr.attendance</field>
         <field name="arch" type="xml">
             <list string="Danh sách chấm công" 
                   decoration-danger="not check_out or worked_hours &lt; 7.5" 
@@ -33,8 +33,8 @@
 
     <!-- Attendance Form View -->
     <record id="view_hdi_attendance_form" model="ir.ui.view">
-        <field name="name">hdi.attendance.form</field>
-        <field name="model">hdi.attendance</field>
+        <field name="name">hr.attendance.form</field>
+        <field name="model">hr.attendance</field>
         <field name="arch" type="xml">
             <form string="Chấm công">
                 <header>
@@ -110,8 +110,8 @@
 
     <!-- Attendance Search View -->
     <record id="view_hdi_attendance_search" model="ir.ui.view">
-        <field name="name">hdi.attendance.search</field>
-        <field name="model">hdi.attendance</field>
+        <field name="name">hr.attendance.search</field>
+        <field name="model">hr.attendance</field>
         <field name="arch" type="xml">
             <search string="Tìm kiếm chấm công">
                 <field name="name" string="Mã" filter_domain="[('name', 'ilike', self)]"/>
@@ -145,8 +145,8 @@
 
     <!-- Attendance Kanban View -->
     <record id="view_hdi_attendance_kanban" model="ir.ui.view">
-        <field name="name">hdi.attendance.kanban</field>
-        <field name="model">hdi.attendance</field>
+        <field name="name">hr.attendance.kanban</field>
+        <field name="model">hr.attendance</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" sample="1">
                 <field name="id"/>
@@ -204,8 +204,8 @@
 
     <!-- Attendance Calendar View -->
     <record id="view_hdi_attendance_calendar" model="ir.ui.view">
-        <field name="name">hdi.attendance.calendar</field>
-        <field name="model">hdi.attendance</field>
+        <field name="name">hr.attendance.calendar</field>
+        <field name="model">hr.attendance</field>
         <field name="arch" type="xml">
             <calendar string="Lịch chấm công"
                       date_start="check_in"
@@ -229,8 +229,8 @@
 
     <!-- Attendance Pivot View -->
     <record id="view_hdi_attendance_pivot" model="ir.ui.view">
-        <field name="name">hdi.attendance.pivot</field>
-        <field name="model">hdi.attendance</field>
+        <field name="name">hr.attendance.pivot</field>
+        <field name="model">hr.attendance</field>
         <field name="arch" type="xml">
             <pivot string="Phân tích chấm công" sample="1">
                 <field name="employee_id" type="row"/>
@@ -242,8 +242,8 @@
 
     <!-- Attendance Graph View -->
     <record id="view_hdi_attendance_graph" model="ir.ui.view">
-        <field name="name">hdi.attendance.graph</field>
-        <field name="model">hdi.attendance</field>
+        <field name="name">hr.attendance.graph</field>
+        <field name="model">hr.attendance</field>
         <field name="arch" type="xml">
             <graph string="Biểu đồ chấm công" sample="1">
                 <field name="employee_id"/>
@@ -255,7 +255,7 @@
     <!-- Attendance Action -->
     <record id="action_hdi_attendance" model="ir.actions.act_window">
         <field name="name">Chấm công</field>
-        <field name="res_model">hdi.attendance</field>
+        <field name="res_model">hr.attendance</field>
         <field name="view_mode">list,calendar,kanban,form,pivot,graph</field>
         <field name="context">{'search_default_today': 1}</field>
         <field name="help" type="html">
