@@ -37,18 +37,11 @@
               action="action_hr_evaluation"
               sequence="10"/>
 
-    <!-- Leave Menu -->
-    <menuitem id="menu_hr_leave"
-              name="Nghỉ phép"
-              parent="menu_hdi_hr_work_management"
-              action="action_hdi_hr_leave"
-              sequence="20"/>
-
     <!-- Advanced Leave Management -->
     <menuitem id="menu_hdi_leave_advanced_main"
               name="Quản lý nghỉ nâng cao"
               parent="menu_hdi_hr_work_management"
-              sequence="30"/>
+              sequence="20"/>
 
     <menuitem id="menu_hdi_leave_accruals"
               name="Tích lũy nghỉ phép"
@@ -74,63 +67,82 @@
               action="action_hdi_leave_encashment"
               sequence="40"/>
 
-    <!-- Configuration Menu Items (menu_hdi_hr_config is in hdi_hr_menu_root.xml) -->
-    
+    <menuitem id="menu_hr_leave"
+              name="Xin nghỉ phép"
+              parent="menu_hdi_leave_advanced_main"
+              action="action_hdi_hr_leave"
+              sequence="50"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_hdi_hr_config"
+              name="Cài đặt"
+              parent="menu_hdi_hr_root"
+              sequence="100"/>
+
     <!-- Skills Configuration -->
+    <menuitem id="menu_hdi_hr_config_skills"
+              name="Kỹ năng"
+              parent="menu_hdi_hr_config"
+              sequence="10"/>
+
     <menuitem id="menu_hr_skill_type"
               name="Loại kỹ năng"
-              parent="menu_hdi_hr_config"
+              parent="menu_hdi_hr_config_skills"
               action="action_hr_skill_type"
               sequence="10"/>
 
     <menuitem id="menu_hr_skill"
               name="Kỹ năng"
-              parent="menu_hdi_hr_config"
+              parent="menu_hdi_hr_config_skills"
               action="action_hr_skill"
               sequence="11"/>
 
     <!-- Payroll Configuration -->
+    <menuitem id="menu_hdi_hr_config_payroll"
+              name="Lương"
+              parent="menu_hdi_hr_config"
+              sequence="20"/>
+
     <menuitem id="menu_hdi_payroll_components"
               name="Thành phần lương"
-              parent="menu_hdi_hr_config"
+              parent="menu_hdi_hr_config_payroll"
               action="action_hdi_payroll_component"
               sequence="20"/>
 
     <menuitem id="menu_hdi_payroll_rules"
               name="Quy tắc lương"
-              parent="menu_hdi_hr_config"
+              parent="menu_hdi_hr_config_payroll"
               action="action_hdi_payroll_rule"
               sequence="21"/>
 
     <menuitem id="menu_hdi_payroll_structures"
               name="Cấu trúc lương"
-              parent="menu_hdi_hr_config"
+              parent="menu_hdi_hr_config_payroll"
               action="action_hdi_payroll_structure"
               sequence="22"/>
 
     <menuitem id="menu_hdi_employee_payroll_components"
               name="Thành phần lương nhân viên"
-              parent="menu_hdi_hr_config"
+              parent="menu_hdi_hr_config_payroll"
               action="action_hdi_employee_payroll_component"
               sequence="23"/>
 
-    <!-- Contract & Payroll Configuration -->
-    <menuitem id="menu_hdi_salary_structures" 
-              name="Cấu trúc lương" 
-              parent="menu_hdi_hr_config" 
-              action="action_hdi_salary_structure" 
-              sequence="24"/>
-    
-    <menuitem id="menu_hdi_benefit_packages" 
-              name="Gói phúc lợi" 
-              parent="menu_hdi_hr_config" 
-              action="action_hdi_benefit_package" 
+    <!-- Contract & Benefits Configuration -->
+    <menuitem id="menu_hdi_hr_config_contract"
+              name="Hợp đồng &amp; Phúc lợi"
+              parent="menu_hdi_hr_config"
+              sequence="30"/>
+
+    <menuitem id="menu_hdi_benefit_packages"
+              name="Gói phúc lợi"
+              parent="menu_hdi_hr_config_contract"
+              action="action_hdi_benefit_package"
               sequence="25"/>
-    
-    <menuitem id="menu_hdi_contract_types" 
-              name="Loại hợp đồng" 
-              parent="menu_hdi_hr_config" 
-              action="action_hdi_contract_type" 
+
+    <menuitem id="menu_hdi_contract_types"
+              name="Loại hợp đồng"
+              parent="menu_hdi_hr_config_contract"
+              action="action_hdi_contract_type"
               sequence="26"/>
 
 </odoo>

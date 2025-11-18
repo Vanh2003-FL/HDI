@@ -60,11 +60,11 @@
     'views/hdi_contract_payroll_views.xml',
     'views/hdi_payroll_component_views.xml',
 
+    # Views - Leave Advanced (loaded before menu so actions are available)
+    'views/hdi_leave_advanced_views.xml',
+
     # Full menus (menu items that reference actions are loaded after actions)
     'views/hdi_hr_menu.xml',
-
-    # Views - Leave Advanced
-    'views/hdi_leave_advanced_views.xml',
 
     # Views - Configuration
     'views/res_config_settings_views.xml',
