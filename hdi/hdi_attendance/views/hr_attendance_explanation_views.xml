@@ -5,7 +5,7 @@
         <field name="name">hr.attendance.explanation.tree</field>
         <field name="model">hr.attendance.explanation</field>
         <field name="arch" type="xml">
-            <tree string="Giải trình chấm công" decoration-info="state=='draft'" 
+            <list string="Giải trình chấm công" decoration-info="state=='draft'" 
                   decoration-warning="state=='submitted'" decoration-success="state=='approved'" 
                   decoration-danger="state=='refused'">
                 <field name="name"/>
@@ -17,7 +17,7 @@
                        decoration-warning="state=='submitted'"
                        decoration-success="state=='approved'"
                        decoration-danger="state=='refused'"/>
-            </tree>
+            </list>
         </field>
     </record>
 

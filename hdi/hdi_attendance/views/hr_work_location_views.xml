@@ -5,14 +5,14 @@
         <field name="name">hr.work.location.tree</field>
         <field name="model">hr.work.location</field>
         <field name="arch" type="xml">
-            <tree string="Địa điểm làm việc">
+            <list string="Địa điểm làm việc">
                 <field name="name"/>
                 <field name="address"/>
                 <field name="latitude"/>
                 <field name="longitude"/>
                 <field name="radius"/>
                 <field name="active" widget="boolean_toggle"/>
-            </tree>
+            </list>
         </field>
     </record>
 

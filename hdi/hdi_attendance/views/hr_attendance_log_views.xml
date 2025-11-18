@@ -5,7 +5,7 @@
         <field name="name">hr.attendance.log.tree</field>
         <field name="model">hr.attendance.log</field>
         <field name="arch" type="xml">
-            <tree string="Nhật ký chấm công" decoration-muted="status=='processed'" 
+            <list string="Nhật ký chấm công" decoration-muted="status=='processed'" 
                   decoration-danger="status=='failed'" create="false">
                 <field name="employee_id"/>
                 <field name="action_time"/>
@@ -16,7 +16,7 @@
                        decoration-danger="status=='failed'"/>
                 <field name="attendance_id"/>
                 <field name="error_message"/>
-            </tree>
+            </list>
         </field>
     </record>
 
