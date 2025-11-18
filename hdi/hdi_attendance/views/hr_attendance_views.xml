@@ -7,7 +7,6 @@
         <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='check_out']" position="after">
-                <field name="work_location_id"/>
                 <field name="note"/>
                 <field name="explanation_required" invisible="1"/>
                 <field name="explanation_id" readonly="1"/>
