@@ -50,6 +50,6 @@
     <record id="hr_attendance_log_action" model="ir.actions.act_window">
         <field name="name">Nhật ký chấm công</field>
         <field name="res_model">hr.attendance.log</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>
