@@ -31,8 +31,8 @@ class HdiWorkLocation(models.Model):
         return {
             'name': _('Attendances'),
             'type': 'ir.actions.act_window',
-            'res_model': 'hdi.attendance',
-            'view_mode': 'tree,form',
+            'res_model': 'hr.attendance',
+            'view_mode': 'list,form',
             'domain': [('work_location_id', '=', self.id)],
             'context': {'default_work_location_id': self.id}
         }

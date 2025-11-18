@@ -23,7 +23,7 @@ class HrEmployee(models.Model):
             'name': 'Attendances',
             'type': 'ir.actions.act_window',
             'res_model': 'hr.attendance',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('employee_id', '=', self.id)],
             'context': {'default_employee_id': self.id}
         }

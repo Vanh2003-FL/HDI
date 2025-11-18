@@ -2,10 +2,10 @@
 <odoo>
     <!-- Work Location Tree View -->
     <record id="view_hdi_work_location_tree" model="ir.ui.view">
-        <field name="name">hdi.work.location.tree</field>
+        <field name="name">hdi.work.location.list</field>
         <field name="model">hdi.work.location</field>
         <field name="arch" type="xml">
-            <tree string="Địa điểm làm việc" decoration-muted="not active" sample="1">
+            <list string="Địa điểm làm việc" decoration-muted="not active" sample="1">
                 <field name="name" string="Tên địa điểm"/>
                 <field name="address" string="Địa chỉ"/>
                 <field name="latitude" string="Vĩ độ"/>
@@ -14,7 +14,7 @@
                 <field name="attendance_count" string="Số lần chấm công"/>
                 <field name="active" string="Đang dùng" widget="boolean_toggle"/>
                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -84,7 +84,7 @@
     <record id="action_hdi_work_location" model="ir.actions.act_window">
         <field name="name">Địa điểm làm việc</field>
         <field name="res_model">hdi.work.location</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">list,form,kanban</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Tạo địa điểm làm việc mới
@@ -106,10 +106,10 @@
                 <field name="attendance_count"/>
                 <field name="active"/>
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div class="oe_kanban_global_click">
                             <div class="o_kanban_image">
-                                <i class="fa fa-map-marker fa-3x text-primary"/>
+                                <i class="fa fa-map-marker fa-3x text-primary" title="Địa điểm"/>
                             </div>
                             <div class="oe_kanban_details">
                                 <strong class="o_kanban_record_title"><field name="name"/></strong>
@@ -118,7 +118,7 @@
                                 </div>
                                 <div class="oe_kanban_footer">
                                     <span class="badge badge-pill">
-                                        <i class="fa fa-calendar-check-o"/> <field name="attendance_count"/> lượt
+                                        <i class="fa fa-calendar-check-o" title="Lượt chấm công"/> <field name="attendance_count"/> lượt
                                     </span>
                                     <field name="active" widget="boolean_toggle"/>
                                 </div>

@@ -41,18 +41,19 @@ class HrAttendance(models.Model):
             rec.color = color
             rec.warning_message = '\n'.join(warning_message) if warning_message else False
 
-    @api.model
-    def create(self, vals):
-        # Get GPS coordinates from context
-        if self._context.get('latitude'):
-            vals['checkin_latitude'] = self._context.get('latitude')
-            vals['checkin_longitude'] = self._context.get('longitude')
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Get GPS coordinates from context for each record
+        for vals in vals_list:
+            if self._context.get('latitude'):
+                vals['checkin_latitude'] = self._context.get('latitude')
+                vals['checkin_longitude'] = self._context.get('longitude')
+            
+            # Get work location from context
+            if self._context.get('hdi_location_id'):
+                vals['work_location_id'] = self._context.get('hdi_location_id')
         
-        # Get work location from context
-        if self._context.get('hdi_location_id'):
-            vals['work_location_id'] = self._context.get('hdi_location_id')
-        
-        return super(HrAttendance, self).create(vals)
+        return super(HrAttendance, self).create(vals_list)
 
     def write(self, vals):
         # Get GPS coordinates for checkout from context
