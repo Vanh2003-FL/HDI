@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Main Menu Root only (loaded early so other files can reference it) -->
+    <menuitem id="menu_hdi_hr_root"
+              name="Quản lý nhân sự"
+              sequence="5"
+              web_icon="hdi_hr,static/description/icon.png"/>
+</odoo>

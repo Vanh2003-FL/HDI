@@ -13,4 +13,16 @@
         </field>
     </record>
 
+    <!-- Add HDI Block to Department form via inheritance -->
+    <record id="hdi_hr_department_form_block" model="ir.ui.view">
+        <field name="name">hdi.hr.department.form.block</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/field[@name='manager_id']" position="after">
+                <field name="hdi_block_id"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Main Menu -->
-    <menuitem id="menu_hdi_hr_root"
-              name="HDI HR"
-              sequence="5"
-              web_icon="hdi_hr,static/description/icon.png"/>
-
     <!-- Employees Menu -->
     <menuitem id="menu_hdi_hr_employees"
               name="Nhân viên"
@@ -30,53 +24,12 @@
               action="action_hdi_hr_job"
               sequence="3"/>
 
-    <!-- Attendance Menu -->
-    <menuitem id="menu_hdi_hr_attendance"
-              name="Chấm công"
-              parent="menu_hdi_hr_root"
-              sequence="20"/>
-
-    <menuitem id="menu_hr_attendance_check_in"
-              name="Check In"
-              parent="menu_hdi_hr_attendance"
-              action="hdi_hr.action_hr_attendance_check_in"
-              sequence="1"/>
-
-    <menuitem id="menu_hr_attendance_check_out"
-              name="Check Out"
-              parent="menu_hdi_hr_attendance"
-              action="hdi_hr.action_hr_attendance_check_out"
-              sequence="2"/>
-
-    <menuitem id="menu_hdi_my_attendance"
-              name="Chấm công của tôi"
-              parent="menu_hdi_hr_attendance"
-              action="action_hdi_my_attendance"
-              sequence="3"/>
-
-    <menuitem id="menu_hr_attendance"
-              name="Quản lý chấm công"
-              parent="menu_hdi_hr_attendance"
-              action="action_hdi_hr_attendance"
-              sequence="10"/>
-
+    <!-- Leave Menu -->
     <menuitem id="menu_hr_leave"
               name="Nghỉ phép"
-              parent="menu_hdi_hr_attendance"
+              parent="menu_hdi_hr_root"
               action="action_hdi_hr_leave"
               sequence="20"/>
-
-    <!-- Recruitment Menu -->
-    <menuitem id="menu_hdi_hr_recruitment"
-              name="Tuyển dụng"
-              parent="menu_hdi_hr_root"
-              sequence="30"/>
-
-    <menuitem id="menu_hr_applicant"
-              name="Ứng viên"
-              parent="menu_hdi_hr_recruitment"
-              action="action_hdi_hr_applicant"
-              sequence="1"/>
 
     <!-- Performance Menu -->
     <menuitem id="menu_hdi_hr_performance"
@@ -96,6 +49,7 @@
               parent="menu_hdi_hr_root"
               sequence="100"/>
 
+    <!-- Skills Configuration -->
     <menuitem id="menu_hr_skill_type"
               name="Loại kỹ năng"
               parent="menu_hdi_hr_config"
@@ -107,5 +61,30 @@
               parent="menu_hdi_hr_config"
               action="action_hr_skill"
               sequence="11"/>
+
+    <!-- Payroll Configuration -->
+    <menuitem id="menu_hdi_payroll_components"
+              name="Thành phần lương"
+              parent="menu_hdi_hr_config"
+              action="action_hdi_payroll_component"
+              sequence="20"/>
+
+    <menuitem id="menu_hdi_payroll_rules"
+              name="Quy tắc lương"
+              parent="menu_hdi_hr_config"
+              action="action_hdi_payroll_rule"
+              sequence="21"/>
+
+    <menuitem id="menu_hdi_payroll_structures"
+              name="Cấu trúc lương"
+              parent="menu_hdi_hr_config"
+              action="action_hdi_payroll_structure"
+              sequence="22"/>
+
+    <menuitem id="menu_hdi_employee_payroll_components"
+              name="Thành phần lương nhân viên"
+              parent="menu_hdi_hr_config"
+              action="action_hdi_employee_payroll_component"
+              sequence="23"/>
 
 </odoo>

@@ -34,6 +34,11 @@ class HrDepartment(models.Model):
         compute='_compute_headcount_actual',
         store=True
     )
+
+    # Link to HDI Block
+    hdi_block_id = fields.Many2one('hdi.block', string='Khối',
+                                   ondelete='set null',
+                                   help='Khối liên kết cho phòng ban')
     
     currency_id = fields.Many2one(
         'res.currency',
