@@ -1,3 +1,0 @@
-# Module icon placeholder
-# The icon will be placed at: hdi_attendance/static/description/icon.png
-# For now, this is just a placeholder file
