@@ -74,12 +74,8 @@
               action="action_hdi_leave_encashment"
               sequence="40"/>
 
-    <!-- Configuration Menu -->
-    <menuitem id="menu_hdi_hr_config"
-              name="Cài đặt"
-              parent="menu_hdi_hr_root"
-              sequence="100"/>
-
+    <!-- Configuration Menu Items (menu_hdi_hr_config is in hdi_hr_menu_root.xml) -->
+    
     <!-- Skills Configuration -->
     <menuitem id="menu_hr_skill_type"
               name="Loại kỹ năng"
@@ -117,5 +113,24 @@
               parent="menu_hdi_hr_config"
               action="action_hdi_employee_payroll_component"
               sequence="23"/>
+
+    <!-- Contract & Payroll Configuration -->
+    <menuitem id="menu_hdi_salary_structures" 
+              name="Cấu trúc lương" 
+              parent="menu_hdi_hr_config" 
+              action="action_hdi_salary_structure" 
+              sequence="24"/>
+    
+    <menuitem id="menu_hdi_benefit_packages" 
+              name="Gói phúc lợi" 
+              parent="menu_hdi_hr_config" 
+              action="action_hdi_benefit_package" 
+              sequence="25"/>
+    
+    <menuitem id="menu_hdi_contract_types" 
+              name="Loại hợp đồng" 
+              parent="menu_hdi_hr_config" 
+              action="action_hdi_contract_type" 
+              sequence="26"/>
 
 </odoo>

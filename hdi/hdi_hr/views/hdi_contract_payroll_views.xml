@@ -402,24 +402,4 @@
         <field name="res_model">hdi.contract.type</field>
         <field name="view_mode">list,form</field>
     </record>
-
-    <!-- Menu Items - Configuration items moved to config menu -->
-    <menuitem id="menu_hdi_salary_structures" 
-              name="Cấu trúc lương" 
-              parent="hdi_hr.menu_hdi_hr_config" 
-              action="action_hdi_salary_structure" 
-              sequence="24"/>
-    
-    <menuitem id="menu_hdi_benefit_packages" 
-              name="Gói phúc lợi" 
-              parent="hdi_hr.menu_hdi_hr_config" 
-              action="action_hdi_benefit_package" 
-              sequence="25"/>
-    
-    <menuitem id="menu_hdi_contract_types" 
-              name="Loại hợp đồng" 
-              parent="hdi_hr.menu_hdi_hr_config" 
-              action="action_hdi_contract_type" 
-              sequence="26"/>
-
 </odoo>
