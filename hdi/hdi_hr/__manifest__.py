@@ -2,38 +2,13 @@
 {
   'name': 'HDI HR Management',
   'version': '18.0.1.0.0',
-  'category': 'Human Resources',
-  'summary': 'HDI HR Extensions - Mở rộng tính năng HR cho HDI từ Odoo 18 Standard',
+  'category': 'hdi',
+  'summary': 'HDI HRM',
   'description': """
         HDI Human Resources Management Extensions
-        ==========================================
-
-        Module mở rộng từ Odoo 18 HR Standard với các tính năng HDI:
-
-        🔥 TÍNH NĂNG GỐC ODOO 18 (Giữ nguyên):
-        - Employee Management (hr)
-        - Attendance Tracking (hr_attendance) 
-        - Leave Management (hr_holidays)
-        - Contract Management (hr_contract)
-        - Calendar & Resource Management
-        - Mail Integration
-
-        ✨ TÍNH NĂNG HDI BỔ SUNG:
-        - My Attendance - Chấm công cá nhân nâng cao
-        - Attendance Explanation System
-        - Skills & Competency Management
-        - Performance Evaluation (KPI/OKR)
-        - Check In/Out Wizard với GPS
-        - Employee Onboarding Workflow
-        - HDI Custom Fields & Reports
-
-        🎯 TÍCH HỢP:
-        - Kế thừa từ NGSD/NGSC codebase
-        - 100% tương thích Odoo 18
-        - Extension-based (không override core)
     """,
   'author': 'HDI Development Team',
-  'website': 'https://hdi.com.vn',
+  'website': 'https://hditech.com.vn',
   'license': 'LGPL-3',
 
   'depends': [
@@ -82,7 +57,7 @@
     # Root menu (loaded early so other files can reference the root)
     'views/hdi_hr_menu_root.xml',
 
-    # 'views/hdi_contract_payroll_views.xml',  # Commented - file is .bak
+    'views/hdi_contract_payroll_views.xml',
     'views/hdi_payroll_component_views.xml',
 
     # Full menus (menu items that reference actions are loaded after actions)

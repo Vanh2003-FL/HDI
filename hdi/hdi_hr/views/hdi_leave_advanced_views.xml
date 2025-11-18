@@ -385,34 +385,4 @@
         <field name="view_mode">list,form</field>
     </record>
 
-    <!-- Menu Items -->
-    <menuitem id="menu_hdi_leave_advanced_main" 
-              name="Quản lý nghỉ nâng cao" 
-              parent="hdi_hr.menu_hdi_hr_root" 
-              sequence="80"/>
-    
-    <menuitem id="menu_hdi_leave_accruals" 
-              name="Tích lũy nghỉ phép" 
-              parent="menu_hdi_leave_advanced_main" 
-              action="action_hdi_leave_accrual" 
-              sequence="10"/>
-    
-    <menuitem id="menu_hdi_leave_policies" 
-              name="Chính sách nghỉ phép" 
-              parent="menu_hdi_leave_advanced_main" 
-              action="action_hdi_leave_policy" 
-              sequence="20"/>
-    
-    <menuitem id="menu_hdi_leave_calendars" 
-              name="Lịch nghỉ phép" 
-              parent="menu_hdi_leave_advanced_main" 
-              action="action_hdi_leave_calendar" 
-              sequence="30"/>
-    
-    <menuitem id="menu_hdi_leave_encashments" 
-              name="Quy đổi ngày phép" 
-              parent="menu_hdi_leave_advanced_main" 
-              action="action_hdi_leave_encashment" 
-              sequence="40"/>
-
 </odoo>
