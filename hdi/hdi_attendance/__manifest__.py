@@ -34,10 +34,7 @@
     'depends': [
         'base',
         'hr',
-        'hr_attendance',
-        'hr_holidays',
         'mail',
-        'resource',
         'web',
     ],
     

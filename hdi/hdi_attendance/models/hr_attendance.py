@@ -13,8 +13,36 @@ _logger = logging.getLogger(__name__)
 
 class HrAttendance(models.Model):
     _name = 'hr.attendance'
-    _inherit = ['hr.attendance', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'HDI Employee Attendance'
+    _order = 'check_in desc'
+
+    # Core fields
+    employee_id = fields.Many2one(
+        'hr.employee',
+        string='Employee',
+        required=True,
+        index=True,
+        ondelete='cascade'
+    )
+    
+    check_in = fields.Datetime(
+        string='Check In',
+        required=True,
+        default=fields.Datetime.now,
+        tracking=True
+    )
+    
+    check_out = fields.Datetime(
+        string='Check Out',
+        tracking=True
+    )
+    
+    worked_hours = fields.Float(
+        string='Worked Hours',
+        compute='_compute_worked_hours',
+        store=True
+    )
 
     # Basic fields extension
     hdi_work_shift = fields.Selection([
