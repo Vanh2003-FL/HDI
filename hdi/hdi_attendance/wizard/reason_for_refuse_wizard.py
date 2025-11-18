@@ -14,7 +14,7 @@ class ReasonForRefuseWizard(models.TransientModel):
         """Refuse the explanation with reason"""
         self.ensure_one()
         
-        if not self.env.user.has_group('hr_attendance.group_hr_attendance_manager'):
+        if not self.env.user.has_group('hdi_attendance.group_attendance_manager'):
             raise ValidationError(_('Chỉ quản lý chấm công mới có thể từ chối giải trình.'))
         
         self.explanation_id.write({

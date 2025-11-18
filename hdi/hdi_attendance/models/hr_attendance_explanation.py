@@ -56,7 +56,7 @@ class HrAttendanceExplanation(models.Model):
     def action_approve(self):
         """Approve explanation"""
         self.ensure_one()
-        if not self.env.user.has_group('hr_attendance.group_hr_attendance_manager'):
+        if not self.env.user.has_group('hdi_attendance.group_attendance_manager'):
             raise ValidationError(_('Chỉ quản lý chấm công mới có thể phê duyệt.'))
             
         self.write({
