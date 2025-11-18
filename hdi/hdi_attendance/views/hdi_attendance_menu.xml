@@ -38,12 +38,6 @@
               parent="hr_attendance.menu_hr_attendance_settings"
               sequence="100"/>
 
-    <menuitem id="menu_hr_work_location"
-              name="Địa điểm làm việc"
-              parent="menu_hr_attendance_configuration"
-              action="hr_work_location_action"
-              sequence="10"/>
-
     <menuitem id="menu_hr_attendance_log"
               name="Nhật ký chấm công"
               parent="menu_hr_attendance_configuration"

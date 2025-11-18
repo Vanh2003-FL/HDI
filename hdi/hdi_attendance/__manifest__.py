@@ -51,7 +51,6 @@
         'views/hr_attendance_views.xml',
         'views/hr_attendance_explanation_views.xml',
         'views/hr_attendance_log_views.xml',
-        'views/hr_work_location_views.xml',
         'views/res_config_settings_views.xml',
         
         # Wizard

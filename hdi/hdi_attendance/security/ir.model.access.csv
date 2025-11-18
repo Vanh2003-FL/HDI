@@ -3,7 +3,6 @@ access_hr_attendance_log_user,hr.attendance.log.user,model_hr_attendance_log,bas
 access_hr_attendance_log_manager,hr.attendance.log.manager,model_hr_attendance_log,hr_attendance.group_hr_attendance_manager,1,1,1,1
 access_hr_attendance_explanation_user,hr.attendance.explanation.user,model_hr_attendance_explanation,base.group_user,1,1,1,0
 access_hr_attendance_explanation_manager,hr.attendance.explanation.manager,model_hr_attendance_explanation,hr_attendance.group_hr_attendance_manager,1,1,1,1
-access_hr_work_location_user,hr.work.location.user,model_hr_work_location,base.group_user,1,0,0,0
-access_hr_work_location_manager,hr.work.location.manager,model_hr_work_location,hr_attendance.group_hr_attendance_manager,1,1,1,1
 access_submission_type_user,submission.type.user,model_submission_type,base.group_user,1,0,0,0
 access_submission_type_manager,submission.type.manager,model_submission_type,hr_attendance.group_hr_attendance_manager,1,1,1,1
+
