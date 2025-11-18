@@ -8,17 +8,18 @@
             <tree string="Danh sách chấm công" 
                   decoration-success="status == 'checkout'" 
                   decoration-info="status == 'checkin'"
-                  decoration-muted="check_out"
                   sample="1">
-                <field name="name" string="Mã"/>
+                <field name="name" string="Mã" optional="show"/>
                 <field name="employee_id" string="Nhân viên"/>
-                <field name="check_in" string="Giờ vào"/>
-                <field name="check_out" string="Giờ ra"/>
-                <field name="worked_hours" string="Giờ làm" widget="float_time"/>
-                <field name="work_location_id" string="Địa điểm"/>
+                <field name="check_in" string="Giờ vào" widget="datetime"/>
+                <field name="check_out" string="Giờ ra" widget="datetime"/>
+                <field name="worked_hours" string="Giờ làm" widget="float_time" sum="Total"/>
+                <field name="work_location_id" string="Địa điểm" optional="show"/>
+                <field name="checkin_latitude" string="GPS Vào" optional="hide"/>
+                <field name="checkin_longitude" string="GPS Ra" optional="hide"/>
                 <field name="status" string="Trạng thái" widget="badge" 
                        decoration-success="status == 'checkout'" 
-                       decoration-info="status == 'checkin'"/>
+                       decoration-info="status == 'checkin'" optional="show"/>
                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
             </tree>
         </field>
@@ -151,6 +152,7 @@
         <field name="model">hdi.attendance</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" sample="1">
+                <field name="id"/>
                 <field name="name"/>
                 <field name="employee_id"/>
                 <field name="check_in"/>
@@ -161,25 +163,39 @@
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
-                            <div class="o_kanban_record_top">
+                            <div class="o_kanban_record_top mb-2">
                                 <div class="o_kanban_record_headings">
-                                    <strong class="o_kanban_record_title"><field name="employee_id"/></strong>
-                                    <div class="o_kanban_record_subtitle">
-                                        <field name="name"/> - <field name="check_in" widget="datetime"/>
+                                    <strong class="o_kanban_record_title fs-5">
+                                        <i class="fa fa-user-circle-o me-1"/>
+                                        <field name="employee_id"/>
+                                    </strong>
+                                    <div class="o_kanban_record_subtitle text-muted">
+                                        <i class="fa fa-hashtag"/> <field name="name"/>
                                     </div>
                                 </div>
                                 <span class="float-end">
-                                    <field name="status" widget="badge" 
-                                           decoration-success="status == 'checkout'" 
-                                           decoration-info="status == 'checkin'"/>
+                                    <field name="status" widget="label_selection" 
+                                           options="{'classes': {'checkin': 'primary', 'checkout': 'success'}}"/>
                                 </span>
                             </div>
-                            <div class="o_kanban_record_bottom">
+                            <div class="o_kanban_record_body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <i class="fa fa-sign-in text-success"/> <field name="check_in" widget="datetime"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <i class="fa fa-sign-out text-danger"/> <field name="check_out" widget="datetime"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom mt-2">
                                 <div class="oe_kanban_bottom_left">
-                                    <field name="work_location_id"/>
+                                    <i class="fa fa-map-marker text-info"/> <field name="work_location_id"/>
                                 </div>
                                 <div class="oe_kanban_bottom_right">
-                                    <field name="worked_hours" widget="float_time"/> giờ
+                                    <span class="badge rounded-pill text-bg-primary">
+                                        <i class="fa fa-clock-o"/> <field name="worked_hours" widget="float_time"/> giờ
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -195,10 +211,13 @@
         <field name="model">hdi.attendance</field>
         <field name="arch" type="xml">
             <calendar string="Lịch chấm công" date_start="check_in" date_stop="check_out" 
-                      color="employee_id" mode="month" quick_add="False">
+                      color="employee_id" mode="month" hide_time="true" event_limit="5" 
+                      quick_add="False" event_open_popup="true">
+                <field name="name"/>
                 <field name="employee_id"/>
                 <field name="work_location_id"/>
                 <field name="worked_hours"/>
+                <field name="status"/>
             </calendar>
         </field>
     </record>
