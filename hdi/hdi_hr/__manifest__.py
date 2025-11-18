@@ -82,7 +82,7 @@
     # Root menu (loaded early so other files can reference the root)
     'views/hdi_hr_menu_root.xml',
 
-    'views/hdi_contract_payroll_views.xml',
+    # 'views/hdi_contract_payroll_views.xml',  # Commented - file is .bak
     'views/hdi_payroll_component_views.xml',
 
     # Full menus (menu items that reference actions are loaded after actions)
