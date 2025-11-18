@@ -41,7 +41,7 @@
     
     'depends': [
         'hr_attendance',      # Odoo 18 core
-        # 'hdi_hr',            # Optional: HDI base HR module
+        'hdi_hr',            # HDI base HR module
     ],
     
     'external_dependencies': {
