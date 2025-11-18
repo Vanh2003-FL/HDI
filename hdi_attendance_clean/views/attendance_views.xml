@@ -9,6 +9,10 @@
                   decoration-danger="not check_out or worked_hours &lt; 7.5" 
                   decoration-success="check_out and worked_hours &gt;= 7.5"
                   sample="1" create="true" edit="true" delete="true">
+                <header>
+                    <button name="action_checkout" string="Check Out" type="object" 
+                            class="btn-primary" invisible="context.get('create', True)"/>
+                </header>
                 <field name="name" string="Mã" optional="show"/>
                 <field name="employee_id" string="Nhân viên"/>
                 <field name="check_in" string="Giờ vào" widget="datetime"/>
