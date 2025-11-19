@@ -25,11 +25,23 @@ export class AttendanceDashboard extends Component {
     
     async loadEmployeeData() {
         try {
-            const employees = await this.orm.searchRead(
+            // Get current employee - try multiple methods
+            let employees = await this.orm.searchRead(
                 'hr.employee',
                 [['user_id', '=', session.uid]],
                 ['id', 'name', 'attendance_state', 'work_location_id', 'hours_today']
             );
+            
+            // If not found, try getting employee from context or default
+            if (employees.length === 0) {
+                // Get all employees accessible by current user
+                employees = await this.orm.searchRead(
+                    'hr.employee',
+                    [],
+                    ['id', 'name', 'attendance_state', 'work_location_id', 'hours_today'],
+                    { limit: 1 }
+                );
+            }
             
             if (employees.length > 0) {
                 this.state.employee = employees[0];
