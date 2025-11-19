@@ -29,3 +29,8 @@ class HrEmployee(models.Model):
         self.ensure_one()
         # Logic: Allow check in at different location if already checked in
         return self.attendance_state == 'checked_in'
+    
+    def attendance_action_change(self):
+        """Public wrapper for _attendance_action_change to be called from JS"""
+        self.ensure_one()
+        return self._attendance_action_change()
