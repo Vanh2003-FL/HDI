@@ -63,8 +63,6 @@
     'assets': {
         'web.assets_backend': [
             'hdi_attendance/static/src/js/hr_attendance_block_click.js',
-            'hdi_attendance/static/src/js/attendance_kiosk.js',
-            'hdi_attendance/static/src/xml/attendance_kiosk.xml',
             'hdi_attendance/static/src/components/attendance_dashboard/attendance_dashboard.js',
             'hdi_attendance/static/src/components/attendance_dashboard/attendance_dashboard.xml',
             'hdi_attendance/static/src/components/attendance_dashboard/attendance_dashboard.scss',
