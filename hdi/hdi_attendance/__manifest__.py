@@ -48,6 +48,7 @@
         'data/submission_type_data.xml',
         
         # Views
+        'views/attendance_dashboard.xml',
         'views/hr_attendance_views.xml',
         'views/hr_attendance_explanation_views.xml',
         'views/hr_attendance_log_views.xml',
@@ -64,6 +65,9 @@
             'hdi_attendance/static/src/js/hr_attendance_block_click.js',
             'hdi_attendance/static/src/js/attendance_kiosk.js',
             'hdi_attendance/static/src/xml/attendance_kiosk.xml',
+            'hdi_attendance/static/src/components/attendance_dashboard/attendance_dashboard.js',
+            'hdi_attendance/static/src/components/attendance_dashboard/attendance_dashboard.xml',
+            'hdi_attendance/static/src/components/attendance_dashboard/attendance_dashboard.scss',
         ],
     },
     
