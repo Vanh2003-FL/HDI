@@ -92,7 +92,12 @@ export class AttendanceDashboard extends Component {
     }
     
     async onCheckInOut() {
-        if (this.state.isProcessing || !this.state.employee) return;
+        if (this.state.isProcessing || !this.state.employee || !this.state.employee.id) {
+            console.warn('Cannot check in/out:', this.state.employee);
+            this.notification.add('Không tìm thấy thông tin nhân viên', { type: 'warning' });
+            return;
+        }
+        
         this.state.isProcessing = true;
         
         try {
@@ -107,6 +112,10 @@ export class AttendanceDashboard extends Component {
                     reject(new Error('Trình duyệt không hỗ trợ định vị GPS'));
                 }
             });
+            
+            console.log('GPS Position:', position.coords);
+            console.log('Employee ID:', this.state.employee.id);
+            console.log('Location ID:', this.state.selectedLocationId);
             
             const context = {
                 latitude: position.coords.latitude,
@@ -124,15 +133,21 @@ export class AttendanceDashboard extends Component {
                 { context }
             );
             
+            console.log('Check in/out result:', result);
+            
             if (result.action) {
                 this.notification.add('Chấm công thành công!', { type: 'success' });
                 await this.loadEmployeeData();
             } else if (result.warning) {
                 this.notification.add(result.warning, { type: 'warning' });
+            } else {
+                this.notification.add('Chấm công thành công!', { type: 'success' });
+                await this.loadEmployeeData();
             }
         } catch (error) {
+            console.error('Check in/out error:', error);
             this.notification.add(
-                error.message || 'Không thể lấy vị trí GPS. Vui lòng bật GPS và thử lại.',
+                error.data?.message || error.message || 'Không thể chấm công. Vui lòng thử lại.',
                 { type: 'danger' }
             );
         } finally {
