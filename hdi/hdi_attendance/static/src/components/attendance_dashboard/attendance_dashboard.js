@@ -3,6 +3,7 @@
 import { Component, onWillStart, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { session } from "@web/session";
 
 export class AttendanceDashboard extends Component {
     static template = "hdi_attendance.AttendanceDashboard";
@@ -11,7 +12,6 @@ export class AttendanceDashboard extends Component {
         this.orm = useService("orm");
         this.action = useService("action");
         this.notification = useService("notification");
-        this.user = useService("user");
         
         this.state = useState({
             employee: null,
@@ -27,10 +27,10 @@ export class AttendanceDashboard extends Component {
     
     async loadEmployeeData() {
         try {
-            // Get current employee
+            // Get current employee using session uid
             const employees = await this.orm.searchRead(
                 'hr.employee',
-                [['user_id', '=', this.user.userId]],
+                [['user_id', '=', session.uid]],
                 ['id', 'name', 'attendance_state', 'work_location_id', 'hours_today']
             );
             
