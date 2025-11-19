@@ -25,6 +25,7 @@ class HrEmployee(models.Model):
 
     def attendance_action_change(self):
         """Public method to handle attendance check-in/out with GPS"""
+        self.ensure_one()
         return self._attendance_action_change()
 
     def _attendance_action_change(self, geo_ip_response=None):
