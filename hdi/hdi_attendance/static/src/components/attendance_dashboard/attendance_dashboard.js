@@ -11,6 +11,8 @@ export class AttendanceDashboard extends Component {
         this.orm = useService("orm");
         this.action = useService("action");
         this.notification = useService("notification");
+        this.user = useService("user");
+        
         this.state = useState({
             employee: null,
             locations: [],
@@ -28,7 +30,7 @@ export class AttendanceDashboard extends Component {
             // Get current employee
             const employees = await this.orm.searchRead(
                 'hr.employee',
-                [['user_id', '=', this.env.services.user.userId]],
+                [['user_id', '=', this.user.userId]],
                 ['id', 'name', 'attendance_state', 'work_location_id', 'hours_today']
             );
             
@@ -52,6 +54,7 @@ export class AttendanceDashboard extends Component {
             }
         } catch (error) {
             console.error('Error loading employee data:', error);
+            this.state.employee = { name: 'Error', attendance_state: 'checked_out' };
         }
     }
     
