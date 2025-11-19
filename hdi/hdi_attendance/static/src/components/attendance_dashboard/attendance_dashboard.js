@@ -128,8 +128,8 @@ export class AttendanceDashboard extends Component {
             
             const result = await this.orm.call(
                 'hr.employee',
-                'attendance_manual',
-                [[this.state.employee.id], 'hr_attendance.hr_attendance_action_my_attendances'],
+                '_attendance_action_change',
+                [[this.state.employee.id]],
                 { context }
             );
             
