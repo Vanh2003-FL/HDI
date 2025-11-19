@@ -23,6 +23,10 @@ class HrEmployee(models.Model):
         help='Nếu bật, nhân viên có thể chấm công ở bất kỳ đâu'
     )
 
+    def attendance_action_change(self):
+        """Public method to handle attendance check-in/out with GPS"""
+        return self._attendance_action_change()
+
     def _attendance_action_change(self, geo_ip_response=None):
         """Override để lưu thông tin GPS khi check-in/check-out"""
         result = super()._attendance_action_change(geo_ip_response)
