@@ -6,8 +6,6 @@ import { useService } from "@web/core/utils/hooks";
 import { session } from "@web/session";
 
 export class AttendanceDashboard extends Component {
-    static template = "hdi_attendance.AttendanceDashboard";
-    
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
@@ -27,7 +25,6 @@ export class AttendanceDashboard extends Component {
     
     async loadEmployeeData() {
         try {
-            // Get current employee using session uid
             const employees = await this.orm.searchRead(
                 'hr.employee',
                 [['user_id', '=', session.uid]],
@@ -37,7 +34,6 @@ export class AttendanceDashboard extends Component {
             if (employees.length > 0) {
                 this.state.employee = employees[0];
                 
-                // Load locations
                 const locations = await this.orm.call(
                     'hr.employee',
                     'get_working_locations',
@@ -45,22 +41,23 @@ export class AttendanceDashboard extends Component {
                 );
                 this.state.locations = locations || [];
                 
-                // Set default location
                 if (this.state.employee.work_location_id) {
                     this.state.selectedLocationId = this.state.employee.work_location_id[0];
                 } else if (this.state.locations.length > 0) {
                     this.state.selectedLocationId = this.state.locations[0].id;
                 }
+            } else {
+                this.state.employee = { name: 'No Employee', attendance_state: 'checked_out' };
             }
         } catch (error) {
             console.error('Error loading employee data:', error);
-            this.state.employee = { name: 'Error', attendance_state: 'checked_out' };
+            this.state.employee = { name: 'Error Loading', attendance_state: 'checked_out' };
         }
     }
     
     get buttonText() {
         if (!this.state.employee) return 'Loading...';
-        return this.state.employee.attendance_state === 'checked_in' ? 'Check Out' : 'Check In';
+        return this.state.employee.attendance_state === 'checked_in' ? 'CHECK OUT' : 'CHECK IN';
     }
     
     get buttonClass() {
@@ -83,11 +80,10 @@ export class AttendanceDashboard extends Component {
     }
     
     async onCheckInOut() {
-        if (this.state.isProcessing) return;
+        if (this.state.isProcessing || !this.state.employee) return;
         this.state.isProcessing = true;
         
         try {
-            // Get geolocation
             const position = await new Promise((resolve, reject) => {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -132,5 +128,7 @@ export class AttendanceDashboard extends Component {
         }
     }
 }
+
+AttendanceDashboard.template = "hdi_attendance.AttendanceDashboard";
 
 registry.category("actions").add("hdi_attendance.dashboard", AttendanceDashboard);
