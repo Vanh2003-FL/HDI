@@ -1055,7 +1055,7 @@ class HrEmployee(models.Model):
                                copy=False, groups="hr.group_hr_user")
 
   # TODO: Migrate _sql_constraints to individual models.Constraint objects
-    _sql_constraints = [
+  _sql_constraints = [
     ('barcode_uniq', 'unique (id)',
      "The Badge ID must be unique, this one is already assigned to another employee."),
   ]
