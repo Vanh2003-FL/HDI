@@ -22,21 +22,21 @@ def today():
         today += relativedelta(day=30)
     return today
 
-def Date.Date.context_today(record, timestamp=None):
+def context_today_patched(record, timestamp=None):
     # Since 31'st december is faked as 30th december, we need to also fake
     # context_today that is used in some account_move code (eg. auto_post)
     if timestamp == None:
         today = date.today()
         if today.month == 12 and today.day == 31:
             return today + relativedelta(day=30)
-    return original_Date.Date.context_today(record, timestamp)
+    return original_context_today(record, timestamp)
 
 
 class TestAccountAsset(TestAccountReportsCommon):
 
     @classmethod
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def setUpClass(cls, today_mock):
         super(TestAccountAsset, cls).setUpClass()
         today = fields.Date.today()
@@ -83,7 +83,7 @@ class TestAccountAsset(TestAccountReportsCommon):
                 line_edit.asset_remaining_value
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_00_account_asset(self, today_mock):
         """Test the lifecycle of an asset"""
         CEO_car = self.env['account.asset'].with_context(asset_type='purchase').create({
@@ -270,7 +270,7 @@ class TestAccountAsset(TestAccountReportsCommon):
                          'Installment date is incorrect.')
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_02_account_asset(self, today_mock):
         """Test the lifecycle of an asset"""
         CEO_car = self.env['account.asset'].with_context(asset_type='purchase').create({
@@ -330,7 +330,7 @@ class TestAccountAsset(TestAccountReportsCommon):
         }])
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_03_account_asset(self, today_mock):
         """Test the salvage of an asset with gain"""
         CEO_car = self.env['account.asset'].with_context(asset_type='purchase').create({
@@ -390,7 +390,7 @@ class TestAccountAsset(TestAccountReportsCommon):
         }])
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_04_account_asset(self, today_mock):
         """Test the salvage of an asset with gain"""
         CEO_car = self.env['account.asset'].with_context(asset_type='purchase').create({
@@ -451,7 +451,7 @@ class TestAccountAsset(TestAccountReportsCommon):
         }])
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_05_account_asset(self, today_mock):
         """Test the salvage of an asset with gain"""
         CEO_car = self.env['account.asset'].with_context(asset_type='purchase').create({
@@ -506,7 +506,7 @@ class TestAccountAsset(TestAccountReportsCommon):
         }])
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_06_account_asset(self, today_mock):
         """Test the correct computation of asset amounts"""
         revenue_account = self.env['account.account'].create({
@@ -545,7 +545,7 @@ class TestAccountAsset(TestAccountReportsCommon):
         }])
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_asset_form(self, today_mock):
         """Test the form view of assets"""
         asset_form = Form(self.env['account.asset'].with_context(asset_type='purchase'))
@@ -651,7 +651,7 @@ class TestAccountAsset(TestAccountReportsCommon):
         self.assertRecordValues(self.truck, [values])
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_asset_modify_value_00(self, today_mock):
         """Test the values of the asset and value increase 'assets' after a
         modification of residual and/or salvage values.
@@ -717,7 +717,7 @@ class TestAccountAsset(TestAccountReportsCommon):
         self.assertEqual(self.truck.children_ids.salvage_value, 1500)
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_asset_modify_value_04(self, today_mock):
         "Increase the residual value, decrease the salvage value; increase of book value"
         self.env['asset.modify'].create({
@@ -733,7 +733,7 @@ class TestAccountAsset(TestAccountReportsCommon):
         self.assertEqual(self.truck.children_ids.salvage_value, 0)
 
     @patch('odoo.fields.Date.today', return_value=today())
-    @patch('odoo.fields.Date.context_today', context_today)
+    @patch('odoo.fields.Date.context_today', context_today_patched)
     def test_asset_modify_report(self, today_mock):
         """Test the asset value modification flows"""
         #           PY      +   -  Final    PY     +    - Final Bookvalue

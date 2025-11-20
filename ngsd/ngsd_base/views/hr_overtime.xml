@@ -55,10 +55,10 @@
                     <field name="can_approve" invisible="1"/>
                     <field name="can_reject" invisible="1"/>
                     <field name="can_new" invisible="1"/>
-                    <button name="button_requested" invisible="not can_request" type="object" string="Gửi duyệt" invisible="1"/>
-                    <button name="button_cancel" invisible="not can_cancel" type="object" string="Hủy" invisible="0"/>
-                    <button name="button_approved" invisible="not can_approve" type="object" string="Xác nhận" invisible="0"/>
-                    <button name="button_rejected" invisible="not can_reject" type="object" string="Từ chối" invisible="1"/>
+                    <button name="button_requested" invisible="not can_request" type="object" string="Gửi duyệt"/>
+                    <button name="button_cancel" invisible="not can_cancel" type="object" string="Hủy"/>
+                    <button name="button_approved" invisible="not can_approve" type="object" string="Xác nhận"/>
+                    <button name="button_rejected" invisible="not can_reject" type="object" string="Từ chối"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,requested,approved,rejected"/>
                 </header>
                 <div class="alert alert-warning text-center o_form_header alert-dismissible"
@@ -132,7 +132,8 @@
                         </page>
                     </notebook>
                 </sheet>
-                <chatter/><field name="message_follower_ids"/>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
                     <field name="activity_ids"/>
                     <field name="message_ids"/>
                 </div>

@@ -7,10 +7,11 @@
                 <field name="priority">100000</field>
                  <field name="arch" type="xml">
                      <form string="Employee" js_class="hr_employee_form" class='o_employee_form_popup'>
-                        <chatter/><field name="message_follower_ids"/>
-                            <field name="activity_ids"/>
-                            <field name="message_ids"/>
-                        </div>
+                        <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
                     </form>
                  </field>
             </record>

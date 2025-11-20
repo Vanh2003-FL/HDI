@@ -402,7 +402,11 @@
                             </div>
                         </div>
                     </div>
-                    <chatter/><field name="message_follower_ids" help="Follow this team to automatically track the events associated to tickets of this team."/>
+                    <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div><field name="message_follower_ids" help="Follow this team to automatically track the events associated to tickets of this team."/>
                     </div>
                 </sheet>
             </form>

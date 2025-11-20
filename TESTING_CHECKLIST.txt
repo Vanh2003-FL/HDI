@@ -1,0 +1,223 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                  ODOO 18 TESTING CHECKLIST                       ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+## Pre-Testing
+
+□ Backup database
+  □ pg_dump your_database > backup_$(date +%Y%m%d).sql
+  □ Verify backup file size is reasonable
+  
+□ Check Odoo service status
+  □ sudo systemctl status odoo
+  
+□ Review log file location
+  □ Confirm path: /var/log/odoo/odoo.log (or your configured path)
+
+## Module Installation/Update
+
+□ Stop Odoo service
+  □ sudo systemctl stop odoo
+  
+□ Update ngsd_base module
+  □ ./odoo-bin -c config.conf -d database_name -u ngsd_base
+  
+  Watch for:
+  □ ✅ No ImportError messages
+  □ ✅ No XMLSyntaxError messages  
+  □ ✅ No ModuleNotFoundError
+  □ ✅ Module upgrade completes successfully
+
+□ Check logs during update
+  □ tail -f /var/log/odoo/odoo.log
+  
+  Expected:
+  □ ✅ "Registry loaded" message appears
+  □ ✅ No Python exceptions
+  □ ⚠️  Warnings are OK (states parameter, duplicate labels)
+
+## Functional Testing
+
+### 1. Module Loading
+□ Access Odoo web interface
+□ Go to Apps menu
+□ Search "ngsd_base"
+□ Status shows "Installed" (green)
+
+### 2. View Testing
+
+□ **Project Views**
+  □ Project → Projects → Open any project
+  □ Check chatter displays correctly (bottom of form)
+  □ Check all tabs load
+  □ Check invisible/readonly conditions work
+
+□ **HR Views**  
+  □ HR → Employees → Open any employee
+  □ Check chatter displays
+  □ Check all fields visible/editable as expected
+  □ Test creating new employee
+
+□ **Overtime Views**
+  □ HR → Overtime → Create new overtime request
+  □ Check buttons visible (Gửi duyệt, Cancel, etc.)
+  □ Check invisible conditions work correctly
+  □ Test workflow transitions
+
+□ **Resource Planning**
+  □ Open resource planning form
+  □ Check chatter displays
+  □ Verify all fields load
+
+### 3. CRUD Operations
+
+□ **Create**
+  □ Create new record in main models
+  □ Check required fields work
+  □ Check default values populate
+  □ Save successfully
+
+□ **Read**
+  □ List views display correctly
+  □ Tree views show proper columns
+  □ Form views load all data
+
+□ **Update**
+  □ Edit existing records
+  □ Check readonly fields are readonly
+  □ Save changes successfully
+
+□ **Delete**
+  □ Delete test records
+  □ Check constraints work (if any)
+
+### 4. Chatter Functionality
+
+□ **Message/Note**
+  □ Send message in chatter
+  □ Add log note
+  □ Check message displays
+
+□ **Followers**  
+  □ Add followers
+  □ Remove followers
+  □ Check notification preferences
+
+□ **Activities**
+  □ Schedule activity
+  □ Mark activity done
+  □ Check activity displays in chatter
+
+□ **Attachments**
+  □ Upload file via chatter
+  □ Download file
+  □ Delete attachment
+
+### 5. Business Logic
+
+□ **Workflows**
+  □ Test state transitions (draft → submitted → approved, etc.)
+  □ Check buttons appear/disappear based on state
+  □ Verify permissions work correctly
+
+□ **Computed Fields**
+  □ Check computed fields calculate correctly
+  □ Test onchange methods trigger
+  □ Verify related fields update
+
+□ **Constraints**
+  □ Test SQL constraints (unique, check)
+  □ Test Python constraints
+  □ Check error messages display
+
+□ **Domain Filters**
+  □ Check dropdown filters work
+  □ Test search filters
+  □ Verify domain conditions apply correctly
+
+### 6. Reports
+
+□ **PDF Reports**
+  □ Generate PDF report
+  □ Check formatting
+  □ Verify data accuracy
+
+□ **Excel Reports**  
+  □ Export to Excel
+  □ Check columns/data
+  □ Verify formulas (if any)
+
+## Error Scenarios to Check
+
+□ **Python Errors to Watch For**
+  ❌ ImportError: cannot import name 'Domain'
+  ❌ ModuleNotFoundError: No module named...
+  ❌ SyntaxError: invalid syntax
+  ❌ IndentationError
+  ❌ AttributeError on model methods
+
+□ **XML Errors to Watch For**
+  ❌ XMLSyntaxError: Opening and ending tag mismatch
+  ❌ ParseError: not well-formed
+  ❌ Attribute 'xyz' redefined
+  ❌ View inheritance failed
+
+□ **Runtime Errors to Watch For**
+  ❌ Unknown parameter 'states' (if still appearing)
+  ❌ Field 'xyz' does not exist
+  ❌ Can't find model abc.xyz
+
+## Performance Check
+
+□ **Load Time**
+  □ Views load in reasonable time (<3 seconds)
+  □ List views with many records perform well
+  □ Search is responsive
+
+□ **Database Queries**
+  □ Check log for excessive queries
+  □ Look for N+1 query issues
+  □ Verify indexes work
+
+## Final Validation
+
+□ **No Blocking Errors**
+  □ All core functionality works
+  □ No Python exceptions in logs
+  □ No XML errors in logs
+
+□ **Acceptable Warnings**
+  ✓ Field parameter 'states' is unknown
+  ✓ Duplicate field label warnings
+  ✓ NOT NULL constraint warnings
+  ✓ DeprecationWarning for create() method
+
+□ **Documentation**
+  □ Update CHANGELOG
+  □ Document any manual workarounds needed
+  □ Note any known issues
+
+## Rollback Plan (If Needed)
+
+□ **If Critical Issues Found**
+  1. Stop Odoo: sudo systemctl stop odoo
+  2. Restore database: psql database_name < backup_YYYYMMDD.sql
+  3. Revert code: git reset --hard HEAD~1 (or restore from backup)
+  4. Restart Odoo: sudo systemctl start odoo
+  5. Document issues for fixing
+
+## Sign-Off
+
+Date: ________________
+Tester: ________________
+Status: ________________
+
+Notes:
+_________________________________________________________________
+_________________________________________________________________
+_________________________________________________________________
+
+✅ = Passed
+⚠️  = Warning (acceptable)
+❌ = Failed (must fix)
+□ = Not tested yet
