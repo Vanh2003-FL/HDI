@@ -36,7 +36,6 @@ ngsd_base.access_en_type,access_en_type,ngsd_base.model_en_type,base.group_user,
 ngsd_base.access_en_type_group_cbf,access_en_type_group_cbf,ngsd_base.model_en_type,ngsd_base.group_cbf,1,1,1,1
 ngsd_base.access_en_view_unit,access_en_view_unit,ngsd_base.model_en_view_unit,base.group_user,1,1,1,1
 ngsd_base.access_en_list_project,access_en_list_project,ngsd_base.model_en_list_project,base.group_user,1,1,1,1
-ngsd_base.access_en_view_unit,access_en_view_unit,ngsd_base.model_en_view_unit,base.group_user,1,1,1,1
 access_project_type_source,access_project_type_source,model_project_type_source,,1,1,1,1
 ngsd_base.access_en_customer_type,access_en_customer_type,ngsd_base.model_en_customer_type,base.group_user,1,1,1,1
 
