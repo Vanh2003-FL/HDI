@@ -165,7 +165,7 @@ class AccountMove(models.Model):
         asset = vals['asset_id']
         account_analytic_id = asset.account_analytic_id
         analytic_tag_ids = asset.analytic_tag_ids
-        depreciation_date = vals.get('date', fields.Date.Date.context_today(self))
+        depreciation_date = vals.get('date', fields.Date.Date.Date.context_today(self))
         company_currency = asset.company_id.currency_id
         current_currency = asset.currency_id
         prec = company_currency.decimal_places

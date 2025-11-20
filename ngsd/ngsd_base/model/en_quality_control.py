@@ -562,7 +562,7 @@ class QualityDetail(models.Model):
   @api.depends('date_start', 'date_end')
   def _get_readonly_date(self):
     for rec in self:
-      today_month = fields.Date.Date.context_today(rec)
+      today_month = fields.Date.Date.Date.context_today(rec)
       date_today = today_month.day
       month_pre = (today_month - relativedelta(months=1)).replace(day=1)
       month_current = today_month.replace(day=1)
@@ -586,7 +586,7 @@ class QualityDetail(models.Model):
   @api.onchange('date_start')
   def _onchange_check_date_start(self):
     for rec in self:
-      today_month = fields.Date.Date.context_today(rec)
+      today_month = fields.Date.Date.Date.context_today(rec)
       date_today = today_month.day
       month_pre = (today_month - relativedelta(months=1)).replace(day=1)
       month_current = today_month.replace(day=1)
@@ -603,7 +603,7 @@ class QualityDetail(models.Model):
   @api.onchange('date_end')
   def _onchange_check_date_end(self):
     for rec in self:
-      today_month = fields.Date.Date.context_today(rec)
+      today_month = fields.Date.Date.Date.context_today(rec)
       date_today = today_month.day
       month_pre = (today_month - relativedelta(months=1)).replace(day=1)
       month_current = today_month.replace(day=1)

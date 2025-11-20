@@ -73,7 +73,7 @@ class RequestWizard(models.TransientModel):
 
         deadline = None
         if self.activity_date_deadline_range > 0:
-            activity_vals['date_deadline'] = deadline = fields.Date.Date.context_today(self) + relativedelta(
+            activity_vals['date_deadline'] = deadline = fields.Date.Date.Date.context_today(self) + relativedelta(
                 **{self.activity_date_deadline_range_type: self.activity_date_deadline_range})
 
         request_by_mail = self.owner_id and self.owner_id.id != self.create_uid.id

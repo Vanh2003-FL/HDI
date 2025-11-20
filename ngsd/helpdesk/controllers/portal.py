@@ -12,7 +12,7 @@ from odoo.tools.translate import _
 from odoo.tools import groupby as groupbyelem
 from odoo.addons.portal.controllers import portal
 from odoo.addons.portal.controllers.portal import pager as portal_pager
-from odoo.osv.expression import OR
+from odoo.fields import Domain
 
 
 class CustomerPortal(portal.CustomerPortal):
@@ -112,16 +112,16 @@ class CustomerPortal(portal.CustomerPortal):
         if search and search_in:
             search_domain = []
             if search_in in ('id', 'all'):
-                search_domain = OR([search_domain, [('id', 'ilike', search)]])
+                search_domain = Domain.OR([search_domain, [('id', 'ilike', search)]])
             if search_in in ('content', 'all'):
-                search_domain = OR([search_domain, ['|', ('name', 'ilike', search), ('description', 'ilike', search)]])
+                search_domain = Domain.OR([search_domain, ['|', ('name', 'ilike', search), ('description', 'ilike', search)]])
             if search_in in ('customer', 'all'):
-                search_domain = OR([search_domain, [('partner_id', 'ilike', search)]])
+                search_domain = Domain.OR([search_domain, [('partner_id', 'ilike', search)]])
             if search_in in ('message', 'all'):
                 discussion_subtype_id = request.env.ref('mail.mt_comment').id
-                search_domain = OR([search_domain, [('message_ids.body', 'ilike', search), ('message_ids.subtype_id', '=', discussion_subtype_id)]])
+                search_domain = Domain.OR([search_domain, [('message_ids.body', 'ilike', search), ('message_ids.subtype_id', '=', discussion_subtype_id)]])
             if search_in in ('status', 'all'):
-                search_domain = OR([search_domain, [('stage_id', 'ilike', search)]])
+                search_domain = Domain.OR([search_domain, [('stage_id', 'ilike', search)]])
             domain += search_domain
 
         # pager

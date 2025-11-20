@@ -64,7 +64,7 @@ class ReportTimekeepingWizard(models.TransientModel):
         return report.report_action(self)
 
     def get_view_action(self):
-        date_f = (fields.Date.Date.context_today(self) - relativedelta(months=1))
+        date_f = (fields.Date.Date.Date.context_today(self) - relativedelta(months=1))
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'report.timekeeping.wizard',

@@ -22,14 +22,14 @@ def today():
         today += relativedelta(day=30)
     return today
 
-def Date.context_today(record, timestamp=None):
+def Date.Date.context_today(record, timestamp=None):
     # Since 31'st december is faked as 30th december, we need to also fake
     # context_today that is used in some account_move code (eg. auto_post)
     if timestamp == None:
         today = date.today()
         if today.month == 12 and today.day == 31:
             return today + relativedelta(day=30)
-    return original_Date.context_today(record, timestamp)
+    return original_Date.Date.context_today(record, timestamp)
 
 
 class TestAccountAsset(TestAccountReportsCommon):

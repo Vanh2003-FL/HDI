@@ -244,8 +244,8 @@ class ProjectStatusReport(models.Model):
         }
 
     def _get_date_range(self):
-        date_from_txt = self._context.get('date_from') or fields.Date.Date.context_today(self)
-        date_to_txt = self._context.get('date_to') or fields.Date.Date.context_today(self)
+        date_from_txt = self._context.get('date_from') or fields.Date.Date.Date.context_today(self)
+        date_to_txt = self._context.get('date_to') or fields.Date.Date.Date.context_today(self)
         date_from = min(fields.Date.from_string(date_from_txt), fields.Date.from_string(date_to_txt))
         date_to = max(fields.Date.from_string(date_from_txt), fields.Date.from_string(date_to_txt))
         return date_from, date_to
@@ -256,7 +256,7 @@ class ProjectStatusReport(models.Model):
         date_from, date_to = self._get_date_range()
         date_from_time = date_from - relativedelta(hours=7)
         date_to_time = date_to - relativedelta(hours=7) + relativedelta(days=1)
-        today = (fields.Date.Date.context_today(self) + relativedelta(days=1, hours=-7)).strftime('%Y-%m-%d %H:%M:%S')
+        today = (fields.Date.Date.Date.context_today(self) + relativedelta(days=1, hours=-7)).strftime('%Y-%m-%d %H:%M:%S')
         ctx = self._context
         en_area_ids = ctx.get('en_area_ids')
         en_department_ids = ctx.get('en_department_ids')

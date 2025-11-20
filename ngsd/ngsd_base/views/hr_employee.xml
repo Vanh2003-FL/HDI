@@ -298,8 +298,7 @@
       <field name="priority">10000</field>
       <field name="arch" type="xml">
         <form string="Employee" js_class="hr_employee_form" class='o_employee_form_popup'>
-          <div class="oe_chatter">
-            <field name="message_follower_ids"/>
+          <chatter/><field name="message_follower_ids"/>
             <field name="activity_ids"/>
             <field name="message_ids"/>
           </div>
@@ -345,7 +344,7 @@
           <!-- <notebook>
             <page string="Nhân sự đang cho mượn">
               <field name="employee_lender_ids" readonly="1">
-                <tree>
+                <list>
                   <field name="borrow_department_id" string="Trung tâm đang mượn"/>
                   <field name="employee_id"/>
                   <field name="email"/>
@@ -355,7 +354,7 @@
                   <field name="date_end"/>
                   <field name="workload" widget="percentage"/>
                   <field name="state"/>
-                </tree>
+                </list>
                 <form>
                   <sheet>
                     <group>
@@ -379,7 +378,7 @@
             </page>
             <page string="Nhân sự mượn từ trung tâm khác">
               <field name="employee_borrow_ids" readonly="1">
-                <tree>
+                <list>
                   <field name="department_id" string="Mượn từ trung tâm"/>
                   <field name="employee_id"/>
                   <field name="email"/>
@@ -389,7 +388,7 @@
                   <field name="date_end"/>
                   <field name="workload" widget="percentage"/>
                   <field name="state"/>
-                </tree>
+                </list>
                 <form>
                   <sheet>
                     <group>

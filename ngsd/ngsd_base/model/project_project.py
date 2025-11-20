@@ -8,7 +8,7 @@ from odoo.tools import config, date_utils, get_lang, html2plaintext
 from pytz import timezone, UTC
 from lxml import etree
 import json
-from odoo.osv import expression
+from odoo.fields import Domain
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.misc import formatLang
 
@@ -436,18 +436,17 @@ class ProjectProject(models.Model):
       rec.mm_conversion = rec.en_resource_ids.filtered(
           lambda x: x.state == 'approved').mm_conversion or 0
 
-  # Temporarily disabled due to missing ngsd_report_docx module
-  # def button_view_qdtlda(self):
-  #   return self.env.ref('ngsd_base.report_qdtlda_action').report_action(self)
+  def button_view_qdtlda(self):
+    return self.env.ref('ngsd_base.report_qdtlda_action').report_action(self)
 
-  # def button_view_qddcda(self):
-  #   return self.env.ref('ngsd_base.report_qddcda_action').report_action(self)
+  def button_view_qddcda(self):
+    return self.env.ref('ngsd_base.report_qddcda_action').report_action(self)
 
   @api.model
   def _name_search(self, name, args=None, operator='ilike', limit=100,
       name_get_uid=None):
     if name:
-      return self._search(expression.AND(
+      return self._search(Domain.AND(
           [['|', ('en_code', operator, name), ('name', operator, name)], args]),
           limit=limit, access_rights_uid=name_get_uid)
     res = super()._name_search(name, args, operator, limit, name_get_uid)
@@ -1337,7 +1336,7 @@ class ProjectStage(models.Model):
       readonly = modifiers.get('readonly', [])
       # readonly_domain = [('wbs_state', '=', 'approved')]
       # if readonly and isinstance(readonly, list):
-      #     readonly_domain = expression.OR([readonly, readonly_domain])
+      #     readonly_domain = Domain.OR([readonly, readonly_domain])
       # elif not readonly and isinstance(readonly, bool):
       #     readonly_domain = readonly
       # modifiers['readonly'] = readonly_domain
@@ -1811,7 +1810,7 @@ class Workpackage(models.Model):
       readonly = modifiers.get('readonly', [])
       readonly_domain = [('wbs_state', '!=', 'draft')]
       if readonly and isinstance(readonly, list):
-        readonly_domain = expression.OR([readonly, readonly_domain])
+        readonly_domain = Domain.OR([readonly, readonly_domain])
       elif not readonly and isinstance(readonly, bool):
         readonly_domain = readonly
       modifiers['readonly'] = readonly_domain
@@ -2836,7 +2835,7 @@ class QaEvaluate(models.Model):
 
   project_id = fields.Many2one('project.project', 'Dự án')
   date = fields.Date('Ngày tạo',
-                     default=lambda self: fields.Date.Date.context_today(self),
+                     default=lambda self: fields.Date.Date.Date.context_today(self),
                      required=True)
   qa_valuate = fields.Html('Mô tả', required=False)
   type = fields.Selection(string="Loại", selection=[('on_time', 'Đúng hạn'),
@@ -2890,7 +2889,7 @@ class Survey(models.Model):
   _description = "Survey"
 
   date = fields.Date('Ngày tạo',
-                     default=lambda self: fields.Date.Date.context_today(self),
+                     default=lambda self: fields.Date.Date.Date.context_today(self),
                      required=True)
   project_id = fields.Many2one('project.project', 'Dự án')
   point = fields.Integer(string="Điểm")

@@ -3,7 +3,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import fields, models, api, exceptions
 from odoo.exceptions import UserError
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class HrContract(models.Model):
@@ -52,7 +52,7 @@ class HrContract(models.Model):
         for rec in self:
             if not rec.date_end or rec.state != 'open':
                 continue
-            expiration_date = (rec.date_end - fields.Date.Date.context_today(self)).days
+            expiration_date = (rec.date_end - fields.Date.Date.Date.context_today(self)).days
             contract_warning = self.env['contract.warning'].search([('contract_type_ids', '=', rec.contract_type_id.id), ('advance_waring_period', '>=', expiration_date)])
             if contract_warning and expiration_date >= 0 and not rec.extension_status:
                 rec.send_notify(f'Hợp đồng {rec.name} sắp hết hạn sau {expiration_date} ngày nữa. Vui lòng bấm vào đây để kiểm tra chi tiết', rec.hr_responsible_id, 'Cảnh báo hết hạn hợp đồng')
@@ -107,7 +107,7 @@ class HrContract(models.Model):
         return action
 
     def action_change_state_contract(self):
-        hr_contracts = self.env['hr.contract'].search([('date_start', '<=', fields.Date.Date.context_today(self)), ('state', '=', 'draft')])
+        hr_contracts = self.env['hr.contract'].search([('date_start', '<=', fields.Date.Date.Date.context_today(self)), ('state', '=', 'draft')])
         for contract in hr_contracts:
             domain = [
                 ('id', '!=', contract.id),
@@ -125,7 +125,7 @@ class HrContract(models.Model):
             else:
                 start_domain = [('date_start', '<=', contract.date_end)]
                 end_domain = ['|', ('date_end', '>', contract.date_start), ('date_end', '=', False)]
-            domain = expression.AND([domain, start_domain, end_domain])
+            domain = Domain.AND([domain, start_domain, end_domain])
             if not self.search_count(domain):
                 contract.write({'state': 'open'})
 
@@ -155,7 +155,7 @@ class HrContract(models.Model):
                 suffix = '/PLHĐLĐ/NGSC'
             elif contract_type == 'plhdtv':
                 suffix = '/PLHĐTV/NGSC'
-            name = str(fields.Date.Date.context_today(self).year) + '_' + str(sequence).zfill(4) + suffix
+            name = str(fields.Date.Date.Date.context_today(self).year) + '_' + str(sequence).zfill(4) + suffix
             return name, sequence
         return '', 1
 

@@ -5,7 +5,7 @@ import datetime
 
 from odoo import http
 from odoo.http import request
-from odoo.osv.expression import AND
+from odoo.fields import Domain
 
 
 class WebsiteHelpdesk(http.Controller):
@@ -17,9 +17,9 @@ class WebsiteHelpdesk(http.Controller):
         user = request.env.user
         team_domain = [('id', '=', team.id)] if team else []
         if user.has_group('helpdesk.group_heldpesk_manager'):
-            domain = AND([[('use_rating', '=', True)], team_domain])
+            domain = Domain.AND([[('use_rating', '=', True)], team_domain])
         else:
-            domain = AND([[('use_rating', '=', True), ('portal_show_rating', '=', True)], team_domain])
+            domain = Domain.AND([[('use_rating', '=', True), ('portal_show_rating', '=', True)], team_domain])
         teams = request.env['helpdesk.team'].search(domain)
         team_values = []
         for team in teams:

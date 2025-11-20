@@ -99,8 +99,8 @@ class BusyRateReport(models.Model):
         }
 
     def _get_date_range(self):
-        date_from_txt = self._context.get('date_from') or fields.Date.Date.context_today(self)
-        date_to_txt = self._context.get('date_to') or fields.Date.Date.context_today(self)
+        date_from_txt = self._context.get('date_from') or fields.Date.Date.Date.context_today(self)
+        date_to_txt = self._context.get('date_to') or fields.Date.Date.Date.context_today(self)
         date_from = min(fields.Date.from_string(date_from_txt), fields.Date.from_string(date_to_txt))
         date_to = max(fields.Date.from_string(date_from_txt), fields.Date.from_string(date_to_txt))
 

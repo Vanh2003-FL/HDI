@@ -214,7 +214,7 @@ class EnLenderEmployeeDetail(models.Model):
                                             lender.lender_employee_id.borrower_id)
 
   def action_return_on_time(self):
-    today = fields.Date.Date.context_today(self)
+    today = fields.Date.Date.Date.context_today(self)
     list_lender_employee = self.search(
         [('date_return', '<=', today), ('state', '=', 'receive')])
     for line in list_lender_employee:
@@ -242,7 +242,7 @@ class EnLenderEmployeeDetail(models.Model):
       })
 
   def button_returned(self):
-    date_return = fields.Date.Date.context_today(self)
+    date_return = fields.Date.Date.Date.context_today(self)
     if self.date_start and self.date_start > date_return:
       date_return = self.date_start
     return {
@@ -278,7 +278,7 @@ class EnLenderEmployeeDetail(models.Model):
     vals = {
       'date_return': date_return,
     }
-    if date_return <= fields.Date.Date.context_today(self):
+    if date_return <= fields.Date.Date.Date.context_today(self):
       vals['state'] = 'returned'
       self.env['en.department.resource'].search(
           [('lender_employee_detail_id', '=', self.id)]).write({

@@ -8,7 +8,7 @@ class EnLenderEmployeeReturnPopup(models.TransientModel):
     _description = 'Popup trả nguồn lực'
 
     detail_id = fields.Many2one('en.lender.employee.detail', string='Detail ID')
-    date_return = fields.Date(string='Ngày trả', required=1, default=lambda self: fields.Date.Date.context_today(self))
+    date_return = fields.Date(string='Ngày trả', required=1, default=lambda self: fields.Date.Date.Date.context_today(self))
     date_end = fields.Date(string='Ngày kết thúc', related='detail_id.date_end')
 
     def button_confirm(self):

@@ -7,7 +7,7 @@ from random import randint
 
 from odoo import api, Command, fields, models, tools, _
 from odoo.addons.iap.tools import iap_tools
-from odoo.osv import expression
+from odoo.fields import Domain
 from odoo.exceptions import AccessError, UserError
 from datetime import datetime
 from pytz import timezone, utc
@@ -43,6 +43,7 @@ class HelpdeskTag(models.Model):
     name = fields.Char(required=True, translate=True)
     color = fields.Integer('Color', default=_get_default_color)
 
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [
         ('name_uniq', 'unique (name)', "Tag name already exists !"),
     ]
@@ -57,6 +58,7 @@ class HelpdeskTicketType(models.Model):
     sequence = fields.Integer(default=10)
     manual_deadline = fields.Boolean('Tự điền hạn xử lý', default=False)
 
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [
         ('name_uniq', 'unique (name)', "Type name already exists !"),
     ]
@@ -141,9 +143,9 @@ class HelpdeskSLAStatus(models.Model):
         if operator in expression.NEGATIVE_TERM_OPERATORS:
             # "('status', 'not in', [A, B])" tranformed into "('status', '=', C) OR ('status', '=', D)"
             domains_to_keep = [dom for key, dom in positive_domain if key not in value]
-            return expression.OR(domains_to_keep)
+            return Domain.OR(domains_to_keep)
         else:
-            return expression.OR(positive_domain[value_item] for value_item in value)
+            return Domain.OR(positive_domain[value_item] for value_item in value)
 
     @api.depends('status')
     def _compute_color(self):
@@ -434,11 +436,11 @@ class HelpdeskTicket(models.Model):
             partner_ticket = ticket
             if ticket.partner_email:
                 email_search = _get_email_to_search(ticket.partner_email)
-                domain = expression.OR([domain, [('partner_email', 'ilike', email_search)]])
+                domain = Domain.OR([domain, [('partner_email', 'ilike', email_search)]])
             if ticket.partner_phone:
-                domain = expression.OR([domain, [('partner_phone', 'ilike', ticket.partner_phone)]])
+                domain = Domain.OR([domain, [('partner_phone', 'ilike', ticket.partner_phone)]])
             if ticket.partner_id:
-                domain = expression.OR([domain, [("partner_id", "child_of", ticket.partner_id.commercial_partner_id.id)]])
+                domain = Domain.OR([domain, [("partner_id", "child_of", ticket.partner_id.commercial_partner_id.id)]])
             if domain:
                 partner_ticket = self.search(domain)
             ticket.partner_ticket_ids = partner_ticket
@@ -488,9 +490,9 @@ class HelpdeskTicket(models.Model):
             subdomain = ['&', ('date_log', '>=', dt.replace(minute=0, second=0, microsecond=0)), ('date_log', '<=', dt.replace(minute=59, second=59, microsecond=99))]
             if operator in expression.NEGATIVE_TERM_OPERATORS:
                 subdomain = expression.distribute_not(subdomain)
-            d1 = expression.AND([[('close_date', '=', False)], subdomain])
+            d1 = Domain.AND([[('close_date', '=', False)], subdomain])
             d2 = ['&', ('close_date', '!=', False), ('close_hours', operator, value)]
-        return expression.OR([d1, d2])
+        return Domain.OR([d1, d2])
 
     # ------------------------------------------------------------
     # ORM overrides
@@ -744,7 +746,7 @@ class HelpdeskTicket(models.Model):
                 tickets_map[key] |= ticket
                 # group the SLA to apply, by key
                 if key not in sla_domain_map:
-                    sla_domain_map[key] = expression.AND([[
+                    sla_domain_map[key] = Domain.AND([[
                         ('team_id', '=', ticket.team_id.id), ('priority', '<=', ticket.priority),
                         ('stage_id.sequence', '>=', ticket.stage_id.sequence),
                         '|', ('ticket_type_id', '=', ticket.ticket_type_id.id), ('ticket_type_id', '=', False)], ticket._sla_find_extra_domain()])

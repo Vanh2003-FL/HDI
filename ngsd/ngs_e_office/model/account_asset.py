@@ -109,7 +109,7 @@ class AccountAsset(models.Model):
     def button_liquidation(self):
         self.write({
             'state': 'dispensing',
-            'liquidation_date': fields.Date.Date.context_today(self)
+            'liquidation_date': fields.Date.Date.Date.context_today(self)
         })
 
     def write(self, vals):

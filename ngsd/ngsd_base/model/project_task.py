@@ -1,7 +1,7 @@
 from ast import literal_eval
 from odoo import models, fields, api, exceptions
 from odoo import _
-from odoo.osv import expression
+from odoo.fields import Domain
 from datetime import timedelta, datetime, time, date
 from dateutil.relativedelta import relativedelta
 from collections import defaultdict
@@ -10,7 +10,7 @@ from pytz import timezone, UTC
 from lxml import etree
 import json
 from odoo.exceptions import AccessError, UserError, ValidationError
-from odoo.osv.expression import OR, TRUE_LEAF, FALSE_LEAF
+from odoo.fields import Domain, TRUE_LEAF, FALSE_LEAF
 
 READONLY_STATES = {
     'approved': [('readonly', True)],
@@ -76,7 +76,7 @@ def new_write(self, vals):
         recurrence_domain = []
         if recurrence_update == 'subsequent':
             for task in self:
-                recurrence_domain = OR([recurrence_domain, ['&', ('recurrence_id', '=', task.recurrence_id.id), ('create_date', '>=', task.create_date)]])
+                recurrence_domain = Domain.OR([recurrence_domain, ['&', ('recurrence_id', '=', task.recurrence_id.id), ('create_date', '>=', task.create_date)]])
         else:
             recurrence_domain = [('recurrence_id', 'in', self.recurrence_id.ids)]
         tasks |= self.env['project.task'].search(recurrence_domain)
@@ -163,12 +163,12 @@ class NGSLeave(models.Model):
                 raise exceptions.ValidationError('Số chu kỳ phải lớn hơn 0')
 
     def cron_allocation(self):
-        today = fields.Date.Date.context_today(self)
+        today = fields.Date.Date.Date.context_today(self)
         for rec in self.search([('nextcall', '<=', today), ('state', '=', 'confirm'), ('holiday_status_id.requires_allocation', '=', 'yes')]):
             rec.allocate_leave()
 
     def allocate_leave(self):
-        today = fields.Date.Date.context_today(self)
+        today = fields.Date.Date.Date.context_today(self)
         for rec in self:
             if rec.state != 'confirm':
                 continue
@@ -267,7 +267,7 @@ class HolidaysAllocation(models.Model):
     def _prepare_holiday_values(self, employees):
         self.ensure_one()
         res = []
-        today = fields.Date.Date.context_today(self)
+        today = fields.Date.Date.Date.context_today(self)
         for employee in employees:
             if self._context.get('update_missing_employee'):
                 if employee.en_date_start > today:
@@ -308,7 +308,7 @@ class HolidaysAllocation(models.Model):
             necessary.
         """
         # Get the current date to determine the start and end of the accrual period
-        today = datetime.combine(fields.Date.Date.context_today(self), time(0, 0, 0))
+        today = datetime.combine(fields.Date.Date.Date.context_today(self), time(0, 0, 0))
         this_year_first_day = today + relativedelta(day=1, month=1)
         end_of_year_allocations = self.search(
         [('allocation_type', '=', 'accrual'), ('state', '=', 'validate'), ('accrual_plan_id', '!=', False), ('employee_id', '!=', False),
@@ -398,10 +398,10 @@ class HrLeave(models.Model):
     @api.constrains('request_date_from')
     def _check_request_date_from(self):
         for rec in self:
-            if not self.env.user.has_group('ngsd_base.group_userhr') and rec.request_date_from and rec.request_date_from < (fields.Date.Date.context_today(self) + relativedelta(day=1)):
+            if not self.env.user.has_group('ngsd_base.group_userhr') and rec.request_date_from and rec.request_date_from < (fields.Date.Date.Date.context_today(self) + relativedelta(day=1)):
                 raise UserError('Bạn không được xin nghỉ trong tháng ở quá khứ. Vui lòng liên hệ quản trị viên để được hỗ trợ.')
 
-            today = fields.Date.Date.context_today(self)
+            today = fields.Date.Date.Date.context_today(self)
             if not self.env.user.has_group('ngsd_base.group_userhr') and rec.request_date_to and rec.request_date_to >= (today + relativedelta(months=6 - (today.month - 1) % 3, day=1)):
                 raise UserError('Bạn chỉ được xin nghỉ đến hết quý tới. Vui lòng liên hệ quản trị viên để được hỗ trợ.')
 
@@ -638,9 +638,9 @@ class ProjectTask(models.Model):
         for rec in self:
             decoration = False
             if rec.stage_id.en_mark not in ['b', 'g']:
-                if rec.en_start_date and rec.date_deadline and rec.en_start_date <= fields.Date.Date.context_today(rec) <= rec.date_deadline:
+                if rec.en_start_date and rec.date_deadline and rec.en_start_date <= fields.Date.Date.Date.context_today(rec) <= rec.date_deadline:
                     decoration = 'warning'
-                if rec.date_deadline and fields.Date.Date.context_today(rec) >= rec.date_deadline:
+                if rec.date_deadline and fields.Date.Date.Date.context_today(rec) >= rec.date_deadline:
                     decoration = 'danger'
             rec.decoration = decoration
 
@@ -770,7 +770,7 @@ class ProjectTask(models.Model):
             readonly = modifiers.get('readonly', [])
             # readonly_domain = [('wbs_state', '=', 'approved')]
             # if readonly and isinstance(readonly, list):
-            #     readonly_domain = expression.OR([readonly, readonly_domain])
+            #     readonly_domain = Domain.OR([readonly, readonly_domain])
             # elif not readonly and isinstance(readonly, bool):
             #     readonly_domain = readonly
             # modifiers['readonly'] = readonly_domain
@@ -1320,7 +1320,7 @@ class AccountAnalyticLine(models.Model):
         for rec in self:
             if rec.global_leave_id:
                 continue
-            if rec.date > fields.Date.Date.context_today(self) and not rec.holiday_id:
+            if rec.date > fields.Date.Date.Date.context_today(self) and not rec.holiday_id:
                 raise exceptions.ValidationError('Không được khai timesheet trong tương lai.')
             amount = sum(self.search([('employee_id', '=', rec.employee_id.id), ('date', '=', rec.date),
                                       ('en_state', '!=', 'cancel'), ('en_state', '!=', 'new')]).mapped('unit_amount'))

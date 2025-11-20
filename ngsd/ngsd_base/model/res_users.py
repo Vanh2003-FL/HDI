@@ -1,6 +1,6 @@
 from odoo import api, fields, models
 from odoo.addons.account.models.res_users import GroupsView
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 @api.model
@@ -85,9 +85,9 @@ class ResUsers(models.Model):
                 domain = []
             else:
                 domain = [('login', '=', name)]
-            user_ids = self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+            user_ids = self._search(Domain.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         if not user_ids:
-            user_ids = self._search(expression.AND([[('name', operator, name)], args]), limit=limit, access_rights_uid=name_get_uid)
+            user_ids = self._search(Domain.AND([[('name', operator, name)], args]), limit=limit, access_rights_uid=name_get_uid)
         return user_ids
 
 

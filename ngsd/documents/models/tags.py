@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
-from odoo.osv import expression
-
 
 class TagsCategories(models.Model):
     _name = "documents.facet"
     _description = "Category"
     _order = "sequence, name"
 
-    # the colors to be used to represent the display order of the facets (tag categories), the colors
-    # depend on the order and amount of fetched categories
-    # currently used in the searchPanel and the kanban view and should match across the two.
     FACET_ORDER_COLORS = ['#F06050', '#6CC1ED', '#F7CD1F', '#814968', '#30C381', '#D6145F', '#475577', '#F4A460',
                           '#EB7E7F', '#2C8397']
 
@@ -50,12 +45,7 @@ class Tags(models.Model):
 
     @api.model
     def _get_tags(self, domain, folder_id):
-        """
-        fetches the tag and facet ids for the document selector (custom left sidebar of the kanban view)
-        """
         documents = self.env['documents.document'].search(domain)
-        # folders are searched with sudo() so we fetch the tags and facets from all the folder hierarchy (as tags
-        # and facets are inherited from ancestor folders).
         folders = self.env['documents.folder'].sudo().search([('parent_folder_id', 'parent_of', folder_id)])
         self.flush(['sequence', 'name', 'facet_id'])
         self.env['documents.facet'].flush(['sequence', 'name', 'tooltip'])
@@ -76,12 +66,11 @@ class Tags(models.Model):
         """
         params = [
             list(folders.ids),
-            list(documents.ids),  # using Postgresql's ANY() with a list to prevent empty list of documents
+            list(documents.ids),
         ]
         self.env.cr.execute(query, params)
         result = self.env.cr.dictfetchall()
 
-        # Translating result
         groups = self.env['documents.facet'].browse({r['group_id'] for r in result})
         group_names = {group['id']: group['name'] for group in groups}
 

@@ -4,7 +4,7 @@ from datetime import datetime, date, time, timedelta
 from odoo.tools import config, date_utils, get_lang, html2plaintext
 from pytz import timezone, UTC
 from dateutil.relativedelta import relativedelta
-from odoo.osv import expression
+from odoo.fields import Domain
 import logging
 from dateutil import tz
 import datetime as dt
@@ -23,7 +23,7 @@ class EmployeeCategory(models.Model):
   day_auto_apply = fields.Integer(string='Số ngày tối thiểu', default=0)
 
   def cron_auto_apply(self):
-    today = fields.Date.Date.context_today(self)
+    today = fields.Date.Date.Date.context_today(self)
     for rec in self.search([], order='day_auto_apply asc'):
       start_date = today - relativedelta(days=rec.day_auto_apply)
       employees = self.env['hr.employee'].search(
@@ -570,7 +570,7 @@ class HrEmployeeLayoff(models.TransientModel):
       self.env)
     date_start = self.date
     date_end = self.date
-    today = fields.Date.Date.context_today(self)
+    today = fields.Date.Date.Date.context_today(self)
     if self.state != 'inactive':
       date_start = min([self.day_layoff_from, self.day_layoff_to])
       date_end = max([self.day_layoff_from, self.day_layoff_to])
@@ -1055,7 +1055,8 @@ class HrEmployee(models.Model):
   en_text_layoff = fields.Text(string='Lý do nghỉ dài hạn', readonly=False,
                                copy=False, groups="hr.group_hr_user")
 
-  _sql_constraints = [
+  # TODO: Migrate _sql_constraints to individual models.Constraint objects
+    _sql_constraints = [
     ('barcode_uniq', 'unique (id)',
      "The Badge ID must be unique, this one is already assigned to another employee."),
   ]
@@ -1350,7 +1351,7 @@ class HrEmployee(models.Model):
       self.user_id.sudo().write({'role_ids': vals['role_ids']})
     if 'departure_date' in vals:
       for rec in self:
-        if rec.departure_date and rec.departure_date <= fields.Date.Date.context_today(
+        if rec.departure_date and rec.departure_date <= fields.Date.Date.Date.context_today(
             self):
           rec.action_departure()
 
@@ -1448,11 +1449,11 @@ class HrEmployee(models.Model):
         domain = []
       else:
         domain = ['|', ('work_email', '=', name), ('barcode', '=', name)]
-      employee_ids = self._search(expression.AND([domain, args]), limit=limit,
+      employee_ids = self._search(Domain.AND([domain, args]), limit=limit,
                                   access_rights_uid=name_get_uid)
     if not employee_ids:
       employee_ids = self._search(
-        expression.AND([[('name', operator, name)], args]), limit=limit,
+        Domain.AND([[('name', operator, name)], args]), limit=limit,
         access_rights_uid=name_get_uid)
     return employee_ids
 

@@ -18,6 +18,7 @@ class ProjectResourceSummary(models.Model):
     month = fields.Char(string='Tháng', required=True, help='Định dạng MM/YYYY', index=True)
     value = fields.Float(string='Giá trị', digits=(16, 3), default=0.0, required=True)
 
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [
         ('unique_project_criteria_month', 'UNIQUE(project_id, criteria_type, month)',
          'Kết hợp Dự án, Loại tiêu chí và Tháng phải là duy nhất.')

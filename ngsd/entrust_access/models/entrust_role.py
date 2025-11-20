@@ -67,6 +67,7 @@ class EntrustRole(models.Model):
     groups_id = fields.Many2many('res.groups', 'res_groups_roles_rel', 'rid', 'gid', string='Quyền truy cập',
                                  default=_default_groups)
     disallowed_menu_ids = fields.Many2many('ir.ui.menu', string='Not-allowed Menu')
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [
         ('name_company_uniq', 'unique(name)',
          'Tên vai trò phải là duy nhất!'),

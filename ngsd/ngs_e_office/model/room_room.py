@@ -38,6 +38,7 @@ class Room(models.Model):
     price = fields.Float('Đơn giá (VNĐ/giờ)')
     active = fields.Boolean('Hoạt động', default=True)
 
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [
         # ("uniq_access_token", "unique(access_token)", "The access token must be unique"),
         ("uniq_short_code", "unique(short_code)", "The short code must be unique."),
@@ -69,7 +70,7 @@ class Room(models.Model):
     @api.depends("is_available", "room_booking_ids")
     def _compute_next_booking_start(self):
         now = fields.Datetime.now()
-        today = fields.Date.Date.context_today(self)
+        today = fields.Date.Date.Date.context_today(self)
         next_booking_start_by_room = dict([(x.get('room_id')[0], x.get('start')) for x in self.env["calendar.event"].read_group(
             [("start", ">", now), ("room_id", "in", self.filtered('is_available').ids)],
             ["start:min"],

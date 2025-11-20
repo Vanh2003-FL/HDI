@@ -345,6 +345,7 @@ class CrmLead(models.Model):
             else:
                 rec.code = False
 
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [('code_uniq', 'unique(code)', "Mã/ID Lead đã tồn tại!")]
 
     x_support_history_ids = fields.One2many('crm.support.history', 'x_lead_id', string='Lịch sử chăm sóc')

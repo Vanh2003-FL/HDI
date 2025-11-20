@@ -11,6 +11,7 @@ class ResUsers(models.Model):
     helpdesk_target_rating = fields.Float(string='Target Customer Rating', default=100)
     helpdesk_target_success = fields.Float(string='Target Success Rate', default=100)
 
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [
         ('target_closed_not_zero', 'CHECK(helpdesk_target_closed > 0)', 'You cannot have negative targets'),
         ('target_rating_not_zero', 'CHECK(helpdesk_target_rating > 0)', 'You cannot have negative targets'),

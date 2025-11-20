@@ -42,8 +42,8 @@ class ResourceAnalysisReport(models.Model):
             date_end_month = date_to + relativedelta(day=1, months=1, days=-1)
 
     def _get_date_range(self):
-        date_from_txt = self._context.get('date_from') or fields.Date.Date.context_today(self)
-        date_to_txt = self._context.get('date_to') or fields.Date.Date.context_today(self)
+        date_from_txt = self._context.get('date_from') or fields.Date.Date.Date.context_today(self)
+        date_to_txt = self._context.get('date_to') or fields.Date.Date.Date.context_today(self)
         date_from = min(fields.Date.from_string(date_from_txt), fields.Date.from_string(date_to_txt))
         date_to = max(fields.Date.from_string(date_from_txt), fields.Date.from_string(date_to_txt))
         return date_from, date_to
@@ -52,7 +52,7 @@ class ResourceAnalysisReport(models.Model):
         if self.env.user.has_group('ngsd_base.group_td'):
             self = self.sudo()
         date_from, date_to = self._get_date_range()
-        today = fields.Date.Date.context_today(self).strftime('%Y-%m-%d')
+        today = fields.Date.Date.Date.context_today(self).strftime('%Y-%m-%d')
         datetime_from = datetime.combine(date_from, time.min)
         datetime_to = datetime.combine(date_to, time.max)
         self.env['resource.analysis.report'].sudo().search([]).unlink()

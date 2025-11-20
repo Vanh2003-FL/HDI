@@ -975,7 +975,7 @@ class ResourceDetail(models.Model):
   @api.depends('date_start', 'date_end')
   def _get_readonly_date(self):
     for rec in self:
-      today_month = fields.Date.Date.context_today(rec)
+      today_month = fields.Date.Date.Date.context_today(rec)
       date_today = today_month.day
       month_pre = (today_month - relativedelta(months=1)).replace(day=1)
       month_current = today_month.replace(day=1)
@@ -996,13 +996,13 @@ class ResourceDetail(models.Model):
           if rec.date_end >= month_current:
             rec.edit_date_end = True
 
-      # rec.edit_date_start = not rec.date_start or rec.date_start >= fields.Date.Date.context_today(rec) or not rec.old_line_id or rec.employee_id.en_type_id.is_hidden
-      # rec.edit_date_end = not rec.date_end or rec.date_end >= fields.Date.Date.context_today(rec) or not rec.old_line_id or rec.employee_id.en_type_id.is_hidden
+      # rec.edit_date_start = not rec.date_start or rec.date_start >= fields.Date.Date.Date.context_today(rec) or not rec.old_line_id or rec.employee_id.en_type_id.is_hidden
+      # rec.edit_date_end = not rec.date_end or rec.date_end >= fields.Date.Date.Date.context_today(rec) or not rec.old_line_id or rec.employee_id.en_type_id.is_hidden
 
   @api.onchange('date_start')
   def _onchange_check_date_start(self):
     for rec in self:
-      today_month = fields.Date.Date.context_today(rec)
+      today_month = fields.Date.Date.Date.context_today(rec)
       date_today = today_month.day
       month_pre = (today_month - relativedelta(months=1)).replace(day=1)
       month_current = today_month.replace(day=1)
@@ -1019,7 +1019,7 @@ class ResourceDetail(models.Model):
   @api.onchange('date_end')
   def _onchange_check_date_end(self):
     for rec in self:
-      today_month = fields.Date.Date.context_today(rec)
+      today_month = fields.Date.Date.Date.context_today(rec)
       date_today = today_month.day
       month_pre = (today_month - relativedelta(months=1)).replace(day=1)
       month_current = today_month.replace(day=1)

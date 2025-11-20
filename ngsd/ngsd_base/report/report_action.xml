@@ -9,7 +9,6 @@
 <!--                <field name="binding_model_id" ref="crm.model_crm_lead"/>-->
 <!--                <field name="binding_type">report</field>-->
 <!--        </record>-->
-    <!-- Temporarily disabled due to missing ngsd_report_docx module
     <record id="report_qdtlda_action" model="ir.actions.report">
         <field name="name">Biểu mẫu QĐTL</field>
         <field name="model">project.project</field>
@@ -28,6 +27,5 @@
         <field name="print_report_name">'%s' % (object.name)</field>
         <field name="binding_model_id"/>
     </record>
-    -->
 
 </odoo>

@@ -16,7 +16,7 @@ from markupsafe import Markup
 from odoo import models, fields, api, _
 from odoo.addons.web.controllers.main import clean_action
 from odoo.exceptions import RedirectWarning
-from odoo.osv import expression
+from odoo.fields import Domain
 from odoo.tools import config, date_utils, get_lang, html2plaintext
 from odoo.tools.misc import formatLang, format_date
 import xlsxwriter
@@ -283,7 +283,7 @@ class AccountReport(models.AbstractModel):
                 date_from = self.env.company.compute_fiscalyear_dates(date_to)['date_from']
                 options_filter = 'custom'
             elif previous_filter == 'today':
-                date_to = fields.Date.Date.context_today(self)
+                date_to = fields.Date.Date.Date.context_today(self)
                 date_from = date_utils.get_month(date_to)[0]
                 options_filter = 'custom'
             elif previous_filter:
@@ -324,16 +324,16 @@ class AccountReport(models.AbstractModel):
         # Compute 'date_from' / 'date_to'.
         if not date_from or not date_to:
             if options_filter == 'today':
-                date_to = fields.Date.Date.context_today(self)
+                date_to = fields.Date.Date.Date.context_today(self)
                 date_from = date_utils.get_month(date_to)[0]
             elif 'month' in options_filter:
-                date_from, date_to = date_utils.get_month(fields.Date.Date.context_today(self))
+                date_from, date_to = date_utils.get_month(fields.Date.Date.Date.context_today(self))
                 period_type = 'month'
             elif 'quarter' in options_filter:
-                date_from, date_to = date_utils.get_quarter(fields.Date.Date.context_today(self))
+                date_from, date_to = date_utils.get_quarter(fields.Date.Date.Date.context_today(self))
                 period_type = 'quarter'
             elif 'year' in options_filter:
-                company_fiscalyear_dates = self.env.company.compute_fiscalyear_dates(fields.Date.Date.context_today(self))
+                company_fiscalyear_dates = self.env.company.compute_fiscalyear_dates(fields.Date.Date.Date.context_today(self))
                 date_from = company_fiscalyear_dates['date_from']
                 date_to = company_fiscalyear_dates['date_to']
             elif options_filter == 'custom':
@@ -1215,14 +1215,14 @@ class AccountReport(models.AbstractModel):
                 if len(selected_journals) == 1:
                     ctx['search_default_journal_id'] = selected_journals
                 elif selected_journals:  # Otherwise, nothing is selected, so we want to display everything
-                    domain = expression.AND([domain, [('journal_id', 'in', selected_journals)]])
+                    domain = Domain.AND([domain, [('journal_id', 'in', selected_journals)]])
 
             if options.get('analytic_accounts'):
                 analytic_ids = [int(r) for r in options['analytic_accounts']]
-                domain = expression.AND([domain, [('analytic_account_id', 'in', analytic_ids)]])
+                domain = Domain.AND([domain, [('analytic_account_id', 'in', analytic_ids)]])
             if options.get('date'):
                 opt_date = options['date']
-                domain = expression.AND([domain, self._get_options_date_domain(options)])
+                domain = Domain.AND([domain, self._get_options_date_domain(options)])
             # In case the line has been generated for a "group by" financial line, append the parent line's domain to the one we created
             if params.get('financial_group_line_id'):
                 # In case the hierarchy is enabled, 'financial_group_line_id' might be a string such
@@ -1231,7 +1231,7 @@ class AccountReport(models.AbstractModel):
                     'financial_group_line_id']):
                     parent_financial_report_line = self.env['account.financial.html.report.line'].browse(
                         params['financial_group_line_id'])
-                    domain = expression.AND([domain, ast.literal_eval(parent_financial_report_line.domain)])
+                    domain = Domain.AND([domain, ast.literal_eval(parent_financial_report_line.domain)])
 
             if not options.get('all_entries'):
                 ctx['search_default_posted'] = True

@@ -1,6 +1,6 @@
 from odoo import fields, models, api
 
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class MailMessage(models.Model):
@@ -16,9 +16,9 @@ class MailMessage(models.Model):
             :returns list(dict).
         """
     if max_id:
-      domain = expression.AND([domain, [('id', '<', max_id)]])
+      domain = Domain.AND([domain, [('id', '<', max_id)]])
     if min_id:
-      domain = expression.AND([domain, [('id', '>', min_id)]])
+      domain = Domain.AND([domain, [('id', '>', min_id)]])
     messages = self.search(domain, limit=limit)
     new_messages = messages
     for message in messages:

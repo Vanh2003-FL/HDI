@@ -122,7 +122,7 @@ class HrLeaveType(models.Model):
         ])
 
         if not date:
-            date = fields.Date.to_date(self.env.context.get('default_date_from')) or fields.Date.Date.context_today(self)
+            date = fields.Date.to_date(self.env.context.get('default_date_from')) or fields.Date.Date.Date.context_today(self)
 
         # The allocation_employees dictionary groups the allocations based on the employee and the holiday type
         # The structure is the following:
@@ -319,7 +319,7 @@ class HrLeaveType(models.Model):
         }
 
         if not date:
-            date = fields.Date.to_date(self.env.context.get('default_date_from')) or fields.Date.Date.context_today(self)
+            date = fields.Date.to_date(self.env.context.get('default_date_from')) or fields.Date.Date.Date.context_today(self)
 
         allocations_days_consumed = self._get_employees_days_per_allocation(employee_ids, date)
 
@@ -414,9 +414,9 @@ class HolidaysAllocation(models.Model):
         for rec in self:
             advance_leave = 0
             employee = rec.employee_id
-            if employee and rec.use_advance_leave and employee.en_date_start and relativedelta(employee.departure_date or fields.Date.Date.context_today(self), employee.en_date_start).years > 0:
+            if employee and rec.use_advance_leave and employee.en_date_start and relativedelta(employee.departure_date or fields.Date.Date.Date.context_today(self), employee.en_date_start).years > 0:
                 total_number_of_days = rec.number_of_days
-                current_month = fields.Date.Date.context_today(self).month
+                current_month = fields.Date.Date.Date.context_today(self).month
                 total_number_of_days_by_month = (current_month // 3 + 2) * 3
                 current_level = rec.accrual_plan_id.level_ids[:1]
                 if rec.allocation_type == 'accrual' and current_level.maximum_leave and current_level.added_value_type == "days":
@@ -429,7 +429,7 @@ class HolidaysAllocation(models.Model):
         for rec in self:
             total_number_of_days = rec.number_of_days
             employee = rec.employee_id
-            if employee and rec.use_advance_leave and employee.en_date_start and relativedelta(employee.departure_date or fields.Date.Date.context_today(self), employee.en_date_start).years > 0:
+            if employee and rec.use_advance_leave and employee.en_date_start and relativedelta(employee.departure_date or fields.Date.Date.Date.context_today(self), employee.en_date_start).years > 0:
                 total_number_of_days += rec.advance_leave
                 current_level = rec.accrual_plan_id.level_ids[:1]
                 if rec.allocation_type == 'accrual' and current_level.maximum_leave and current_level.added_value_type == "days":
@@ -441,7 +441,7 @@ class HolidaysAllocation(models.Model):
         for rec in self:
             total_number_of_days = rec.number_of_days
             employee = rec.employee_id
-            if employee and employee.en_date_start and relativedelta(employee.departure_date or fields.Date.Date.context_today(self), employee.en_date_start).years > 0:
+            if employee and employee.en_date_start and relativedelta(employee.departure_date or fields.Date.Date.Date.context_today(self), employee.en_date_start).years > 0:
                 total_number_of_days += rec.advance_leave
                 current_level = rec.accrual_plan_id.level_ids[:1]
                 if rec.allocation_type == 'accrual' and current_level.maximum_leave and current_level.added_value_type == "days":

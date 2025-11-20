@@ -6,7 +6,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
-from odoo.osv import expression
+from odoo.fields import Domain
 
 DISPLAY_FORMATS = {
     'day': '%d %b %Y',
@@ -114,7 +114,7 @@ class Base(models.AbstractModel):
                 # In backward timeline, if columns are out of given range, we need
                 # to set initial value for calculating correct percentage
                 if timeline == 'backward' and col_index == 0:
-                    outside_timeline_domain = expression.AND(
+                    outside_timeline_domain = Domain.AND(
                         [
                             group['__domain'],
                             ['|',

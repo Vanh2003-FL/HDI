@@ -10,7 +10,7 @@ from odoo import api, fields, models, _
 from odoo.addons.helpdesk.models.helpdesk_ticket import TICKET_PRIORITY
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.web.controllers.main import clean_action
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class HelpdeskTeam(models.Model):
@@ -20,6 +20,7 @@ class HelpdeskTeam(models.Model):
     _order = 'sequence,name'
     _rating_satisfaction_days = 30  # include only last 30 days to compute satisfaction
 
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [('not_portal_show_rating_if_not_use_rating',
                          'check (portal_show_rating = FALSE OR use_rating = TRUE)',
                          'Cannot show ratings in portal if not using them'), ]
@@ -311,7 +312,7 @@ class HelpdeskTeam(models.Model):
             list_fields.insert(2, 'sla_reached_late')
 
         HelpdeskTicket = self.env['helpdesk.ticket']
-        tickets = HelpdeskTicket.search_read(expression.AND([domain, [('stage_id.is_close', '=', False)]]), ['sla_deadline', 'open_hours', 'sla_reached_late', 'priority'])
+        tickets = HelpdeskTicket.search_read(Domain.AND([domain, [('stage_id.is_close', '=', False)]]), ['sla_deadline', 'open_hours', 'sla_reached_late', 'priority'])
 
         result = {
             'helpdesk_target_closed': self.env.user.helpdesk_target_closed,

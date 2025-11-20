@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from ast import literal_eval
-
 from odoo import models, fields, api, exceptions
 from odoo.tools.translate import _
 from odoo.tools import consteq
-
-from odoo.osv import expression
-
 import uuid
 
 
@@ -32,21 +28,20 @@ class DocumentShare(models.Model):
         ('ids', "Document list"),
         ('domain', "Domain"),
     ], default='ids', string="Share type")
-    # type == 'ids'
+
     document_ids = fields.Many2many('documents.document', string='Shared Documents')
-    # type == 'domain'
     domain = fields.Char()
 
     action = fields.Selection([
         ('download', "Download"),
         ('downloadupload', "Download and Upload"),
     ], default='download', string="Allows to")
+
     tag_ids = fields.Many2many('documents.tag', string="Shared Tags")
     partner_id = fields.Many2one('res.partner', string="Contact")
     owner_id = fields.Many2one('res.users', string="Document Owner")
     email_drop = fields.Boolean(string='Upload by Email')
 
-    # Activity
     activity_option = fields.Boolean(string='Create a new activity')
     activity_type_id = fields.Many2one('mail.activity.type', string="Activity type")
     activity_summary = fields.Char('Summary')
@@ -64,17 +59,9 @@ class DocumentShare(models.Model):
     ]
 
     def name_get(self):
-        name_array = []
-        for record in self:
-            name_array.append((record.id, record.name or "unnamed link"))
-        return name_array
+        return [(rec.id, rec.name or "unnamed link") for rec in self]
 
     def _get_documents(self, document_ids=None):
-        """
-        :param list[int] document_ids: limit to the list of documents to fetch.
-        :return: recordset of the documents that can be accessed by the create_uid based on the settings
-        of the share link.
-        """
         self.ensure_one()
         limited_self = self.with_user(self.create_uid)
         Documents = limited_self.env['documents.document']
@@ -96,24 +83,21 @@ class DocumentShare(models.Model):
                 domains.append([('type', '!=', 'empty')])
         else:
             share_ids = limited_self.document_ids.ids
-            search_ids = search_ids.intersection(share_ids) if search_ids else share_ids
+            search_ids = search_ids.intersection(share_ids) if search_ids else set(share_ids)
 
         if search_ids or self.type != 'domain':
             domains.append([('id', 'in', list(search_ids))])
 
-        search_domain = expression.AND(domains)
+        # Domain AND = nối list
+        search_domain = []
+        for d in domains:
+            search_domain += d
+
         return Documents.search(search_domain)
 
     def _get_writable_documents(self, documents):
-        """
-
-        :param documents:
-        :return: the recordset of documents for which the create_uid has write access
-        False only if no write right.
-        """
         self.ensure_one()
         try:
-            # checks the rights first in case of empty recordset
             documents.with_user(self.create_uid).check_access_rights('write')
         except exceptions.AccessError:
             return False
@@ -128,24 +112,13 @@ class DocumentShare(models.Model):
             return False
 
     def _get_documents_and_check_access(self, access_token, document_ids=None, operation='write'):
-        """
-        :param str access_token: the access_token to be checked with the share link access_token
-        :param list[int] document_ids: limit to the list of documents to fetch and check from the share link.
-        :param str operation: access right to check on documents (read/write).
-        :return: Recordset[documents.document]: all the accessible requested documents
-        False if it fails access checks: False always means "no access right", if there are no documents but
-        the rights are valid, it still returns an empty recordset.
-        """
         self.ensure_one()
         if not self._check_token(access_token):
             return False
         if self.state == 'expired':
             return False
         documents = self._get_documents(document_ids)
-        if operation == 'write':
-            return self._get_writable_documents(documents)
-        else:
-            return documents
+        return self._get_writable_documents(documents) if operation == 'write' else documents
 
     def _compute_can_upload(self):
         for record in self:
@@ -155,17 +128,11 @@ class DocumentShare(models.Model):
             record.can_upload = in_write_group or not folder_has_groups
 
     def _compute_state(self):
-        """
-        changes the state based on the expiration date,
-         an expired share link cannot be used to upload or download files.
-        """
         for record in self:
             record.state = 'live'
             if record.date_deadline:
-                today = fields.Date.from_string(fields.Date.today())
-                exp_date = fields.Date.from_string(record.date_deadline)
-                diff_time = (exp_date - today).days
-                if diff_time <= 0:
+                today = fields.Date.today()
+                if record.date_deadline <= today:
                     record.state = 'expired'
 
     @api.onchange('access_token')
@@ -174,16 +141,17 @@ class DocumentShare(models.Model):
             record.full_url = "%s/document/share/%s/%s" % (record.get_base_url(), record.id, record.access_token)
 
     def _alias_get_creation_values(self):
-        values = super(DocumentShare, self)._alias_get_creation_values()
+        values = super()._alias_get_creation_values()
         values['alias_model_id'] = self.env['ir.model']._get('documents.document').id
         if self.id:
-            values['alias_defaults'] = defaults = literal_eval(self.alias_defaults or "{}")
+            defaults = literal_eval(self.alias_defaults or "{}")
             defaults.update({
                 'tag_ids': [(6, 0, self.tag_ids.ids)],
                 'folder_id': self.folder_id.id,
                 'partner_id': self.partner_id.id,
                 'create_share_id': self.id,
             })
+            values['alias_defaults'] = defaults
         return values
 
     def _get_share_popup(self, context, vals):
@@ -195,28 +163,23 @@ class DocumentShare(models.Model):
             'name': _('Share selected records') if vals.get('type') == 'ids' else _('Share domain'),
             'res_id': self.id if self else False,
             'type': 'ir.actions.act_window',
-            'views': [[view_id, 'form']], 
+            'views': [[view_id, 'form']],
         }
 
     def send_share_by_mail(self, template_xmlid):
         self.ensure_one()
-        request_template = self.env.ref(template_xmlid, raise_if_not_found=False)
-        if request_template:
-            request_template.send_mail(self.id)
+        template = self.env.ref(template_xmlid, raise_if_not_found=False)
+        if template:
+            template.send_mail(self.id)
 
     @api.model
     def create(self, vals):
         if not vals.get('owner_id'):
             vals['owner_id'] = self.env.uid
-        share = super(DocumentShare, self).create(vals)
-        return share
+        return super().create(vals)
 
     @api.model
     def open_share_popup(self, vals):
-        """
-        returns a view.
-        :return: a form action that opens the share window to display the settings.
-        """
         new_context = dict(self.env.context)
         new_context.update({
             'default_owner_id': self.env.uid,
@@ -232,5 +195,4 @@ class DocumentShare(models.Model):
         self.unlink()
 
     def action_generate_url(self):
-        #Reload the wizard view to display the generated full url.
         return self._get_share_popup(self.env.context, {'type': self.type})

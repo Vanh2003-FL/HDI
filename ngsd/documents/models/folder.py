@@ -74,6 +74,7 @@ class DocumentFolder(models.Model):
                 en_project_id = rec.parent_folder_id.en_project_id
             rec.en_project_id = en_project_id
 
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [
         ('check_user_specific', 'CHECK(not ((NOT user_specific OR user_specific IS NULL) and user_specific_write))',
          'Own Documents Only may not be enabled for write groups if it is not enabled for read groups.')

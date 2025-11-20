@@ -132,7 +132,7 @@ class HrAttendanceExplanation(models.Model):
         self.ensure_one()
         if self.create_uid != self.env.user:
             raise UserError('Chỉ người giải trình mới có thể gửi phê duyệt!')
-        if self.explanation_date > fields.Date.Date.context_today(self):
+        if self.explanation_date > fields.Date.Date.Date.context_today(self):
             raise UserError('Không thể tạo giải trình trong tương lai!')
         if self.submission_code in ['TSDA', 'TSNDA']:
             if self.ts_ids:
@@ -309,7 +309,7 @@ class HrAttendanceExplanation(models.Model):
         en_attendance_request_start = int(self.env['ir.config_parameter'].sudo().get_param('en_attendance_request_start'))
         time_to_float = self.env['en.hr.overtime'].time_to_float
         for rec in self:
-            today = fields.Date.Date.context_today(self)
+            today = fields.Date.Date.Date.context_today(self)
             day = today.day
             start_date = today + relativedelta(day=en_attendance_request_start)
             if day <= en_attendance_request_start:

@@ -38,8 +38,8 @@ class TimesheetDetailByProject(models.Model):
         self = self.sudo()
         ctx = self._context
         employee_ids = ctx.get('employee_ids')
-        date_from_txt = self._context.get('date_from') or fields.Date.Date.context_today(self)
-        date_to_txt = self._context.get('date_to') or fields.Date.Date.context_today(self)
+        date_from_txt = self._context.get('date_from') or fields.Date.Date.Date.context_today(self)
+        date_to_txt = self._context.get('date_to') or fields.Date.Date.Date.context_today(self)
 
         date_from = fields.Date.from_string(date_from_txt)
         date_to = fields.Date.from_string(date_to_txt)

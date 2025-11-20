@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from odoo.osv import expression
+from odoo.osv.expression import AND, OR
 from odoo.tools import image_process
 from ast import literal_eval
 from dateutil.relativedelta import relativedelta
@@ -69,6 +69,7 @@ class Document(models.Model):
                                  help="This attachment will only be available for the selected user groups",
                                  related='folder_id.group_ids')
 
+    # TODO: Migrate _sql_constraints to individual models.Constraint objects
     _sql_constraints = [
         ('attachment_unique', 'unique (attachment_id)', "This attachment is already a document"),
     ]
@@ -196,18 +197,18 @@ class Document(models.Model):
                 domain = literal_eval(rule.domain) if rule.domain else []
             else:
                 if rule.criteria_partner_id:
-                    domain = expression.AND([[['partner_id', '=', rule.criteria_partner_id.id]], domain])
+                    domain = AND([[('partner_id', '=', rule.criteria_partner_id.id)], domain])
                 if rule.criteria_owner_id:
-                    domain = expression.AND([[['owner_id', '=', rule.criteria_owner_id.id]], domain])
+                    domain = AND([[('owner_id', '=', rule.criteria_owner_id.id)], domain])
                 if rule.create_model:
-                    domain = expression.AND([[['type', '=', 'binary']], domain])
+                    domain = AND([[('type', '=', 'binary')], domain])
                 if rule.required_tag_ids:
-                    domain = expression.AND([[['tag_ids', 'in', rule.required_tag_ids.ids]], domain])
+                    domain = AND([[('tag_ids', 'in', rule.required_tag_ids.ids)], domain])
                 if rule.excluded_tag_ids:
-                    domain = expression.AND([[['tag_ids', 'not in', rule.excluded_tag_ids.ids]], domain])
+                    domain = AND([[('tag_ids', 'not in', rule.excluded_tag_ids.ids)], domain])
 
-            folder_domain = [['folder_id', 'child_of', rule.domain_folder_id.id]]
-            subset = expression.AND([[['id', 'in', self.ids]], domain, folder_domain])
+            folder_domain = [('folder_id', 'child_of', rule.domain_folder_id.id)]
+            subset = AND([[('id', 'in', self.ids)], domain, folder_domain])
             document_ids = self.env['documents.document'].search(subset)
             for document in document_ids:
                 document.available_rule_ids = [(4, rule.id, False)]
@@ -286,7 +287,7 @@ class Document(models.Model):
                     'note': settings_record.activity_note or '',
                 }
                 if settings_record.activity_date_deadline_range > 0:
-                    activity_vals['date_deadline'] = fields.Date.Date.context_today(settings_record) + relativedelta(
+                    activity_vals['date_deadline'] = fields.Date.Date.Date.context_today(settings_record) + relativedelta(
                         **{settings_record.activity_date_deadline_range_type: settings_record.activity_date_deadline_range})
                 if settings_record._fields.get('has_owner_activity') and settings_record.has_owner_activity and record.owner_id:
                     user = record.owner_id
@@ -456,14 +457,14 @@ class Document(models.Model):
                 available_folders = self.env['documents.folder'].search([('en_project_id', '=', False)])
             if is_project:
                 available_folders = self.env['documents.folder'].search([('en_project_id', '!=', False)])
-            folder_domain = expression.OR([[('parent_folder_id', 'parent_of', available_folders.ids)], [('id', 'in', available_folders.ids)]])
+            folder_domain = OR([[('parent_folder_id', 'parent_of', available_folders.ids)], [('id', 'in', available_folders.ids)]])
             # also fetches the ancestors of the available folders to display the complete folder tree for all available folders.
             DocumentFolder = self.env['documents.folder'].sudo().with_context(hierarchical_naming=False)
             records = DocumentFolder.search_read(folder_domain, fields)
 
             domain_image = {}
             if enable_counters:
-                model_domain = expression.AND([
+                model_domain = AND([
                     kwargs.get('search_domain', []),
                     kwargs.get('category_domain', []),
                     kwargs.get('filter_domain', []),
@@ -516,7 +517,7 @@ class Document(models.Model):
         if field_name == 'tag_ids':
             folder_id = category_domain[0][2] if len(category_domain) else False
             if folder_id:
-                domain = expression.AND([
+                domain = AND([
                     search_domain, category_domain, filter_domain,
                     [(field_name, '!=', False)],
                 ])
@@ -525,12 +526,12 @@ class Document(models.Model):
                 return {'values': []}
 
         elif field_name == 'res_model':
-            domain = expression.AND([search_domain, category_domain])
+            domain = AND([search_domain, category_domain])
             model_values = self._get_models(domain)
 
             if filter_domain:
                 # fetch new counters
-                domain = expression.AND([search_domain, category_domain, filter_domain])
+                domain = AND([search_domain, category_domain, filter_domain])
                 model_count = {
                     model['id']: model['__count']
                     for model in self._get_models(domain)
