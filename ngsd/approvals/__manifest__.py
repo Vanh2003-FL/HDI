@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Approvals',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     'category': 'Human Resources/Approvals',
     'sequence': 190,
     'summary': 'Create and validate approvals requests',

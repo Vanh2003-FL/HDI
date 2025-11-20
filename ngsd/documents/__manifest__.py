@@ -11,7 +11,7 @@
     'author': "Odoo",
     'category': 'Productivity/Documents',
     'sequence': 80,
-    'version': '1.1',
+    'version': '18.0.1.1.0',
     'application': True,
     'website': 'https://www.odoo.com/app/documents',
 

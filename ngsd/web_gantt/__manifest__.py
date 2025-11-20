@@ -9,7 +9,7 @@ Odoo Web Gantt chart view.
 =============================
 
     """,
-    'version': '2.0',
+    'version': '18.0.2.0.0',
     'depends': ['web'],
     'assets': {
         'web.assets_qweb': [
