@@ -10,8 +10,7 @@ access_approval_approver_manager,approval.approver.manager,model_approval_approv
 access_submission_type_user,submission.type.user,model_submission_type,base.group_user,1,0,0,0
 access_submission_type_manager,submission.type.manager,model_submission_type,hdi_attendance.group_attendance_manager,1,1,1,1
 access_reason_for_refuse_wizard_user,reason.for.refuse.wizard.user,model_reason_for_refuse_wizard,base.group_user,1,1,1,1
-access_explanation_task_timesheet_user,explanation.task.timesheet.user,model_explanation_task_timesheet,base.group_user,1,1,1,1
-access_explanation_task_timesheet_line_user,explanation.task.timesheet.line.user,model_explanation_task_timesheet_line,base.group_user,1,1,1,1
 access_report_timekeeping_wizard_user,report.timekeeping.wizard.user,model_report_timekeeping_wizard,base.group_user,1,1,1,1
+
 
 

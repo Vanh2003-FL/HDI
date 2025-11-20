@@ -73,39 +73,40 @@ class HrAttendanceLog(models.Model):
     ]
     
     # === CRUD OVERRIDES ===
-    @api.model
-    def create(self, vals):
-        """Prevent near-duplicate entries"""
-        if 'timestamp' not in vals or not vals.get('timestamp'):
-            vals['timestamp'] = fields.Datetime.now()
-        
-        # Check for near-duplicates (within 3 seconds)
-        try:
-            timestamp_dt = fields.Datetime.from_string(vals['timestamp'])
-            check_time = timestamp_dt - timedelta(seconds=3)
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Prevent near-duplicate entries - batch support for Odoo 18"""
+        for vals in vals_list:
+            if 'timestamp' not in vals or not vals.get('timestamp'):
+                vals['timestamp'] = fields.Datetime.now()
             
-            existing = self.search([
-                ('employee_id', '=', vals.get('employee_id')),
-                ('action', '=', vals.get('action')),
-                ('processed', '=', False),
-                ('timestamp', '>=', fields.Datetime.to_string(check_time))
-            ], limit=1)
-            
-            if existing:
-                _logger.warning(
-                    'Preventing near-duplicate attendance log for employee %s',
-                    vals.get('employee_id')
-                )
-                raise ValidationError(_(
-                    'Yêu cầu chấm công gần giống nhau đã được phát hiện. '
-                    'Vui lòng đợi vài giây trước khi thử lại.'
-                ))
-        except Exception as e:
-            if isinstance(e, ValidationError):
-                raise
-            _logger.error('Error checking duplicates: %s', e)
+            # Check for near-duplicates (within 3 seconds)
+            try:
+                timestamp_dt = fields.Datetime.from_string(vals['timestamp'])
+                check_time = timestamp_dt - timedelta(seconds=3)
+                
+                existing = self.search([
+                    ('employee_id', '=', vals.get('employee_id')),
+                    ('action', '=', vals.get('action')),
+                    ('processed', '=', False),
+                    ('timestamp', '>=', fields.Datetime.to_string(check_time))
+                ], limit=1)
+                
+                if existing:
+                    _logger.warning(
+                        'Preventing near-duplicate attendance log for employee %s',
+                        vals.get('employee_id')
+                    )
+                    raise ValidationError(_(
+                        'Yêu cầu chấm công gần giống nhau đã được phát hiện. '
+                        'Vui lòng đợi vài giây trước khi thử lại.'
+                    ))
+            except Exception as e:
+                if isinstance(e, ValidationError):
+                    raise
+                _logger.error('Error checking duplicates: %s', e)
         
-        return super().create(vals)
+        return super().create(vals_list)
     
     # === PROCESSING METHODS ===
     def mark_processed(self, note=None):
