@@ -22,8 +22,7 @@ class EnLenderEmployee(models.Model):
   _inherit = ['mail.thread', 'mail.activity.mixin']
 
   code = fields.Char('Mã phiếu')
-  date = fields.Date('Ngày', default=fields.Date.today(),
-                     states=READONLY_STATES_1)
+  date = fields.Date('Ngày', default=fields.Date.today())
   borrower_id = fields.Many2one('res.users', 'Người đi mượn',
                                 related='borrow_employee_id.borrower_id')
   department_borrower_id = fields.Many2one('hr.department', 'Trung tâm đi mượn',
@@ -44,8 +43,7 @@ class EnLenderEmployee(models.Model):
                                        ondelete='cascade')
   lender_employee_ids = fields.One2many('en.lender.employee.detail',
                                         'lender_employee_id',
-                                        string='Chi tiết danh sách mượn',
-                                        states=READONLY_STATES_1)
+                                        string='Chi tiết danh sách mượn')
   is_borrower = fields.Boolean(compute='_compute_check_borrower')
   is_lender = fields.Boolean(compute='_compute_check_lender')
 
@@ -163,22 +161,19 @@ class EnLenderEmployeeDetail(models.Model):
   _rec_name = 'employee_id'
 
   employee_id = fields.Many2one('hr.employee', 'Tên nhân sự',
-                                states=READONLY_STATES_2,
                                 context={'active_test': False})
   email = fields.Char(related='employee_id.work_email', store=True,
                       string='Email')
   job_position_id = fields.Many2one('en.job.position', 'Vị trí',
                                     domain="[('id', 'in', job_position_ids)]",
-                                    required=True, states=READONLY_STATES_2)
+                                    required=True)
   job_position_ids = fields.Many2many('en.job.position', string='Domain vị trí',
                                       compute='_compute_job_position')
   level_id = fields.Many2one('en.name.level', 'Cấp bậc',
                              related='employee_id.en_level_id', store=True,
                              readonly=True)
-  date_start = fields.Date('Ngày bắt đầu', required=True,
-                           states=READONLY_STATES_2)
-  date_end = fields.Date('Ngày kết thúc', required=True,
-                         states=READONLY_STATES_2)
+  date_start = fields.Date('Ngày bắt đầu', required=True)
+  date_end = fields.Date('Ngày kết thúc', required=True)
   date_return = fields.Date('Ngày trả', compute='_get_date_return', store=True)
 
   @api.depends('date_end')
@@ -189,8 +184,8 @@ class EnLenderEmployeeDetail(models.Model):
       else:
         rec.date_return = False
 
-  workload = fields.Float('Workload', required=True, states=READONLY_STATES_2)
-  description = fields.Text('Mô tả chi tiết', states=READONLY_STATES_2)
+  workload = fields.Float('Workload', required=True)
+  description = fields.Text('Mô tả chi tiết')
   state = fields.Selection(string="Trạng thái", selection=[
     ('new', 'Mới'),
     ('receive', 'Tiếp nhận'),

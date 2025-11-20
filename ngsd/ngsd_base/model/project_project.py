@@ -2461,7 +2461,7 @@ class Wbs(models.Model):
             for rec in self]
 
   project_id = fields.Many2one(string='Dự án', comodel_name='project.project',
-                               required=True, states=READONLY_STATES)
+                               required=True)
 
   def get_flow_domain(self):
     return [('model_id.model', '=', self._name), '|',

@@ -186,7 +186,7 @@ class RestServiceRegistration(models.AbstractModel):
             and getattr(comp, "_is_rest_service_component", True)
         )
 
-    def build_registry(self, services_registry, states=None, exclude_addons=None):
+    def build_registry(self, services_registry, exclude_addons=None):
         if not states:
             states = ("installed", "to upgrade")
         # we load REST, controllers following the order of the 'addons'

@@ -422,9 +422,8 @@ class QualityControl(models.Model):
     return rslt
 
   approver_id = fields.Many2one(string='Người phê duyệt',
-                                states=READONLY_STATES,
                                 comodel_name='res.users')
-  reason = fields.Char(string='Lý do từ chối', states=READONLY_STATES,
+  reason = fields.Char(string='Lý do từ chối',
                        copy=False, readonly=True)
   state = fields.Selection(string='Trạng thái', selection=[('draft', 'Dự kiến'),
                                                            ('to_approve',
@@ -451,9 +450,8 @@ class QualityControl(models.Model):
     return 'refused'
 
   name = fields.Char(string='Tên', default=lambda
-      self: f"[{self.version_number}] {dict(self.fields_get(['version_type'])['version_type']['selection'])[self.version_type] if self.version_type else ''}",
-                     states=EDIT_DRAFT_STATES, required=True)
-  project_id = fields.Many2one(string='Dự án', states=READONLY_STATES,
+      self: f"[{self.version_number}] {dict(self.fields_get(['version_type'])['version_type']['selection'])[self.version_type] if self.version_type else ''}", required=True)
+  project_id = fields.Many2one(string='Dự án',
                                comodel_name='project.project', required=True)
 
   def get_flow_domain(self):
@@ -462,11 +460,10 @@ class QualityControl(models.Model):
             ('project_ids', '=', False)]
 
   project_code = fields.Char(related='project_id.en_code', string='Mã dự án')
-  user_id = fields.Many2one(string='Người tạo', states=EDIT_DRAFT_STATES,
+  user_id = fields.Many2one(string='Người tạo',
                             comodel_name='res.users',
                             default=lambda self: self.env.user, required=True)
   order_line = fields.One2many(string='Chi tiết kiểm soát chất lượng',
-                               states=EDIT_DRAFT_STATES,
                                comodel_name='en.quality.detail',
                                inverse_name='order_id', copy=False)
 

@@ -303,9 +303,9 @@ class HrOvertime(models.Model):
             )
         return res
 
-    en_nonproject_task_id = fields.Many2one('en.nonproject.task', string='Công việc ngoài dự án', states=READONLY_FIELD_STATES)
+    en_nonproject_task_id = fields.Many2one('en.nonproject.task', string='Công việc ngoài dự án')
 
-    task_id = fields.Many2one(string='Công việc', comodel_name='project.task', states=READONLY_FIELD_STATES)
+    task_id = fields.Many2one(string='Công việc', comodel_name='project.task')
     project_id = fields.Many2one(string='Dự án', comodel_name='project.project', related='task_id.project_id', store=True)
     project_code = fields.Char(related='project_id.en_code')
 
@@ -316,12 +316,12 @@ class HrOvertime(models.Model):
         for rec in self:
             rec.technical_field_27817 = self.env['project.task'].search([('timesheet_ids.employee_id', '=', rec.employee_id.id), ('timesheet_ids.holiday_id', '=', False), ('timesheet_ids.global_leave_id', '=', False)])
 
-    type_id = fields.Many2one(string='Loại tăng ca', comodel_name='en.hr.overtime.type', required=False, states=READONLY_FIELD_STATES)
+    type_id = fields.Many2one(string='Loại tăng ca', comodel_name='en.hr.overtime.type', required=False)
 
-    employee_id = fields.Many2one(string='Nhân viên', comodel_name='hr.employee', required=True, default=lambda self: self.env.user.employee_id, states=READONLY_FIELD_STATES)
+    employee_id = fields.Many2one(string='Nhân viên', comodel_name='hr.employee', required=True, default=lambda self: self.env.user.employee_id)
     employee_barcode = fields.Char(string='Mã nhân viên', related='employee_id.barcode', store=True)
 
-    approver_id = fields.Many2one(string='Người phê duyệt', domain="[('id','in',technical_field_27821)]", comodel_name='res.users', compute_sudo=True, compute='_compute_approver_id', store=True, readonly=False, required=False, states=READONLY_FIELD_STATES)
+    approver_id = fields.Many2one(string='Người phê duyệt', domain="[('id','in',technical_field_27821)]", comodel_name='res.users', compute_sudo=True, compute='_compute_approver_id', store=True, readonly=False, required=False)
 
     technical_field_27821 = fields.Many2many(string='🤣', comodel_name='res.users', compute='_compute_technical_field_27821', compute_sudo=True)
 
@@ -351,13 +351,13 @@ class HrOvertime(models.Model):
         for rec in self:
             rec.is_other_employee = rec.employee_id.department_id.manager_id.user_id != rec.task_id.project_id.en_project_block_id
 
-    description = fields.Text(string='Mô tả', states=READONLY_FIELD_STATES)
+    description = fields.Text(string='Mô tả')
     name = fields.Text(string='Mô tả')
     date = fields.Date(string='Ngày', compute='_get_date', store=True)
     time_start = fields.Float(string='Giờ bắt đầu', required=True, default=7)
     time_end = fields.Float(string='Giờ kết thúc', required=True, default=7)
-    date_from = fields.Datetime(string='Ngày bắt đầu', required=True, states=READONLY_FIELD_STATES, compute='_get_date', store=True)
-    date_to = fields.Datetime(string='Ngày kết thúc', required=True, states=READONLY_FIELD_STATES, compute='_get_date', store=True)
+    date_from = fields.Datetime(string='Ngày bắt đầu', required=True, compute='_get_date', store=True)
+    date_to = fields.Datetime(string='Ngày kết thúc', required=True, compute='_get_date', store=True)
     time = fields.Float(string='Số giờ tăng ca', compute_sudo=True, compute='_compute_time', store=True)
     en_overtime_plan_id = fields.Many2one('en.overtime.plan', string='Kế hoạch OT', domain="[('id', 'in', en_overtime_plan_domain), ('state', '=', 'approved')]", required=1)
     en_overtime_plan_domain = fields.Many2many('en.overtime.plan', compute='_get_en_overtime_plan_domain')

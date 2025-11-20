@@ -15,7 +15,7 @@ class EnBorrowEmployee(models.Model):
   _inherit = 'ngsd.approval'
   _rec_name = 'code'
 
-  name = fields.Char('Tên phiếu', required=True, states=READONLY_STATES)
+  name = fields.Char('Tên phiếu', required=True)
   borrower_id = fields.Many2one('res.users', 'Người đi mượn',
                                 default=lambda self: self.env.uid)
   department_borrower_id = fields.Many2one('hr.department', 'Trung tâm đi mượn',
@@ -43,10 +43,8 @@ class EnBorrowEmployee(models.Model):
     ('cancel', 'Hủy'),
   ], required=False, default='draft')
   approver_id = fields.Many2one(string='Người phê duyệt',
-                                states=READONLY_STATES,
                                 comodel_name='res.users')
-  date = fields.Date('Ngày mượn', default=fields.Date.today(), required=True,
-                     states=READONLY_STATES)
+  date = fields.Date('Ngày mượn', default=fields.Date.today(), required=True)
   code = fields.Char('Mã phiếu')
   borrow_employee_detail_ids = fields.One2many('en.borrow.employee.detail',
                                                'borrow_employee_id',

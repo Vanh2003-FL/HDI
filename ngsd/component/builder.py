@@ -56,7 +56,7 @@ class ComponentBuilder(models.AbstractModel):
         _component_databases[self.env.cr.dbname] = components_registry
         return components_registry
 
-    def build_registry(self, components_registry, states=None, exclude_addons=None):
+    def build_registry(self, components_registry, exclude_addons=None):
         if not states:
             states = ("installed", "to upgrade")
         # lookup all the installed (or about to be) addons and generate
