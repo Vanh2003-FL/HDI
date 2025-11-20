@@ -24,7 +24,7 @@
                             <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}</attribute>
                         </xpath>
                         <xpath expr="//header" position="inside">
-                            <button string="Hủy" type="object" name="action_cancel" button="btn-secondary" attrs="{'invisible':[('state','!=', 'open')]}"/>
+                            <button string="Hủy" type="object" name="action_cancel" button="btn-secondary" invisible="state != 'open'"/>
                             <button string="Lịch sử" type="object" name="button_show_history"/>
                         </xpath>
                         <xpath expr="//field[@name='name']" position="attributes">
@@ -41,16 +41,16 @@
                                 <field name="working_hour"/>
                                 <field name="basic_salary"/>
                                 <field name="contract_type" invisible="1"/>
-                                <field name="remuneration" attrs="{'invisible':[('contract_type','!=','hdkv')]}"/>
-                                <field name="payment_batch_ids" attrs="{'invisible':[('contract_type','!=','hdkv')]}">
+                                <field name="remuneration" invisible="contract_type != 'hdkv'"/>
+                                <field name="payment_batch_ids" invisible="contract_type != 'hdkv'">
                                     <list editable="bottom">
                                          <field name="name"/>
                                          <field name="money"/>
                                          <field name="note"/>
                                     </list>
                                 </field>
-                                <field name="training_location" attrs="{'invisible':[('contract_type','!=','hddtf')]}"/>
-                                <field name="training_cost_ids" attrs="{'invisible':[('contract_type','!=','hddtf')]}">
+                                <field name="training_location" invisible="contract_type != 'hddtf'"/>
+                                <field name="training_cost_ids" invisible="contract_type != 'hddtf'">
                                     <list editable="bottom">
                                         <field name="sequence"/>
                                         <field name="content"/>
@@ -59,10 +59,10 @@
                                         <field name="amount" sum="amount"/>
                                     </list>
                                 </field>
-                                <field name="monthly_performance_bonus" attrs="{'invisible':[('contract_type','!=','plhdld')]}"/>
-                                <field name="lunch_allowance" attrs="{'invisible':[('contract_type','!=','plhdld')]}"/>
-                                <field name="phone_allowance" attrs="{'invisible':[('contract_type','!=','plhdld')]}"/>
-                                <field name="travel_allowance" attrs="{'invisible':[('contract_type','!=','plhdld')]}"/>
+                                <field name="monthly_performance_bonus" invisible="contract_type != 'plhdld'"/>
+                                <field name="lunch_allowance" invisible="contract_type != 'plhdld'"/>
+                                <field name="phone_allowance" invisible="contract_type != 'plhdld'"/>
+                                <field name="travel_allowance" invisible="contract_type != 'plhdld'"/>
                             </group>
                         </xpath>
                         <xpath expr="//page[@name='information']" position="attributes">
@@ -72,7 +72,7 @@
                             <attribute name="required">0</attribute>
                         </xpath>
                         <xpath expr="//field[@name='hr_responsible_id']" position="after">
-                            <field name="extension_status"  attrs="{'readonly': False}"/>
+                            <field name="extension_status"/>
                         </xpath>
                         <xpath expr="//div[@class='oe_chatter']" position="replace"/>
                     </field>

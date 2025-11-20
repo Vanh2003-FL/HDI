@@ -11,13 +11,13 @@
                 <xpath expr="//field[@name='group_ids']" position="after">
                     <field name="domain_role_ids" widget="many2many_tags" invisible="1"/>
                     <field name="domain_employee_ids" widget="many2many_tags" invisible="1"/>
-                    <field name="role_write_ids" widget="many2many_tags" domain="[('id', 'in', domain_role_ids)]" attrs="{'invisible': [('all_employee_read', '=', True)]}"/>
-                    <field name="employee_write_ids" widget="many2many_tags" domain="[('id', 'in', domain_employee_ids)]" attrs="{'invisible': [('all_employee_read', '=', True)]}"/>
+                    <field name="role_write_ids" widget="many2many_tags" domain="[('id', 'in', domain_role_ids)]" invisible="all_employee_read"/>
+                    <field name="employee_write_ids" widget="many2many_tags" domain="[('id', 'in', domain_employee_ids)]" invisible="all_employee_read"/>
                     <field name="employee_write_role_ids" widget="many2many_tags" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='read_group_ids']" position="after">
-                    <field name="role_read_ids" widget="many2many_tags" domain="[('id', 'in', domain_role_ids)]" attrs="{'invisible': [('all_employee_read', '=', True)]}"/>
-                    <field name="employee_read_ids" widget="many2many_tags" domain="[('id', 'in', domain_employee_ids)]" attrs="{'invisible': [('all_employee_read', '=', True)]}"/>
+                    <field name="role_read_ids" widget="many2many_tags" domain="[('id', 'in', domain_role_ids)]" invisible="all_employee_read"/>
+                    <field name="employee_read_ids" widget="many2many_tags" domain="[('id', 'in', domain_employee_ids)]" invisible="all_employee_read"/>
                     <field name="employee_read_role_ids" widget="many2many_tags" invisible="1"/>
                     <field name="all_employee_read"/>
                 </xpath>

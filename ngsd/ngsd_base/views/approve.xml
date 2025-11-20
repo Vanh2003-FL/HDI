@@ -99,13 +99,13 @@
 <!--                                    <field name="sequence" widget="handle"/>-->
                                     <field name="visible_sequence"/>
                                     <field name="type"/>
-                                    <field name="role_id" attrs="{'invisible': [('type', '!=', 'role')],'readonly': [('type', '!=', 'role')]}" invisible="1"/>
-                                    <field name="role_selection" attrs="{'invisible': [('type', '!=', 'role')],'readonly': [('type', '!=', 'role')]}"/>
-                                    <field name="user_id" attrs="{'invisible': [('type', '!=', 'person')],'readonly': [('type', '!=', 'person')]}"/>
-                                    <field name="en_role_detail" attrs="{'readonly': [('type', '!=', 'person')]}"/>
-                                    <field name="amount" attrs="{'readonly':['|',('parent.model','=','en.hr.overtime'),('resource_unit','not in',['mm'])],'invisible':[('resource_unit','not in',['mm'])], 'column_invisible': [('parent.model','=','en.hr.overtime')]}"/>
-                                    <field name="en_amount" widget="percentage" attrs="{'readonly':['|',('parent.model','=','en.hr.overtime'),('resource_unit','not in',['budget','baseline'])],'invisible':[('resource_unit','not in',['budget','baseline'])], 'column_invisible': [('parent.model','=','en.hr.overtime')]}"/>
-                                    <field name="resource_unit" attrs="{'readonly':[('parent.model','=','en.hr.overtime')], 'column_invisible': [('parent.model','=','en.hr.overtime')]}"/>
+                                    <field name="role_id" invisible="1" readonly="type != 'role'"/>
+                                    <field name="role_selection" invisible="type != 'role'" readonly="type != 'role'"/>
+                                    <field name="user_id" invisible="type != 'person'" readonly="type != 'person'"/>
+                                    <field name="en_role_detail" readonly="type != 'person'"/>
+                                    <field name="amount" readonly="parent.model == 'en.hr.overtime' or resource_unit not in ['mm']" invisible="resource_unit not in ['mm']" column_invisible="parent.model == 'en.hr.overtime'"/>
+                                    <field name="en_amount" widget="percentage" readonly="parent.model == 'en.hr.overtime' or resource_unit not in ['budget','baseline']" invisible="resource_unit not in ['budget','baseline']" column_invisible="parent.model == 'en.hr.overtime'"/>
+                                    <field name="resource_unit" readonly="parent.model == 'en.hr.overtime'" column_invisible="parent.model == 'en.hr.overtime'"/>
                                 </list>
                             </field>
                         </page>

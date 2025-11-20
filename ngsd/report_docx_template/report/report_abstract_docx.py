@@ -1,6 +1,6 @@
 import logging, re, os, copy, io, base64, docxtpl, locale
 from datetime import datetime
-from odoo import *
+from odoo import models, api
 from pytz import timezone
 
 _logger = logging.getLogger(__name__)

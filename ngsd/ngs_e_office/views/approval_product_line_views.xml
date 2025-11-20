@@ -9,12 +9,12 @@
                 <attribute name="attrs">{'column_invisible': [('parent.approval_type', '=', 'car')]}</attribute>
             </xpath>
             <xpath expr="//field[@name='product_uom_id']" position="after">
-<!--                <field name="license_plate" attrs="{'column_invisible': [('parent.approval_type', '!=', 'car')]}"/>-->
-                <field name="location_start" attrs="{'column_invisible': [('parent.approval_type', '!=', 'car')]}"/>
-                <field name="location_end" attrs="{'column_invisible': [('parent.approval_type', '!=', 'car')]}"/>
-                <field name="start_time" attrs="{'column_invisible': [('parent.approval_type', '!=', 'car')]}"/>
-                <field name="to_use" attrs="{'column_invisible': [('parent.approval_type', '!=', 'vpp')]}"/>
-                <field name="desired_time" attrs="{'column_invisible': [('parent.approval_type', '!=', 'vpp')], 'required': [('parent.approval_type', '=', 'vpp')]}"/>
+<!--                <field name="license_plate" column_invisible="parent.approval_type != 'car'"/>-->
+                <field name="location_start" column_invisible="parent.approval_type != 'car'"/>
+                <field name="location_end" column_invisible="parent.approval_type != 'car'"/>
+                <field name="start_time" column_invisible="parent.approval_type != 'car'"/>
+                <field name="to_use" column_invisible="parent.approval_type != 'vpp'"/>
+                <field name="desired_time" column_invisible="parent.approval_type != 'vpp'" required="parent.approval_type == 'vpp'"/>
             </xpath>
             <xpath expr="//field[@name='product_id']" position="attributes">
                 <attribute name="domain">[('en_service_type', '=', parent.product_type_domain)]</attribute>
@@ -22,13 +22,13 @@
                 <attribute name="string">Sản phẩm</attribute>
             </xpath>
 <!--            <xpath expr="//field[@name='product_id']" position="after">-->
-<!--                <field name="product_car_id" domain="[('en_service_type', '=', parent.product_type_domain)]" string="Xe" attrs="{'column_invisible': [('parent.approval_type', '!=', 'car')]}"/>-->
+<!--                <field name="product_car_id" domain="[('en_service_type', '=', parent.product_type_domain)]" string="Xe" column_invisible="parent.approval_type != 'car'"/>-->
 <!--            </xpath>-->
             <xpath expr="//field[@name='description']" position="attributes">
                 <attribute name="attrs">{'column_invisible': [('parent.approval_type', '=', 'car')], 'required': [('parent.approval_type', '!=', 'car')]}</attribute>
             </xpath>
             <xpath expr="//field[@name='description']" position="after">
-                <field name="car_description" string="Yêu cầu đặc biệt" attrs="{'column_invisible': [('parent.approval_type', '!=', 'car')]}"/>
+                <field name="car_description" string="Yêu cầu đặc biệt" column_invisible="parent.approval_type != 'car'"/>
             </xpath>
         </field>
     </record>

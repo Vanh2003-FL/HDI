@@ -143,7 +143,7 @@
             <form string="Stage Search">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" type="object" name="action_open_helpdesk_ticket" icon="fa-life-ring" attrs="{'invisible': [('ticket_count', '=', 0)]}">
+                        <button class="oe_stat_button" type="object" name="action_open_helpdesk_ticket" icon="fa-life-ring" invisible="ticket_count == 0">
                             <field name="ticket_count" widget="statinfo" string="Tickets"/>
                         </button>
                     </div>
@@ -297,9 +297,9 @@
         <field name="arch" type="xml">
             <form string="SLA Policy">
                 <sheet>
-                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" type="object" name="action_open_helpdesk_ticket" icon="fa-life-ring" attrs="{'invisible': [('ticket_count', '=', 0)]}">
+                        <button class="oe_stat_button" type="object" name="action_open_helpdesk_ticket" icon="fa-life-ring" invisible="ticket_count == 0">
                             <field name="ticket_count" widget="statinfo" string="Tickets"/>
                         </button>
                     </div>
@@ -523,8 +523,8 @@
 <!--                <field name="priority_id" optional="hide"/>-->
 <!--                <field name="handler_id" optional="hide"/>-->
 <!--                <field name="supervisor_id" optional="hide"/>-->
-<!--                <field name="sla_status_ids" widget="many2many_tags" attrs="{'invisible': [('use_sla', '=', False)]}" options="{'color_field': 'color'}" string="SLAs" optional="hide" readonly="1"/>-->
-<!--                <field name="sla_deadline" attrs="{'invisible': [('use_sla', '=', False)]}" optional="show" widget="remaining_days"/>-->
+<!--                <field name="sla_status_ids" widget="many2many_tags" invisible="not use_sla" options="{'color_field': 'color'}" string="SLAs" optional="hide" readonly="1"/>-->
+<!--                <field name="sla_deadline" invisible="not use_sla" optional="show" widget="remaining_days"/>-->
 <!--                <field name="ticket_type_id" options="{'no_create_edit': True}" optional="hide"/>-->
 <!--                <field name="tag_ids" optional="hide" widget="many2many_tags" options="{'color_field': 'color'}"/>-->
 <!--&lt;!&ndash;                <field name="kanban_state" optional="hide" readonly="1" widget="state_selection"/>&ndash;&gt;-->
@@ -695,7 +695,7 @@
         <field name="arch" type="xml">
             <form string="Helpdesk Ticket">
                 <header>
-                    <button name="assign_ticket_to_self" string="Assign To Me" type="object" class="oe_highlight" groups="helpdesk.group_helpdesk_user" attrs="{'invisible': 1}" data-hotkey="q"/>
+                    <button name="assign_ticket_to_self" string="Assign To Me" type="object" class="oe_highlight" groups="helpdesk.group_helpdesk_user" invisible="1" data-hotkey="q"/>
                     <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}"/>
                 </header>
                 <sheet>
@@ -703,16 +703,16 @@
                     <field name="legend_normal" invisible="1"/>
                     <field name="legend_done" invisible="1"/>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" type="object" name="action_open_helpdesk_ticket" icon="fa-life-ring" attrs="{'invisible': ['|', ('partner_id', '=', False), ('partner_ticket_count', '=', 0)]}">
+                        <button class="oe_stat_button" type="object" name="action_open_helpdesk_ticket" icon="fa-life-ring" invisible="not partner_id or partner_ticket_count == 0">
                             <field name="partner_ticket_count" widget="statinfo" string="Tickets"/>
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                     <field name="kanban_state" widget="state_selection"/>
                     <field name="use_sla" invisible="1"/>
                     <div class="oe_title">
                         <h1><field name="name" class="field_name" placeholder="Subject..."/></h1>
-                        <field name="sla_status_ids" widget="many2many_tags" attrs="{'invisible': [('use_sla', '=', False)]}" options="{'color_field': 'color', 'no_edit_color': True}" readonly="1" groups="helpdesk.group_use_sla"/>
+                        <field name="sla_status_ids" widget="many2many_tags" invisible="not use_sla" options="{'color_field': 'color', 'no_edit_color': True}" readonly="1" groups="helpdesk.group_use_sla"/>
                     </div>
                     <group>
                         <group>
@@ -738,11 +738,11 @@
                             <field name="en_system_id"/>
                             <field name="resource_id"/>
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                            <field name="partner_id" class="field_partner_id" attrs="{'invisible': [('is_internal', '=', True)]}" options="{'no_open': True, 'no_create': True, 'no_quick_create':True, 'no_create_edit':True}" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" context="{'list_view_ref': 'helpdesk.res_partner_view_tree_search_more','default_name': partner_name, 'default_email': partner_email, 'default_phone': partner_phone, 'view_all_res_partner': True}"/>
-                            <field name="partner_name" attrs="{'invisible': ['|', ('is_internal', '=', True), ('partner_id', '!=', False)]}"/>
-                            <field name="partner_email" widget="email" string="Email" attrs="{'invisible': [('is_internal', '=', True)]}"/>
-                            <field name="partner_phone" widget="phone" string="Phone" attrs="{'invisible': [('is_internal', '=', True)]}"/>
-                            <field name="email_cc" groups="base.group_no_one" attrs="{'invisible': [('is_internal', '=', True)]}"/>
+                            <field name="partner_id" class="field_partner_id" invisible="is_internal" options="{'no_open': True, 'no_create': True, 'no_quick_create':True, 'no_create_edit':True}" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" context="{'list_view_ref': 'helpdesk.res_partner_view_tree_search_more','default_name': partner_name, 'default_email': partner_email, 'default_phone': partner_phone, 'view_all_res_partner': True}"/>
+                            <field name="partner_name" invisible="is_internal or partner_id"/>
+                            <field name="partner_email" widget="email" string="Email" invisible="is_internal"/>
+                            <field name="partner_phone" widget="phone" string="Phone" invisible="is_internal"/>
+                            <field name="email_cc" groups="base.group_no_one" invisible="is_internal"/>
 <!--                            <field name="priority" widget="priority"/>-->
                             <field name="sla_deadline" widget="remaining_days" invisible="1" groups="helpdesk.group_use_sla"/>
                             <field name="company_id" groups="base.group_multi_company" context="{'create': False}"/>
@@ -761,7 +761,7 @@
                             <field name="en_dl_rep"/>
                             <field name="en_day_rep"/>
                             <field name="total_time_pending" force_save="1" readonly="1"/>
-                            <field name="en_dl" attrs="{'readonly': [('manual_deadline', '=', False)]}"/>
+                            <field name="en_dl" readonly="not manual_deadline"/>
                             <field name="en_day_com"/>
                             <field name="en_date_end"/>
                             <field name="en_sla_feedback" widget="percentage"/>

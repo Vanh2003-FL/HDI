@@ -1,4 +1,3 @@
-from odoo import *
 from odoo import _, api, fields, models
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, time, timedelta, date

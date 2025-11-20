@@ -175,7 +175,7 @@
                 </xpath>
                 <xpath expr="//button[@name='action_set_won_rainbowman']" position="after">
                     <button name="%(ngsd_crm.crm_lead_win_action)d" string="Thắng" data-hotkey="l" title="Mark as won"
-                            type="action" class="oe_highlight" context="{'default_lead_id': active_id, 'default_contract_code': contract_code, 'default_date_deadline': date_deadline}" attrs="{'invisible': ['|','|', '|', ('active','=',False), ('probability', '=', 100), ('type', '=', 'lead'), ('company_type', '!=', 'ncs')]}"/>
+                            type="action" class="oe_highlight" context="{'default_lead_id': active_id, 'default_contract_code': contract_code, 'default_date_deadline': date_deadline}" invisible="not active or probability == 100 or type == 'lead' or company_type != 'ncs'"/>
                 </xpath>
                 <!--                group view-->
                 <xpath expr="//field[@name='user_id']" position="replace"/>
@@ -195,18 +195,18 @@
                     <attribute name="attrs">{'invisible': [('company_type', '=', 'ncs')]}</attribute>
                 </xpath>
                 <xpath expr="//label[@for='expected_revenue']" position="after">
-                    <label for="expected_revenue" string="Doanh số" class="oe_edit_only" attrs="{'invisible': [('company_type', '!=', 'ncs')]}"/>
+                    <label for="expected_revenue" string="Doanh số" class="oe_edit_only" invisible="company_type != 'ncs'"/>
                 </xpath>
                 <xpath expr="//label[@for='name'][2]" position="attributes">
                     <attribute name="attrs">{'invisible': ['|', ('type', '=', 'lead'), ('company_type', '=', 'ncs')]}</attribute>
                 </xpath>
                 <xpath expr="//label[@for='name'][2]" position="after">
-                    <label for="name" string="Tên cơ hội" attrs="{'invisible': [('company_type', '!=', 'ncs')]}"/>
+                    <label for="name" string="Tên cơ hội" invisible="company_type != 'ncs'"/>
                 </xpath>
                 <xpath expr="//field[@name='team_id']" position="after">
-                    <field name="x_ktv_ids" attrs="{'required': [('company_type', '=', 'ncs')], 'invisible': [('company_type', '!=', 'ncs')]}" widget="many2many_tags"/>
-                    <field name="x_consulting_team" attrs="{'invisible': [('company_type', '!=', 'ngsd')]}" widget="many2many_tags"/>
-                    <field name="x_development_team" attrs="{'invisible': [('company_type', '!=', 'ngsd')]}" widget="many2many_tags"/>
+                    <field name="x_ktv_ids" required="company_type == 'ncs'" invisible="company_type != 'ncs'" widget="many2many_tags"/>
+                    <field name="x_consulting_team" invisible="company_type != 'ngsd'" widget="many2many_tags"/>
+                    <field name="x_development_team" invisible="company_type != 'ngsd'" widget="many2many_tags"/>
                     <field name="x_region_id"/>
                 </xpath>
                 <xpath expr="//label[@for='email_from']" position="attributes">
@@ -237,7 +237,7 @@
                 <!--                </xpath>-->
 
                 <xpath expr="//label[@for='name']" position="before">
-                    <h3 class="o_row no-gutters align-items-end" attrs="{'invisible': [('company_type', '!=', 'ngsd')]}">
+                    <h3 class="o_row no-gutters align-items-end" invisible="company_type != 'ngsd'">
                         <div class="col">
                             <div class="o_row">
                                 <label for="contract_code"/>
@@ -249,16 +249,16 @@
                 </xpath>
                 <xpath expr="//h1" position="after">
                     <field name="company_type" invisible="1"/>
-                    <h5 class="o_row no-gutters align-items-end" attrs="{'invisible': [('company_type', '=', 'dmc')]}">
+                    <h5 class="o_row no-gutters align-items-end" invisible="company_type == 'dmc'">
                         <div class="col">
                             <div class="o_row">
-                                <label for="code" string="Mã cơ hội" attrs="{'invisible': [('company_type', '!=', 'ncs')]}"/>
+                                <label for="code" string="Mã cơ hội" invisible="company_type != 'ncs'"/>
                                 <!-- Không điền string để lấy string từ khai báo field -->
-                                <label for="code" attrs="{'invisible': [('company_type', '=', 'ncs')]}"/>
-                                <field name="code" class="pr-2 oe_inline" attrs="{'readonly': [('company_type', '=', 'ncs')]}"/>
+                                <label for="code" invisible="company_type == 'ncs'"/>
+                                <field name="code" class="pr-2 oe_inline" readonly="company_type == 'ncs'"/>
                             </div>
                             <br/>
-                            <div class="o_row" attrs="{'invisible': [('company_type', '!=', 'ncs')]}">
+                            <div class="o_row" invisible="company_type != 'ncs'">
                                 <label for="ncs_state"/>
                                 <field name="ncs_state" class="pr-2 oe_inline"/>
                             </div>
@@ -321,52 +321,52 @@
                                                }</attribute>
                 </xpath>
                 <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="before">
-                    <field name="total_revenue" attrs="{'invisible': [('company_type', '!=', 'dmc')]}" widget="monetary" options="{'currency_field': 'company_currency'}"/>
-                    <field name="ncs_revenue" placeholder="Nhập “,” nếu là số thập phân" attrs="{'invisible': [('company_type', '!=', 'ncs')]}" widget="monetary" options="{'currency_field': 'company_currency'}"/>
-                    <field name="gross_profit_ratio" placeholder="Nhập “,” nếu là số thập phân" widget="percentage" attrs="{'invisible': [('company_type', '!=', 'ncs')]}" style="width:100%"/>
-                    <field name="gross_profit_value" attrs="{'invisible': [('company_type', '!=', 'ncs')]}" style="width:100%" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                    <field name="total_revenue" invisible="company_type != 'dmc'" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                    <field name="ncs_revenue" placeholder="Nhập “,” nếu là số thập phân" invisible="company_type != 'ncs'" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                    <field name="gross_profit_ratio" placeholder="Nhập “,” nếu là số thập phân" widget="percentage" invisible="company_type != 'ncs'" style="width:100%"/>
+                    <field name="gross_profit_value" invisible="company_type != 'ncs'" style="width:100%" widget="monetary" options="{'currency_field': 'company_currency'}"/>
                 </xpath>
                 <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="after">
-                    <field name="legal_id" attrs="{'required': [('company_type', '=', 'ncs')], 'invisible': [('company_type', '!=', 'ncs')]}"/>
-                    <field name="main_partner_id" attrs="{'invisible': [('company_type', '!=', 'dmc')]}"/>
-                    <field name="tender_model_id" attrs="{'invisible': [('company_type', '=', 'ncs')]}"/>
+                    <field name="legal_id" required="company_type == 'ncs'" invisible="company_type != 'ncs'"/>
+                    <field name="main_partner_id" invisible="company_type != 'dmc'"/>
+                    <field name="tender_model_id" invisible="company_type == 'ncs'"/>
                     <field name="company_currency" position="move"/>
                     <field name="company_currency" position="attributes">
                         <attribute name="invisible">0</attribute>
                     </field>
-                    <field name="ngsd_revenue" attrs="{'invisible': [('company_type', '=', 'ncs')]}" widget="monetary" options="{'currency_field': 'company_currency'}"/>
-                    <field name="expected_revenue" widget="monetary" options="{'currency_field': 'company_currency'}" attrs="{'invisible': [('company_type', '!=', 'ngsd')]}"/>
+                    <field name="ngsd_revenue" invisible="company_type == 'ncs'" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                    <field name="expected_revenue" widget="monetary" options="{'currency_field': 'company_currency'}" invisible="company_type != 'ngsd'"/>
                     <!--                    <field name="ngsd_revenue" widget="monetary" options="{'currency_field': 'company_currency'}"/>-->
                     <field name="role_id"/>
 <!--                    <field name="x_am_lead_id"/>-->
                     <field name="x_am_lead_ids" widget="many2many_tags"/>
                     <field name="user_id" context="{'default_sales_team_id': team_id}" widget="many2one_avatar_user"/>
                     <field name="solution_architect_uids"
-                           widget="many2many_tags" attrs="{'invisible': [('company_type', '=', 'ncs')]}"
+                           widget="many2many_tags" invisible="company_type == 'ncs'"
                     />
                 </xpath>
                 <!--                cột 2-->
                 <xpath expr="//field[@name='date_deadline']" position="before">
-                    <field name="budget_approval_date" attrs="{'invisible': [('company_type', '=', 'ncs')]}"/>
-                    <field name="bid_opening_date" attrs="{'invisible': [('company_type', '=', 'ncs')]}"/>
-                    <field name="bid_closing_date" attrs="{'invisible': [('company_type', '=', 'ncs')]}"/>
-                    <field name="x_project_type_id" attrs="{'required': [('company_type', '=', 'ncs')], 'invisible': [('company_type', 'not in', ['ngsd','ncs'])]}"/>
-                    <field name="to_sign_date" attrs="{'required': [('company_type', '=', 'ncs')], 'invisible': [('company_type', '!=', 'ncs')]}"/>
-                    <field name="to_sign_xhd" attrs="{'required': [('company_type', '=', 'ncs')], 'invisible': [('company_type', '!=', 'ncs')]}"/>
-                    <label for="contract_code" string="Số năm KH" attrs="{'invisible': [('company_type', '!=', 'ncs')]}"/>
-                    <div class="o_row" attrs="{'invisible': [('company_type', '!=', 'ncs')]}">
+                    <field name="budget_approval_date" invisible="company_type == 'ncs'"/>
+                    <field name="bid_opening_date" invisible="company_type == 'ncs'"/>
+                    <field name="bid_closing_date" invisible="company_type == 'ncs'"/>
+                    <field name="x_project_type_id" required="company_type == 'ncs'" invisible="company_type not in ['ngsd','ncs']"/>
+                    <field name="to_sign_date" required="company_type == 'ncs'" invisible="company_type != 'ncs'"/>
+                    <field name="to_sign_xhd" required="company_type == 'ncs'" invisible="company_type != 'ncs'"/>
+                    <label for="contract_code" string="Số năm KH" invisible="company_type != 'ncs'"/>
+                    <div class="o_row" invisible="company_type != 'ncs'">
                         <field name="contract_code"/>
                     </div>
                 </xpath>
                 <xpath expr="//field[@name='date_deadline']" position="after">
-                    <field name="kickoff_planned_date" attrs="{'invisible': [('company_type', '=', 'ncs')]}"/>
-                    <field name="project_end_date" attrs="{'invisible': [('company_type', '=', 'ncs')]}"/>
-                    <field name="compete_id" attrs="{'invisible': [('company_type', '=', 'ncs')]}"/>
-                    <field name="last_update_note" attrs="{'invisible': [('company_type', '!=', 'dmc')]}"/>
+                    <field name="kickoff_planned_date" invisible="company_type == 'ncs'"/>
+                    <field name="project_end_date" invisible="company_type == 'ncs'"/>
+                    <field name="compete_id" invisible="company_type == 'ncs'"/>
+                    <field name="last_update_note" invisible="company_type != 'dmc'"/>
                 </xpath>
                 <xpath expr="//page[@name='lead']" position="after">
-                    <page name="support-history" string="Lịch sử chăm sóc" attrs="{'invisible': [('company_type', '=', 'ncs')]}">
-                        <field name="x_support_history_ids" attrs="{'readonly': [('company_type', '=', 'ncs')]}">
+                    <page name="support-history" string="Lịch sử chăm sóc" invisible="company_type == 'ncs'">
+                        <field name="x_support_history_ids" readonly="company_type == 'ncs'">
                             <list editable="bottom">
                                 <field name="x_date"/>
                                 <field name="technical_field_27310" widget="many2many_tags" invisible="1"/>
@@ -376,8 +376,8 @@
                             </list>
                         </field>
                     </page>
-                    <page name="process-history" string="Mô tả chi tiết tiến độ" attrs="{'invisible': [('company_type', '!=', 'ncs')]}">
-                        <field name="x_process_history_ids" attrs="{'readonly': [('company_type', '!=', 'ncs')]}">
+                    <page name="process-history" string="Mô tả chi tiết tiến độ" invisible="company_type != 'ncs'">
+                        <field name="x_process_history_ids" readonly="company_type != 'ncs'">
                             <list editable="bottom">
                                 <field name="x_date"/>
                                 <field name="x_note"/>
@@ -390,31 +390,31 @@
                 </xpath>
                 <!--                List-->
                 <xpath expr="//group" position="after">
-                    <group string="Thông tin sản phẩm" attrs="{'invisible': [('company_type', '=', 'ncs')]}">
+                    <group string="Thông tin sản phẩm" invisible="company_type == 'ncs'">
                         <field name="line_ids" nolabel="1">
                             <list editable="bottom">
                                 <field name="company_type" invisible="1"/>
                                 <field name="currency_id" invisible="1"/>
                                 <field name="type_id"/>
-                                <field name="description" attrs="{'column_invisible': [('parent.company_type', '=', 'ngsd')]}"/>
-                                <field name="categ_id" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
-                                <field name="product_name" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')], 'required': [('parent.company_type', '=', 'ngsd')]}"/>
-                                <field name="supplier_id" domain="[('is_supplier','=',True)]" options="{'no_open':True,'no_create':True,'no_quick_create':True,'no_create_edit':True}" context="{'default_activity_user_ids':[(6,0,[parent.user_id])],'default_is_supplier': True}" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
+                                <field name="description" column_invisible="parent.company_type == 'ngsd'"/>
+                                <field name="categ_id" column_invisible="parent.company_type != 'ngsd'"/>
+                                <field name="product_name" column_invisible="parent.company_type != 'ngsd'" required="parent.company_type == 'ngsd'"/>
+                                <field name="supplier_id" domain="[('is_supplier','=',True)]" options="{'no_open':True,'no_create':True,'no_quick_create':True,'no_create_edit':True}" context="{'default_activity_user_ids':[(6,0,[parent.user_id])],'default_is_supplier': True}" column_invisible="parent.company_type != 'ngsd'"/>
                                 <field name="partner_id" domain="[('is_manufacturer','=',True)]" options="{'no_open':True,'no_create':True,'no_quick_create':True,'no_create_edit':True}" context="{'default_activity_user_ids':[(6,0,[parent.user_id])],'default_is_manufacturer': True}"/>
-                                <field name="ngsd_revenue" widget="monetary" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
-                                <field name="ngsd_revenue_taxed" widget="monetary" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
-                                <field name="estimated_value" widget="monetary" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
-                                <field name="total_revenue" widget="monetary" attrs="{'column_invisible': [('parent.company_type', '=', 'ngsd')]}"/>
+                                <field name="ngsd_revenue" widget="monetary" column_invisible="parent.company_type != 'ngsd'"/>
+                                <field name="ngsd_revenue_taxed" widget="monetary" column_invisible="parent.company_type != 'ngsd'"/>
+                                <field name="estimated_value" widget="monetary" column_invisible="parent.company_type != 'ngsd'"/>
+                                <field name="total_revenue" widget="monetary" column_invisible="parent.company_type == 'ngsd'"/>
                                 <field name="note" string="Ghi chú"/>
                             </list>
                         </field>
                     </group>
-                    <!--                    <group attrs="{'invisible': [('company_type', '=', 'ngsd')]}">-->
+                    <!--                    <group invisible="company_type == 'ngsd'">-->
                     <!--                        <field name="file_name" invisible="1"/>-->
                     <!--                        <field name="data_attachment" filename="file_name"/>-->
                     <!--                    </group>-->
                     <!--                    <field name="data_pdf_preview" widget="pdf_viewer" nolabel="1" attrs="{'invisible': ['|', ('file_name', '=', False),('company_type', '=', 'ngsd')]}"/>-->
-                    <group attrs="{'invisible': [('company_type', 'in', ['ngsd', 'ncs'])]}">
+                    <group invisible="company_type in ['ngsd', 'ncs']">
                         <label for="x_attach_file" string="Tệp đính kèm"/>
                         <div name="ir_attachment">
                             <field name="x_attach_file"
@@ -424,8 +424,8 @@
                             />
                         </div>
                     </group>
-                    <group string="Cập nhật tình hình dự án" attrs="{'invisible': [('company_type', '!=', 'dmc')]}">
-                        <field name="x_support_history_ids_no_ngsd" attrs="{'readonly': [('company_type', '!=', 'dmc')]}" nolabel="1">
+                    <group string="Cập nhật tình hình dự án" invisible="company_type != 'dmc'">
+                        <field name="x_support_history_ids_no_ngsd" readonly="company_type != 'dmc'" nolabel="1">
                             <list editable="bottom">
                                 <field name="x_date"/>
                                 <field name="technical_field_27310" widget="many2many_tags" invisible="1"/>
@@ -435,34 +435,34 @@
                             </list>
                         </field>
                     </group>
-                    <group string="Đầu mối liên lạc" attrs="{'invisible': [('company_type', '=', 'ncs')]}">
+                    <group string="Đầu mối liên lạc" invisible="company_type == 'ncs'">
                         <field name="contact_ids" nolabel="1">
                             <list editable="bottom">
                                 <field name="partner_id" context="{'default_parent_id': parent.partner_id}" domain="[('parent_id', '!=', False), ('parent_id', '=', parent.partner_id)]"/>
-                                <field name="role_id" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')], 'required': [('parent.company_type', '=', 'ngsd')]}"/>
-                                <field name="support_state_id" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
+                                <field name="role_id" column_invisible="parent.company_type != 'ngsd'" required="parent.company_type == 'ngsd'"/>
+                                <field name="support_state_id" column_invisible="parent.company_type != 'ngsd'"/>
                                 <field name="note"/>
                             </list>
                         </field>
                     </group>
-                    <!--                    <group string="Người liên hệ" attrs="{'invisible': [('company_type', '!=', 'ncs')]}">-->
+                    <!--                    <group string="Người liên hệ" invisible="company_type != 'ncs'">-->
                     <!--                        <field name="contact_ids" nolabel="1">-->
                     <!--                            <list editable="bottom">-->
                     <!--                                <field name="partner_id" context="{'default_parent_id': parent.partner_id}" domain="[('parent_id', '!=', False), ('parent_id', '=', parent.partner_id)]" string="Người liên hệ "/>-->
                     <!--                                <field name="role_id" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')], 'required': [('parent.company_type', '=', 'ngsd')]}"/>-->
-                    <!--                                <field name="support_state_id" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>-->
+                    <!--                                <field name="support_state_id" column_invisible="parent.company_type != 'ngsd'"/>-->
                     <!--                                <field name="note"/>-->
                     <!--                            </list>-->
                     <!--                        </field>-->
                     <!--                    </group>-->
-                    <group string="Đối thủ" attrs="{'invisible': [('company_type', '=', 'ncs')]}">
+                    <group string="Đối thủ" invisible="company_type == 'ncs'">
                         <field name="opponent_ids" nolabel="1">
                             <list editable="bottom">
                                 <field name="partner_id" domain="[('is_competitors','=',True)]" options="{'no_open':True,'no_create':True,'no_quick_create':True,'no_create_edit':True}" context="{'default_is_competitors': True}"/>
-                                <field name="solution" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
-                                <field name="price" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
-                                <field name="support_pid" context="{'default_parent_id': partner_id}" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
-                                <field name="support_state_id" attrs="{'column_invisible': [('parent.company_type', '!=', 'ngsd')]}"/>
+                                <field name="solution" column_invisible="parent.company_type != 'ngsd'"/>
+                                <field name="price" column_invisible="parent.company_type != 'ngsd'"/>
+                                <field name="support_pid" context="{'default_parent_id': partner_id}" column_invisible="parent.company_type != 'ngsd'"/>
+                                <field name="support_state_id" column_invisible="parent.company_type != 'ngsd'"/>
                                 <field name="note"/>
                             </list>
                         </field>
@@ -500,8 +500,8 @@
                     </page>
                 </page>
                 <field name="expected_revenue" position="after">
-                    <field name="x_expected_ratio" widget="percentage" attrs="{'invisible': [('company_type', '!=', 'ngsd')]}"/>
-                    <field name="x_expected_margin" widget="monetary" options="{'currency_field': 'company_currency'}" attrs="{'invisible': [('company_type', '!=', 'ngsd')]}"/>
+                    <field name="x_expected_ratio" widget="percentage" invisible="company_type != 'ngsd'"/>
+                    <field name="x_expected_margin" widget="monetary" options="{'currency_field': 'company_currency'}" invisible="company_type != 'ngsd'"/>
                 </field>
                 <xpath expr="//page[@name='lead']//group" position="before">
                     <group string="Kế hoạch">
@@ -539,7 +539,7 @@
                 </button>
                 <button name="action_view_sale_quotation" position="replace">
                     <button class="oe_stat_button" type="object"
-                            name="to_x_contract" icon="fa-pencil-square-o" attrs="{'invisible': [('x_contract_count', '=', 0)]}">
+                            name="to_x_contract" icon="fa-pencil-square-o" invisible="x_contract_count == 0">
                         <field name="x_contract_count" widget="statinfo" string="Hợp đồng"/>
                     </button>
                 </button>

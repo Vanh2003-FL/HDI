@@ -100,8 +100,8 @@
                             </div>
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Khả dụng" attrs="{'invisible': [('is_available', '=', False)]}"/>
-                    <widget name="web_ribbon" title="Đang bận" bg_color="bg-danger" attrs="{'invisible': [('is_available', '=', True)]}" />
+                    <widget name="web_ribbon" title="Khả dụng" invisible="not is_available"/>
+                    <widget name="web_ribbon" title="Đang bận" bg_color="bg-danger" invisible="is_available" />
                     <div class="oe_title mb24">
                         <label for="name"/>
                         <h1>

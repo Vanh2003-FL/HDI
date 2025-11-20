@@ -11,7 +11,7 @@
                                 <field name="detail_id"  invisible="1"/>
                                 <field name="type"  invisible="1"/>
                                 <field name="workload"/>
-                                <field name="add_workload" attrs="{'readonly': [('type', '=', 'confirm')]}"/>
+                                <field name="add_workload" readonly="type == 'confirm'"/>
                             </group>
                         </group>
                     </sheet>

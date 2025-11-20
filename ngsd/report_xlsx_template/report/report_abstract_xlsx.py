@@ -1,6 +1,6 @@
 import logging, re, os, copy, xlrd, xlsxwriter, io, base64, locale
 from datetime import datetime
-from odoo import *
+from odoo import models, fields, api
 from pytz import timezone
 from openpyxl import load_workbook
 

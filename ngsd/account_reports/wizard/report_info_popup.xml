@@ -10,7 +10,7 @@
                         <field name="dest_name" invisible="1"/>
                         <field name="period"/>
                     </group>
-                    <group attrs="{'invisible': [('period', '!=', 'optional')]}">
+                    <group invisible="period != 'optional'">
                         <label for="date_from" string="Thời gian"/>
                         <div class="o_row">
                             <field name="date_from" nolabel="1"/>
@@ -18,14 +18,14 @@
                             <field name="date_to" nolabel="1"/>
                         </div>
                     </group>
-                    <group attrs="{'invisible': [('dest_model', '!=', 'project.status.report')]}">
+                    <group invisible="dest_model != 'project.status.report'">
                         <field name="en_area_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
                         <field name="en_department_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
                         <field name="project_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
                         <field name="en_department_domain" invisible="1" widget="many2many_tags"/>
                         <field name="project_domain" invisible="1" widget="many2many_tags"/>
                     </group>
-                    <group attrs="{'invisible': [('dest_model', '!=', 'busy.rate.report')]}">
+                    <group invisible="dest_model != 'busy.rate.report'">
                         <field name="type_employee_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
                     </group>
                 </sheet>

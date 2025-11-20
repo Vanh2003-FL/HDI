@@ -50,10 +50,10 @@
                                     <field name="sequence" widget="handle"/>
                                     <field name="visible_sequence"/>
                                     <field name="type"/>
-                                    <field name="role_id" attrs="{'invisible': [('type', '!=', 'role')],'readonly': [('type', '!=', 'role')]}" invisible="1"/>
-                                    <field name="role_selection" attrs="{'invisible': [('type', '!=', 'role')],'readonly': [('type', '!=', 'role')]}"/>
-                                    <field name="user_id" attrs="{'invisible': [('type', '!=', 'person')],'readonly': [('type', '!=', 'person')]}"/>
-                                    <field name="en_role_detail" attrs="{'readonly': [('type', '!=', 'person')]}"/>
+                                    <field name="role_id" invisible="type != 'role' or 1" readonly="type != 'role'"/>
+                                    <field name="role_selection" invisible="type != 'role'" readonly="type != 'role'"/>
+                                    <field name="user_id" invisible="type != 'person'" readonly="type != 'person'"/>
+                                    <field name="en_role_detail" readonly="type != 'person'"/>
                                     <field name="required"/>
                                 </list>
                             </field>

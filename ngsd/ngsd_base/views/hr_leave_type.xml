@@ -20,11 +20,11 @@
                     <field name="code"/>
                 </xpath>
                 <xpath expr="//field[@name='request_unit']" position="after">
-                    <field name="use_leave_time_slot" attrs="{'invisible': [('request_unit', '!=', 'hour')]}"/>
+                    <field name="use_leave_time_slot" invisible="request_unit != 'hour'"/>
                 </xpath>
                 <xpath expr="//field[@name='allocation_validation_type']" position="after">
-                    <separator string="Phân bổ nghỉ phép" colspan="2" attrs="{'invisible': [('requires_allocation', '!=', 'yes')]}"/>
-                    <field name="ngs_allocation_ids" nolabel="1" colspan="2" attrs="{'invisible': [('requires_allocation', '!=', 'yes')]}"/>
+                    <separator string="Phân bổ nghỉ phép" colspan="2" invisible="requires_allocation != 'yes'"/>
+                    <field name="ngs_allocation_ids" nolabel="1" colspan="2" invisible="requires_allocation != 'yes'"/>
                 </xpath>
             </field>
          </record>

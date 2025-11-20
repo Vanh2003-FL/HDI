@@ -16,14 +16,14 @@
                             string="Generate menu"
                             icon="fa-folder-open-o"
                             context="{'default_dashboard_id': active_id}"
-                            attrs="{'invisible': [('menu_id', '!=', False)]}"
+                            invisible="menu_id"
                         />
                     </div>
                     <group>
                         <field name="name" />
                         <field
                             name="menu_id"
-                            attrs="{'invisible': [('menu_id', '=', False)]}"
+                            invisible="not menu_id"
                         />
                     </group>
                     <notebook>
@@ -152,20 +152,20 @@
                         <field name="modify_context" />
                         <field
                             name="modify_context_expression"
-                            attrs="{'invisible': [('modify_context', '=', False)]}"
+                            invisible="not modify_context"
                             widget="ace"
                             options="{'mode': 'python'}"
                         />
                         <field name="modify_color" />
                         <field
                             name="modify_color_expression"
-                            attrs="{'invisible': [('modify_color', '=', False)]}"
+                            invisible="not modify_color"
                             widget="ace"
                             options="{'mode': 'python'}"
                         />
                         <field
                             name="special_context"
-                            attrs="{'invisible': [('compute_on_fly', '=', False)]}"
+                            invisible="not compute_on_fly"
                         />
                         <field name="compute_on_fly" invisible="1" />
                     </group>

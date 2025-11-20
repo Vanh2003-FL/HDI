@@ -97,7 +97,7 @@
                 </page>
             </xpath>
             <xpath expr="//notebook/page[@name='personal_information']" position="replace">
-                <page name="personal_information" string="Thông tin cá nhân" attrs="{'invisible': [('en_internal_ok', '=', False)]}">
+                <page name="personal_information" string="Thông tin cá nhân" invisible="not en_internal_ok">
                     <group>
                         <group string="Liên lạc cá nhân">
                             <field name="address_current"/>
@@ -110,7 +110,7 @@
                             <field name="private_email" />
                             <field name="phone" class="o_force_ltr" string="Điện thoại"/>
                             <field name="private_lang" string="Ngôn ngữ"/>
-                            <field name="bank_account_id" context="{'display_partner':True}" attrs="{'invisible' : [('address_home_id', '=', False)]}"/>
+                            <field name="bank_account_id" context="{'display_partner':True}" invisible="not address_home_id"/>
                             <field name="res_partner_bank_ids">
                                 <list>
                                     <field name="bank_id"/>
@@ -121,22 +121,22 @@
                         </group>
                         <group string="Quốc tịch">
                             <field name="employee_country_id" options="{'no_open': True, 'no_create': True}"/>
-                            <field name="identification_id" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
-                            <field name="cccd_date" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
-                            <field name="cccd_place" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
+                            <field name="identification_id" required="en_internal_ok"/>
+                            <field name="cccd_date" required="en_internal_ok"/>
+                            <field name="cccd_place" required="en_internal_ok"/>
 
                             <field name="passport_id"/>
-                            <field name="gender" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
-                            <field name="birthday" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
+                            <field name="gender" required="en_internal_ok"/>
+                            <field name="birthday" required="en_internal_ok"/>
                             <field name="place_of_birth"/>
                             <field name="country_of_birth" options="{'no_open': True, 'no_create': True}"/>
-                            <field name="regular_address" attrs="{'required': [('en_internal_ok', '=', True)]}"/>
+                            <field name="regular_address" required="en_internal_ok"/>
 
                         </group>
                         <group string="Tình trạng hôn nhân">
                             <field name="marital"/>
-                            <field name="spouse_complete_name" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}"/>
-                            <field name="spouse_birthdate" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}"/>
+                            <field name="spouse_complete_name" invisible="marital not in ['married', 'cohabitant']"/>
+                            <field name="spouse_birthdate" invisible="marital not in ['married', 'cohabitant']"/>
                         </group>
                         <group string="Phụ thuộc">
                             <field name="children"/>

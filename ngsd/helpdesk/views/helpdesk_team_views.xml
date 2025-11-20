@@ -10,7 +10,7 @@
                 <field name="sequence" widget="handle"/>
                 <field name="name" class="field_name" string="Name"/>
                 <field name="use_alias" invisible="1"/>
-                <field name="display_alias_name" widget="email" attrs="{'invisible': [('use_alias', '=', False)]}" readonly="1"/>
+                <field name="display_alias_name" widget="email" invisible="not use_alias" readonly="1"/>
                 <field name="company_id" groups="base.group_multi_company" readonly="1" context="{'create': False}"/>
             </list>
         </field>
@@ -53,10 +53,10 @@
                         <button name="action_view_open_ticket_view" type="object" icon="fa-life-ring" class="oe_stat_button">
                             <field name="open_ticket_count" string="Tickets" widget="statinfo"/>
                         </button>
-                        <button name="action_view_team_rating" type="object" class="oe_stat_button" icon="" attrs="{'invisible': ['|', ('use_rating', '=', False), ('rating_percentage_satisfaction', '=', -1)]}">
-                            <i class="fa fa-fw o_button_icon fa-smile-o text-success" attrs="{'invisible': [('rating_percentage_satisfaction', '&lt;', 66)]}" title="Satisfied"/>
-                            <i class="fa fa-fw o_button_icon fa-meh-o text-warning" attrs="{'invisible': ['|', ('rating_percentage_satisfaction', '&lt;', 33), ('rating_percentage_satisfaction', '&gt;=', 65)]}" title="Okay"/>
-                            <i class="fa fa-fw o_button_icon fa-frown-o text-danger" attrs="{'invisible': [('rating_percentage_satisfaction', '&gt;', 32)]}" title="Dissatisfied"/>
+                        <button name="action_view_team_rating" type="object" class="oe_stat_button" icon="" invisible="not use_rating or rating_percentage_satisfaction == -1">
+                            <i class="fa fa-fw o_button_icon fa-smile-o text-success" invisible="rating_percentage_satisfaction &lt; 66" title="Satisfied"/>
+                            <i class="fa fa-fw o_button_icon fa-meh-o text-warning" invisible="rating_percentage_satisfaction &lt; 33 or rating_percentage_satisfaction &gt;= 65" title="Okay"/>
+                            <i class="fa fa-fw o_button_icon fa-frown-o text-danger" invisible="rating_percentage_satisfaction &gt; 32" title="Dissatisfied"/>
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value">
                                     <field name="rating_percentage_satisfaction" nolabel="1"/>%
@@ -66,11 +66,11 @@
                                 </span>
                             </div>
                         </button>
-                        <button name="action_view_sla_policy" type="object" icon="fa-calendar-check-o" class="oe_stat_button" attrs="{'invisible': [('use_sla', '=', False)]}">
+                        <button name="action_view_sla_policy" type="object" icon="fa-calendar-check-o" class="oe_stat_button" invisible="not use_sla">
                             <field name="sla_policy_count" string="SLA Policies" widget="statinfo"/>
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                     <div class="oe_title" id='title'>
                         <label for="name" string="Name"/>
                         <h1 id="name"><field name="name" placeholder="e.g. Customer Care"/></h1>
@@ -93,7 +93,7 @@
                                 <div>
                                     <field name="assign_method" class="mt16 o_light_label" widget="radio"/>
                                 </div>
-                                <div attrs="{'invisible': [('assign_method', '=', 'manual')]}">
+                                <div invisible="assign_method == 'manual'">
                                     <field name="member_ids" widget="many2many_avatar_user"
                                     class="mt16" placeholder="Add team members..." options="{'no_quick_create': True'}"/>
                                 </div>
@@ -108,7 +108,7 @@
                                 <div>
                                     <field name="privacy" class="mt16 o_light_label" widget="radio"/>
                                 </div>
-                                <field name="visibility_member_ids" widget="many2many_avatar_user" options="{'color_field': 'color', 'no_quick_create': True}" attrs="{'invisible': [('privacy', '!=', 'invite')]}" class="mt16" placeholder="Add users..."/>
+                                <field name="visibility_member_ids" widget="many2many_avatar_user" options="{'color_field': 'color', 'no_quick_create': True}" invisible="privacy != 'invite'" class="mt16" placeholder="Add users..."/>
                             </div>
                         </div>
                     </div>
@@ -123,20 +123,20 @@
                                 <div class="text-muted">
                                     Create tickets by sending an email to an alias
                                 </div>
-                                <div attrs="{'invisible': [('use_alias','=',False)]}" class="mt16">
-                                    <div class="oe_edit_only" attrs="{'invisible': [('alias_domain', '=', False)]}">
+                                <div invisible="not use_alias" class="mt16">
+                                    <div class="oe_edit_only" invisible="not alias_domain">
                                         <strong>Alias </strong>
                                         <field name="alias_name" class="w-25"/>@
                                         <field name="alias_domain" class="oe_inline" readonly="1"/>
                                     </div>
-                                    <p class="oe_read_only" attrs="{'invisible': [('alias_domain', '=', False)]}">
+                                    <p class="oe_read_only" invisible="not alias_domain">
                                     <strong>Alias </strong><field name="alias_id" class="oe_read_only oe_inline" required="False"/>
                                     </p>
                                     <field name="has_external_mail_server" invisible="1"/>
-                                    <p class="text-muted" attrs="{'invisible': ['|', ('alias_domain', '!=', False), ('has_external_mail_server', '!=', False)]}">
+                                    <p class="text-muted" invisible="alias_domain or has_external_mail_server">
                                         <i class="fa fa-lightbulb-o" role='img'/> Enable the <i>Custom Email Servers</i> feature in the <i>General Settings</i> and indicate an <i>alias domain</i>
                                     </p>
-                                    <p attrs="{'invisible': [('alias_domain', '!=', False)]}">
+                                    <p invisible="alias_domain">
                                         <button name="%(base_setup.action_general_configuration)d" type="action" string="Configure a custom domain" icon="fa-arrow-right" class="btn-link"/>
                                     </p>
                                 </div>
@@ -151,7 +151,7 @@
                                 <div class="text-muted">
                                     Get in touch with your website visitors
                                 </div>
-                                <div id="im_livechat" attrs="{'invisible': [('use_website_helpdesk_livechat','=',False)]}">
+                                <div id="im_livechat" invisible="not use_website_helpdesk_livechat">
                                     <div class="text-warning mb4 mt16">
                                         Save this page and refresh to activate the feature.
                                     </div>
@@ -184,7 +184,7 @@
                                 <div class="text-muted">
                                     Track the time spent on tickets
                                 </div>
-                                <div id='helpdesk_timesheet' attrs="{'invisible': [('use_helpdesk_timesheet', '=', False)]}">
+                                <div id='helpdesk_timesheet' invisible="not use_helpdesk_timesheet">
                                     <div class="text-warning mb4 mt16">
                                         Save this page and refresh to activate the feature
                                     </div>
@@ -201,7 +201,7 @@
                                 <div class="text-muted">
                                     Bill the time spent on your tickets to your customers
                                 </div>
-                                <div id='helpdesk_sale_timesheet' attrs="{'invisible': [('use_helpdesk_sale_timesheet', '=', False)]}">
+                                <div id='helpdesk_sale_timesheet' invisible="not use_helpdesk_sale_timesheet">
                                     <div class="text-warning mb4 mt16">
                                         Save this page and refresh to activate the feature
                                     </div>
@@ -222,9 +222,9 @@
                                     Make sure tickets are handled on time
 
                                 </div>
-                                <div class="mt16" attrs="{'invisible': [('use_sla', '=', False)]}">
+                                <div class="mt16" invisible="not use_sla">
                                     <label for="resource_calendar_id"/>
-                                    <field name="resource_calendar_id" attrs="{'required': [('use_sla', '=', True)]}"/>
+                                    <field name="resource_calendar_id" required="use_sla"/>
                                 </div>
                             </div>
                         </div>
@@ -237,7 +237,7 @@
                                 <div class="text-muted">
                                    Track customer satisfaction on tickets
                                 </div>
-                                <div id="use_rating" attrs="{'invisible': [('use_rating', '=', False)]}">
+                                <div id="use_rating" invisible="not use_rating">
                                     <field name="portal_show_rating" class="oe_inline"/>
                                     <label for="portal_show_rating" string="Publish this team's ratings on your website"/>
                                     <div class="mt-3">
@@ -258,7 +258,7 @@
                                 <div class="text-muted">
                                     Let your customers answer each other's questions on a forum
                                 </div>
-                                <div id="use_website_helpdesk_forum" attrs="{'invisible': [('use_website_helpdesk_forum', '=', False)]}">
+                                <div id="use_website_helpdesk_forum" invisible="not use_website_helpdesk_forum">
                                     <div class="text-warning mb4 mt16">
                                         Save this page and refresh to activate the feature.
                                     </div>
@@ -274,7 +274,7 @@
                                 <div class="text-muted">
                                     Share presentation and videos, and organize into courses
                                 </div>
-                                <div id="use_website_helpdesk_slides" attrs="{'invisible': [('use_website_helpdesk_slides', '=', False)]}">
+                                <div id="use_website_helpdesk_slides" invisible="not use_website_helpdesk_slides">
                                     <div class="text-warning mb4 mt16" id="o_slide_option">
                                         Save this page and refresh to activate the feature.
                                     </div>
@@ -290,11 +290,11 @@
                                 <div class="text-muted">
                                     Close inactive tickets automatically
                                 </div>
-                                <div class="content-group" attrs="{'invisible': [('auto_close_ticket', '=', False)]}">
+                                <div class="content-group" invisible="not auto_close_ticket">
                                     <field name="stage_ids" invisible="1"/>
                                     <div class="mt16">
                                         <label for="to_stage_id"/>
-                                        <field name="to_stage_id" class="ml-2 oe_inline" attrs="{'required': [('auto_close_ticket', '=', True)]}" context="{'default_team_id': active_id}"/>
+                                        <field name="to_stage_id" class="ml-2 oe_inline" required="auto_close_ticket" context="{'default_team_id': active_id}"/>
                                     </div>
                                     <div class="mt8">
                                         <strong>After</strong><field name="auto_close_day" class="mx-2 oe_inline text-center" required="1"/><span>days of inactivity</span>
@@ -330,7 +330,7 @@
                                 <div class="text-muted">
                                     Issue credits notes
                                 </div>
-                                <div id="use_credit_notes" attrs="{'invisible': [('use_credit_notes', '=', False)]}">
+                                <div id="use_credit_notes" invisible="not use_credit_notes">
                                     <div class="text-warning mb4 mt16">
                                         Save this page and refresh to activate the feature.
                                     </div>
@@ -346,7 +346,7 @@
                                 <div class="text-muted">
                                     Grant discounts or free products
                                 </div>
-                                <div id="use_coupons" attrs="{'invisible': [('use_coupons', '=', False)]}">
+                                <div id="use_coupons" invisible="not use_coupons">
                                     <div class="text-warning mb4 mt16">
                                         Save this page and refresh to activate the feature.
                                     </div>
@@ -362,7 +362,7 @@
                                 <div class="text-muted">
                                     Return faulty products
                                 </div>
-                                <div id="use_product_returns" attrs="{'invisible': [('use_product_returns', '=', False)]}">
+                                <div id="use_product_returns" invisible="not use_product_returns">
                                     <div class="text-warning mb4 mt16">
                                         Save this page and refresh to activate the feature.
                                     </div>
@@ -378,7 +378,7 @@
                                 <div class="text-muted">
                                     Send broken products for repair
                                 </div>
-                                <div id="use_product_repairs" attrs="{'invisible': [('use_product_repairs', '=', False)]}">
+                                <div id="use_product_repairs" invisible="not use_product_repairs">
                                     <div class="text-warning mb4 mt16">
                                         Save this page and refresh to activate the feature.
                                     </div>
@@ -394,7 +394,7 @@
                                 <div class="text-muted">
                                     Plan onsite interventions
                                 </div>
-                                <div id="field_service" attrs="{'invisible': [('use_fsm', '=', False)]}">
+                                <div id="field_service" invisible="not use_fsm">
                                     <div class="text-warning mb4 mt16">
                                         Save this page and refresh to activate the feature.
                                     </div>
@@ -464,7 +464,7 @@
                                         <button class="btn btn-primary o_helpdesk_ticket_btn" name="action_view_ticket" type="object">Tickets</button>
                                     </div>
                                     <div class="col-6 o_kanban_primary_right">
-                                        <div class="mb4" groups="helpdesk.group_use_sla" attrs="{'invisible': [('use_sla', '=', False)]}">
+                                        <div class="mb4" groups="helpdesk.group_use_sla" invisible="not use_sla">
                                             <a name="%(helpdesk.action_upcoming_sla_fail_all_tickets)d" type="action"  context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><t t-esc="record.upcoming_sla_fail_tickets.raw_value"/> SLA Issues</a>
                                         </div>
                                         <div class="mb4">

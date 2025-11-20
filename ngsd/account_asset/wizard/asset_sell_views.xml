@@ -12,17 +12,17 @@
                 <group>
                     <group>
                         <field name="action"/>
-                        <field name="invoice_id" options="{'no_create': True}" attrs="{'invisible': [('action', '!=', 'sell')], 'required': [('action', '=', 'sell')]}"/>
-                        <field name="invoice_line_id" options="{'no_create': True}" attrs="{'invisible': [('select_invoice_line_id', '=', False)], 'required': [('select_invoice_line_id', '=', True)]}"/>
+                        <field name="invoice_id" options="{'no_create': True}" invisible="action != 'sell'" required="action == 'sell'"/>
+                        <field name="invoice_line_id" options="{'no_create': True}" invisible="not select_invoice_line_id" required="select_invoice_line_id"/>
                     </group>
                     <group>
-                        <field name="gain_account_id" attrs="{'invisible': [('gain_or_loss', '!=', 'gain')], 'required': [('gain_or_loss', '=', 'gain')]}"/>
-                        <field name="loss_account_id" attrs="{'invisible': [('gain_or_loss', '!=', 'loss')], 'required': [('gain_or_loss', '=', 'loss')]}"/>
+                        <field name="gain_account_id" invisible="gain_or_loss != 'gain'" required="gain_or_loss == 'gain'"/>
+                        <field name="loss_account_id" invisible="gain_or_loss != 'loss'" required="gain_or_loss == 'loss'"/>
                     </group>
                 </group>
                 <footer>
-                    <button name="do_action" string="Sell" type="object" class="btn-primary" attrs="{'invisible': [('action', '!=', 'sell')]}" data-hotkey="q"/>
-                    <button name="do_action" string="Dispose" type="object" class="btn-primary" attrs="{'invisible': [('action', '!=', 'dispose')]}" data-hotkey="w"/>
+                    <button name="do_action" string="Sell" type="object" class="btn-primary" invisible="action != 'sell'" data-hotkey="q"/>
+                    <button name="do_action" string="Dispose" type="object" class="btn-primary" invisible="action != 'dispose'" data-hotkey="w"/>
                     <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
                 </footer>
             </form>

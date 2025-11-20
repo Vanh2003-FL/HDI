@@ -81,12 +81,12 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='barcode']" position="after">
-                <field name="license_plate" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
-                <field name="vetc_payment_date" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
-                <field name="vetc_payment_amount" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
-                <field name="body_contract_date" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
-                <field name="tnds_insurance_date" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
-                <field name="registration_date" attrs="{'invisible':[('en_service_type', '!=', 'car')]}"/>
+                <field name="license_plate" invisible="en_service_type != 'car'"/>
+                <field name="vetc_payment_date" invisible="en_service_type != 'car'"/>
+                <field name="vetc_payment_amount" invisible="en_service_type != 'car'"/>
+                <field name="body_contract_date" invisible="en_service_type != 'car'"/>
+                <field name="tnds_insurance_date" invisible="en_service_type != 'car'"/>
+                <field name="registration_date" invisible="en_service_type != 'car'"/>
             </xpath>
         </field>
     </record>

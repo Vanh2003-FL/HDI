@@ -20,7 +20,7 @@
         <field name="inherit_id" ref="ngsd_base.ngsd_res_partner_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                <button name="to_x_count_contract" attrs="{'invisible':[('x_count_contract','=',0)]}" type="object" class="oe_stat_button" icon="fa-files-o">
+                <button name="to_x_count_contract" invisible="x_count_contract == 0" type="object" class="oe_stat_button" icon="fa-files-o">
                     <field name="x_count_contract" widget="statinfo"/>
                 </button>
             </xpath>
@@ -59,7 +59,7 @@
                 <field name="x_short" optional="show"/>
                 <field name="phone" optional="show"/>
                 <field name="email" optional="show"/>
-                <field name="x_gender" attrs="{'invisible':[('company_type','!=','person')]}" optional="hide"/>
+                <field name="x_gender" invisible="company_type != 'person'" optional="hide"/>
                 <field name="street" optional="show"/>
                 <field name="city" optional="hide"/>
                 <field name="industry_id" optional="show"/>

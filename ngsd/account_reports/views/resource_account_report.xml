@@ -15,9 +15,9 @@
                         <field name="employee_id" invisible="1"/>
                         <field name="resource_planing_id" invisible="1"/>
                         <field name="unit" widget="radio" options="{'horizontal': true}"/>
-                        <field name="department_ids" widget="many2many_tags" attrs="{'invisible': ['|', ('employee_id', '!=', False), ('resource_planing_id', '!=', False)]}"/>
-                        <field name="employee_ids" widget="many2many_tags" attrs="{'invisible': ['|', ('employee_id', '!=', False), ('resource_planing_id', '!=', False)]}"/>
-                        <field name="is_hidden" attrs="{'invisible': ['|', ('employee_id', '!=', False), ('resource_planing_id', '!=', False)]}"/>
+                        <field name="department_ids" widget="many2many_tags" invisible="employee_id or resource_planing_id"/>
+                        <field name="employee_ids" widget="many2many_tags" invisible="employee_id or resource_planing_id"/>
+                        <field name="is_hidden" invisible="employee_id or resource_planing_id"/>
 
                     </group>
                 </sheet>

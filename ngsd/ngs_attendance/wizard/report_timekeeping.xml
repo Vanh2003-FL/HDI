@@ -9,17 +9,17 @@
                         <field name="en_department_domain" invisible="1"/>
                         <field name="export_option" widget="radio" options="{'horizontal': true}"/>
                         <field name="year" widget="year_picker"
-                               attrs="{'invisible': [('export_option', '!=', 'month')], 'required': [('export_option', '=', 'month')]}"/>
+                               invisible="export_option != 'month'" required="export_option == 'month'"/>
                         <field name="month"
-                               attrs="{'invisible': [('export_option', '!=', 'month')], 'required': [('export_option', '=', 'month')]}"/>
+                               invisible="export_option != 'month'" required="export_option == 'month'"/>
                         <label for="date_from" string="Thời gian"
-                               attrs="{'invisible': [('export_option', '!=', 'custom')]}"/>
-                        <div class="o_row" attrs="{'invisible': [('export_option', '!=', 'custom')]}">
+                               invisible="export_option != 'custom'"/>
+                        <div class="o_row" invisible="export_option != 'custom'">
                             <field name="date_from" widget="daterange" options="{'related_end_date': 'date_to'}"
-                                   attrs="{'invisible': [('export_option', '!=', 'custom')], 'required': [('export_option', '=', 'custom')]}"/>
+                                   invisible="export_option != 'custom'" required="export_option == 'custom'"/>
                             <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
                             <field name="date_to" widget="daterange" options="{'related_start_date': 'date_from'}"
-                                   attrs="{'invisible': [('export_option', '!=', 'custom')], 'required': [('export_option', '=', 'custom')]}"/>
+                                   invisible="export_option != 'custom'" required="export_option == 'custom'"/>
                         </div>
                         <field name="department_ids" widget="many2many_tags"/>
                         <field name="en_department_ids" widget="many2many_tags"/>

@@ -33,10 +33,10 @@
                 <field name="role_selection"/>
             </xpath>
             <xpath expr="//button[@name='action_approve']" position="after">
-                <button name="action_done" string="Đã xử lý" type="object" attrs="{'invisible':[('request_status', '!=', 'approved')]}" class="btn-primary"/>
+                <button name="action_done" string="Đã xử lý" type="object" invisible="request_status != 'approved'" class="btn-primary"/>
             </xpath>
             <xpath expr="//page[@name='description']" position="after">
-                <page string="Xe" name="car_product" attrs="{'invisible': ['|', ('has_product', '=', 'no'), ('approval_type', '!=', 'car')]}">
+                <page string="Xe" name="car_product" invisible="has_product == 'no' or approval_type != 'car'">
                     <field name="product_line_ids" context="{'list_view_ref': 'approvals.approval_product_line_view_tree'}"/>
                 </page>
             </xpath>
@@ -54,25 +54,25 @@
                 <field name="has_actual_return_date" invisible="1"/>
             </xpath>
             <xpath expr="//group[@name='request_main']" position="inside">
-                <field name="job_id" attrs="{'invisible':[('has_job','==','no')], 'required': [('has_job','==','required')]}"/>
-                <field name="mobile_phone" attrs="{'invisible':[('has_phone','==','no')], 'required': [('has_phone','==','required')]}"/>
-                <field name="department_id" attrs="{'invisible':[('has_hr_department','==','no')], 'required': [('has_hr_department','==','required')], 'readonly': True}"/>
-                <field name="en_department_id" attrs="{'invisible':[('has_department','==','no')], 'required': [('has_department','==','required')]}"/>
-                <field name="hr_user_ids" widget="many2many_tags" attrs="{'invisible':[('has_hr_user','==','no')], 'required': [('has_hr_user','==','required')]}"/>
+                <field name="job_id" invisible="has_job == 'no'" required="has_job == 'required'"/>
+                <field name="mobile_phone" invisible="has_phone == 'no'" required="has_phone == 'required'"/>
+                <field name="department_id" invisible="has_hr_department == 'no'" required="has_hr_department == 'required'" readonly="True"/>
+                <field name="en_department_id" invisible="has_department == 'no'" required="has_department == 'required'"/>
+                <field name="hr_user_ids" widget="many2many_tags" invisible="has_hr_user == 'no'" required="has_hr_user == 'required'"/>
             </xpath>
             <xpath expr="//group[@name='request_details']" position="inside">
                 <field name="business_domain" invisible="1"/>
-                <field name="business_plan" options="{'no_create': True}" attrs="{'invisible':[('approval_type','!=','business')], 'required': [('approval_type','=','business')]}"/>
-                <field name="business_description" attrs="{'invisible':[('approval_type','!=','business')]}"/>
-                <field name="support_ids" attrs="{'invisible':[('approval_type','!=','business')]}"  widget="many2many_checkboxes" options='{"no_open": True, "no_create": True}' class="horizontal_many2many"/>
-                <field name="origin_location" attrs="{'invisible':[('approval_type','!=','business')]}"/>
-                <field name="destination_location" attrs="{'invisible':[('approval_type','!=','business')]}"/>
-                <field name="start_time" attrs="{'invisible':[('approval_type','!=','business')]}"/>
-                <field name="end_time" attrs="{'invisible':[('approval_type','!=','business')]}"/>
+                <field name="business_plan" options="{'no_create': True}" invisible="approval_type != 'business'" required="approval_type == 'business'"/>
+                <field name="business_description" invisible="approval_type != 'business'"/>
+                <field name="support_ids" invisible="approval_type != 'business'"  widget="many2many_checkboxes" options='{"no_open": True, "no_create": True}' class="horizontal_many2many"/>
+                <field name="origin_location" invisible="approval_type != 'business'"/>
+                <field name="destination_location" invisible="approval_type != 'business'"/>
+                <field name="start_time" invisible="approval_type != 'business'"/>
+                <field name="end_time" invisible="approval_type != 'business'"/>
             </xpath>
             <xpath expr="//page[@name='description']" position="after">
-                <page string="Danh sách nhân sự" name="personnel_list" attrs="{'invisible':[('approval_type','!=','business')]}">
-                    <field name="personnel_list_ids" attrs="{'invisible':[('approval_type','!=','business')]}" >
+                <page string="Danh sách nhân sự" name="personnel_list" invisible="approval_type != 'business'">
+                    <field name="personnel_list_ids" invisible="approval_type != 'business'" >
                         <list editable="bottom">
                             <field name="sequence" readonly="1" force_save="1"/>
                             <field name="employee_id" context="{'ctx_view_employee': True, 'business_plan': parent.business_plan}"/>
@@ -96,8 +96,8 @@
                         </form>
                     </field>
                 </page>
-                <page string="Máy bay" name="plane_list" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_plane_support', '=', False)]}">
-                    <field name="plane_list_ids" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_plane_support', '=', False)]}">
+                <page string="Máy bay" name="plane_list" invisible="approval_type != 'business' or not has_plane_support">
+                    <field name="plane_list_ids" invisible="approval_type != 'business' or not has_plane_support">
                         <list editable="bottom" create="false">
                             <field name="sequence"/>
                             <field name="employee_id"/>
@@ -121,8 +121,8 @@
                         </form>
                     </field>
                 </page>
-                <page string="Khách sạn" name="hotel_list" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_hotel_support', '=', False)]}">
-                    <field name="hotel_list_ids" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_hotel_support', '=', False)]}" >
+                <page string="Khách sạn" name="hotel_list" invisible="approval_type != 'business' or not has_hotel_support">
+                    <field name="hotel_list_ids" invisible="approval_type != 'business' or not has_hotel_support" >
                         <list editable="bottom" create="false">
                             <field name="sequence"/>
                             <field name="employee_id"/>
@@ -142,8 +142,8 @@
                         </form>
                     </field>
                 </page>
-                <page string="Xe" name="car_list" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_car_support', '=', False)]}">
-                    <field name="car_list_ids" attrs="{'invisible':['|', ('approval_type', '!=', 'business'), ('has_car_support', '=', False)]}" >
+                <page string="Xe" name="car_list" invisible="approval_type != 'business' or not has_car_support">
+                    <field name="car_list_ids" invisible="approval_type != 'business' or not has_car_support" >
                         <list editable="bottom" create="false">
                             <field name="sequence"/>
                             <field name="employee_id"/>
@@ -180,7 +180,7 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <field name="show_button_delivery" invisible="1"/>
-                <button name="button_delivery" string="Đã bàn giao" type="object"  attrs="{'invisible': [('show_button_delivery', '=', False)]}" class="btn-primary"/>
+                <button name="button_delivery" string="Đã bàn giao" type="object"  invisible="not show_button_delivery" class="btn-primary"/>
             </xpath>
             <xpath expr="//field[@name='request_status']" position="attributes">
                 <attribute name="statusbar_visible">new,pending,approved,delivery</attribute>
@@ -204,37 +204,37 @@
                 <field name="en_block_id"/>
             </xpath>
             <xpath expr="//group[@name='request_details']" position="inside">
-                <field name="expected_date" attrs="{'invisible':[('approval_type','==','person_asset')]}"/>
-                <field name="delivery_date" readonly="1" attrs="{'invisible':[('approval_type','==','person_asset')]}"/>
+                <field name="expected_date" invisible="approval_type == 'person_asset'"/>
+                <field name="delivery_date" readonly="1" invisible="approval_type == 'person_asset'"/>
                 <field name="expected_return_date"
-                       attrs="{'invisible':[('has_expected_return_date','==','no')], 'required': [('has_expected_return_date','==','required')]}"/>
+                       invisible="has_expected_return_date == 'no'" required="has_expected_return_date == 'required'"/>
                 <field name="actual_return_date"
-                       attrs="{'invisible':[('has_actual_return_date','==','no')], 'required': [('has_actual_return_date','==','required')]}"/>
-                <field name="plan_date_used" attrs="{'invisible':[('approval_type','!=','person_asset')]}"/>
-                <field name="plan_date_end_used" attrs="{'invisible':[('approval_type','!=','person_asset')]}"/>
-                <field name="actual_date_used" attrs="{'invisible':[('approval_type','!=','person_asset')]}"/>
-                <field name="actual_date_end_used" attrs="{'invisible':[('approval_type','!=','person_asset')]}"/>
+                       invisible="has_actual_return_date == 'no'" required="has_actual_return_date == 'required'"/>
+                <field name="plan_date_used" invisible="approval_type != 'person_asset'"/>
+                <field name="plan_date_end_used" invisible="approval_type != 'person_asset'"/>
+                <field name="actual_date_used" invisible="approval_type != 'person_asset'"/>
+                <field name="actual_date_end_used" invisible="approval_type != 'person_asset'"/>
             </xpath>
             <xpath expr="//page[@name='description']" position="before">
-                <page string="Sửa chữa/Nâng cấp TSCĐ" attrs="{'invisible':[('approval_type', '!=', 'old_asset')]}">
-                    <field name="repair_ids" attrs="{'readonly': [('request_status', 'not in', ['new', 'approved', 'progress'])]}">
+                <page string="Sửa chữa/Nâng cấp TSCĐ" invisible="approval_type != 'old_asset'">
+                    <field name="repair_ids" readonly="request_status not in ['new', 'approved', 'progress']">
                         <list editable="bottom">
-                            <field name="asset_id" domain="[('employee_id.user_id', '=', parent.request_owner_id)]" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
-                            <field name="code" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
-                            <field name="quality" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
-                            <field name="quantity" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
-                            <field name="description" attrs="{'readonly': [('parent.request_status', 'not in', ['new'])]}"/>
-                            <field name="it_id" attrs="{'readonly': [('hr_edit', '=', False)]}"/>
-                            <field name="it_result" optional="show" attrs="{'readonly': [('it_edit', '=', False)]}"/>
-                            <field name="reason_norepair" attrs="{'required': [('it_result', 'in', ['fixable', 'unfixable'])], 'readonly': [('it_edit', '=', False)]}"/>
-                            <field name="state" attrs="{'readonly': [('hr_edit', '=', False)]}"/>
+                            <field name="asset_id" domain="[('employee_id.user_id', '=', parent.request_owner_id)]" readonly="parent.request_status not in ['new']"/>
+                            <field name="code" readonly="parent.request_status not in ['new']"/>
+                            <field name="quality" readonly="parent.request_status not in ['new']"/>
+                            <field name="quantity" readonly="parent.request_status not in ['new']"/>
+                            <field name="description" readonly="parent.request_status not in ['new']"/>
+                            <field name="it_id" readonly="not hr_edit"/>
+                            <field name="it_result" optional="show" readonly="not it_edit"/>
+                            <field name="reason_norepair" required="it_result in ['fixable', 'unfixable']" readonly="not it_edit"/>
+                            <field name="state" readonly="not hr_edit"/>
                             <field name="request_id" invisible="1"/>
                             <field name="hr_edit" invisible="1"/>
                             <field name="it_edit" invisible="1"/>
                         </list>
                     </field>
                 </page>
-                <page string="TSCD/CCDC" attrs="{'invisible':[('approval_type', '!=', 'new_asset')]}">
+                <page string="TSCD/CCDC" invisible="approval_type != 'new_asset'">
                     <field name="asset_ids">
                         <list editable="bottom">
                             <field name="asset_id" invisible="1"/>
@@ -247,7 +247,7 @@
                         </list>
                     </field>
                 </page>
-                <page string="TSCN" attrs="{'invisible':[('approval_type', '!=', 'person_asset')]}">
+                <page string="TSCN" invisible="approval_type != 'person_asset'">
                     <field name="person_asset_ids">
                         <list editable="bottom">
 <!--                            <field name="asset_id" invisible="1"/>-->

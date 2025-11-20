@@ -16,7 +16,7 @@
                     </group>
                 </sheet>
                 <footer>
-                    <button string="Nhập file" class="btn-primary" type="object" name="import_data" attrs="{'invisible': [('file', '=', False)]}"/>
+                    <button string="Nhập file" class="btn-primary" type="object" name="import_data" invisible="not file"/>
                     <button string="Hủy" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

@@ -65,13 +65,13 @@
                         name="generate_cron"
                         string="Generate cron"
                         type="object"
-                        attrs="{'invisible': ['|', ('cron_id', '!=',False), ('compute_on_fly', '=', True)]}"
+                        invisible="cron_id or compute_on_fly"
                     />
                     <button
                         name="compute"
                         string="Compute now"
                         type="object"
-                        attrs="{'invisible': [('compute_on_fly', '=', True)]}"
+                        invisible="compute_on_fly"
                     />
                 </header>
                 <sheet>
@@ -80,7 +80,7 @@
                             name="%(kpi_dashboard.kpi_kpi_history_act_window)d"
                             string="Show history"
                             type="action"
-                            attrs="{'invisible': ['|', ('store_history', '=', False), ('compute_on_fly', '=', True)]}"
+                            invisible="not store_history or compute_on_fly"
                             icon="fa-history"
                         />
                         <button
@@ -99,41 +99,42 @@
                             <field name="widget" />
                             <field
                                 name="store_history"
-                                attrs="{'invisible': [('compute_on_fly', '=', True)]}"
+                                invisible="compute_on_fly"
                             />
                             <field
                                 name="store_history_interval"
-                                attrs="{'invisible': [('store_history', '=', False)]}"
+                                invisible="not store_history"
                             />
                             <field
                                 name="store_history_interval_number"
-                                attrs="{'invisible': [('store_history', '=', False)]}"
+                                invisible="not store_history"
                             />
                             <field
                                 name="compute_on_fly"
-                                attrs="{'invisible': [('store_history', '=', True)]}"
+                                invisible="store_history"
                             />
                             <field
                                 name="model_id"
-                                attrs="{'invisible': [('computation_method', '!=', 'function')]}"
+                                invisible="computation_method != 'function'"
                             />
                             <field
                                 name="function"
-                                attrs="{'required': [('computation_method', '=', 'function')], 'invisible': [('computation_method', '!=', 'function')]}"
+                                required="computation_method == 'function'"
+                                invisible="computation_method != 'function'"
                             />
                             <field
                                 name="args"
-                                attrs="{'invisible': [('computation_method', '!=', 'function')]}"
+                                invisible="computation_method != 'function'"
                             />
                             <field
                                 name="kwargs"
-                                attrs="{'invisible': [('computation_method', '!=', 'function')]}"
+                                invisible="computation_method != 'function'"
                             />
                         </group>
                         <group>
                             <field
                                 name="cron_id"
-                                attrs="{'invisible': [('cron_id', '=',False)]}"
+                                invisible="not cron_id"
                                 readonly="True"
                             />
                         </group>
@@ -154,7 +155,7 @@
                         <page
                             name="code"
                             string="Code"
-                            attrs="{'invisible': [('computation_method', '!=', 'code')]}"
+                            invisible="computation_method != 'code'"
                         >
                             <field
                                 name="code"

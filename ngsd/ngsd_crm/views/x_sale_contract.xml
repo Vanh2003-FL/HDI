@@ -40,11 +40,11 @@
                 <sheet>
                     <div name="button_box" class="oe_button_box">
                         <button class="oe_stat_button" type="object"
-                                name="to_invoice" icon="fa-pencil-square-o" attrs="{'invisible': [('move_count', '=', 0)]}">
+                                name="to_invoice" icon="fa-pencil-square-o" invisible="move_count == 0">
                             <field name="move_count" widget="statinfo" string="Hóa đơn"/>
                         </button>
                         <button class="oe_stat_button" type="object"
-                                name="to_payment" icon="fa-pencil-square-o" attrs="{'invisible': [('payment_count', '=', 0)]}">
+                                name="to_payment" icon="fa-pencil-square-o" invisible="payment_count == 0">
                             <field name="payment_count" widget="statinfo" string="Thanh toán"/>
                         </button>
                     </div>
@@ -64,7 +64,7 @@
                             <field name="amount_tax" widget="monetary"/>
                             <field name="amount_total" widget="monetary"/>
                             <field name="total_contract_value" invisible="1"/>
-                            <field name="amount_total_change" widget="monetary" attrs="{'invisible': [('total_contract_value', '=', 0)]}"/>
+                            <field name="amount_total_change" widget="monetary" invisible="total_contract_value == 0"/>
                             <field name="x_payment_method"/>
                             <field name="x_payment_state"/>
                             <field name="x_noti_date"/>
@@ -220,8 +220,8 @@
                                     <field name="name"/>
 <!--                                    <field name="change"/>-->
                                     <field name="change_ids" widget="many2many_tags"/>
-                                    <field name="contract_date" attrs="{'invisible':[('has_change_time','=', False)], 'required':[('has_change_time','=', True)]}"/>
-                                    <field name="contract_value" attrs="{'invisible':[('has_add_value','=', False), ('has_reduce_value','=', False)],'required':['|', ('has_add_value','=', True), ('has_reduce_value','=', True)]}"/>
+                                    <field name="contract_date" invisible="not has_change_time" required="has_change_time"/>
+                                    <field name="contract_value" invisible="not has_add_value and not has_reduce_value" required="has_add_value or has_reduce_value"/>
                                     <field name="description"/>
                                     <field name="attachment_ids"  widget="many2many_binary"/>
                                 </list>

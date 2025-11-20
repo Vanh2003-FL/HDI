@@ -24,7 +24,7 @@
                     </group>
                 </sheet>
                 <footer>
-                    <button string='Xem' attrs="{'invisible':['|',('project_id','=',False),('wbs_id','=',False)]}" name="do" type="object" class="oe_highlight"/>
+                    <button string='Xem' invisible="not project_id or not wbs_id" name="do" type="object" class="oe_highlight"/>
                     <button string="Hủy" class="oe_link" special="cancel"/>
                 </footer>
             </form>

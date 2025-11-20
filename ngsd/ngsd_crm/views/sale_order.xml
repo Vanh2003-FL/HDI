@@ -13,7 +13,7 @@
                 <button name="action_create_contract" string="Tạo hợp đồng" class="btn-primary" type="object"/>
             </xpath>
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                <button class="oe_stat_button" name="to_contract" type="object" icon="fa-pencil" attrs="{'invisible':[('contract_count','=',0)]}">
+                <button class="oe_stat_button" name="to_contract" type="object" icon="fa-pencil" invisible="contract_count == 0">
                     <div class="o_stat_info">
                         <field name="contract_count" class="o_stat_value"/>
                         <span class="o_stat_text"> Hợp đồng</span>

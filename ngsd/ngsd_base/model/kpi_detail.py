@@ -1,4 +1,4 @@
-from odoo import *
+from odoo import models, fields, api
 
 
 class KpiDetail(models.Model):

@@ -33,7 +33,7 @@
                         </div>
                         <div
                             class="content-group"
-                            attrs="{'invisible': [('password_policy_enabled','=', False)]}"
+                            invisible="not password_policy_enabled"
                         >
                             <div class="mt16">
                                 <span>

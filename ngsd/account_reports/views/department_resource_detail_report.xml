@@ -19,7 +19,7 @@
                         <field name="period"/>
                         <field name="user_id" invisible="1"/>
                     </group>
-                    <group attrs="{'invisible': [('period', '!=', 'optional')]}">
+                    <group invisible="period != 'optional'">
                         <label for="date_from" string="Thời gian"/>
                         <div class="o_row">
                             <field name="date_from" nolabel="1"/>

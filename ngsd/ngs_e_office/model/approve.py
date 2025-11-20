@@ -1,4 +1,4 @@
-from odoo import *
+from odoo import models, fields, api, _
 from odoo.tools.safe_eval import safe_eval
 from odoo.tools.misc import clean_context
 

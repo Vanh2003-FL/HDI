@@ -11,9 +11,9 @@
                                 <field name="explanation_id" invisible="1"/>
                                 <field name="user_id" invisible="1"/>
                                 <field name="type"  invisible="1"/>
-                                <field name="project_id" attrs="{'invisible': [('type', '!=', 'TSDA')], 'required': [('type', '=', 'TSDA')]}"/>
-                                <field name="task_id" attrs="{'invisible': [('type', '!=', 'TSDA')], 'required': [('type', '=', 'TSDA')]}"/>
-                                <field name="en_nonproject_task_id" attrs="{'invisible': [('type', '!=', 'TSNDA')], 'required': [('type', '=', 'TSNDA')]}"/>
+                                <field name="project_id" invisible="type != 'TSDA'" required="type == 'TSDA'"/>
+                                <field name="task_id" invisible="type != 'TSDA'" required="type == 'TSDA'"/>
+                                <field name="en_nonproject_task_id" invisible="type != 'TSNDA'" required="type == 'TSNDA'"/>
                             </group>
                         </group>
                     </sheet>

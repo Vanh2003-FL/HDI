@@ -7,7 +7,7 @@
                 <field name="file_name" invisible="1"/>
                 <div style="display:inline;">
                     <field name="file" filename="file_name"/>
-                    <button string="Nhập file" class="btn-primary ml-3" type="object" name="import_data" attrs="{'invisible': [('file', '=', False)]}"/>
+                    <button string="Nhập file" class="btn-primary ml-3" type="object" name="import_data" invisible="not file"/>
                     <button string="Hủy" class="btn-secondary ml-5" special="cancel"/>
                 </div>
                 <footer>

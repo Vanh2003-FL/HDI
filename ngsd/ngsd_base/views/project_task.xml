@@ -27,17 +27,17 @@
                 <field name="ot_state"/>
                 <field name="en_total_amount" optional="hide"/>
                 <field name="total_hours_timesheet" optional="hide" sum="total_hours_timesheet"/>
-                <field name="ot_id" optional="hide" attrs="{'readonly': [('en_state', '!=', 'new')]}" context="{'default_task_id':task_id}"/>
+                <field name="ot_id" optional="hide" readonly="en_state != 'new'" context="{'default_task_id':task_id}"/>
                 <field name="en_sent_ok" invisible="1"/>
                 <field name="en_approve_ok" invisible="1"/>
-                <button string="Tăng ca" name="en_create_over_time" type="object" icon="fa-clock-o" attrs="{'invisible': [('en_state','in', ['waiting', 'cancel']), ('ot_id','=',False)]}"/>
-                <button string="Gửi duyệt" confirm="Bạn có chắc chắn muốn gửi duyệt?" name="en_false_button_sent" type="object" icon="fa-paper-plane" attrs="{'invisible':['|',('en_state','!=','new'),('en_sent_ok','=',False)]}"/>
-                <button string="Duyệt" groups="hr_timesheet.group_hr_timesheet_user,ngsd_base.group_pm" name="button_confirm_approve" type="object" icon="fa-check" attrs="{'invisible':['|',('en_state','!=','sent'),('en_approve_ok','=',False)]}"/>
-                <button string="Từ chối" groups="hr_timesheet.group_hr_timesheet_user,ngsd_base.group_pm" name="button_confirm_reject" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','sent'),('en_approve_ok','=',False)]}"/>
-                <button string="Yêu cầu hủy duyệt" name="en_button_waiting" type="object" icon="fa-paper-plane" attrs="{'invisible':['|',('en_state','!=','approved'),('en_sent_ok','=',False)]}"/>
-                <button string="Xác nhận hủy duyệt" name="en_button_cancel2" type="object" icon="fa-check" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_approve_ok','=',False)]}"/>
-                <button string="Từ chối hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_approve_ok','=',False)]}"/>
-                <button string="Hủy yêu cầu hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_sent_ok','=',False)]}"/>
+                <button string="Tăng ca" name="en_create_over_time" type="object" icon="fa-clock-o" invisible="en_state in ['waiting', 'cancel'] and not ot_id"/>
+                <button string="Gửi duyệt" confirm="Bạn có chắc chắn muốn gửi duyệt?" name="en_false_button_sent" type="object" icon="fa-paper-plane" invisible="en_state != 'new' or not en_sent_ok"/>
+                <button string="Duyệt" groups="hr_timesheet.group_hr_timesheet_user,ngsd_base.group_pm" name="button_confirm_approve" type="object" icon="fa-check" invisible="en_state != 'sent' or not en_approve_ok"/>
+                <button string="Từ chối" groups="hr_timesheet.group_hr_timesheet_user,ngsd_base.group_pm" name="button_confirm_reject" type="object" icon="fa-times" invisible="en_state != 'sent' or not en_approve_ok"/>
+                <button string="Yêu cầu hủy duyệt" name="en_button_waiting" type="object" icon="fa-paper-plane" invisible="en_state != 'approved' or not en_sent_ok"/>
+                <button string="Xác nhận hủy duyệt" name="en_button_cancel2" type="object" icon="fa-check" invisible="en_state != 'waiting' or not en_approve_ok"/>
+                <button string="Từ chối hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_approve_ok"/>
+                <button string="Hủy yêu cầu hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_sent_ok"/>
             </list>
             <field name="date" position="attributes">
                 <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
@@ -122,9 +122,9 @@
             <calendar date_start="date" color="employee_id">
                 <field name="display_name"/>
                 <field name="employee_id"/>
-                <field name="unit_amount_holiday" attrs="{'invisible': [('holiday_id', '=', False), ('global_leave_id', '=', False)]}"/>
-                <field name="unit_amount" attrs="{'invisible': ['|', ('holiday_id', '!=', False), ('global_leave_id', '!=', False)]}"/>
-                <field name="ot_time" attrs="{'invisible': ['|', ('ot_id', '=', False), ('ot_time', '&lt;=', 0)]}"/>
+                <field name="unit_amount_holiday" invisible="not holiday_id and not global_leave_id"/>
+                <field name="unit_amount" invisible="holiday_id or global_leave_id"/>
+                <field name="ot_time" invisible="not ot_id or ot_time &lt;= 0"/>
                 <field name="ot_id" invisible="1"/>
                 <field name="holiday_id" invisible="1"/>
                 <field name="global_leave_id" invisible="1"/>
@@ -353,7 +353,7 @@
                 <attribute name="default_order">date desc</attribute>
             </xpath>
             <xpath expr="//field[@name='timesheet_ids']//tree//field[@name='unit_amount']" position="after">
-                <field name="ot_id" domain="[('task_id','=',parent.id)]" context="{'default_task_id':parent.id}" attrs="{'readonly': [('en_state', '!=', 'new')]}" options="{'no_quick_create':True, 'no_create': True}" optional="hide"/>
+                <field name="ot_id" domain="[('task_id','=',parent.id)]" context="{'default_task_id':parent.id}" readonly="en_state != 'new'" options="{'no_quick_create':True, 'no_create': True}" optional="hide"/>
                 <field name="ot_time" widget="float_time"/>
                 <field name="ot_state"/>
                 <field name="ot_date_from" optional="hide"/>
@@ -368,14 +368,14 @@
                 <field name="total_hours_timesheet" optional="hide"/>
             </xpath>
             <xpath expr="//field[@name='timesheet_ids']//tree" position="inside">
-                <button string="Tăng ca" name="en_create_over_time" type="object" icon="fa-clock-o" attrs="{'invisible': [('en_state','in', ['waiting', 'cancel']), ('ot_id','=',False)]}"/>
-                <button string="Gửi duyệt" confirm="Bạn có chắc chắn muốn gửi duyệt?" name="en_button_sent" type="object" icon="fa-paper-plane" attrs="{'invisible':['|',('en_state','!=','new'),('en_sent_ok','=',False)]}"/>
-                <button string="Duyệt" confirm="Duyệt yêu cầu, tiếp tục?" groups="hr_timesheet.group_hr_timesheet_user,ngsd_base.group_pm" name="en_button_approved" type="object" icon="fa-check" attrs="{'invisible':['|',('en_state','!=','sent'),('en_approve_ok','=',False)]}"/>
-                <button string="Từ chối" confirm="Từ chối yêu cầu, tiếp tục?" groups="hr_timesheet.group_hr_timesheet_user,ngsd_base.group_pm" name="en_button_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','sent'),('en_approve_ok','=',False)]}"/>
-                <button string="Yêu cầu hủy duyệt" name="en_button_waiting" type="object" icon="fa-paper-plane" attrs="{'invisible':['|',('en_state','!=','approved'),('en_sent_ok','=',False)]}"/>
-                <button string="Xác nhận hủy duyệt" name="en_button_cancel2" type="object" icon="fa-check" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_approve_ok','=',False)]}"/>
-                <button string="Từ chối hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_approve_ok','=',False)]}"/>
-                <button string="Hủy yêu cầu hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_sent_ok','=',False)]}"/>
+                <button string="Tăng ca" name="en_create_over_time" type="object" icon="fa-clock-o" invisible="en_state in ['waiting', 'cancel'] and not ot_id"/>
+                <button string="Gửi duyệt" confirm="Bạn có chắc chắn muốn gửi duyệt?" name="en_button_sent" type="object" icon="fa-paper-plane" invisible="en_state != 'new' or not en_sent_ok"/>
+                <button string="Duyệt" confirm="Duyệt yêu cầu, tiếp tục?" groups="hr_timesheet.group_hr_timesheet_user,ngsd_base.group_pm" name="en_button_approved" type="object" icon="fa-check" invisible="en_state != 'sent' or not en_approve_ok"/>
+                <button string="Từ chối" confirm="Từ chối yêu cầu, tiếp tục?" groups="hr_timesheet.group_hr_timesheet_user,ngsd_base.group_pm" name="en_button_cancel" type="object" icon="fa-times" invisible="en_state != 'sent' or not en_approve_ok"/>
+                <button string="Yêu cầu hủy duyệt" name="en_button_waiting" type="object" icon="fa-paper-plane" invisible="en_state != 'approved' or not en_sent_ok"/>
+                <button string="Xác nhận hủy duyệt" name="en_button_cancel2" type="object" icon="fa-check" invisible="en_state != 'waiting' or not en_approve_ok"/>
+                <button string="Từ chối hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_approve_ok"/>
+                <button string="Hủy yêu cầu hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_sent_ok"/>
                 <button string=" " name="button_en_copy" type="object" icon="fa-clipboard"/>
             </xpath>
             <xpath expr="//field[@name='user_ids']" position="attributes">
@@ -397,12 +397,12 @@
                 <field name="d_ok" invisible="1"/>
                 <field name="e_ok" invisible="1"/>
                 <field name="f_ok" invisible="1"/>
-                <button name="button_en_a" type="object" string="Thực hiện" attrs="{'invisible':[('a_ok','=',False)]}" groups="ngsd_base.group_pm,ngsd_base.group_tvda"/>
-                <button name="button_en_b" type="object" string="Hủy" attrs="{'invisible':[('b_ok','=',False)]}" groups="ngsd_base.group_pm,ngsd_base.group_tvda"/>
-                <button name="button_en_c" type="object" string="Gửi xem xét" attrs="{'invisible':[('c_ok','=',False)]}"/>
-                <button name="button_en_d" type="object" string="Trì hoãn" attrs="{'invisible':[('d_ok','=',False)]}" groups="ngsd_base.group_pm,ngsd_base.group_tvda"/>
-                <button name="button_en_e" type="object" string="Làm lại" attrs="{'invisible':[('e_ok','=',False)]}" groups="ngsd_base.group_pm,ngsd_base.group_tvda"/>
-                <button name="button_en_f" type="object" string="Hoàn thành" attrs="{'invisible':[('f_ok','=',False)]}"/>
+                <button name="button_en_a" type="object" string="Thực hiện" invisible="not a_ok" groups="ngsd_base.group_pm,ngsd_base.group_tvda"/>
+                <button name="button_en_b" type="object" string="Hủy" invisible="not b_ok" groups="ngsd_base.group_pm,ngsd_base.group_tvda"/>
+                <button name="button_en_c" type="object" string="Gửi xem xét" invisible="not c_ok"/>
+                <button name="button_en_d" type="object" string="Trì hoãn" invisible="not d_ok" groups="ngsd_base.group_pm,ngsd_base.group_tvda"/>
+                <button name="button_en_e" type="object" string="Làm lại" invisible="not e_ok" groups="ngsd_base.group_pm,ngsd_base.group_tvda"/>
+                <button name="button_en_f" type="object" string="Hoàn thành" invisible="not f_ok"/>
             </xpath>
             <xpath expr="//field[@name='stage_id']" position="attributes">
                 <attribute name="options">{}</attribute>
@@ -449,7 +449,7 @@
             </field>
             <field name="user_ids" position="after">
                 <field name="technical_field_27026" invisible="1" widget="many2many_tags"/>
-                <field name="en_supervisor" domain="[('id','in',technical_field_27026)]" attrs="{'required':[('en_requester','!=',False)]}" options="{'no_open':True,'no_create':True,'no_quick_create':True,'no_create_edit':True}"/>
+                <field name="en_supervisor" domain="[('id','in',technical_field_27026)]" required="en_requester" options="{'no_open':True,'no_create':True,'no_quick_create':True,'no_create_edit':True}"/>
                 <field name="en_handler" required="1" domain="[('id','in',technical_field_27450)]" options="{'no_open':True,'no_create':True,'no_quick_create':True,'no_create_edit':True}"/>
                 <field name="en_approver_id"/>
             </field>
@@ -462,7 +462,7 @@
             <field name="tag_ids" position="after">
                 <field name="en_remaining_hours" invisible="1"/>
                 <field name="en_progress" widget="percentage"/>
-                <field name="crm_lead_id" attrs="{'required': [('is_pm_crm', '=', True), ('project_presale', '=', True)], 'readonly': [('is_pm_crm', '=', False)], 'invisible': [('project_presale', '=', False)]}" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                <field name="crm_lead_id" required="is_pm_crm and project_presale" readonly="not is_pm_crm" invisible="not project_presale" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
                 <field name="project_presale" invisible="1"/>
                 <field name="is_pm_crm" invisible="1"/>
             </field>
@@ -584,14 +584,14 @@
                 <field name="company_id" invisible="1"/>
                 <field name="user_id" invisible="1"/>
                 <field name="project_id" invisible="1"/>
-                <button string="Tăng ca" name="en_create_over_time_nonproject" type="object" icon="fa-clock-o" attrs="{'invisible': [('en_state','in', ['waiting', 'cancel']), ('ot_id','=',False)]}"/>
-                <button string="Gửi duyệt" confirm="Bạn có chắc chắn muốn gửi duyệt?" name="en_false_button_sent" type="object" icon="fa-paper-plane" attrs="{'invisible':['|',('en_state','!=','new'),('en_sent_ok','=',False)]}"/>
-                <button string="Duyệt" name="button_confirm_approve" type="object" icon="fa-check" attrs="{'invisible':['|',('en_state','!=','sent'),('en_approve_ok','=',False)]}"/>
-                <button string="Từ chối" name="button_confirm_reject" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','sent'),('en_approve_ok','=',False)]}"/>
-                <button string="Yêu cầu hủy duyệt" name="en_button_waiting" type="object" icon="fa-paper-plane" attrs="{'invisible':['|',('en_state','!=','approved'),('en_sent_ok','=',False)]}"/>
-                <button string="Xác nhận hủy duyệt" name="en_button_cancel2" type="object" icon="fa-check" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_approve_ok','=',False)]}"/>
-                <button string="Từ chối hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_approve_ok','=',False)]}"/>
-                <button string="Hủy yêu cầu hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_sent_ok','=',False)]}"/>
+                <button string="Tăng ca" name="en_create_over_time_nonproject" type="object" icon="fa-clock-o" invisible="en_state in ['waiting', 'cancel'] and not ot_id"/>
+                <button string="Gửi duyệt" confirm="Bạn có chắc chắn muốn gửi duyệt?" name="en_false_button_sent" type="object" icon="fa-paper-plane" invisible="en_state != 'new' or not en_sent_ok"/>
+                <button string="Duyệt" name="button_confirm_approve" type="object" icon="fa-check" invisible="en_state != 'sent' or not en_approve_ok"/>
+                <button string="Từ chối" name="button_confirm_reject" type="object" icon="fa-times" invisible="en_state != 'sent' or not en_approve_ok"/>
+                <button string="Yêu cầu hủy duyệt" name="en_button_waiting" type="object" icon="fa-paper-plane" invisible="en_state != 'approved' or not en_sent_ok"/>
+                <button string="Xác nhận hủy duyệt" name="en_button_cancel2" type="object" icon="fa-check" invisible="en_state != 'waiting' or not en_approve_ok"/>
+                <button string="Từ chối hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_approve_ok"/>
+                <button string="Hủy yêu cầu hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_sent_ok"/>
 
             </list>
         </field>

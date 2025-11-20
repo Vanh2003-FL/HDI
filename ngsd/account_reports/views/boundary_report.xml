@@ -12,9 +12,9 @@
                 <sheet>
                     <group>
                         <field name="time_options"/>
-                        <field name="en_fiscal_year_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('time_options', '!=', 'en_fiscal_year')],'required':[('time_options', '=', 'en_fiscal_year')]}"/>
-                        <field name="date_from" attrs="{'invisible': [('time_options', '!=', 'option')], 'required':[('time_options', '=', 'option')]}"/>
-                        <field name="date_to" attrs="{'invisible': [('time_options', '!=', 'option')], 'required':[('time_options', '=', 'option')]}" />
+                        <field name="en_fiscal_year_id" options="{'no_create': True, 'no_open': True}" invisible="time_options != 'en_fiscal_year'" required="time_options == 'en_fiscal_year'"/>
+                        <field name="date_from" invisible="time_options != 'option'" required="time_options == 'option'"/>
+                        <field name="date_to" invisible="time_options != 'option'" required="time_options == 'option'" />
                     </group>
                 </sheet>
                 <footer>

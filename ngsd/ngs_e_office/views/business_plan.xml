@@ -10,12 +10,12 @@
                     <field name="show_button_request" invisible="1" />
                     <field name="show_button_cancel" invisible="1" />
                     <field name="show_btn_draft" invisible="1" />
-                    <button name="button_request" class="btn btn-primary" attrs="{'invisible': [('show_button_request', '=', False)]}" string="Gửi duyệt" type="object" />
-<!--                    <button name="button_draft" attrs="{'invisible': [('state', '!=', 'waiting')]}" string="Thiết lập về nháp" type="object" />-->
-                    <button name="button_draft" attrs="{'invisible': ['|', ('state', '!=', 'waiting'), ('show_btn_draft', '=', False)]}" string="Thiết lập về nháp" type="object" />
-                    <button name="button_confirm" class="btn btn-primary" attrs="{'invisible': ['|', ('state', '!=', 'waiting'), ('is_next_user_to_approve', '=', False)]}" string="Duyệt" type="object" />
-                    <button name="button_deny" attrs="{'invisible': ['|', ('state', '!=', 'waiting'), ('is_next_user_to_approve', '=', False)]}" string="Từ chối" type="object" />
-                    <button name="button_cancel" attrs="{'invisible': [('show_button_cancel', '=', False)]}" string="Hủy" type="object" />
+                    <button name="button_request" class="btn btn-primary" invisible="not show_button_request" string="Gửi duyệt" type="object" />
+<!--                    <button name="button_draft" invisible="state != 'waiting'" string="Thiết lập về nháp" type="object" />-->
+                    <button name="button_draft" invisible="state != 'waiting' or not show_btn_draft" string="Thiết lập về nháp" type="object" />
+                    <button name="button_confirm" class="btn btn-primary" invisible="state != 'waiting' or not is_next_user_to_approve" string="Duyệt" type="object" />
+                    <button name="button_deny" invisible="state != 'waiting' or not is_next_user_to_approve" string="Từ chối" type="object" />
+                    <button name="button_cancel" invisible="not show_button_cancel" string="Hủy" type="object" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -24,19 +24,19 @@
                     </div>
                     <group>
                         <group>
-                            <field name="is_sale" attrs="{'readonly': [('state', '!=', 'new')]}" />
-                            <field name="project_id" attrs="{'readonly': [('state', '!=', 'new')]}" />
-                            <field name="origin" attrs="{'readonly': [('state', '!=', 'new')]}" />
-                            <field name="location" attrs="{'readonly': [('state', '!=', 'new')]}" />
-                            <field name="responsible_id" attrs="{'readonly': [('state', '!=', 'new')]}"  context="{'view_all_hr_employee': True}"/>
-                            <label for="estimate_time_start" string="Lịch dự kiến" attrs="{'readonly': [('state', '!=', 'new')]}" />
+                            <field name="is_sale" readonly="state != 'new'" />
+                            <field name="project_id" readonly="state != 'new'" />
+                            <field name="origin" readonly="state != 'new'" />
+                            <field name="location" readonly="state != 'new'" />
+                            <field name="responsible_id" readonly="state != 'new'"  context="{'view_all_hr_employee': True}"/>
+                            <label for="estimate_time_start" string="Lịch dự kiến" readonly="state != 'new'" />
                             <div class="o_row">
-                                <field name="estimate_time_start" attrs="{'readonly': [('state', '!=', 'new')]}" class="oe_inline" nolabel="1"
+                                <field name="estimate_time_start" readonly="state != 'new'" class="oe_inline" nolabel="1"
                                     widget="daterange" options="{'related_end_date': 'estimate_time_end'}"/>
                                 <span class="oe_inline">
                                     <i class="fa fa-arrow-right" role="img" aria-label="Đến" title="Đến"/>
                                 </span>
-                                <field attrs="{'readonly': [('state', '!=', 'new')]}" name="estimate_time_end" class="oe_inline"
+                                <field readonly="state != 'new'" name="estimate_time_end" class="oe_inline"
                                     widget="daterange" options="{'related_start_date': 'estimate_time_start'}"/>
                             </div>
                         </group>
@@ -46,7 +46,7 @@
                     </group>
                     <notebook>
                         <page string="Danh sách nhân sự công tác" name="employees">
-                            <field name="partner_ids" nolabel="1" attrs="{'readonly': [('state', '!=', 'new')]}">
+                            <field name="partner_ids" nolabel="1" readonly="state != 'new'">
                                 <list editable="bottom">
                                     <field name="department_id" />
                                     <field name="employee_code" />
@@ -57,7 +57,7 @@
                             </field>
                         </page>
                         <page string="Chi phí ước tính" name="estimate_fees">
-                            <field name="estimate_ids" nolabel="1" attrs="{'readonly': [('state', '!=', 'new')]}">
+                            <field name="estimate_ids" nolabel="1" readonly="state != 'new'">
                                 <list editable="bottom">
                                     <field name="sequence" />
                                     <field name="category" />
@@ -73,7 +73,7 @@
                                 <list editable="bottom" decoration-success="status=='approved'" decoration-warning="status=='pending'" decoration-danger="status=='refused'">
                                     <field name="existing_request_user_ids" invisible="1"/>
                                     <field name="can_edit" invisible="1"/>
-                                    <field name="user_id" string="Người duyệt" attrs="{'readonly':[('status','!=','new')]}"/>
+                                    <field name="user_id" string="Người duyệt" readonly="status != 'new'"/>
                                     <field name="role_selection" string="Vai trò" />
                                     <field name="status" string="Trạng thái"/>
                                     <field name="company_id" invisible="1"/>

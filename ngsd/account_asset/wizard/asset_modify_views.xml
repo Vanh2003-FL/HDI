@@ -12,7 +12,7 @@
                 <group>
                     <group string="Modification">
                         <field name="name" placeholder="Modification reason" required="1"/>
-                        <field name="date" attrs="{'invisible': [('need_date', '=', False)], 'required': [('need_date', '=', True)]}"/>
+                        <field name="date" invisible="not need_date" required="need_date"/>
                     </group>
                     <group string="New Values">
                         <label for="method_number"/>
@@ -23,11 +23,11 @@
                         <field name="value_residual"/>
                         <field name="salvage_value"/>
                     </group>
-                    <group string="Increase Accounts" attrs="{'invisible': [('gain_value', '=', False)]}">
-                        <field name="account_asset_id" attrs="{'required': [('gain_value', '!=', False)]}"/>
-                        <field name="account_asset_counterpart_id" attrs="{'required': [('gain_value', '!=', False)]}"/>
-                        <field name="account_depreciation_id" attrs="{'required': [('gain_value', '!=', False)]}"/>
-                        <field name="account_depreciation_expense_id" attrs="{'required': [('gain_value', '!=', False)]}"/>
+                    <group string="Increase Accounts" invisible="not gain_value">
+                        <field name="account_asset_id" required="gain_value"/>
+                        <field name="account_asset_counterpart_id" required="gain_value"/>
+                        <field name="account_depreciation_id" required="gain_value"/>
+                        <field name="account_depreciation_expense_id" required="gain_value"/>
                     </group>
                 </group>
                 <footer>

@@ -1,7 +1,5 @@
-from odoo import *
-from odoo import _
-from odoo.exceptions import UserError
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 org_chart_classes = {

@@ -6,7 +6,7 @@
             <form>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button groups="base.group_no_one" string="ir.report" icon="fa-bars" type="object" name="to_report" attrs="{'invisible': [('report_id', '=', False)]}"/>
+                        <button groups="base.group_no_one" string="ir.report" icon="fa-bars" type="object" name="to_report" invisible="not report_id"/>
                     </div>
                     <group>
                         <group>
@@ -33,7 +33,7 @@
                                     <field name="sub_object" readonly="1" groups="base.group_no_one"/>
                                     <field name="sub_model_object_field"
                                            domain="[('model_id','=',sub_object),('ttype','!=','many2one'),('ttype','!=','one2many'),('ttype','!=','many2many')]"
-                                           attrs="{'readonly':[('sub_object','=',False)]}"/>
+                                           readonly="not sub_object"/>
                                     <field name="null_value"/>
                                     <field name="copyvalue"/>
                                 </list>
@@ -41,9 +41,9 @@
                             <group col="3" string="Tham khảo thêm">
                                 <group>
                                     <span colspan="6"><a href="https://jinja.palletsprojects.com/en/3.1.x/templates">https://jinja.palletsprojects.com/en/3.1.x/templates</a></span>
-                                    <span colspan="6" attrs="{'invisible':[('report_type','not in',['qweb-pdf','docx'])]}"><a href="https://docxtpl.readthedocs.io/en/latest/">https://docxtpl.readthedocs.io/en/latest/</a></span>
-                                    <span colspan="6" attrs="{'invisible':[('report_type','not in',['qweb-pdf','docx'])]}"><a href="/mbank_report_template/static/templates/template.docx">File Mẫu</a></span>
-                                    <span colspan="6" attrs="{'invisible':[('report_type','not in',['xlsx'])]}"><a href="/mbank_report_template/static/templates/template.xlsx">File Mẫu</a></span>
+                                    <span colspan="6" invisible="report_type not in ['qweb-pdf','docx']"><a href="https://docxtpl.readthedocs.io/en/latest/">https://docxtpl.readthedocs.io/en/latest/</a></span>
+                                    <span colspan="6" invisible="report_type not in ['qweb-pdf','docx']"><a href="/mbank_report_template/static/templates/template.docx">File Mẫu</a></span>
+                                    <span colspan="6" invisible="report_type not in ['xlsx']"><a href="/mbank_report_template/static/templates/template.xlsx">File Mẫu</a></span>
                                 </group>
                             </group>
                         </page>

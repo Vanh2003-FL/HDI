@@ -50,10 +50,10 @@
                         <page string="Timesheet">
                             <field name="timesheet_ids" context="{'copy_fields': ['employee_id', 'name', 'unit_amount']}">
                                 <list editable="bottom" string="Timesheet Activities" default_order="date desc" class="allow_list_copy">
-                                    <field name="date" attrs="{'readonly': [('en_state', '!=', 'new')]}"/>
-                                    <field name="employee_id" required="1" widget="many2one_avatar_employee" context="{'active_test': True}" attrs="{'readonly': [('en_state', '!=', 'new')]}"/>
-                                    <field name="name" attrs="{'readonly': [('en_state', '!=', 'new')]}"/>
-                                    <field name="unit_amount" widget="timesheet_uom" decoration-danger="unit_amount &gt; 24" attrs="{'readonly': [('en_state', '!=', 'new')]}"/>
+                                    <field name="date" readonly="en_state != 'new'"/>
+                                    <field name="employee_id" required="1" widget="many2one_avatar_employee" context="{'active_test': True}" readonly="en_state != 'new'"/>
+                                    <field name="name" readonly="en_state != 'new'"/>
+                                    <field name="unit_amount" widget="timesheet_uom" decoration-danger="unit_amount &gt; 24" readonly="en_state != 'new'"/>
                                     <field name="ot_time" widget="float_time"/>
                                     <field name="ot_state"/>
                                     <field name="ot_date_from" optional="hide"/>
@@ -63,14 +63,14 @@
                                     <field name="approver"/>
                                     <field name="approve_date"/>
 
-                                    <button string="Tăng ca" name="en_create_over_time_nonproject" type="object" icon="fa-clock-o" attrs="{'invisible': [('en_state','in', ['waiting', 'cancel']), ('ot_id','=',False)]}"/>
-                                    <button string="Gửi duyệt" confirm="Bạn có chắc chắn muốn gửi duyệt?" name="en_button_sent" type="object" icon="fa-paper-plane" attrs="{'invisible':['|',('en_state','!=','new'),('en_sent_ok','=',False)]}"/>
-                                    <button string="Duyệt" confirm="Duyệt yêu cầu, tiếp tục?" name="en_button_approved" type="object" icon="fa-check" attrs="{'invisible':['|',('en_state','!=','sent'),('en_approve_ok','=',False)]}"/>
-                                    <button string="Từ chối" confirm="Từ chối yêu cầu, tiếp tục?" name="en_button_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','sent'),('en_approve_ok','=',False)]}"/>
-                                    <button string="Yêu cầu hủy duyệt" name="en_button_waiting" type="object" icon="fa-paper-plane" attrs="{'invisible':['|',('en_state','!=','approved'),('en_sent_ok','=',False)]}"/>
-                                    <button string="Xác nhận hủy duyệt" name="en_button_cancel2" type="object" icon="fa-check" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_approve_ok','=',False)]}"/>
-                                    <button string="Từ chối hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_approve_ok','=',False)]}"/>
-                                    <button string="Hủy yêu cầu hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" attrs="{'invisible':['|',('en_state','!=','waiting'),('en_sent_ok','=',False)]}"/>
+                                    <button string="Tăng ca" name="en_create_over_time_nonproject" type="object" icon="fa-clock-o" invisible="en_state in ['waiting', 'cancel'] and not ot_id"/>
+                                    <button string="Gửi duyệt" confirm="Bạn có chắc chắn muốn gửi duyệt?" name="en_button_sent" type="object" icon="fa-paper-plane" invisible="en_state != 'new' or not en_sent_ok"/>
+                                    <button string="Duyệt" confirm="Duyệt yêu cầu, tiếp tục?" name="en_button_approved" type="object" icon="fa-check" invisible="en_state != 'sent' or not en_approve_ok"/>
+                                    <button string="Từ chối" confirm="Từ chối yêu cầu, tiếp tục?" name="en_button_cancel" type="object" icon="fa-times" invisible="en_state != 'sent' or not en_approve_ok"/>
+                                    <button string="Yêu cầu hủy duyệt" name="en_button_waiting" type="object" icon="fa-paper-plane" invisible="en_state != 'approved' or not en_sent_ok"/>
+                                    <button string="Xác nhận hủy duyệt" name="en_button_cancel2" type="object" icon="fa-check" invisible="en_state != 'waiting' or not en_approve_ok"/>
+                                    <button string="Từ chối hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_approve_ok"/>
+                                    <button string="Hủy yêu cầu hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_sent_ok"/>
 <!--                                    <button string=" " name="button_en_copy" type="object" icon="fa-clipboard"/>-->
                                     <field name="ot_id" invisible="1"/>
                                     <field name="en_approve_ok" invisible="1"/>

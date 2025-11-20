@@ -7,7 +7,7 @@
             <form>
                 <group>
                     <field name="type"/>
-                    <field name="date" attrs="{'invisible': [('type', '!=', 'soon')], 'required': [('type', '=', 'soon')]}"/>
+                    <field name="date" invisible="type != 'soon'" required="type == 'soon'"/>
                     <field name="resource_project_id" invisible="1"/>
                 </group>
 

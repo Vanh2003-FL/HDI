@@ -1,6 +1,5 @@
-from odoo import *
 import re
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from datetime import timedelta, datetime, time, date
 from dateutil.relativedelta import relativedelta
 from collections import defaultdict
