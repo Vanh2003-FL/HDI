@@ -9,7 +9,36 @@
             <field name="code">model.cron_process_pending_logs()</field>
             <field name="interval_number">5</field>
             <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
             <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+
+        <!-- Cron Job: Auto Checkout Missing Attendances -->
+        <record id="ir_cron_auto_checkout" model="ir.cron">
+            <field name="name">HDI: Auto Checkout Missing Attendances</field>
+            <field name="model_id" ref="hr_attendance.model_hr_attendance"/>
+            <field name="state">code</field>
+            <field name="code">model.auto_log_out_job()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=6, minute=0, second=0)"/>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+
+        <!-- Cron Job: Clean Old Logs -->
+        <record id="ir_cron_clean_old_logs" model="ir.cron">
+            <field name="name">HDI: Clean Old Attendance Logs</field>
+            <field name="model_id" ref="model_hr_attendance_log"/>
+            <field name="state">code</field>
+            <field name="code">model.clean_old_logs(days=90)</field>
+            <field name="interval_number">7</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_admin"/>
         </record>
 
         <!-- Sequence for Attendance Explanation -->
@@ -19,6 +48,37 @@
             <field name="prefix">ATT-EXP-</field>
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Config Parameters -->
+        <record id="ir_config_parameter_max_attendance_request" model="ir.config_parameter">
+            <field name="key">en_max_attendance_request</field>
+            <field name="value">72</field>
+        </record>
+
+        <record id="ir_config_parameter_auto_checkout_enabled" model="ir.config_parameter">
+            <field name="key">hdi_attendance.auto_checkout_enabled</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="ir_config_parameter_auto_checkout_time" model="ir.config_parameter">
+            <field name="key">hdi_attendance.auto_checkout_time</field>
+            <field name="value">18.0</field>
+        </record>
+
+        <record id="ir_config_parameter_grace_minutes_late" model="ir.config_parameter">
+            <field name="key">hdi_attendance.grace_minutes_late</field>
+            <field name="value">15</field>
+        </record>
+
+        <record id="ir_config_parameter_grace_minutes_early" model="ir.config_parameter">
+            <field name="key">hdi_attendance.grace_minutes_early</field>
+            <field name="value">15</field>
+        </record>
+
+        <record id="ir_config_parameter_min_work_hours" model="ir.config_parameter">
+            <field name="key">hdi_attendance.min_work_hours</field>
+            <field name="value">7.75</field>
         </record>
     </data>
 </odoo>

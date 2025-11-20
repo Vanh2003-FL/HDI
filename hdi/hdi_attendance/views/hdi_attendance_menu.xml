@@ -24,6 +24,12 @@
               parent="menu_hr_attendance_explanation_root"
               action="hr_attendance_explanation_my_action"
               sequence="10"/>
+    
+    <menuitem id="menu_hr_attendance_explanation_need_approve"
+              name="Cần phê duyệt"
+              parent="menu_hr_attendance_explanation_root"
+              action="hr_attendance_explanation_need_approve_action"
+              sequence="15"/>
 
     <menuitem id="menu_hr_attendance_explanation_all"
               name="Tất cả giải trình"
@@ -37,6 +43,13 @@
               name="Cấu hình"
               parent="hr_attendance.menu_hr_attendance_settings"
               sequence="100"/>
+
+    <menuitem id="menu_submission_type"
+              name="Loại giải trình"
+              parent="menu_hr_attendance_configuration"
+              action="submission_type_action"
+              sequence="10"
+              groups="hdi_attendance.group_attendance_manager"/>
 
     <menuitem id="menu_hr_attendance_log"
               name="Nhật ký chấm công"
