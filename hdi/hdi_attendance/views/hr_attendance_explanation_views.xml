@@ -87,19 +87,19 @@
                     <button name="button_cancel" string="Hủy" type="object" 
                             invisible="state in ['approved', 'refuse', 'cancel']" 
                             confirm="Bạn có chắc muốn hủy bản ghi này?"/>
-                    <button name="action_view_timesheet" string="Xem Timesheet" type="object" 
-                            class="btn-info" invisible="not show_action_view_timesheet"/>
+                    <!-- <button name="action_view_timesheet" string="Xem Timesheet" type="object" 
+                            class="btn-info" invisible="not show_action_view_timesheet"/> -->
                     <field name="state" widget="statusbar" 
                            statusbar_visible="new,to_approve,approved"/>
                 </header>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
+                    <!-- <div class="oe_button_box" name="button_box">
                         <button name="action_view_timesheet" type="object" 
                                 class="oe_stat_button" icon="fa-calendar" 
                                 invisible="not show_action_view_timesheet">
                             <field name="ts_ids" widget="statinfo" string="Timesheets"/>
                         </button>
-                    </div>
+                    </div> -->
                     
                     <div class="oe_title">
                         <h1>
@@ -182,7 +182,7 @@
                     <!-- Hidden fields for conditions -->
                     <field name="condition_visible_button_refuse_approve" invisible="1"/>
                     <field name="check_need_approve" invisible="1"/>
-                    <field name="show_action_view_timesheet" invisible="1"/>
+                    <!-- <field name="show_action_view_timesheet" invisible="1"/> -->
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids"/>

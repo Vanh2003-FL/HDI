@@ -18,7 +18,8 @@
         </field>
     </record>
 
-    <!-- Explanation Task Timesheet Wizard -->
+    <!-- Explanation Task Timesheet Wizard (Requires account module) -->
+    <!--
     <record id="view_explanation_task_timesheet_wizard_form" model="ir.ui.view">
         <field name="name">explanation.task.timesheet.wizard.form</field>
         <field name="model">explanation.task.timesheet</field>
@@ -47,6 +48,7 @@
             </form>
         </field>
     </record>
+    -->
 
     <!-- Report Timekeeping Wizard -->
     <record id="view_report_timekeeping_wizard_form" model="ir.ui.view">

@@ -126,16 +126,17 @@ class HrAttendanceExplanation(models.Model):
         search='_search_check_need_approve'
     )
     
-    # === TIMESHEET INTEGRATION ===
-    ts_ids = fields.One2many(
-        'account.analytic.line',
-        'explanation_id',
-        string='Timesheets'
-    )
-    
-    show_action_view_timesheet = fields.Boolean(
-        compute='_compute_show_action_view_timesheet'
-    )
+    # === TIMESHEET INTEGRATION (Requires 'account' module) ===
+    # TODO: Enable when account module is installed
+    # ts_ids = fields.One2many(
+    #     'account.analytic.line',
+    #     'explanation_id',
+    #     string='Timesheets'
+    # )
+    # 
+    # show_action_view_timesheet = fields.Boolean(
+    #     compute='_compute_show_action_view_timesheet'
+    # )
     
     # === COMPUTED FIELDS ===
     @api.depends('employee_id', 'explanation_date')
@@ -190,14 +191,14 @@ class HrAttendanceExplanation(models.Model):
         else:
             return [('id', 'not in', matching_ids)]
     
-    @api.depends('ts_ids', 'state', 'submission_code')
-    def _compute_show_action_view_timesheet(self):
-        """Show timesheet action button if applicable"""
-        for rec in self:
-            rec.show_action_view_timesheet = (
-                bool(rec.ts_ids) and
-                rec.submission_code in ['TSDA', 'TSNDA']
-            )
+    # @api.depends('ts_ids', 'state', 'submission_code')
+    # def _compute_show_action_view_timesheet(self):
+    #     """Show timesheet action button if applicable - requires account module"""
+    #     for rec in self:
+    #         rec.show_action_view_timesheet = (
+    #             bool(rec.ts_ids) and
+    #             rec.submission_code in ['TSDA', 'TSNDA']
+    #         )
     
     # === CONSTRAINTS ===
     @api.constrains('explanation_date')
@@ -250,21 +251,22 @@ class HrAttendanceExplanation(models.Model):
         if self.explanation_date > fields.Date.context_today(self):
             raise UserError(_('Không thể tạo giải trình trong tương lai!'))
         
-        # Check for timesheet explanation types
-        if self.submission_code in ['TSDA', 'TSNDA']:
-            if not self.ts_ids:
-                return {
-                    'type': 'ir.actions.act_window',
-                    'name': _('Tạo timesheet giải trình'),
-                    'res_model': 'explanation.task.timesheet',
-                    'view_mode': 'form',
-                    'context': {
-                        'default_explanation_id': self.id,
-                        'default_type': self.submission_code,
-                    },
-                    'target': 'new',
-                }
-        else:
+        # # Check for timesheet explanation types (requires account module)
+        # if self.submission_code in ['TSDA', 'TSNDA']:
+        #     if not self.ts_ids:
+        #         return {
+        #             'type': 'ir.actions.act_window',
+        #             'name': _('Tạo timesheet giải trình'),
+        #             'res_model': 'explanation.task.timesheet',
+        #             'view_mode': 'form',
+        #             'context': {
+        #                 'default_explanation_id': self.id,
+        #                 'default_type': self.submission_code,
+        #             },
+        #             'target': 'new',
+        #         }
+        
+        if self.submission_code not in ['TSDA', 'TSNDA']:
             # Validate detail lines
             if not self.line_ids:
                 raise ValidationError(_('Bạn cần chọn giá trị điều chỉnh mới!'))
@@ -387,12 +389,13 @@ class HrAttendanceExplanation(models.Model):
         """Apply approved changes to attendance record"""
         self.ensure_one()
         
-        if self.submission_code in ['TSDA', 'TSNDA']:
-            # Handle timesheet explanations
-            self.ts_ids.with_context(timesheet_from_explanation=True).sudo().write({
-                'en_state': 'approved'
-            })
-        else:
+        # if self.submission_code in ['TSDA', 'TSNDA']:
+        #     # Handle timesheet explanations (requires account module)
+        #     self.ts_ids.with_context(timesheet_from_explanation=True).sudo().write({
+        #         'en_state': 'approved'
+        #     })
+        
+        if self.submission_code not in ['TSDA', 'TSNDA']:
             # Handle attendance time adjustments
             attendance_vals = {'en_missing_attendance': False}
             
@@ -451,16 +454,16 @@ class HrAttendanceExplanation(models.Model):
             subtype_xmlid='mail.mt_comment',
         )
     
-    def action_view_timesheet(self):
-        """View related timesheets"""
-        if not self.ts_ids:
-            return
-        
-        return {
-            'name': _('Timesheets'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'account.analytic.line',
-            'view_mode': 'tree,form',
-            'domain': [('id', 'in', self.ts_ids.ids)],
-            'context': {'default_explanation_id': self.id},
-        }
+    # def action_view_timesheet(self):
+    #     """View related timesheets - requires account module"""
+    #     if not self.ts_ids:
+    #         return
+    #     
+    #     return {
+    #         'name': _('Timesheets'),
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'account.analytic.line',
+    #         'view_mode': 'tree,form',
+    #         'domain': [('id', 'in', self.ts_ids.ids)],
+    #         'context': {'default_explanation_id': self.id},
+    #     }
