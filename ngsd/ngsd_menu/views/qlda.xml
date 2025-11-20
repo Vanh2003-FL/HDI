@@ -3,7 +3,7 @@
     <record id="qlda_menu" model="ir.ui.menu">
         <field name="name">Quản lý sản xuất</field>
         <field name="action" eval="False"/>
-        <field name="groups_id" eval="[(4, ref('ngsd_base.group_tvda'))]"/>
+        <field name="groups" value="ngsd_base.group_tvda"/>
         <field name="web_icon">mrp,static/description/icon.png</field>
     </record>
 
@@ -31,7 +31,7 @@
         <field name="name">Nguồn lực ẩn</field>
         <field name="action" ref="ngsd_base.open_view_employee_list_my_hr_hidden"/>
         <field name="sequence">1</field>
-        <field name="groups_id" eval="[(4, ref('ngsd_base.group_userhr')), (4, ref('ngsd_base.group_pm')), (4, ref('ngsd_base.group_vpm'))]"/>
+        <field name="groups" value="ngsd_base.group_userhr,ngsd_base.group_pm,ngsd_base.group_vpm"/>
         <field name="parent_id" ref="qlda_qlnl_menu"/>
     </record>
     <record id="qlda_borrow_employee_menu" model="ir.ui.menu">
@@ -61,7 +61,7 @@
         <field name="name">Quản lý nhân sự</field>
         <field name="sequence">12</field>
         <field name="web_icon">hr,static/description/icon.png</field>
-        <field name="groups_id" eval="[(4, ref('ngsd_base.group_tvda'))]"/>
+        <field name="groups" value="ngsd_base.group_tvda"/>
         <field name="action" ref="ngsd_base.open_view_employee_list_my_hr"/>
     </record>
      <record id="so_do_to_chuc_menu" model="ir.ui.menu">
@@ -382,7 +382,7 @@
         <field name="name">Đánh giá của QA</field>
         <field name="action" ref="ngsd_base.qa_evaluate_view_action"/>
         <field name="sequence">1</field>
-        <field name="groups_id" eval="[(4,ref('ngsd_base.group_qal')), (4,ref('ngsd_base.group_qam'))]"/>
+        <field name="groups" value="ngsd_base.group_qal,ngsd_base.group_qam"/>
         <field name="parent_id" ref="qlda_qlda_menu"/>
     </record>
     <record id="ngsd_base.en_experience_menu" model="ir.ui.menu">
@@ -417,7 +417,7 @@
         <field name="name">Công việc dự án</field>
         <field name="action" ref="project.open_view_project_all"/>
         <field name="sequence">100</field>
-        <field name="groups_id" eval="[(5,0,0)]"/>
+        <field name="groups" value=""/>
         <field name="parent_id" ref="qlda_qlda_nv_menu"/>
     </record>
     <record id="qlda_qlda_project_document_menu" model="ir.ui.menu">
@@ -429,7 +429,7 @@
         <field name="name">Sản phẩm bàn giao</field>
         <field name="action" ref="ngsd_base.project_document_act"/>
         <field name="sequence">5</field>
-        <field name="groups_id" eval="[(5,0,0)]"/>
+        <field name="groups" value=""/>
         <field name="parent_id" ref="qlda_qlda_project_document_menu"/>
     </record>
     <record id="qlda_qlda_ts_menu" model="ir.ui.menu">
@@ -466,7 +466,7 @@
 <!--    <record id="ngsd_base.hr_overtime_type_menu" model="ir.ui.menu">-->
 <!--        <field name="parent_id" ref="qlda_tc_menu"/>-->
 <!--        <field name="sequence">50</field>-->
-<!--        <field name="groups_id" eval="[(4,ref('base.group_system'))]"/>-->
+<!--        <field name="groups" value="base.group_system"/>-->
 <!--    </record>-->
 
     <menuitem id="folder_project_menu" name="Thư mục gán dự án" parent="qlda_qlda_menu" sequence="160" action="ngsd_base.documents_folder_project_action"/>
@@ -512,12 +512,12 @@
     </record>
     <record id="account_reports.menu_department_resource_action_report" model="ir.ui.menu">
         <field name="parent_id" ref="qlda_report_root_menu"/>
-        <field name="groups_id" eval="[(4,ref('ngsd_base.group_tk')),(4,ref('ngsd_base.group_vpm')),(4,ref('ngsd_base.group_tppmo')),(4,ref('ngsd_base.group_tpvh')), (4, ref('ngsd_base.group_qam')), (4, ref('ngsd_base.group_qal')), (4, ref('ngsd_base.group_userhr')), (4, ref('ngsd_base.group_gdkv')), (4, ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="groups" value="ngsd_base.group_tk,ngsd_base.group_vpm,ngsd_base.group_tppmo,ngsd_base.group_tpvh,ngsd_base.group_qam,ngsd_base.group_qal,ngsd_base.group_userhr,ngsd_base.group_gdkv,ngsd_base.group_gdkndu"/>
         <field name="sequence">30</field>
     </record>
     <record id="account_reports.menu_department_resource_detail_report" model="ir.ui.menu">
         <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
-        <field name="groups_id" eval="[(4,ref('ngsd_base.group_tk')),(4,ref('ngsd_base.group_vpm')),(4,ref('ngsd_base.group_tppmo')),(4,ref('ngsd_base.group_tpvh')), (4, ref('ngsd_base.group_qam')), (4, ref('ngsd_base.group_qal')), (4, ref('ngsd_base.group_userhr')), (4, ref('ngsd_base.group_gdkv')), (4, ref('ngsd_base.group_gdkndu'))]"/>
+        <field name="groups" value="ngsd_base.group_tk,ngsd_base.group_vpm,ngsd_base.group_tppmo,ngsd_base.group_tpvh,ngsd_base.group_qam,ngsd_base.group_qal,ngsd_base.group_userhr,ngsd_base.group_gdkv,ngsd_base.group_gdkndu"/>
     </record>
     <record id="account_reports.menu_timesheet_detail_by_project_report" model="ir.ui.menu">
         <field name="parent_id" ref="ngsd_menu.qlda_report_root_menu"/>
@@ -545,7 +545,7 @@
         <field name="name">Thiết lập</field>
         <field name="sequence">50</field>
         <field name="parent_id" ref="qlda_menu"/>
-        <field name="groups_id" eval="[(4,ref('base.group_system')), (4, ref('ngsd_base.group_qal')), (4, ref('ngsd_base.group_qam'))]"/>
+        <field name="groups" value="base.group_system,ngsd_base.group_qal,ngsd_base.group_qam"/>
     </record>
     <record id="qlda_tl_nl_menu" model="ir.ui.menu">
         <field name="name">Nguồn lực</field>

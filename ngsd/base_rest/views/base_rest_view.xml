@@ -6,7 +6,7 @@
     <record id="menu_rest_api_root" model="ir.ui.menu">
         <field name="name">REST API</field>
         <field name="sequence" eval="400" />
-        <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
+        <field name="groups" value="base.group_system"/>
         <field name="web_icon">base_rest,static/description/icon.png</field>
     </record>
 

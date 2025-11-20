@@ -32,7 +32,7 @@
         <field name="name">Quản lý bán hàng</field>
         <field name="web_icon">crm,static/description/icon.png</field>
         <field name="action" ref="crm.crm_lead_action_pipeline"/>
-        <field name="groups_id" eval="[(4,ref('sales_team.group_sale_salesman'))]"/>
+        <field name="groups" value="sales_team.group_sale_salesman"/>
     </record>
 
     <record id="qlbh_kpi_menu" model="ir.ui.menu">
@@ -69,7 +69,7 @@
         <field name="name">Tiềm năng</field>
         <field name="action" ref="crm.crm_lead_all_leads"/>
         <field name="parent_id" ref="qlbh_menu"/>
-        <field name="groups_id" eval="[(4,ref('crm.group_use_lead'))]"/>
+        <field name="groups" value="crm.group_use_lead"/>
     </record>
 
     <record id="qlbh_ch_menu" model="ir.ui.menu">

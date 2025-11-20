@@ -1024,7 +1024,7 @@
         'views': [[False, 'form']],
         }
       </field>
-      <field name="groups_id" eval="[(4, ref('ngsd_base.ngs_lock_timesheet_group'))]"/>
+      <field name="groups" value="ngsd_base.ngs_lock_timesheet_group"/>
     </record>
     <record id="change_lock_license_approve_action_server" model="ir.actions.server">
       <field name="name">Thay đổi ngày khóa duyệt timesheet</field>
@@ -1045,7 +1045,7 @@
         'views': [[False, 'form']],
         }
       </field>
-      <field name="groups_id" eval="[(4, ref('ngsd_base.ngs_lock_timesheet_group'))]"/>
+      <field name="groups" value="ngsd_base.ngs_lock_timesheet_group"/>
     </record>
 
     <record id="menu_timesheet_general_report" model="ir.ui.menu">

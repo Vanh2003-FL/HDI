@@ -34,7 +34,7 @@
     <record id="menu_project_resource_action_report" model="ir.ui.menu">
         <field name="name">Nguồn lực dự án</field>
         <field name="action" ref="project_resource_account_wizard_act"/>
-        <field name="groups_id" eval="[(6, 0, [ref('ngsd_base.group_gdkndu'), ref('ngsd_base.group_tpvh'), ref('ngsd_base.group_gdkv'), ref('ngsd_base.group_tptc'), ref('ngsd_base.group_pm'), ref('ngsd_base.group_qal'), ref('ngsd_base.group_qam'), ref('ngsd_base.group_userhr')])]"/>
+        <field name="groups" value="ngsd_base.group_gdkndu,ngsd_base.group_tpvh,ngsd_base.group_gdkv,ngsd_base.group_tptc,ngsd_base.group_pm,ngsd_base.group_qal,ngsd_base.group_qam,ngsd_base.group_userhr"/>
     </record>
 
     <record id="action_run_resource_summary_cron" model="ir.actions.server">
