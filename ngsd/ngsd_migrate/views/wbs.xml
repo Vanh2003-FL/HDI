@@ -4,7 +4,7 @@
         <field name="model">en.wbs</field>
         <field name="inherit_id" ref="ngsd_base.wbs_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
+            <xpath expr="//list" position="attributes">
                 <attribute name="create">1</attribute>
             </xpath>
         </field>

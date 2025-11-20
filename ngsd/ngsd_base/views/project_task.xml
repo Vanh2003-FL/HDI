@@ -19,7 +19,7 @@
     <record id="hr_timesheet_line_tree" model="ir.ui.view">
         <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
         <field name="arch" type="xml">
-            <list position="inside">
+            <xpath expr="//list" position="inside">
                 <field name="en_state" string="Trạng thái phê duyệt"/>
                 <field name="ot_date_from" optional="hide"/>
                 <field name="ot_date_to" optional="hide"/>
@@ -38,9 +38,9 @@
                 <button string="Xác nhận hủy duyệt" name="en_button_cancel2" type="object" icon="fa-check" invisible="en_state != 'waiting' or not en_approve_ok"/>
                 <button string="Từ chối hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_approve_ok"/>
                 <button string="Hủy yêu cầu hủy duyệt" name="en_button_cancel_cancel" type="object" icon="fa-times" invisible="en_state != 'waiting' or not en_sent_ok"/>
-            </list>
+            </xpath>
             <field name="date" position="attributes">
-                <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
+                <attribute name="readonly">en_state != 'new'</attribute>
             </field>
             <field name="date" position="before">
                 <header>
@@ -65,17 +65,17 @@
             <xpath expr="//field[@name='project_id']" position="after">
                 <field name="project_department_id" string="Trung tâm theo dự án"/>
             </xpath>
-            <xpath expr="//tree" position="attributes">
+            <xpath expr="//list" position="attributes">
                 <attribute name="default_order">date desc</attribute>
             </xpath>
             <field name="task_id" position="attributes">
-                <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
+                <attribute name="readonly">en_state != 'new'</attribute>
             </field>
             <field name="name" position="attributes">
-                <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
+                <attribute name="readonly">en_state != 'new'</attribute>
             </field>
             <field name="unit_amount" position="attributes">
-                <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
+                <attribute name="readonly">en_state != 'new'</attribute>
                 <attribute name="string">Số giờ</attribute>
             </field>
         </field>
@@ -256,7 +256,7 @@
             <field name="kanban_state" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
-            <xpath expr="//tree" position="attributes">
+            <xpath expr="//list" position="attributes">
                 <attribute name="decoration-danger">decoration == 'danger'</attribute>
                 <attribute name="decoration-warning">decoration == 'warning'</attribute>
             </xpath>
@@ -271,7 +271,7 @@
         <field name="mode">primary</field>
         <field name="priority">10000</field>
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
+            <xpath expr="//list" position="attributes">
                 <attribute name="class">allow_list_copy</attribute>
             </xpath>
             <field name="date_deadline" position="before">
@@ -335,24 +335,24 @@
     <record id="view_task_form2_inherited" model="ir.ui.view">
         <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='timesheet_ids']//tree//field[@name='date']" position="attributes">
-                <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
+            <xpath expr="//field[@name='timesheet_ids']//list//field[@name='date']" position="attributes">
+                <attribute name="readonly">en_state != 'new'</attribute>
             </xpath>
-            <xpath expr="//field[@name='timesheet_ids']//tree//field[@name='employee_id']" position="attributes">
-                <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
+            <xpath expr="//field[@name='timesheet_ids']//list//field[@name='employee_id']" position="attributes">
+                <attribute name="readonly">en_state != 'new'</attribute>
             </xpath>
-            <xpath expr="//field[@name='timesheet_ids']//tree//field[@name='unit_amount']" position="attributes">
+            <xpath expr="//field[@name='timesheet_ids']//list//field[@name='unit_amount']" position="attributes">
                 <attribute name="string">Số giờ</attribute>
                 <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
             </xpath>
-            <xpath expr="//field[@name='timesheet_ids']//tree//field[@name='name']" position="attributes">
+            <xpath expr="//field[@name='timesheet_ids']//list//field[@name='name']" position="attributes">
                 <attribute name="required">1</attribute>
                 <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
             </xpath>
-            <xpath expr="//field[@name='timesheet_ids']//tree" position="attributes">
+            <xpath expr="//field[@name='timesheet_ids']//list" position="attributes">
                 <attribute name="default_order">date desc</attribute>
             </xpath>
-            <xpath expr="//field[@name='timesheet_ids']//tree//field[@name='unit_amount']" position="after">
+            <xpath expr="//field[@name='timesheet_ids']//list//field[@name='unit_amount']" position="after">
                 <field name="ot_id" domain="[('task_id','=',parent.id)]" context="{'default_task_id':parent.id}" readonly="en_state != 'new'" options="{'no_quick_create':True, 'no_create': True}" optional="hide"/>
                 <field name="ot_time" widget="float_time"/>
                 <field name="ot_state"/>
@@ -367,7 +367,7 @@
                 <field name="en_total_amount" optional="hide" widget="timesheet_uom"/>
                 <field name="total_hours_timesheet" optional="hide"/>
             </xpath>
-            <xpath expr="//field[@name='timesheet_ids']//tree" position="inside">
+            <xpath expr="//field[@name='timesheet_ids']//list" position="inside">
                 <button string="Tăng ca" name="en_create_over_time" type="object" icon="fa-clock-o" invisible="en_state in ['waiting', 'cancel'] and not ot_id"/>
                 <button string="Gửi duyệt" confirm="Bạn có chắc chắn muốn gửi duyệt?" name="en_button_sent" type="object" icon="fa-paper-plane" invisible="en_state != 'new' or not en_sent_ok"/>
                 <button string="Duyệt" confirm="Duyệt yêu cầu, tiếp tục?" groups="hr_timesheet.group_hr_timesheet_user,ngsd_base.group_pm" name="en_button_approved" type="object" icon="fa-check" invisible="en_state != 'sent' or not en_approve_ok"/>
@@ -388,7 +388,8 @@
                 <field name="en_wbs_old_id" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='timesheet_ids']" position="attributes">
-                <attribute name="attrs">{'invisible': [('allow_timesheets', '=', False)], 'readonly': ['|', '|', ('technical_field_selection', 'not in', ['c', 'f']), ('en_wbs_state', '!=', 'approved'), ('resource_planning_id', '=', False)]}</attribute>
+                <attribute name="invisible">not allow_timesheets</attribute>
+                <attribute name="readonly">technical_field_selection not in ['c', 'f'] or en_wbs_state != 'approved' or not resource_planning_id</attribute>
             </xpath>
             <xpath expr="//field[@name='stage_id']" position="before">
                 <field name="a_ok" invisible="1"/>

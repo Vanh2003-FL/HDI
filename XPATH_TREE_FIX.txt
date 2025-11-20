@@ -1,0 +1,54 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║           FIX: XPATH //tree → //list (Odoo 18)                   ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+🔍 NGUYÊN NHÂN LỖI:
+
+ParseError: Không thể định vị phần tử '<xpath expr="//tree">'
+
+Trong Odoo 18:
+- List views sử dụng thẻ <list> thay vì <tree>
+- Các xpath tham chiếu //tree không còn hoạt động
+- Cần thay bằng //list
+
+📝 ĐÃ SỬA:
+
+3 files với 6 xpath occurrences:
+
+1. ngsd_base/views/project_task.xml (4 chỗ)
+   ✓ //field[@name='timesheet_ids']//tree//field[@name='name']
+     → //field[@name='timesheet_ids']//list//field[@name='name']
+   
+   ✓ //field[@name='timesheet_ids']//tree
+     → //field[@name='timesheet_ids']//list
+   
+   ✓ //field[@name='timesheet_ids']//tree//field[@name='unit_amount']
+     → //field[@name='timesheet_ids']//list//field[@name='unit_amount']
+   
+   ✓ //field[@name='timesheet_ids']//tree (position="inside")
+     → //field[@name='timesheet_ids']//list
+
+2. ngsd_base/views/hr_employee.xml (1 chỗ)
+   ✓ //field[@name='resume_line_ids']//tree//field[@name='name']
+     → //field[@name='resume_line_ids']//list//field[@name='name']
+
+3. ngs_e_office/views/approval_request.xml (1 chỗ)
+   ✓ //field[@name='approver_ids']//tree
+     → //field[@name='approver_ids']//list
+
+✅ VALIDATION:
+
+- All XML syntax: ✓ Valid
+- Remaining //tree: 0
+- Ready to test module load
+
+�� BẮT ĐẦU TEST:
+
+Restart Odoo và install/upgrade ngsd_base module:
+   ./odoo-bin -c config.conf -d database_name -u ngsd_base
+
+Hoặc qua UI:
+   Apps → Search "ngsd_base" → Upgrade
+
+Expected: Module loads without ParseError
+
