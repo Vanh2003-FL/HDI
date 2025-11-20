@@ -10,27 +10,13 @@
             <xpath expr="//field[@name='coach_id']" position="after">
                 <field name="en_internal_ok"/>
             </xpath>
-            <xpath expr="//field[@name='job_title']" position="attributes">
-                <attribute name="attrs">{'readonly': 1}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='mobile_phone']" position="attributes">
-                <attribute name="attrs">{'readonly': 1}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='work_phone']" position="attributes">
-                <attribute name="attrs">{'readonly': 1}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='employee_parent_id']" position="attributes">
-                <attribute name="attrs">{'readonly': 1}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='coach_id']" position="attributes">
-                <attribute name="attrs">{'readonly': 1}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='work_email']" position="attributes">
-                <attribute name="attrs">{'readonly': 1}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='work_location_id']" position="attributes">
-                <attribute name="attrs">{'readonly': 1}</attribute>
-            </xpath>
+            <xpath expr="//field[@name='job_title']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='mobile_phone']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='work_phone']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='employee_parent_id']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='coach_id']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='work_email']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='work_location_id']" position="attributes">            </xpath>
             <xpath expr="//notebook/page[@name='public']" position="replace">
                 <page name="public" string="Thông tin công việc">
                     <div id="o_work_employee_container"> <!-- These two div are used to position org_chart -->

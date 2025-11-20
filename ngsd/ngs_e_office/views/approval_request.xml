@@ -8,20 +8,12 @@
             <xpath expr="//button[@name='action_cancel']" position="attributes">
                 <attribute name="confirm">Bạn có chắc muốn hủy yêu cầu này?</attribute>
             </xpath>
-            <xpath expr="//button[@name='action_withdraw']" position="attributes">
-                <attribute name="attrs">{'invisible': 1}</attribute>
+            <xpath expr="//button[@name='action_withdraw']" position="attributes">            </xpath>
+            <xpath expr="//button[@name='action_draft']" position="attributes">                <attribute name="string">chuyển về Để trình</attribute>
             </xpath>
-            <xpath expr="//button[@name='action_draft']" position="attributes">
-                <attribute name="attrs">{'invisible': [('request_status','!=', 'pending')]}</attribute>
-                <attribute name="string">chuyển về Để trình</attribute>
-            </xpath>
-            <xpath expr="//field[@name='name']" position="attributes">
-                <attribute name="attrs">{'readonly': True}</attribute>
-            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">            </xpath>
             <xpath expr="//page[@name='products']" position="attributes">
-                <attribute name="string">Sản phẩm</attribute>
-                <attribute name="attrs">{'invisible': ['|', ('has_product', '=', 'no'), ('approval_type', '=', 'car')]}</attribute>
-            </xpath>
+                <attribute name="string">Sản phẩm</attribute>            </xpath>
             <xpath expr="//field[@name='request_status']" position="attributes">
                 <attribute name="statusbar_visible">new,pending,approved,done</attribute>
             </xpath>

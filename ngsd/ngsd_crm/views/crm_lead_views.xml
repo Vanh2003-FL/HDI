@@ -170,36 +170,24 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//button[@name='action_set_won_rainbowman']" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', '|', '|', ('active', '=', False), ('probability', '=', 100), ('type', '=', 'lead'), ('company_type', '=', 'ncs')]}</attribute>
-                </xpath>
+                <xpath expr="//button[@name='action_set_won_rainbowman']" position="attributes">                </xpath>
                 <xpath expr="//button[@name='action_set_won_rainbowman']" position="after">
                     <button name="%(ngsd_crm.crm_lead_win_action)d" string="Thắng" data-hotkey="l" title="Mark as won"
                             type="action" class="oe_highlight" context="{'default_lead_id': active_id, 'default_contract_code': contract_code, 'default_date_deadline': date_deadline}" invisible="not active or probability == 100 or type == 'lead' or company_type != 'ncs'"/>
                 </xpath>
                 <!--                group view-->
                 <xpath expr="//field[@name='user_id']" position="replace"/>
-                <xpath expr="//h2" position="attributes">
-                    <attribute name="attrs">{'invisible': [('company_type', '=', 'dmc')]}</attribute>
-                </xpath>
-                <xpath expr="//h2/div[4]" position="attributes">
-                    <attribute name="attrs">{'invisible': [('company_type', '=', 'ncs')]}</attribute>
-                </xpath>
+                <xpath expr="//h2" position="attributes">                </xpath>
+                <xpath expr="//h2/div[4]" position="attributes">                </xpath>
 <!--                <xpath expr="//h2/div[1]/div/span[2][@class='oe_grey p-2']" position="attributes">-->
 <!--                    <attribute name="attrs">{'invisible': [('company_type', '=', 'ncs')]}</attribute>-->
 <!--                </xpath>-->
-                <xpath expr="//label[@for='name'][1]" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', ('type', '=', 'opportunity'), ('company_type', '=', 'ncs')]}</attribute>
-                </xpath>
-                <xpath expr="//label[@for='expected_revenue']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('company_type', '=', 'ncs')]}</attribute>
-                </xpath>
+                <xpath expr="//label[@for='name'][1]" position="attributes">                </xpath>
+                <xpath expr="//label[@for='expected_revenue']" position="attributes">                </xpath>
                 <xpath expr="//label[@for='expected_revenue']" position="after">
                     <label for="expected_revenue" string="Doanh số" class="oe_edit_only" invisible="company_type != 'ncs'"/>
                 </xpath>
-                <xpath expr="//label[@for='name'][2]" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', ('type', '=', 'lead'), ('company_type', '=', 'ncs')]}</attribute>
-                </xpath>
+                <xpath expr="//label[@for='name'][2]" position="attributes">                </xpath>
                 <xpath expr="//label[@for='name'][2]" position="after">
                     <label for="name" string="Tên cơ hội" invisible="company_type != 'ncs'"/>
                 </xpath>
@@ -209,9 +197,7 @@
                     <field name="x_development_team" invisible="company_type != 'ngsd'" widget="many2many_tags"/>
                     <field name="x_region_id"/>
                 </xpath>
-                <xpath expr="//label[@for='email_from']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('company_type', '!=', 'ngsd')]}</attribute>
-                </xpath>
+                <xpath expr="//label[@for='email_from']" position="attributes">                </xpath>
 <!--                <xpath expr="//div[@class='o_row o_row_readonly']/field[@name='email_from']/parent::div" position="attributes">-->
 <!--                    <attribute name="attrs">{'invisible': [('company_type', '!=', 'ngsd')]}</attribute>-->
 <!--                </xpath>-->
@@ -225,9 +211,7 @@
                     <attribute name="readonly">1</attribute>
                     <attribute name="force_save">1</attribute>
                 </xpath>
-                <xpath expr="//label[@for='phone']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('company_type', '!=', 'ngsd')]}</attribute>
-                </xpath>
+                <xpath expr="//label[@for='phone']" position="attributes">                </xpath>
 <!--                <xpath expr="//div[@class='o_row o_row_readonly']/field[@name='phone']/parent::div" position="attributes">-->
 <!--                    <attribute name="attrs">{'invisible': [('company_type', '!=', 'ngsd')]}</attribute>-->
 <!--                </xpath>-->
@@ -385,9 +369,7 @@
                         </field>
                     </page>
                 </xpath>
-                <xpath expr="//notebook" position="attributes">
-                    <attribute name="attrs">{'invisible': [('company_type', '=', 'dmc')]}</attribute>
-                </xpath>
+                <xpath expr="//notebook" position="attributes">                </xpath>
                 <!--                List-->
                 <xpath expr="//group" position="after">
                     <group string="Thông tin sản phẩm" invisible="company_type == 'ncs'">
@@ -468,9 +450,7 @@
                         </field>
                     </group>
                 </xpath>
-                <xpath expr="//page[@name='lead']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('company_type', '=', 'ncs')]}</attribute>
-                </xpath>
+                <xpath expr="//page[@name='lead']" position="attributes">                </xpath>
                 <page name="internal_notes" position="before">
                     <page string="Thông tin kế toán">
                         <group string="Kế hoạch doanh thu xuất hoá đơn">

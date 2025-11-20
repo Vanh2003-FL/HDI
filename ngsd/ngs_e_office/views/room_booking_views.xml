@@ -172,9 +172,7 @@
             <xpath expr="//field[@name='partner_ids']" position="attributes">
                 <attribute name="domain">[('is_employee', '=', True)]</attribute>
             </xpath>
-            <xpath expr="//field[@name='duration']" position="attributes">
-                <attribute name="attrs">{'readonly': ['|', '&amp;', ('id', '!=', False), ('recurrency','=',True), ('is_locked','=',True)]}</attribute>
-            </xpath>
+            <xpath expr="//field[@name='duration']" position="attributes">            </xpath>
             <xpath expr="//field[@name='videocall_location']" position="before">
                 <field name="is_online" />
                 <field name="videocall_channel_id" force_save="1" invisible="1"  />

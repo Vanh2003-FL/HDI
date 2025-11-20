@@ -53,7 +53,7 @@
                 <field name="en_workpackage_id" optional="hide"/>
             </field>
             <field name="project_id" position="attributes">
-                <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
+                <attribute name="readonly">en_state != 'new'</attribute>
                 <attribute name="options">{'no_open': True, 'no_create': True, 'no_quick_create': True, 'no_create_edit': True}</attribute>
             </field>
             <field name="project_id" position="before">
@@ -343,11 +343,11 @@
             </xpath>
             <xpath expr="//field[@name='timesheet_ids']//list//field[@name='unit_amount']" position="attributes">
                 <attribute name="string">Số giờ</attribute>
-                <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
+                <attribute name="readonly">en_state != 'new'</attribute>
             </xpath>
             <xpath expr="//field[@name='timesheet_ids']//list//field[@name='name']" position="attributes">
                 <attribute name="required">1</attribute>
-                <attribute name="attrs">{'readonly': [('en_state', '!=', 'new')]}</attribute>
+                <attribute name="readonly">en_state != 'new'</attribute>
             </xpath>
             <xpath expr="//field[@name='timesheet_ids']//list" position="attributes">
                 <attribute name="default_order">date desc</attribute>
@@ -414,7 +414,6 @@
             </xpath>
             <xpath expr="//button[@name='action_assign_to_me']" position="attributes">
                 <attribute name="invisible">1</attribute>
-                <attribute name="attrs">{'invisible': 1}</attribute>
             </xpath>
             <xpath expr="//field[@name='tag_ids']" position="before">
                 <xpath expr="//page[@id='timesheets_tab']//group//group//div[hasclass('o_td_label')]" position="move"/>

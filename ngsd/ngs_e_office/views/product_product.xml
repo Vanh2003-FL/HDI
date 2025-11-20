@@ -28,55 +28,23 @@
         <field name="priority">10000</field>
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='sales']" position="attributes">
-                <attribute name="attrs">{'invisible':['|', ('sale_ok', '=', False), ('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
+            <xpath expr="//page[@name='sales']" position="attributes">            </xpath>
+            <xpath expr="//page[@name='purchase']" position="attributes">            </xpath>
+            <xpath expr="//page[@name='inventory']" position="attributes">            </xpath>
+            <xpath expr="//page[@name='invoicing']" position="attributes">            </xpath>
+            <xpath expr="//label[@for='list_price']" position="attributes">                <attribute name="string">Đơn giá</attribute>
             </xpath>
-            <xpath expr="//page[@name='purchase']" position="attributes">
-                <attribute name="attrs">{'invisible':['|', ('purchase_ok', '=', False), ('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//page[@name='inventory']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//page[@name='invoicing']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//label[@for='list_price']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', '=', 'car')]}</attribute>
-                <attribute name="string">Đơn giá</attribute>
-            </xpath>
-            <xpath expr="//div[@name='pricing']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', '=', 'car')]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='taxes_id']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', '=', 'car')]}</attribute>
-            </xpath>
-            <xpath expr="//label[@for='standard_price']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//div[@name='standard_price_uom']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='categ_id']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='uom_po_id']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='invoice_policy']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//div[@name='options']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//div[hasclass('font-italic')]" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='product_tooltip']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
-            <xpath expr="//label[@for='product_tooltip']" position="attributes">
-                <attribute name="attrs">{'invisible':[('en_service_type', 'in', ['car', 'vpp'])]}</attribute>
-            </xpath>
+            <xpath expr="//div[@name='pricing']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='taxes_id']" position="attributes">            </xpath>
+            <xpath expr="//label[@for='standard_price']" position="attributes">            </xpath>
+            <xpath expr="//div[@name='standard_price_uom']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='categ_id']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='uom_po_id']" position="attributes">            </xpath>
+            <xpath expr="//field[@name='invoice_policy']" position="attributes">            </xpath>
+            <xpath expr="//div[@name='options']" position="attributes">            </xpath>
+            <xpath expr="//div[hasclass('font-italic')]" position="attributes">            </xpath>
+            <xpath expr="//field[@name='product_tooltip']" position="attributes">            </xpath>
+            <xpath expr="//label[@for='product_tooltip']" position="attributes">            </xpath>
             <xpath expr="//button[@name='%(product.product_variant_action)d']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
