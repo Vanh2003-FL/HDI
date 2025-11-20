@@ -1,29 +1,11 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'HDI Attendance Management',
-    'version': '18.0.2.0.0',
-    'category': 'Human Resources/Attendances',
-    'summary': 'HDI Attendance System - Complete NGSC/NGSD Implementation',
+    'version': '18.0.1.0.0',
+    'category': 'hdi',
+    'summary': 'HDI Attendance System - Check In/Out with GPS & Explanation',
     'description': """
         HDI Attendance Management System
-        ==================================
-        
-        🎯 TÍNH NĂNG CHÍNH:
-        - ✅ Check In/Out Dashboard với GPS
-        - ✅ Explanation Workflow (Multi-level Approval)
-        - ✅ Detail Lines cho time adjustment
-        - ✅ Async Attendance Logging (Anti-duplicate)
-        - ✅ Auto Detection: Late/Early/Missing
-        - ✅ Color-coded List Views
-        - ✅ Approval Flow Management
-        - ✅ Timesheet Integration
-        - ✅ Auto Checkout Cron
-        - ✅ Notification System
-        
-        🔧 WIZARDS:
-        - Reason for Refuse
-        - Task Timesheet Explanation
-        - Report Timekeeping (PDF/XLSX/DOCX)
     """,
     'author': 'HDI Development Team',
     'website': 'https://hdi.com.vn',
@@ -51,7 +33,6 @@
         'views/hr_attendance_views.xml',
         'views/hr_attendance_explanation_views.xml',
         'views/hr_attendance_log_views.xml',
-        'views/submission_type_views.xml',
         
         # Wizard
         'wizard/reason_for_refuse_wizard_views.xml',

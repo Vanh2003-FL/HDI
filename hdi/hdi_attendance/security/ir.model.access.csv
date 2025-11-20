@@ -3,14 +3,7 @@ access_hr_attendance_log_user,hr.attendance.log.user,model_hr_attendance_log,bas
 access_hr_attendance_log_manager,hr.attendance.log.manager,model_hr_attendance_log,hdi_attendance.group_attendance_manager,1,1,1,1
 access_hr_attendance_explanation_user,hr.attendance.explanation.user,model_hr_attendance_explanation,base.group_user,1,1,1,0
 access_hr_attendance_explanation_manager,hr.attendance.explanation.manager,model_hr_attendance_explanation,hdi_attendance.group_attendance_manager,1,1,1,1
-access_hr_attendance_explanation_detail_user,hr.attendance.explanation.detail.user,model_hr_attendance_explanation_detail,base.group_user,1,1,1,1
-access_hr_attendance_explanation_detail_manager,hr.attendance.explanation.detail.manager,model_hr_attendance_explanation_detail,hdi_attendance.group_attendance_manager,1,1,1,1
-access_approval_approver_user,approval.approver.user,model_approval_approver,base.group_user,1,1,1,0
-access_approval_approver_manager,approval.approver.manager,model_approval_approver,hdi_attendance.group_attendance_manager,1,1,1,1
 access_submission_type_user,submission.type.user,model_submission_type,base.group_user,1,0,0,0
 access_submission_type_manager,submission.type.manager,model_submission_type,hdi_attendance.group_attendance_manager,1,1,1,1
-access_reason_for_refuse_wizard_user,reason.for.refuse.wizard.user,model_reason_for_refuse_wizard,base.group_user,1,1,1,1
-access_report_timekeeping_wizard_user,report.timekeeping.wizard.user,model_report_timekeeping_wizard,base.group_user,1,1,1,1
-
 
 
