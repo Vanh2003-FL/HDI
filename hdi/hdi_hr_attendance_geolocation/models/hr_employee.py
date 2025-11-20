@@ -16,7 +16,7 @@ class HrEmployee(models.Model):
         string='Vị trí làm việc',
         help='Văn phòng/địa điểm làm việc chính của nhân viên'
     )
-    
+
     allow_remote_attendance = fields.Boolean(
         string='Cho phép chấm công từ xa',
         default=False,
@@ -25,28 +25,29 @@ class HrEmployee(models.Model):
 
     def attendance_action_change(self):
         """Public method to handle attendance check-in/out with GPS"""
+        self.ensure_one()
         return self._attendance_action_change()
 
     def _attendance_action_change(self, geo_ip_response=None):
         """Override để lưu thông tin GPS khi check-in/check-out"""
         result = super()._attendance_action_change(geo_ip_response)
-        
+
         # Lấy tọa độ GPS từ context (được gửi từ JavaScript)
         latitude = self.env.context.get('latitude')
         longitude = self.env.context.get('longitude')
-        
+
         if not latitude or not longitude:
             _logger.warning("No GPS coordinates provided for attendance of employee %s", self.name)
             return result
-        
+
         # Lấy bản ghi attendance vừa tạo/cập nhật
         attendance = self.env['hr.attendance'].search([
             ('employee_id', '=', self.id)
         ], order='id desc', limit=1)
-        
+
         if not attendance:
             return result
-        
+
         try:
             # Lấy địa chỉ từ tọa độ
             geolocator = Nominatim(user_agent='hdi-hr-attendance', timeout=10)
@@ -55,7 +56,7 @@ class HrEmployee(models.Model):
                 language='vi'
             )
             address = location.address if location else _('Không xác định được địa chỉ')
-            
+
             # Cập nhật thông tin GPS và địa chỉ
             if self.attendance_state == 'checked_in':
                 # Vừa check-in
@@ -79,7 +80,7 @@ class HrEmployee(models.Model):
                     "Check-out location saved for %s: %s (%s, %s)",
                     self.name, address, latitude, longitude
                 )
-            
+
             # Kiểm tra vị trí và cảnh báo nếu cần
             if not self.allow_remote_attendance and attendance.location_warning:
                 # Có thể gửi thông báo hoặc log warning
@@ -87,7 +88,7 @@ class HrEmployee(models.Model):
                     "Location warning for %s: %s",
                     self.name, attendance.location_warning
                 )
-                
+
         except Exception as e:
             _logger.error("Error processing geolocation for employee %s: %s", self.name, e)
             # Vẫn lưu tọa độ ngay cả khi không lấy được địa chỉ
@@ -103,5 +104,5 @@ class HrEmployee(models.Model):
                     'check_out_longitude': longitude,
                     'check_out_address': _('Lỗi lấy địa chỉ: %s') % str(e),
                 })
-        
+
         return result

@@ -2,29 +2,10 @@
 {
     'name': 'HDI Attendance Management',
     'version': '18.0.1.0.0',
-    'category': 'Human Resources/Attendances',
+    'category': 'hdi',
     'summary': 'HDI Attendance System - Check In/Out with GPS & Explanation',
     'description': """
         HDI Attendance Management System
-        ==================================
-        
-        Hệ thống chấm công HDI dựa trên kiến trúc NGSC/NGSD:
-        
-        🎯 TÍNH NĂNG CHÍNH:
-        - ✅ Check In/Out Interface (Giao diện chấm công)
-        - ✅ My Attendance (Chấm công của tôi)
-        - ✅ Attendance Explanation System (Giải trình chấm công)
-        - ✅ GPS Geolocation Support (Hỗ trợ định vị GPS)
-        - ✅ Async Attendance Logging (Chấm công bất đồng bộ)
-        - ✅ Prevent Double Click (Chống bấm nút 2 lần)
-        - ✅ Work Location Management (Quản lý địa điểm làm việc)
-        - ✅ Attendance Reports (Báo cáo chấm công)
-        
-        🔧 TÍCH HỢP:
-        - Kế thừa từ NGSD ngs_attendance
-        - Kế thừa từ NGSC ngs_hr_attendance_async
-        - Tương thích Odoo 18
-        - Tích hợp với hdi_hr
     """,
     'author': 'HDI Development Team',
     'website': 'https://hdi.com.vn',

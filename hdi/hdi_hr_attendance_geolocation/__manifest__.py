@@ -2,25 +2,13 @@
 {
     'name': 'HDI HR Attendance Geolocation',
     'version': '18.0.1.0.0',
-    'category': 'Human Resources/Attendances',
+    'category': 'hdi',
     'summary': 'Chấm công với định vị địa lý GPS',
     'description': """
         HDI HR Attendance Geolocation
-        ==============================
-        
-        Tính năng:
-        - Tự động lấy tọa độ GPS khi check-in/check-out
-        - Hiển thị địa chỉ chấm công chi tiết
-        - Link Google Maps để xem vị trí
-        - Kiểm tra khoảng cách với văn phòng
-        - Cảnh báo khi chấm công xa văn phòng
-        - Báo cáo chấm công theo địa điểm
-        - Quản lý vị trí văn phòng cho phép
-        
-        Kế thừa từ: NGSD hr_attendance_geolocation module
     """,
     'author': 'HDI Development Team',
-    'website': 'https://hdi.com.vn',
+    'website': 'https://hditech.com.vn',
     'license': 'LGPL-3',
     
     'depends': [
