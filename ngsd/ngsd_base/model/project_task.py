@@ -1,7 +1,6 @@
 from ast import literal_eval
 from odoo import models, fields, api, exceptions
 from odoo import _
-from odoo.fields import Domain
 from datetime import timedelta, datetime, time, date
 from dateutil.relativedelta import relativedelta
 from collections import defaultdict
@@ -10,7 +9,7 @@ from pytz import timezone, UTC
 from lxml import etree
 import json
 from odoo.exceptions import AccessError, UserError, ValidationError
-from odoo.fields import Domain, TRUE_LEAF, FALSE_LEAF
+from odoo.osv.expression import TRUE_LEAF, FALSE_LEAF
 
 READONLY_STATES = {
     'approved': [('readonly', True)],

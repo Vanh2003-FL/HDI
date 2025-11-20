@@ -3,7 +3,6 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import fields, models, api, exceptions
 from odoo.exceptions import UserError
-from odoo.fields import Domain
 
 
 class HrContract(models.Model):

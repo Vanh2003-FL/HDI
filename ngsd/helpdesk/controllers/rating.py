@@ -5,7 +5,6 @@ import datetime
 
 from odoo import http
 from odoo.http import request
-from odoo.fields import Domain
 
 
 class WebsiteHelpdesk(http.Controller):

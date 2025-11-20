@@ -1,5 +1,4 @@
 from odoo import api, models, _, exceptions, fields, SUPERUSER_ID
-from odoo.fields import Domain
 from odoo.addons.ngsd_entrust_dev_helper.tools.number2text import number2text_vn
 
 

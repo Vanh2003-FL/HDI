@@ -1,6 +1,5 @@
 from odoo import api, fields, models
 from odoo.addons.account.models.res_users import GroupsView
-from odoo.fields import Domain
 
 
 @api.model

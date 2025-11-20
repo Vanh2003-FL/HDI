@@ -1,5 +1,4 @@
 from odoo import api, models, _, exceptions, fields, SUPERUSER_ID
-from odoo.fields import Domain
 
 
 class Base(models.AbstractModel):

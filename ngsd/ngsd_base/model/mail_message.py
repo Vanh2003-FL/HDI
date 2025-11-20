@@ -1,6 +1,5 @@
 from odoo import fields, models, api
 
-from odoo.fields import Domain
 
 
 class MailMessage(models.Model):

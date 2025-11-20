@@ -4,7 +4,6 @@ from datetime import datetime, date, time, timedelta
 from odoo.tools import config, date_utils, get_lang, html2plaintext
 from pytz import timezone, UTC
 from dateutil.relativedelta import relativedelta
-from odoo.fields import Domain
 import logging
 from dateutil import tz
 import datetime as dt

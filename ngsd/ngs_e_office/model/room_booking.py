@@ -11,7 +11,6 @@ from pytz import timezone, UTC
 from datetime import datetime, time
 
 from odoo.addons.calendar.models.calendar_event import Meeting
-from odoo.fields import Domain
 from itertools import repeat
 
 

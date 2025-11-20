@@ -5,7 +5,6 @@ from pytz import timezone, UTC
 from datetime import datetime, timedelta, time
 from odoo.tools.float_utils import float_round
 from odoo.exceptions import UserError, ValidationError
-from odoo.fields import Domain
 
 READONLY_FIELD_STATES = {
     state: [('readonly', True)]

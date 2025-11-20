@@ -1,6 +1,5 @@
 from odoo import models, fields, api, _
 from collections import defaultdict
-from odoo.fields import Domain
 
 
 class SettingUnique(models.Model):

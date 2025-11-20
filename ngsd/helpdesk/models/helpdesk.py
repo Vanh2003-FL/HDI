@@ -10,7 +10,6 @@ from odoo import api, fields, models, _
 from odoo.addons.helpdesk.models.helpdesk_ticket import TICKET_PRIORITY
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.web.controllers.main import clean_action
-from odoo.fields import Domain
 
 
 class HelpdeskTeam(models.Model):

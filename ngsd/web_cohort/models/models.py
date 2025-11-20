@@ -6,7 +6,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
-from odoo.fields import Domain
 
 DISPLAY_FORMATS = {
     'day': '%d %b %Y',

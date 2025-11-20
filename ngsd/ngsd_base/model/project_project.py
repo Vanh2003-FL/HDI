@@ -7,7 +7,6 @@ from odoo.tools import config, date_utils, get_lang, html2plaintext
 from pytz import timezone, UTC
 from lxml import etree
 import json
-from odoo.fields import Domain
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.misc import formatLang
 

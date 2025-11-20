@@ -16,7 +16,6 @@ from markupsafe import Markup
 from odoo import models, fields, api, _
 from odoo.addons.web.controllers.main import clean_action
 from odoo.exceptions import RedirectWarning
-from odoo.fields import Domain
 from odoo.tools import config, date_utils, get_lang, html2plaintext
 from odoo.tools.misc import formatLang, format_date
 import xlsxwriter

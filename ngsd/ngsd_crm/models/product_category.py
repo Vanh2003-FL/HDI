@@ -1,5 +1,4 @@
 from odoo import models, fields, api, _, exceptions
-from odoo.fields import Domain
 import json
 import requests
 
