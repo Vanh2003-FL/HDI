@@ -1,6 +1,6 @@
 import math
 from datetime import datetime, time
-from odoo import api, fields, models
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError
 
 

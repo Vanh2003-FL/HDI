@@ -11,7 +11,7 @@
             <field name="name">ngsc.competency.range.point.form</field>
             <field name="model">ngsc.competency.range.point</field>
             <field name="arch" type="xml">
-                <form delete="0">
+                <form>
                     <sheet>
                         <h1>
                             <field name="name" placeholder="Tên thang điểm"/>
@@ -56,7 +56,7 @@
             <field name="name">ngsc.competency.range.point.tree</field>
             <field name="model">ngsc.competency.range.point</field>
             <field name="arch" type="xml">
-                <list delete="0">
+                <list>
                     <field name="name"/>
                     <field name="level"/>
                     <field name="active_display"/>

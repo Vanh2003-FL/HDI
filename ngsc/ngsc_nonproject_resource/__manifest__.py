@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Kế hoạch nguồn lực ngoài dự án',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     'category': 'Project',
     'sequence': 200,
     'summary': 'Kế hoạch nguồn lực ngoài dự án',

@@ -5,7 +5,7 @@
         <field name="name">user.session.activity.view.tree</field>
         <field name="model">user.session.activity</field>
         <field name="arch" type="xml">
-            <list name="session_activity_tree" create="0">
+            <list name="session_activity_tree">
                 <field name="login_id"/>
                 <field name="name"/>
                 <field name="user_id"/>
@@ -20,7 +20,7 @@
         <field name="name">user.session.activity.view.form</field>
         <field name="model">user.session.activity</field>
         <field name="arch" type="xml">
-            <form name="session_activity_form" create="0" edit="0">
+            <form name="session_activity_form">
                 <sheet>
                     <group>
                         <group name="session_activity_gp_1">

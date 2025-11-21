@@ -2,10 +2,10 @@ odoo.define('ngs_e_office.CalendarModel', function (require) {
 "use strict";
 
 const CalendarModel = require('web.CalendarModel');
-var Context = require('web.Context');
-var core = require('web.core');
-var fieldUtils = require('web.field_utils');
-var session = require('web.session');
+import { Context } from 'web.Context';
+import { core } from 'web.core';
+import { fieldUtils } from 'web.field_utils';
+import { session } from 'web.session';
 
 var _t = core._t;
 

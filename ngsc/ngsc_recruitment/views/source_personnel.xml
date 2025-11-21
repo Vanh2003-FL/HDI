@@ -43,8 +43,7 @@
             <field name="name">ngsc.recruitment.source.personnel.kanban</field>
             <field name="model">ngsc.recruitment.source.personnel</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="stage_id" class="o_kanban_applicant" sample="1"
-                        delete="false" quick_create="false" group_create="false" group_delete="false">
+                <kanban default_group_by="stage_id" class="o_kanban_applicant" sample="1" quick_create="false" group_create="false" group_delete="false">
                     <field name="name"/>
                     <field name="job_position"/>
                     <field name="en_area_id"/>

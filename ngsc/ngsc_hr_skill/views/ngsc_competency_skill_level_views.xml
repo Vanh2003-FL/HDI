@@ -5,7 +5,7 @@
             <field name="name">hr.skill.ngsc.competency.skill.level.view.tree</field>
             <field name="model">ngsc.competency.skill.level</field>
             <field name="arch" type="xml">
-                <list create="0" edit="0" delete="0">
+                <list>
                     <field name="level_id" invisible="1"/>
                     <field name="name" readonly="1" string="Tên mức độ"/>
                     <field name="description" readonly="1" string="Mô tả mức độ"/>
@@ -18,7 +18,7 @@
                 <field name="name">hr.skill.ngsc.competency.skill.level.view.form</field>
                 <field name="model">ngsc.competency.skill.level</field>
                 <field name="arch" type="xml">
-                    <form create="0" edit="0" delete="0">
+                    <form>
                         <sheet>
                             <group>
                                 <field name="name" readonly="1" string="Tên mức độ"/>

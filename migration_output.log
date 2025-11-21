@@ -1,0 +1,429 @@
+🚀 Advanced Odoo 18 Migration Tool
+================================================================================
+
+1. Fixing Manifest Files...
+
+🔧 Fixing Manifest Files...
+  ✓ Fixed ngsc/ngsc_reporting/__manifest__.py
+  ✓ Fixed ngsc/ks_binary_file_preview/__manifest__.py
+  ✓ Fixed ngsc/ngsc_competency/__manifest__.py
+  ✓ Fixed ngsc/ngsc_utils/__manifest__.py
+  ✓ Fixed ngsc/ngsc_timesheet_checkout/__manifest__.py
+  ✓ Fixed ngsc/project_qa_extend/__manifest__.py
+  ✓ Fixed ngsc/hr_employee_partner_map/__manifest__.py
+  ✓ Fixed ngsc/ngsc_constance/__manifest__.py
+  ✓ Fixed ngsc/ngs_hr_attendance_async/__manifest__.py
+  ✓ Fixed ngsc/ngsc_hr_skill/__manifest__.py
+  ✓ Fixed ngsc/ngsc_recruitment/__manifest__.py
+  ✓ Fixed ngsd/web_advanced_search/__manifest__.py
+  ✓ Fixed ngsd/ngs_powerbi/__manifest__.py
+  ✓ Fixed ngsd/ngsd_base/__manifest__.py
+  ✓ Fixed ngsd/ngs_rest_api/__manifest__.py
+  ✓ Fixed ngsd/ngsd_crm/__manifest__.py
+  ✓ Fixed ngsd/helpdesk/__manifest__.py
+  ✓ Fixed ngsd/kpi_dashboard/__manifest__.py
+  ✓ Fixed ngsd/hr_attendance_geolocation/__manifest__.py
+  ✓ Fixed ngsd/ngs_attendance/__manifest__.py
+  ✓ Fixed ngsd/web_field_o2m_duplicate_row/__manifest__.py
+  ✓ Fixed ngsd/rest_log/__manifest__.py
+  ✓ Fixed ngsd/web_gantt/__manifest__.py
+  ✓ Fixed ngsd/ngs_hr/__manifest__.py
+  ✓ Fixed ngsd/web_cohort/__manifest__.py
+
+2. Fixing Python Models...
+
+🔧 Fixing Python Models...
+  ✓ Fixed ngsc/ngsc_reporting/models/project_completion_quality_report.py
+  ✓ Fixed ngsc/ngsc_reporting/models/norm_setting.py
+  ✓ Fixed ngsc/ngsc_reporting/models/report_weekly_by_project.py
+  ✓ Fixed ngsc/ngsc_reporting/models/quality_monthly_report.py
+  ✓ Fixed ngsc/ngsc_project_wbs_migration/models/project_resource_detail.py
+  ✓ Fixed ngsc/ngsc_project_wbs_migration/models/project_task.py
+  ✓ Fixed ngsc/ngsc_project_wbs_migration/models/project_project.py
+  ✓ Fixed ngsc/ks_binary_file_preview/models/ks_model.py
+  ✓ Fixed ngsc/queue_job/models/base.py
+  ✓ Fixed ngsc/queue_job/models/ir_model_fields.py
+  ✓ Fixed ngsc/queue_job/models/queue_job_function.py
+  ✓ Fixed ngsc/queue_job/models/queue_job_channel.py
+  ✓ Fixed ngsc/queue_job/models/queue_job.py
+  ✓ Fixed ngsc/ngsc_competency/models/skill_group.py
+  ✓ Fixed ngsc/ngsc_competency/models/tag.py
+  ✓ Fixed ngsc/ngsc_competency/models/skill.py
+  ✓ Fixed ngsc/ngsc_competency/models/skill_level.py
+  ✓ Fixed ngsc/ngsc_competency/models/level.py
+  ✓ Fixed ngsc/ngsc_competency/models/range_point.py
+  ✓ Fixed ngsc/ngsc_operational_support_ticket/models/helpdesk_ticket.py
+  ✓ Fixed ngsc/ngsc_operational_support_ticket/models/operational_suport_ticket.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/project_task.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/account_analytic_line.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/change_task_timesheet.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/en_wbs.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/project_project.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/en_resource_planing.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/en_resource_detail.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/en_hr_overtime.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/nonproject_task.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/helpdesk_ticket.py
+  ✓ Fixed ngsc/ngsc_project_wbs/models/en_overtime_plan.py
+  ✓ Fixed ngsc/user_session_management/models/base.py
+  ✓ Fixed ngsc/user_session_management/models/user_session_activity.py
+  ✓ Fixed ngsc/user_session_management/models/res_users.py
+  ✓ Fixed ngsc/user_session_management/models/user_session_login.py
+  ✓ Fixed ngsc/user_session_management/models/ir_http.py
+  ✓ Fixed ngsc/user_session_management/models/res_config_settings.py
+  ✓ Fixed ngsc/ngsc_innovation/models/ngsc_innovation_idea.py
+  ✓ Fixed ngsc/ngsc_innovation/models/ngsc_innovation_version.py
+  ✓ Fixed ngsc/ngsc_innovation/models/ngsc_innovation_summary.py
+  ✓ Fixed ngsc/ngsc_innovation/models/ngsc_scoring_criteria.py
+  ✓ Fixed ngsc/ngsc_innovation/models/ngsc_innovation_config.py
+  ✓ Fixed ngsc/ngsc_innovation/models/ngsc_innovation_evaluation_period.py
+  ✓ Fixed ngsc/ngsc_innovation/models/ngsc_innovation_pdf_preview.py
+  ✓ Fixed ngsc/ngsc_innovation/models/ngsc_innovation_attachment.py
+  ✓ Fixed ngsc/ngsc_utils/models/models.py
+  ✓ Fixed ngsc/ngsc_candidate_search/models/ngsc_candidate_search_line.py
+  ✓ Fixed ngsc/ngsc_candidate_search/models/ngsc_candidate_search_result.py
+  ✓ Fixed ngsc/ngsc_candidate_search/models/hr_employee_skills.py
+  ✓ Fixed ngsc/ngsc_candidate_search/models/hr_employee.py
+  ✓ Fixed ngsc/ngsc_candidate_search/models/ngsc_candidate_search.py
+  ✓ Fixed ngsc/ngsc_candidate_search/models/ngsc_candidate_search_result_skill.py
+  ✓ Fixed ngsc/website_theme_config/models/theme_option.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/models/project_task.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/models/hr_employee_state.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/models/hr_department.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/models/hr_performance_evaluation.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/models/hr_employee.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/models/hr_performance_evaluation_task.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/models/task_evaluation.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/models/hr_performance_evaluation_exclude.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/models/en_nonproject_task.py
+  ✓ Fixed ngsc/ngsc_nonproject_resource/models/account_analytic_line.py
+  ✓ Fixed ngsc/ngsc_nonproject_resource/models/nonproject_resource_planning_line.py
+  ✓ Fixed ngsc/ngsc_nonproject_resource/models/nonproject_resource_planning_exclude.py
+  ✓ Fixed ngsc/ngsc_nonproject_resource/models/nonproject_resource_planning.py
+  ✓ Fixed ngsc/ngsc_nonproject_resource/models/en_nonproject_task.py
+  ✓ Fixed ngsc/ngsc_nonproject_resource/models/res_config_settings.py
+  ✓ Fixed ngsc/ngsc_timesheet_checkout/models/timesheet_setting_wizard.py
+  ✓ Fixed ngsc/ngsc_timesheet_checkout/models/project_task_timesheet.py
+  ✓ Fixed ngsc/ngsc_timesheet_checkout/models/attendance_inherit.py
+  ✓ Fixed ngsc/tracking_manager/models/models.py
+  ✓ Fixed ngsc/tracking_manager/models/mail_thread.py
+  ✓ Fixed ngsc/tracking_manager/models/ir_model.py
+  ✓ Fixed ngsc/tracking_manager/models/mail_tracking_value.py
+  ✓ Fixed ngsc/ngsc_hr_unit_hierarchy/models/ngsc_unit_hierarchy.py
+  ✓ Fixed ngsc/ngsc_hr_unit_hierarchy/models/hr_department.py
+  ✓ Fixed ngsc/ngsc_hr_unit_hierarchy/models/en_name_area.py
+  ✓ Fixed ngsc/ngsc_hr_unit_hierarchy/models/hr_employee.py
+  ✓ Fixed ngsc/ngsc_hr_unit_hierarchy/models/en_department.py
+  ✓ Fixed ngsc/ngsc_hr_unit_hierarchy/models/en_name_block.py
+  ✓ Fixed ngsc/project_qa_extend/models/project_decision_inherit.py
+  ✓ Fixed ngsc/project_qa_extend/models/report_project_qd_inherit.py
+  ✓ Fixed ngsc/project_qa_extend/models/project_status_report_inherit.py
+  ✓ Fixed ngsc/project_qa_extend/models/final_project_completion_quality_report_inherit.py
+  ✓ Fixed ngsc/project_qa_extend/models/project_quality_monthly_report_inherit.py
+  ✓ Fixed ngsc/project_qa_extend/models/en_quality_control_inherit.py
+  ✓ Fixed ngsc/project_qa_extend/models/project_wbs_inherit.py
+  ✓ Fixed ngsc/project_qa_extend/models/project_inherit.py
+  ✓ Fixed ngsc/project_qa_extend/models/project_completion_quality_report_inherit.py
+  ✓ Fixed ngsc/project_qa_extend/models/res_users_inherit.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/project_task.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/ngsc_resource_expense.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/os_expense.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/en_technical_model.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/project_project.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/hr_employee.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/project_decision.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/en_resource_detail.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/en_name_level.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/en_bmm_stage.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/en_bmm.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/history_level.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/en_expense_detail.py
+  ✓ Fixed ngsc/ngsc_project_expense/models/en_resource_planning.py
+  ✓ Fixed ngsc/hr_employee_partner_map/models/hr_employee_partner.py
+  ✓ Fixed ngsc/hr_employee_partner_map/models/calendar_event.py
+  ✓ Fixed ngsc/ngsc_constance/models/models.py
+  ✓ Fixed ngsc/ngs_hr_attendance_async/models/hr_attendance_log_queue.py
+  ✓ Fixed ngsc/ngsc_hr_skill/models/hr_employee.py
+  ✓ Fixed ngsc/ngsc_hr_skill/models/hr_employee_skill.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/news_job.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/hr_applicant.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/source_personnel.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/recruitment_request.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/recruitment_plan.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/hr_department.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/hr_employee.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/hr_recruitment_stage.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/skill_tag.py
+  ✓ Fixed ngsc/ngsc_recruitment/models/recruitment_council.py
+  ✓ Fixed ngsc/ngsc_project/models/project_resource_detail.py
+  ✓ Fixed ngsc/ngsc_project/models/project_task.py
+  ✓ Fixed ngsc/ngsc_project/models/project_problem.py
+  ✓ Fixed ngsc/ngsc_project/models/en_response_rate_snapshot.py
+  ✓ Fixed ngsc/ngsc_project/models/project_level.py
+  ✓ Fixed ngsc/ngsc_project/models/en_workpackage.py
+  ✓ Fixed ngsc/ngsc_project/models/project_project.py
+  ✓ Fixed ngsc/ngsc_project/models/project_project_stage.py
+  ✓ Fixed ngsc/ngsc_project/models/en_quality.py
+  ✓ Fixed ngsc/ngsc_project/models/resource_project_snapshot.py
+  ✓ Fixed ngsc/ngsc_project/models/project_decision.py
+  ✓ Fixed ngsc/ngsc_project/models/project_legal_entity.py
+  ✓ Fixed ngsc/ngsc_project/models/project_risk_stage.py
+  ✓ Fixed ngsc/ngsc_project/models/documents_folder.py
+  ✓ Fixed ngsc/ngsc_project/models/project_resource_planning.py
+  ✓ Fixed ngsc/ngsc_project/models/en_processing_rate_snapshot.py
+  ✓ Fixed ngsc/ngsc_project/models/project_wbs.py
+  ✓ Fixed ngsd/login_as_any_user/models/user_selection.py
+  ✓ Fixed ngsd/login_as_any_user/models/res_groups.py
+  ✓ Fixed ngsd/ngsd_report_xlsx/models/ir_report.py
+  ✓ Fixed ngsd/report_docx_template/models/ir_report.py
+  ✓ Fixed ngsd/login_failed_2_ban/models/login_failed_attempts.py
+  ✓ Fixed ngsd/login_failed_2_ban/models/res_users.py
+  ✓ Fixed ngsd/login_failed_2_ban/models/res_config_settings.py
+  ✓ Fixed ngsd/account_asset/models/account_asset.py
+  ✓ Fixed ngsd/account_asset/models/account.py
+  ✓ Fixed ngsd/account_asset/models/account_move.py
+  ✓ Fixed ngsd/account_asset/models/res_company.py
+  ✓ Fixed ngsd/account_reports/models/crm_account_report.py
+  ✓ Fixed ngsd/account_reports/models/kpi_account_report.py
+  ✓ Fixed ngsd/account_reports/models/project_resource_summary.py
+  ✓ Fixed ngsd/account_reports/models/report_data_human_resource.py
+  ✓ Fixed ngsd/account_reports/models/ir_model.py
+  ✓ Fixed ngsd/account_reports/models/account_report.py
+  ✓ Fixed ngsd/account_reports/models/res_company.py
+  ✓ Fixed ngsd/account_reports/models/boundary_report.py
+  ✓ Fixed ngsd/ngsd_menu/models/ir_ui_menu.py
+  ✓ Fixed ngsd/ngsd_menu/models/website.py
+  ✓ Fixed ngsd/ngs_powerbi/models/dashboard_powerbi.py
+  ✓ Fixed ngsd/ngs_powerbi/models/powerbi_table.py
+  ✓ Fixed ngsd/mbank_report_template/models/report_template.py
+  ✓ Fixed ngsd/mbank_report_template/models/sms_params.py
+  ✓ Fixed ngsd/ngsd_report_docx/models/ir_report.py
+  ✓ Fixed ngsd/auth_session_timeout/models/res_users.py
+  ✓ Fixed ngsd/auth_session_timeout/models/ir_http.py
+  ✓ Fixed ngsd/auth_session_timeout/models/ir_config_parameter.py
+  ✓ Fixed ngsd/approvals/models/approval_category_approver.py
+  ✓ Fixed ngsd/approvals/models/approval_category.py
+  ✓ Fixed ngsd/approvals/models/approval_product_line.py
+  ✓ Fixed ngsd/approvals/models/approval_request.py
+  ✓ Fixed ngsd/approvals/models/approval_activity.py
+  ✓ Fixed ngsd/ngs_rest_api/models/base.py
+  ✓ Fixed ngsd/ngs_rest_api/models/ir_http.py
+  ✓ Fixed ngsd/ngs_rest_api/models/res_log.py
+  ✓ Fixed ngsd/ngsd_crm/models/compete_lead.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_product_type.py
+  ✓ Fixed ngsd/ngsd_crm/models/sale_order.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_role.py
+  ✓ Fixed ngsd/ngsd_crm/models/x_legal.py
+  ✓ Fixed ngsd/ngsd_crm/models/kt_department.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_support_state.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_lead.py
+  ✓ Fixed ngsd/ngsd_crm/models/res_users.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_lead_opponent.py
+  ✓ Fixed ngsd/ngsd_crm/models/account_move.py
+  ✓ Fixed ngsd/ngsd_crm/models/order.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_support_history.py
+  ✓ Fixed ngsd/ngsd_crm/models/res_partner.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_kpi.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_lead_line.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_tender_model.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_contact_role.py
+  ✓ Fixed ngsd/ngsd_crm/models/project_type_source.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_stage.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_team.py
+  ✓ Fixed ngsd/ngsd_crm/models/crm_lead_contact.py
+  ✓ Fixed ngsd/helpdesk/models/helpdesk.py
+  ✓ Fixed ngsd/helpdesk/models/ir_module.py
+  ✓ Fixed ngsd/helpdesk/models/res_users.py
+  ✓ Fixed ngsd/helpdesk/models/digest.py
+  ✓ Fixed ngsd/helpdesk/models/res_partner.py
+  ✓ Fixed ngsd/helpdesk/models/helpdesk_ticket.py
+  ✓ Fixed ngsd/hr_org_chart_overview/models/hr_employee.py
+  ✓ Fixed ngsd/hr_org_chart_overview/models/hr_org_chart_report.py
+  ✓ Fixed ngsd/mail_notify_email_odoo/models/mail_thread.py
+  ✓ Fixed ngsd/mail_notify_email_odoo/models/res_users.py
+  ✓ Fixed ngsd/kpi_dashboard/models/kpi_dashboard.py
+  ✓ Fixed ngsd/kpi_dashboard/models/ir_ui_view.py
+  ✓ Fixed ngsd/kpi_dashboard/models/ir_actions_act_window_view.py
+  ✓ Fixed ngsd/kpi_dashboard/models/kpi_kpi.py
+  ✓ Fixed ngsd/ngsd_migrate_ticket/models/ticket.py
+  ✓ Fixed ngsd/ngsd_entrust_dev_helper/models/base.py
+  ✓ Fixed ngsd/ngsd_entrust_dev_helper/models/ir_ui_menu.py
+  ✓ Fixed ngsd/ngsd_entrust_dev_helper/models/fields.py
+  ✓ Fixed ngsd/ngsd_entrust_dev_helper/models/ir_actions.py
+  ✓ Fixed ngsd/ngsd_entrust_dev_helper/models/ir_ui_view.py
+  ✓ Fixed ngsd/hr_attendance_geolocation/models/hr_attendance.py
+  ✓ Fixed ngsd/hr_attendance_geolocation/models/hr_employee.py
+  ✓ Fixed ngsd/report_pdf_template/models/ir_report.py
+  ✓ Fixed ngsd/ngs_attendance/models/resource_calendar.py
+  ✓ Fixed ngsd/ngs_attendance/models/hr_leave.py
+  ✓ Fixed ngsd/ngs_attendance/models/account_analytic_line.py
+  ✓ Fixed ngsd/ngs_attendance/models/hr_attendance.py
+  ✓ Fixed ngsd/ngs_attendance/models/hr_employee.py
+  ✓ Fixed ngsd/ngs_attendance/models/approve.py
+  ✓ Fixed ngsd/ngs_attendance/models/hr_attendance_explanation.py
+  ✓ Fixed ngsd/ngs_attendance/models/res_config_settings.py
+  ✓ Fixed ngsd/ngs_attendance/models/hr_work_location.py
+  ✓ Fixed ngsd/ngsd_migrate/models/en_risk.py
+  ✓ Fixed ngsd/ngsd_migrate/models/project_task.py
+  ✓ Fixed ngsd/ngsd_migrate/models/hr_overtime.py
+  ✓ Fixed ngsd/ngsd_migrate/models/base.py
+  ✓ Fixed ngsd/ngsd_migrate/models/project_project.py
+  ✓ Fixed ngsd/ngsd_migrate/models/hr_employee.py
+  ✓ Fixed ngsd/ngsd_migrate/models/ir_model.py
+  ✓ Fixed ngsd/ngsd_migrate/models/project_stage.py
+  ✓ Fixed ngsd/ngsd_migrate/models/workpackage.py
+  ✓ Fixed ngsd/ngsd_migrate/models/en_resource_planning.py
+  ✓ Fixed ngsd/ngsd_migrate/models/wbs.py
+  ✓ Fixed ngsd/web_responsive/models/res_users.py
+  ✓ Fixed ngsd/report_xlsx_template/models/ir_report.py
+  ✓ Fixed ngsd/documents/models/folder.py
+  ✓ Fixed ngsd/documents/models/mail_activity.py
+  ✓ Fixed ngsd/documents/models/documents_mixin.py
+  ✓ Fixed ngsd/documents/models/share.py
+  ✓ Fixed ngsd/documents/models/tags.py
+  ✓ Fixed ngsd/documents/models/ir_attachment.py
+  ✓ Fixed ngsd/documents/models/res_partner.py
+  ✓ Fixed ngsd/documents/models/document.py
+  ✓ Fixed ngsd/mbank_unique_fields/models/setting_unique.py
+  ✓ Fixed ngsd/password_security/models/res_users.py
+  ✓ Fixed ngsd/password_security/models/res_partner.py
+  ✓ Fixed ngsd/password_security/models/res_users_pass_history.py
+  ✓ Fixed ngsd/password_security/models/res_company.py
+  ✓ Fixed ngsd/password_security/models/res_config_settings.py
+  ✓ Fixed ngsd/base_rest/models/ir_rule.py
+  ✓ Fixed ngsd/base_rest/models/rest_service_registration.py
+  ✓ Fixed ngsd/rest_log/models/rest_log.py
+  ✓ Fixed ngsd/component/models/collection.py
+  ✓ Fixed ngsd/web_gantt/models/models.py
+  ✓ Fixed ngsd/ngs_hr/models/mail_template.py
+  ✓ Fixed ngsd/ngs_hr/models/hr_employee.py
+  ✓ Fixed ngsd/ngs_hr/models/res_users.py
+  ✓ Fixed ngsd/entrust_access/models/res_users.py
+  ✓ Fixed ngsd/entrust_access/models/entrust_role.py
+  ✓ Fixed ngsd/entrust_access/models/res_groups.py
+  ✓ Fixed ngsd/web_cohort/models/models.py
+  ✓ Fixed ngsd/web_cohort/models/ir_action_act_window.py
+  ✓ Fixed ngsd/web_cohort/models/ir_ui_view.py
+  ✓ Fixed ngsd/web_notify/models/res_users.py
+  ✓ Fixed ngsc/ngsc_innovation/wizard/ngsc_innovation_scoring_wizard.py
+  ✓ Fixed ngsc/ngsc_innovation/wizard/ngsc_innovation_evaluators_management_wizard.py
+  ✓ Fixed ngsc/ngsc_innovation/wizard/ngsc_innovation_ttnb_scoring_wizard.py
+  ✓ Fixed ngsc/ngsc_innovation/wizard/ngsc_innovation_reject_wizard.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/wizard/remind_evaluation_wizard.py
+  ✓ Fixed ngsc/ngsc_performance_evaluation/wizard/performance_evaluation_exclude_wizard.py
+  ✓ Fixed ngsc/ngsc_nonproject_resource/wizard/nonproject_resource_planning_wizard.py
+  ✓ Fixed ngsc/ngsc_hr_skill/wizard/hr_employee_add_skills.py
+  ✓ Fixed ngsc/ngsc_project/wizard/new_version_project_decision_wizard.py
+  ✓ Fixed ngsc/ngsc_project/wizard/split_line_confirm_wizard.py
+  ✓ Fixed ngsd/account_asset/wizard/asset_sell.py
+  ✓ Fixed ngsd/account_asset/wizard/asset_pause.py
+  ✓ Fixed ngsd/account_asset/wizard/asset_modify.py
+  ✓ Fixed ngsd/account_reports/wizard/emp_department_borrow_wizard.py
+  ✓ Fixed ngsd/account_reports/wizard/report_info_popup.py
+  ✓ Fixed ngsd/ngsd_base/wizard/hr_overview_report_popup.py
+  ✓ Fixed ngsd/ngsd_base/wizard/message_wizard.py
+  ✓ Fixed ngsd/ngsd_base/wizard/import_wbs_popup.py
+  ✓ Fixed ngsd/ngsd_base/wizard/message_popup_confirm.py
+  ✓ Fixed ngsd/ngsd_base/wizard/leave_project_popup.py
+  ✓ Fixed ngsd/ngsd_base/wizard/change_task_timesheet.py
+  ✓ Fixed ngsd/ngsd_base/wizard/order_line_import.py
+  ✓ Fixed ngsd/ngsd_base/wizard/en_lender_employee_return_popup.py
+  ✓ Fixed ngsd/ngsd_base/wizard/change_lock_license.py
+  ✓ Fixed ngsd/ngsd_base/wizard/new_version_wbs_wizard.py
+  ✓ Fixed ngsd/ngsd_base/wizard/add_workload_popup.py
+  ✓ Fixed ngsd/ngsd_crm/wizard/crm_lead_win.py
+  ✓ Fixed ngsd/ngsd_crm/wizard/crm_lead_lost.py
+  ✓ Fixed ngsd/ngs_attendance/wizard/reason_for_refuse_wizard.py
+  ✓ Fixed ngsd/ngs_attendance/wizard/explanation_task_timesheet.py
+  ✓ Fixed ngsd/ngs_attendance/wizard/report_timekeeping.py
+  ✓ Fixed ngsd/ngsd_migrate/wizard/import_popup.py
+  ✓ Fixed ngsd/documents/wizard/request_activity.py
+  ✓ Fixed ngsd/documents/wizard/link_to_record.py
+  ✓ Fixed ngsd/entrust_access/wizard/access_rights_update.py
+
+3. Fixing XML Views...
+
+🔧 Fixing XML Views...
+  ✓ Fixed ngsc/ngsc_competency/views/skill_group_view.xml
+  ✓ Fixed ngsc/ngsc_competency/views/range_point_view.xml
+  ✓ Fixed ngsc/ngsc_competency/views/skill_view.xml
+  ✓ Fixed ngsc/ngsc_project_wbs/views/project_task_views.xml
+  ✓ Fixed ngsc/user_session_management/views/user_session_activity_views.xml
+  ✓ Fixed ngsc/user_session_management/views/user_session_login_views.xml
+  ✓ Fixed ngsc/ngsc_performance_evaluation/views/hr_performance_evaluation_exclude_views.xml
+  ✓ Fixed ngsc/ngsc_performance_evaluation/views/task_evaluation_views.xml
+  ✓ Fixed ngsc/ngsc_performance_evaluation/views/project_task_views.xml
+  ✓ Fixed ngsc/ngsc_performance_evaluation/views/hr_performance_evaluation_views.xml
+  ✓ Fixed ngsc/ngsc_performance_evaluation/views/en_nonproject_task_views.xml
+  ✓ Fixed ngsc/ngsc_nonproject_resource/views/nonproject_resource_planning_views.xml
+  ✓ Fixed ngsc/ngsc_nonproject_resource/views/nonproject_resource_planning_exclude_views.xml
+  ✓ Fixed ngsc/tracking_manager/views/ir_model_fields.xml
+  ✓ Fixed ngsc/ngsc_project_expense/views/project_decision_views.xml
+  ✓ Fixed ngsc/ngsc_project_expense/views/project_project_views.xml
+  ✓ Fixed ngsc/ngsc_project_expense/views/en_resource_planning_views.xml
+  ✓ Fixed ngsc/ngsc_hr_skill/views/hr_employee_views.xml
+  ✓ Fixed ngsc/ngsc_hr_skill/views/hr_employee_skill_views.xml
+  ✓ Fixed ngsc/ngsc_hr_skill/views/ngsc_competency_skill_level_views.xml
+  ✓ Fixed ngsc/ngsc_project/views/project_decision.xml
+  ✓ Fixed ngsd/account_asset/views/account_asset_views.xml
+  ✓ Fixed ngsd/ngs_powerbi/views/dashboard_powerbi.xml
+  ✓ Fixed ngsd/ngsd_base/views/project_project.xml
+  ✓ Fixed ngsd/ngsd_base/views/hr_employee.xml
+  ✓ Fixed ngsd/ngsd_base/views/kpi_kpi.xml
+  ✓ Fixed ngsd/ngsd_base/views/approve.xml
+  ✓ Fixed ngsd/ngsd_base/views/resource_planning.xml
+  ✓ Fixed ngsd/ngsd_base/views/a.xml
+  ✓ Fixed ngsd/ngsd_base/views/en_quality_control.xml
+  ✓ Fixed ngsd/helpdesk/views/helpdesk_team_views.xml
+  ✓ Fixed ngsd/kpi_dashboard/views/kpi_kpi.xml
+  ✓ Fixed ngsd/ngs_attendance/views/hr_attendance.xml
+
+4. Fixing Security Files...
+
+🔧 Fixing Security Files...
+
+5. Generating Report...
+
+================================================================================
+📊 MIGRATION REPORT
+================================================================================
+
+✅ Files Fixed: 365
+  - /workspaces/HDI/ngsc/ngsc_reporting/__manifest__.py
+  - /workspaces/HDI/ngsc/ks_binary_file_preview/__manifest__.py
+  - /workspaces/HDI/ngsc/ngsc_competency/__manifest__.py
+  - /workspaces/HDI/ngsc/ngsc_utils/__manifest__.py
+  - /workspaces/HDI/ngsc/ngsc_timesheet_checkout/__manifest__.py
+  - /workspaces/HDI/ngsc/project_qa_extend/__manifest__.py
+  - /workspaces/HDI/ngsc/hr_employee_partner_map/__manifest__.py
+  - /workspaces/HDI/ngsc/ngsc_constance/__manifest__.py
+  - /workspaces/HDI/ngsc/ngs_hr_attendance_async/__manifest__.py
+  - /workspaces/HDI/ngsc/ngsc_hr_skill/__manifest__.py
+  ... and 355 more
+
+⚠️  Issues Found: 15
+  - ⚠️  /workspaces/HDI/ngsc/ngsc_reporting/models/project_completion_quality_report.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsc/ngsc_reporting/models/report_weekly_by_project.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsc/ngsc_reporting/models/quality_monthly_report.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsc/ngsc_competency/models/skill_group.py: name_search is deprecated, use _name_search
+  - ⚠️  /workspaces/HDI/ngsc/ngsc_competency/models/tag.py: name_search is deprecated, use _name_search
+  - ⚠️  /workspaces/HDI/ngsc/ngsc_project_wbs/models/project_project.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsc/project_qa_extend/models/project_decision_inherit.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsc/project_qa_extend/models/project_status_report_inherit.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsc/project_qa_extend/models/project_inherit.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsc/hr_employee_partner_map/models/calendar_event.py: fields_view_get might need @api.model decorator
+  - ⚠️  /workspaces/HDI/ngsc/ngsc_recruitment/models/news_job.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsc/ngsc_project/models/project_decision.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsd/account_reports/models/busy_rate_report.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsd/helpdesk/models/helpdesk_ticket.py: SQL injection risk in cr.execute()
+  - ⚠️  /workspaces/HDI/ngsd/rest_log/security/ir.model.access.csv: Check CSV header format
+
+📄 Full report saved to: /workspaces/HDI/ODOO18_MIGRATION_REPORT.txt
+
+✅ Migration Complete!
+
+Next steps:
+1. Review ODOO18_MIGRATION_REPORT.txt for issues
+2. Test your modules in Odoo 18
+3. Fix any remaining issues manually
+4. Update documentation

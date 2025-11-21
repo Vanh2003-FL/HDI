@@ -5,9 +5,9 @@ odoo.define("queue_job.fields", function (require) {
      * This module contains field widgets for the job queue.
      */
 
-    var AbstractField = require("web.AbstractField");
-    var core = require("web.core");
-    var field_registry = require("web.field_registry");
+    import { AbstractField } from 'web.AbstractField';
+    import { core } from 'web.core';
+    import { field_registry } from 'web.field_registry';
 
     var JobDirectedGraph = AbstractField.extend({
         /* global vis */

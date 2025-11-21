@@ -1,11 +1,11 @@
 odoo.define('ks_binary_file_preview.ks_binary_preview', function(require) {
 
 
-    var BasicFields = require('web.basic_fields');
-    var core = require('web.core');
-    var ajax = require('web.ajax');
+    import { BasicFields } from 'web.basic_fields';
+    import { core } from 'web.core';
+    import { ajax } from 'web.ajax';
     var ks_file_data = undefined;
-    var Viewer = require('ks_binary_file_preview.KsListDocumentViewer');
+    import { Viewer } from 'ks_binary_file_preview.KsListDocumentViewer';
 
 
     BasicFields.FieldBinaryFile.include({

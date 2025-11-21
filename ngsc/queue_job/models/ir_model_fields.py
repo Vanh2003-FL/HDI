@@ -1,7 +1,7 @@
 # Copyright 2020 Camptocamp
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html)
 
-from odoo import fields, models
+from odoo import models, fields, _
 
 
 class IrModelFields(models.Model):

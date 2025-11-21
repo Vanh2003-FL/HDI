@@ -96,7 +96,7 @@
                     <notebook colspan="4" invisible="state == 'model' or (total_depreciation_entries_count == 0 and not original_move_line_ids)">
                         <page string="Depreciation Board" name="depreciation_board" invisible="total_depreciation_entries_count == 0">
                             <field name="depreciation_move_ids" mode="list" options="{'reload_whole_on_button': true}">
-                                <list string="Depreciation Lines" decoration-info="state == 'draft'" create="0"  default_order="date asc, id asc" editable="top">
+                                <list string="Depreciation Lines" decoration-info="state == 'draft'"  default_order="date asc, id asc" editable="top">
                                     <field name="currency_id" invisible="1"/>
                                     <field name="ref" invisible=""/>
                                     <field name="reversal_move_id" widget="deprec_lines_reversed"/>
@@ -112,7 +112,7 @@
                         </page>
                         <page string="Related Purchase" name="related_items" invisible="not original_move_line_ids">
                             <field name="original_move_line_ids" readonly="state == 'posted'" domain="[('credit', '=', '0'), ('move_id.state', '=', 'posted')]" class="original_move_line_ids_field">
-                                <list create="0">
+                                <list>
                                     <field name="date"/>
                                     <field name="account_id"/>
                                     <field name="name"/>

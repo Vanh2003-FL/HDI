@@ -9,7 +9,7 @@
     'author': "NGSC-DEVELOPER-TEAMS",
     'website': "http://ngsc.com.vn",
     'category': 'Project',
-    'version': '0.1',
+    'version': '18.0.1.0.0',
     'depends': ['ngsd_base', 'ngsd_menu', 'ngsc_reporting',],
     'data': [
         # data

@@ -24,7 +24,7 @@
     <record id="wbs_form" model="ir.ui.view">
         <field name="model">en.wbs</field>
         <field name="arch" type="xml">
-            <form create="0">
+            <form>
                 <header>
                     <field name="sent_ok" invisible="1"/>
                     <field name="approve_ok" invisible="1"/>

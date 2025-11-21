@@ -1,4 +1,4 @@
-from odoo import fields, models, api, _
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import UserError
 import pytz
 from datetime import datetime, timedelta, time

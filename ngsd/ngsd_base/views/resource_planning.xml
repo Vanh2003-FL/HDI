@@ -3,7 +3,7 @@
     <record id="resource_planning_form" model="ir.ui.view">
         <field name="model">en.resource.planning</field>
         <field name="arch" type="xml">
-            <form create="0">
+            <form>
                 <header>
                     <button name="button_resource_account_report_wizard_act" string="Thông tin nguồn lực" type="object"/>
                     <field name="en_state" invisible="1"/>
@@ -111,7 +111,7 @@
     <record id="resource_detail_form" model="ir.ui.view">
         <field name="model">en.resource.detail</field>
         <field name="arch" type="xml">
-            <form create="0">
+            <form>
                 <sheet>
                     <group>
                         <group>

@@ -1,7 +1,7 @@
 # Copyright 2019 ForgeFlow S.L.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import models, fields, api, _
 from geopy.geocoders import Nominatim
 import time
 

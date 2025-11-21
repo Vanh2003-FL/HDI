@@ -1,8 +1,8 @@
 odoo.define('ngsd_base.geolocation', function (require) {
 "use strict";
 
-var FormController = require('web.FormController');
-var Dialog = require('web.Dialog');
+import { FormController } from 'web.FormController';
+import { Dialog } from 'web.Dialog';
 
 FormController.include({
 

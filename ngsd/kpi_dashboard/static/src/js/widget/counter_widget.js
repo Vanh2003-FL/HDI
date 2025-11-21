@@ -1,8 +1,8 @@
 odoo.define("kpi_dashboard.CounterWidget", function (require) {
     "use strict";
 
-    var IntegerWidget = require("kpi_dashboard.IntegerWidget");
-    var registry = require("kpi_dashboard.widget_registry");
+    import { IntegerWidget } from 'kpi_dashboard.IntegerWidget';
+    import { registry } from 'kpi_dashboard.widget_registry';
 
     var CounterWidget = IntegerWidget.extend({
         shortList: [],

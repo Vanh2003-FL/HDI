@@ -1,9 +1,9 @@
 odoo.define('helpdesk.tour', function(require) {
 "use strict";
 
-var core = require('web.core');
+import { core } from 'web.core';
 const {Markup} = require('web.utils');
-var tour = require('web_tour.tour');
+import { tour } from 'web_tour.tour';
 
 var _t = core._t;
 

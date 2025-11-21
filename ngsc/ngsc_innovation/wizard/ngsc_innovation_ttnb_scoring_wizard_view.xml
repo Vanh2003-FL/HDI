@@ -31,7 +31,7 @@
                         <notebook>
                             <page string="Chấm điểm">
                                 <field name="scoring_line_ids" nolabel="1">
-                                    <list editable="bottom" create="false" delete="false">
+                                    <list editable="bottom">
                                         <field name="criteria_id" invisible="1"/>
                                         <field name="criteria_type" invisible="1"/>
                                         <field name="max_score_point" invisible="1"/>
@@ -100,7 +100,7 @@
                         <!-- Chỉ hiển thị danh sách thành viên chưa chấm điểm -->
                         <group string="Danh sách thành viên chưa chấm điểm">
                             <field name="evaluator_line_ids" nolabel="1" domain="[('has_scores', '=', False)]">
-                                <list create="false" edit="false" delete="false" decoration-danger="1">
+                                <list decoration-danger="1">
                                     <!-- Tên người chấm -->
                                     <field name="evaluator_name" string="Người chấm" width="250px"/>
 

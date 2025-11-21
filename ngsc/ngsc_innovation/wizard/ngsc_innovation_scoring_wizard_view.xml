@@ -9,7 +9,7 @@
           <sheet>
             <!-- Bảng chấm điểm - UI đơn giản như yêu cầu -->
             <field name="scoring_line_ids" nolabel="1">
-              <list editable="bottom" create="false" delete="false">
+              <list editable="bottom">
                 <!-- Ẩn các field không cần thiết -->
                 <field name="criteria_id" invisible="1"/>
                 <field name="criteria_type" invisible="1"/>

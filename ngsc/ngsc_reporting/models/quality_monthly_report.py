@@ -4,7 +4,7 @@ import io
 import xlsxwriter
 from dateutil.relativedelta import relativedelta
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from datetime import timedelta, datetime, date
 import logging
 

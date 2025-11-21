@@ -1,8 +1,9 @@
 {
     'name': 'Project QA Extend',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     'depends': ['project', 'hr','ngsc_project', 'ngsd_base', 'ngsc_reporting', 'ngsc_constance', 'ngsc_utils'],
     'author': 'NGSC-ODOO-TEAMS',
+    'license': 'LGPL-3',
     'category': 'project',
     'website': "http://erp-ngsc.com.vn",
     'description': 'Thêm trường QA dự án dạng Many2many thay thế trường cũ Many2one',

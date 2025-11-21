@@ -6,7 +6,7 @@
         <field name="priority">10110</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form create="false" edit="false">
+            <form>
                 <sheet>
                     <group>
                         <group>
@@ -39,7 +39,7 @@
         <field name="priority">10110</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form create="false" edit="false">
+            <form>
                 <sheet>
                     <group>
                         <group>

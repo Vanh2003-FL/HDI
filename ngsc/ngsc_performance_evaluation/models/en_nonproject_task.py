@@ -1,4 +1,4 @@
-from odoo import fields, models, api
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError, UserError, AccessError
 from ..utils.constant import *
 from dateutil.relativedelta import relativedelta

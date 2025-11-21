@@ -18,7 +18,7 @@
         <field name="name">hr.attendance.log.tree</field>
         <field name="model">hr.attendance.log</field>
         <field name="arch" type="xml">
-            <list string="Nhật ký chấm công" create="false">
+            <list string="Nhật ký chấm công">
                 <field name="employee_id" optional="show"/>
                 <field name="action" optional="show"/>
                 <field name="timestamp" optional="show"/>

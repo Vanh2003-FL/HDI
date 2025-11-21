@@ -4,7 +4,7 @@
 import functools
 import logging
 
-from odoo import api, models
+from odoo import models, fields, api, _
 
 from ..delay import Delayable
 from ..job import DelayableRecordset

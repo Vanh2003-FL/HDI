@@ -20,7 +20,7 @@
 #
 #############################################################################
 from ast import literal_eval
-from odoo import api, models
+from odoo import models, fields, api, _
 from odoo.http import request
 
 

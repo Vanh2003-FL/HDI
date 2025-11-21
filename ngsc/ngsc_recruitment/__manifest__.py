@@ -4,9 +4,10 @@
     'summary': """Quản lý tuyển dụng""",
     'description': """ Quản lý tuyển dụng""",
     'author': "NGSC-DEVELOPER-TEAMS",
+    'license': 'LGPL-3',
     'website': "http://ngsc.com.vn",
     'category': 'recruitment',
-    'version': '0.1',
+    'version': '18.0.1.0.0',
     'depends': ['website', 'hr_recruitment', 'ngsd_base','calendar', 'ngs_e_office'],
     'data': [
         # data
@@ -45,4 +46,5 @@
     'demo': [
     ],
     'application': True,
+    'installable': True,
 }

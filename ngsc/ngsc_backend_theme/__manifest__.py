@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Backend Theme',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     'category': 'web',
     'sequence': 100,
     'summary': 'v',

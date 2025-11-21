@@ -13,7 +13,7 @@
             <field name="name">ngsc.competency.tag.tree</field>
             <field name="model">ngsc.competency.tag</field>
             <field name="arch" type="xml">
-                <list delete="false" create="true">
+                <list>
                     <field name="name"/>
                     <field name="skill_group_id"/>
                     <field name="color_code" widget="color_picker"/>
@@ -39,7 +39,7 @@
             <field name="name">ngsc.competency.tag.form</field>
             <field name="model">ngsc.competency.tag</field>
             <field name="arch" type="xml">
-                <form string="skill" delete="false" create="true">
+                <form string="skill">
                     <sheet>
                         <div class="oe_title">
                             <h1>

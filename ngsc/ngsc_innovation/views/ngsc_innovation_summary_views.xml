@@ -6,8 +6,7 @@
     <field name="model">ngsc.innovation.summary</field>
     <field name="groups_id" eval="[(6, 0, [ref('group_internal_communication')])]"/>
     <field name="arch" type="xml">
-      <list string="Đánh giá - Truyền thông nội bộ" default_order="idea_id,criteria_id,evaluator_id"
-        create="false" edit="false">
+      <list string="Đánh giá - Truyền thông nội bộ" default_order="idea_id,criteria_id,evaluator_id">
         <field name="idea_name"/>
         <field name="evaluator_id"/>
         <field name="type_criteria"/>
@@ -23,8 +22,7 @@
     <field name="model">ngsc.innovation.summary</field>
     <field name="groups_id" eval="[(6, 0, [ref('group_evaluation_board')])]"/>
     <field name="arch" type="xml">
-      <list string="Đánh giá - Hội đồng" default_order="idea_id,criteria_id,evaluator_id"
-        create="false" edit="false">
+      <list string="Đánh giá - Hội đồng" default_order="idea_id,criteria_id,evaluator_id">
         <field name="idea_name"/>
         <field name="type_criteria"/>
         <field name="criteria_id"/>

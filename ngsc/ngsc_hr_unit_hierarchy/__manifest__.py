@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Phân cấp phòng ban',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     'category': 'HR',
     'sequence': 1000,
     'summary': 'Phân cấp phòng ban',

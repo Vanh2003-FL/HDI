@@ -90,7 +90,7 @@
                 </page>
                 <page string="Máy bay" name="plane_list" invisible="approval_type != 'business' or not has_plane_support">
                     <field name="plane_list_ids" invisible="approval_type != 'business' or not has_plane_support">
-                        <list editable="bottom" create="false">
+                        <list editable="bottom">
                             <field name="sequence"/>
                             <field name="employee_id"/>
                             <field name="level"/>
@@ -115,7 +115,7 @@
                 </page>
                 <page string="Khách sạn" name="hotel_list" invisible="approval_type != 'business' or not has_hotel_support">
                     <field name="hotel_list_ids" invisible="approval_type != 'business' or not has_hotel_support" >
-                        <list editable="bottom" create="false">
+                        <list editable="bottom">
                             <field name="sequence"/>
                             <field name="employee_id"/>
                             <field name="level"/>
@@ -136,7 +136,7 @@
                 </page>
                 <page string="Xe" name="car_list" invisible="approval_type != 'business' or not has_car_support">
                     <field name="car_list_ids" invisible="approval_type != 'business' or not has_car_support" >
-                        <list editable="bottom" create="false">
+                        <list editable="bottom">
                             <field name="sequence"/>
                             <field name="employee_id"/>
                             <field name="level"/>

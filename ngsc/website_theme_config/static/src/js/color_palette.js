@@ -1,7 +1,7 @@
 odoo.define('website_theme_config.color_popup', function(require){
     "use strict";
 
-    var FormController = require('web.FormController');
+    import { FormController } from 'web.FormController';
 
     FormController.include({
         renderButtons: function($node){

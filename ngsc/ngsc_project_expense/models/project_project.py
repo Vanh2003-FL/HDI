@@ -1,6 +1,6 @@
 from datetime import timedelta, date
 from dateutil.relativedelta import relativedelta
-from odoo import api, fields, models
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError
 
 
@@ -29,7 +29,7 @@ class Project(models.Model):
         return res
 
     def write(self, vals):
-        res = super(Project, self).write(vals)
+        res = super().write(vals)
         if 'en_bmm_stage_ids' in vals or 'date_start' in vals or 'date' in vals:
             self.action_update_bmm_expense()
             self._update_resource_expense()

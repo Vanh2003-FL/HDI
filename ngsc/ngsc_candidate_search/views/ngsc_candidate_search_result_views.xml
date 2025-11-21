@@ -3,7 +3,7 @@
         <field name="name">view_candidate_search_result_tree</field>
         <field name="model">ngsc.candidate.search.result</field>
         <field name="arch" type="xml">
-            <list create="false" delete="false">
+            <list>
                 <header>
                     <button name="action_compair" string="So sánh" type="object"
                             class="btn-primary candidate_compare_button"/>

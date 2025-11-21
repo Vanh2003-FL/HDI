@@ -1,8 +1,8 @@
 odoo.define('approvals_tour', function(require) {
     "use strict";
 
-    var core = require('web.core');
-    var tour = require('web_tour.tour');
+    import { core } from 'web.core';
+    import { tour } from 'web_tour.tour';
 
     var _t = core._t;
 

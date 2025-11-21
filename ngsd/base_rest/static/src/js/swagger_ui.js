@@ -2,7 +2,7 @@
 odoo.define("base_rest.swagger_ui", function (require) {
     "use strict";
 
-    var core = require("web.core");
+    import { core } from 'web.core';
 
     var SwaggerUI = core.Class.extend({
         init: function (selector) {

@@ -11,13 +11,14 @@
     """,
 
     'author': "NGSC-DEVELOPER-TEAMS",
+    'license': 'LGPL-3',
     'website': "http://ngsc.com.vn",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Base',
-    'version': '0.1',
+    'version': '18.0.1.0.0',
 
     # any module necessary for this one to work correctly
     'depends': ['ngsc_competency', 'ngsd_base'],
@@ -46,4 +47,5 @@
     'demo': [
         'demo/demo.xml',
     ],
+    'installable': True,
 }

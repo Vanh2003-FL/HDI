@@ -1,9 +1,9 @@
 odoo.define('ngsc_project_wbs.CustomKanbanView', function (require) {
     "use strict";
 
-    var KanbanController = require('web.KanbanController');
-    var KanbanView = require('web.KanbanView');
-    var viewRegistry = require('web.view_registry');
+    import { KanbanController } from 'web.KanbanController';
+    import { KanbanView } from 'web.KanbanView';
+    import { viewRegistry } from 'web.view_registry';
 
     KanbanController.include({
         events: _.extend({}, KanbanController.prototype.events, {}),

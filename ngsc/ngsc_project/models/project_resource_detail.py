@@ -1,4 +1,4 @@
-from odoo import models, fields, api, exceptions
+from odoo import models, fields, api, _, exceptions
 from datetime import date, datetime, time
 from dateutil.relativedelta import relativedelta
 

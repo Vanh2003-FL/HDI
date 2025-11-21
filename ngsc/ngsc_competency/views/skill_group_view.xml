@@ -11,7 +11,7 @@
             <field name="name">ngsc.competency.skill.group.form</field>
             <field name="model">ngsc.competency.skill.group</field>
             <field name="arch" type="xml">
-                <form delete="0">
+                <form>
                     <sheet>
                         <h1>
                             <field name="name" placeholder="Tên nhóm kỹ năng"/>
@@ -47,7 +47,7 @@
             <field name="name">ngsc.competency.skill.group.tree</field>
             <field name="model">ngsc.competency.skill.group</field>
             <field name="arch" type="xml">
-                <list delete="0">
+                <list>
                     <field name="code"/>
                     <field name="short_name"/>
                     <field name="name"/>

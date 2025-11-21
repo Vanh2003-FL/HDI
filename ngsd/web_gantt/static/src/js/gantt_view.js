@@ -1,13 +1,13 @@
 odoo.define('web_gantt.GanttView', function (require) {
 "use strict";
 
-var AbstractView = require('web.AbstractView');
-var core = require('web.core');
-var GanttModel = require('web_gantt.GanttModel');
-var GanttRenderer = require('web_gantt.GanttRenderer');
-var GanttController = require('web_gantt.GanttController');
-var pyUtils = require('web.py_utils');
-var view_registry = require('web.view_registry');
+import { AbstractView } from 'web.AbstractView';
+import { core } from 'web.core';
+import { GanttModel } from 'web_gantt.GanttModel';
+import { GanttRenderer } from 'web_gantt.GanttRenderer';
+import { GanttController } from 'web_gantt.GanttController';
+import { pyUtils } from 'web.py_utils';
+import { view_registry } from 'web.view_registry';
 
 var _t = core._t;
 var _lt = core._lt;

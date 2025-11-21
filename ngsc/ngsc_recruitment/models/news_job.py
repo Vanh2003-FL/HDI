@@ -1,5 +1,5 @@
 import unicodedata
-from odoo import models, fields, api
+from odoo import models, fields, api, _, exceptions
 from odoo.tools.translate import html_translate
 from odoo.exceptions import ValidationError
 

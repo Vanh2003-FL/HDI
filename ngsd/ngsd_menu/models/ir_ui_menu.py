@@ -1,4 +1,4 @@
-from odoo import api, fields, models, tools
+from odoo import models, fields, api, _
 
 
 class IrUiMenu(models.Model):

@@ -12,7 +12,7 @@
             <field name="name">ngsc.competency.skill.tree</field>
             <field name="model">ngsc.competency.skill</field>
             <field name="arch" type="xml">
-                <list delete="0">
+                <list>
                     <field name="code"/>
                     <field name="short_name"/>
                     <field name="name"/>
@@ -43,7 +43,7 @@
             <field name="name">ngsc.competency.skill.form</field>
             <field name="model">ngsc.competency.skill</field>
             <field name="arch" type="xml">
-                <form string="skill" delete="0">
+                <form string="skill">
                     <sheet>
                         <h1>
                              <field name="name" placeholder="VD: Kỹ năng đánh giá giải pháp"/>
@@ -60,7 +60,7 @@
                         <notebook>
                             <page string="Mức độ">
                                 <field name="level_ids" context="{'default_fetch_fields': ['name', 'description']}">
-                                    <list create="false" editable="top" delete="false">
+                                    <list editable="top">
                                         <field name="level_id" invisible="1"/> <!-- Hiển thị level_id -->
                                         <field name="sequence" string="Cấp độ"/>
                                         <field name="name" readonly="1" string="Tên mức độ"/>

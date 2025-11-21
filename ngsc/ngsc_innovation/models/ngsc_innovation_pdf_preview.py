@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 class NgscInnovationPdfPreview(models.Model):
     _name = 'ngsc_innovation.pdf_preview'
@@ -18,7 +18,7 @@ class NgscInnovationPdfPreview(models.Model):
         return record
 
     def write(self, vals):
-        res = super(NgscInnovationPdfPreview, self).write(vals)
+        res = super().write(vals)
         # Nếu bản ghi được set active=True thì tắt các bản ghi khác
         if 'active' in vals and vals['active']:
             self._deactivate_others()

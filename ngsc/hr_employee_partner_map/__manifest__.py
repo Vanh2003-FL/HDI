@@ -4,6 +4,7 @@
     'summary': 'Liên kết Employee ↔ Partner để chọn đầy đủ người tham dự',
     'description': 'Cho phép chọn đầy đủ nhân viên trong danh sách người tham dự.',
     'author': 'Odoo team',
+    'license': 'LGPL-3',
     'depends': ['hr', 'calendar'],
     'data': [
         'security/ir.model.access.csv',

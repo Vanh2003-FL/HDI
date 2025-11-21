@@ -1,4 +1,4 @@
-from odoo import models, api
+from odoo import models, api, _
 
 
 class HrEmployee(models.Model):

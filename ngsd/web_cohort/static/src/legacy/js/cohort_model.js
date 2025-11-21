@@ -1,7 +1,7 @@
 odoo.define('web_cohort.CohortModel', function (require) {
 'use strict';
 
-var AbstractModel = require('web.AbstractModel');
+import { AbstractModel } from 'web.AbstractModel';
 const { processMeasure } = require("@web/views/helpers/utils");
 
 var CohortModel = AbstractModel.extend({

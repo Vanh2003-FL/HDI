@@ -1,14 +1,14 @@
 odoo.define('powerbi.dashboard', function (require) {
 'use strict';
 
-var AbstractAction = require('web.AbstractAction');
-var ajax = require('web.ajax');
-var core = require('web.core');
-var Dialog = require('web.Dialog');
-var field_utils = require('web.field_utils');
-var session = require('web.session');
-var time = require('web.time');
-var web_client = require('web.web_client');
+import { AbstractAction } from 'web.AbstractAction';
+import { ajax } from 'web.ajax';
+import { core } from 'web.core';
+import { Dialog } from 'web.Dialog';
+import { field_utils } from 'web.field_utils';
+import { session } from 'web.session';
+import { time } from 'web.time';
+import { web_client } from 'web.web_client';
 
 var _t = core._t;
 var QWeb = core.qweb;

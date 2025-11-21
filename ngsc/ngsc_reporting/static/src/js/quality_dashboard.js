@@ -5,7 +5,7 @@ odoo.define('ngsc_reporting.QualityDashboardTemplate', function (require) {
     const rpc = require('web.rpc');
     const core = require('web.core');
     var qweb = core.qweb;
-    var web_client = require('web.web_client');
+    import { web_client } from 'web.web_client';
     const ReportExportUtils = require('ngsc_reporting.ReportExportUtils');
 
     const QualityDashboard = AbstractAction.extend({

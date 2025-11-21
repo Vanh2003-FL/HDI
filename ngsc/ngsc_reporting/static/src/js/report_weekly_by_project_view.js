@@ -1,11 +1,11 @@
 odoo.define('ngsc_reporting.ReportWeeklyByProject', function(require) {
     'use strict';
 
-    var AbstractAction = require('web.AbstractAction');
-    var core = require('web.core');
+    import { AbstractAction } from 'web.AbstractAction';
+    import { core } from 'web.core';
     var QWeb = core.qweb;
-    var rpc = require('web.rpc');
-    var web_client = require('web.web_client');
+    import { rpc } from 'web.rpc';
+    import { web_client } from 'web.web_client';
 
     var renderReport = false
 

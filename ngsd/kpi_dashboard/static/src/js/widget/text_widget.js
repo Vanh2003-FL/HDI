@@ -1,8 +1,8 @@
 odoo.define("kpi_dashboard.TextWidget", function (require) {
     "use strict";
 
-    var AbstractWidget = require("kpi_dashboard.AbstractWidget");
-    var registry = require("kpi_dashboard.widget_registry");
+    import { AbstractWidget } from 'kpi_dashboard.AbstractWidget';
+    import { registry } from 'kpi_dashboard.widget_registry';
 
     var TextWidget = AbstractWidget.extend({
         template: "kpi_dashboard.base_text",

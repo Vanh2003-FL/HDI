@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import UserError
 from odoo.osv.expression import AND, OR
 from odoo.tools import image_process

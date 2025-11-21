@@ -1,12 +1,12 @@
 odoo.define("kpi_dashboard.DashboardView", function (require) {
     "use strict";
 
-    var BasicView = require("web.BasicView");
-    var DashboardController = require("kpi_dashboard.DashboardController");
-    var DashboardModel = require("kpi_dashboard.DashboardModel");
-    var DashboardRenderer = require("kpi_dashboard.DashboardRenderer");
-    var view_registry = require("web.view_registry");
-    var core = require("web.core");
+    import { BasicView } from 'web.BasicView';
+    import { DashboardController } from 'kpi_dashboard.DashboardController';
+    import { DashboardModel } from 'kpi_dashboard.DashboardModel';
+    import { DashboardRenderer } from 'kpi_dashboard.DashboardRenderer';
+    import { view_registry } from 'web.view_registry';
+    import { core } from 'web.core';
 
     var _lt = core._lt;
 

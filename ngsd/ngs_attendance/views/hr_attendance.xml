@@ -40,7 +40,7 @@
     <record id="ngs_view_attendance_calendar" model="ir.ui.view">
         <field name="model">hr.attendance</field>
         <field name="arch" type="xml">
-            <calendar date_start="check_in" date_stop="check_out" hide_time="true" event_limit="5" quick_add="False" event_open_popup="true" create="0" color="color">
+            <calendar date_start="check_in" date_stop="check_out" hide_time="true" event_limit="5" quick_add="False" event_open_popup="true" color="color">
                 <field name="employee_id"/>
                 <field name="check_in"/>
                 <field name="check_out"/>

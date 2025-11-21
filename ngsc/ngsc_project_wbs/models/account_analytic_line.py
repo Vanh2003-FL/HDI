@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import models, fields, api, _
 import odoo.http
 
 class AccountAnalyticLine(models.Model):

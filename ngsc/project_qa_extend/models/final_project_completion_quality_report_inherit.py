@@ -1,6 +1,6 @@
 import re
 
-from odoo import models, api
+from odoo import models, api, _
 
 
 class FinalProjectCompletionQualityReportInherit(models.AbstractModel):

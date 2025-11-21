@@ -20,7 +20,7 @@
 #
 #############################################################################
 from ast import literal_eval
-from odoo import api, fields, models
+from odoo import models, fields, api, _
 
 
 class ResConfigSettings(models.TransientModel):

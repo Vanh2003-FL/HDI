@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, _
 
 # Định nghĩa model mới có tên kỹ thuật là 'project.task.timesheet'
 class ProjectTaskTimesheet(models.Model):

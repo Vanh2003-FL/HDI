@@ -5,8 +5,7 @@
             <field name="name">ngsc.project.task.view.tree</field>
             <field name="model">project.task</field>
             <field name="arch" type="xml">
-                <list string="Danh sách công việc" sample="1" create="0" edit="0"
-                      delete="0" limit="99999" class="x2many_search wbs_hierarchy_list">
+                <list string="Danh sách công việc" sample="1" limit="99999" class="x2many_search wbs_hierarchy_list">
                     <button name="action_create"
                             type="object"
                             title="Tạo mới"
@@ -40,7 +39,7 @@
             <field name="name">ngsc.project.task.package.view.tree</field>
             <field name="model">project.task</field>
             <field name="arch" type="xml">
-                <list string="Danh sách gói việc" sample="1" create="0" edit="0" delete="0">
+                <list string="Danh sách gói việc" sample="1">
                     <field name="name" string="Tên"/>
                     <field name="full_code" string="Mã"/>
                     <field name="parent_id" string="Thuộc"/>

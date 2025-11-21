@@ -2,7 +2,7 @@ import json
 import ast
 from lxml import etree
 from lxml import html
-from odoo import models, fields, api
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError, UserError, AccessError
 
 readonly_fields = [

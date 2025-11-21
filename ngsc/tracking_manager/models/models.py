@@ -5,7 +5,7 @@
 
 from collections import defaultdict
 
-from odoo import api, models, tools
+from odoo import models, fields, api, _
 
 from ..tools import format_m2m
 

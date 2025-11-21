@@ -4,7 +4,7 @@
 from collections import defaultdict
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from odoo import api, fields, models
+from odoo import models, fields, api, _
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
 DISPLAY_FORMATS = {

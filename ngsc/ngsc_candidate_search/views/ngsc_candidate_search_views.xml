@@ -27,7 +27,7 @@
                     </group>
 
                     <field name="line_ids">
-                        <list create="false" edit="false" editable="bottom" class="o_candidate_search_line">
+                        <list editable="bottom" class="o_candidate_search_line">
                             <field name="skill_group_id"/>
                             <field name="skill_id" readonly="1" force_save="1"/>
                             <field name="level_id"/>

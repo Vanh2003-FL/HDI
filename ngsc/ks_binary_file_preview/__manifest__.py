@@ -102,4 +102,5 @@
                             'ks_binary_file_preview/static/src/js/widget/ksListDocumentViewer.xml',
                             ],
     },
+    'installable': True,
 }

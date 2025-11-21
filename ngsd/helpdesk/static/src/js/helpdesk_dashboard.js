@@ -9,14 +9,14 @@ odoo.define('helpdesk.dashboard', function (require) {
  * widget in web, to avoid code duplication (see SalesTeamDashboard).
  */
 
-var core = require('web.core');
-var KanbanController = require('web.KanbanController');
-var KanbanModel = require('web.KanbanModel');
-var KanbanRenderer = require('web.KanbanRenderer');
-var KanbanView = require('web.KanbanView');
-var KanbanRecord = require('web.KanbanRecord');
-var session = require('web.session');
-var view_registry = require('web.view_registry');
+import { core } from 'web.core';
+import { KanbanController } from 'web.KanbanController';
+import { KanbanModel } from 'web.KanbanModel';
+import { KanbanRenderer } from 'web.KanbanRenderer';
+import { KanbanView } from 'web.KanbanView';
+import { KanbanRecord } from 'web.KanbanRecord';
+import { session } from 'web.session';
+import { view_registry } from 'web.view_registry';
 
 var QWeb = core.qweb;
 

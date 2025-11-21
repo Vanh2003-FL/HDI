@@ -4,8 +4,8 @@
 odoo.define("kpi_dashboard.DashboardController", function (require) {
     "use strict";
 
-    var BasicController = require("web.BasicController");
-    var core = require("web.core");
+    import { BasicController } from 'web.BasicController';
+    import { core } from 'web.core';
     var qweb = core.qweb;
 
     var _t = core._t;

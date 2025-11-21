@@ -2,7 +2,7 @@
 
 "use strict";
 
-var ListController = require('web.ListController');
+import { ListController } from 'web.ListController';
     ListController.include({
         renderButtons: function($node) {
         this._super.apply(this, arguments);

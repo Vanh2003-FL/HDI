@@ -5,7 +5,7 @@
             <field name="name">hr.performance.evaluation.view.tree</field>
             <field name="model">ngsc.hr.performance.evaluation</field>
             <field name="arch" type="xml">
-                <list string="Đánh giá hiệu suất" sample="1" create="0" delete="0" editable="bottom"
+                <list string="Đánh giá hiệu suất" sample="1" editable="bottom"
                       class="o_list_view_performance_evaluation">
                     <header>
                         <button name="action_to_approve" type="object" string="Gửi duyệt" icon="fa-paper-plane"
@@ -62,7 +62,7 @@
             <field name="name">hr.performance.evaluation.view.form</field>
             <field name="model">ngsc.hr.performance.evaluation</field>
             <field name="arch" type="xml">
-                <form string="Đánh giá hiệu suất" create="0" delete="0"
+                <form string="Đánh giá hiệu suất"
                       show_edit="is_direct_manager and approval_state == 'direct_manager'">
                     <header>
                         <button name="action_to_approve" type="object" string="Gửi duyệt" class="btn-primary"
@@ -124,7 +124,7 @@
                                         <field name="hour_actual_resource" sum="Tổng"/>
                                         <field name="evaluation" class="o_text_align_center"/>
                                     </list>
-                                    <form create="0" edit="0" delete="0">
+                                    <form>
                                         <sheet>
                                             <group>
                                                 <group>

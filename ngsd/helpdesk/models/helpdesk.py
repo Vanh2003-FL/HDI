@@ -6,7 +6,7 @@ import datetime
 
 from dateutil import relativedelta
 from collections import defaultdict
-from odoo import api, fields, models, _
+from odoo import models, fields, api, _
 from odoo.addons.helpdesk.models.helpdesk_ticket import TICKET_PRIORITY
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.web.controllers.main import clean_action

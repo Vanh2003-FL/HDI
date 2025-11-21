@@ -1,6 +1,7 @@
 {
     'name': "NGS PowerBI",
-    'author': 'Entrust Consulting Co., LTD - Report',
+    'author': 'Entrust Consulting Co.,
+    'license': 'LGPL-3', LTD - Report',
     'summary': '(TT)☞ Entrust Consulting (TT)',
     'depends': ['base'],
     'data': [

@@ -1,4 +1,4 @@
-from odoo import models, api, fields, _, exceptions
+from odoo import models, fields, api, _, exceptions
 import xlrd, xlsxwriter
 from datetime import datetime
 import io

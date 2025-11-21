@@ -25,4 +25,5 @@
     },
     'auto_install': True,
     'license': 'OEEL-1',
+    'installable': True,
 }

@@ -2,7 +2,7 @@
 # Copyright 2023 Tecnativa - Víctor Martínez
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import models, _
 from geopy.geocoders import Nominatim
 
 from logging import getLogger

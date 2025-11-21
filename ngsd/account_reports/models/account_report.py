@@ -13,7 +13,7 @@ from babel.dates import get_quarter_names
 from dateutil.relativedelta import relativedelta
 from markupsafe import Markup
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _, exceptions
 from odoo.addons.web.controllers.main import clean_action
 from odoo.exceptions import RedirectWarning
 from odoo.tools import config, date_utils, get_lang, html2plaintext

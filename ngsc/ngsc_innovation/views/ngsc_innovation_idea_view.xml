@@ -31,7 +31,7 @@
         <field name="name">ngsc_innovation_idea_view_tree_truyen_thong</field>
         <field name="model">ngsc.innovation.idea</field>
         <field name="arch" type="xml">
-            <list create="false" edit="false" delete="false">
+            <list>
                 <field name="idea_name"/>
                 <field name="sender_id"/>
                 <field name="sender_email"/>
@@ -53,7 +53,7 @@
         <field name="name">ngsc_innovation_idea_view_tree_hoi_dong</field>
         <field name="model">ngsc.innovation.idea</field>
         <field name="arch" type="xml">
-            <list create="false" edit="false" delete="false">
+            <list>
                 <field name="idea_name"/>
                 <field name="sender_id"/>
                 <field name="sender_email"/>
@@ -168,7 +168,7 @@
         <field name="name">ngsc_innovation_idea_view_form_truyen_thong</field>
         <field name="model">ngsc.innovation.idea</field>
         <field name="arch" type="xml">
-            <form string="Ý tưởng sáng tạo" create="false" edit="false" delete="false">
+            <form string="Ý tưởng sáng tạo">
                 <header>
                     <button name="action_final_approve"
                             type="object"
@@ -242,7 +242,7 @@
 
                         <page string="Điểm trung bình">
                             <field name="scoring_ids" nolabel="1" readonly="1">
-                                <list create="false" edit="false" delete="false" decoration-bf="1">
+                                <list decoration-bf="1">
                                     <field name="criteria_id" string="Tiêu chí"/>
                                     <field name="average_score" string="Số điểm" sum="Total"/>
                                 </list>
@@ -259,7 +259,7 @@
         <field name="name">ngsc_innovation_idea_view_form_hoi_dong</field>
         <field name="model">ngsc.innovation.idea</field>
         <field name="arch" type="xml">
-            <form string="Đánh giá ý tưởng" create="false" edit="false" delete="false">
+            <form string="Đánh giá ý tưởng">
                 <header>
                     <field name="scoring_status" invisible="1"/>
                     <field name="has_locked_scores" invisible="1"/>

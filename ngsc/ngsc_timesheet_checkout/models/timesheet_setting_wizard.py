@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 # Wizard dạng tạm dùng để cấu hình việc bật/tắt popup khai Timesheet trước khi checkout
 class TimesheetSettingWizard(models.TransientModel):  # TransientModel dùng cho wizard tạm thời

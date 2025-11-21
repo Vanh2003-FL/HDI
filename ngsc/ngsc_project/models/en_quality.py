@@ -1,6 +1,6 @@
 from datetime import datetime, time
 from dateutil.relativedelta import relativedelta
-from odoo import api, fields, models
+from odoo import models, fields, api, _
 
 
 class QualityDetail(models.Model):

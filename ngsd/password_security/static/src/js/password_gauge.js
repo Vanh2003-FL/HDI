@@ -3,9 +3,9 @@
 odoo.define("password_security.policy", function (require) {
     "use strict";
 
-    var core = require("web.core");
+    import { core } from 'web.core';
     var _t = core._t;
-    var auth_password_policy = require("auth_password_policy");
+    import { auth_password_policy } from 'auth_password_policy';
     var Policy = auth_password_policy.Policy;
     var zxcvbn = window.zxcvbn;
 

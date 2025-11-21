@@ -6,7 +6,7 @@ import logging
 import re
 from collections import namedtuple
 
-from odoo import _, api, exceptions, fields, models, tools
+from odoo import models, fields, api, _, exceptions
 
 from ..fields import JobSerialized
 

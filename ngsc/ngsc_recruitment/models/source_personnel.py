@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError
 from odoo.tools.translate import _
 

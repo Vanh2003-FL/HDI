@@ -1,6 +1,7 @@
 {
     'name': "NGS Hr",
     'author': 'NGSC',
+    'license': 'LGPL-3',
     'summary': 'NGSC',
     'depends': ['base', 'hr_skills', 'ngsd_base', 'hr_holidays'],
     'data': [

@@ -1,10 +1,10 @@
 odoo.define('web_gantt.GanttController', function (require) {
 "use strict";
 
-var AbstractController = require('web.AbstractController');
-var core = require('web.core');
-var config = require('web.config');
-var dialogs = require('web.view_dialogs');
+import { AbstractController } from 'web.AbstractController';
+import { core } from 'web.core';
+import { config } from 'web.config';
+import { dialogs } from 'web.view_dialogs';
 var confirmDialog = require('web.Dialog').confirm;
 
 var QWeb = core.qweb;

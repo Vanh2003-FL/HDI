@@ -1,4 +1,4 @@
-from odoo import fields, models, api, exceptions
+from odoo import models, fields, api, _, exceptions
 
 
 class XSMSParams(models.Model):

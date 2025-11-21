@@ -1,6 +1,6 @@
 import logging
 from datetime import timedelta, datetime
-from odoo import api, fields, models
+from odoo import models, fields, api, _
 
 _logger = logging.getLogger(__name__)
 

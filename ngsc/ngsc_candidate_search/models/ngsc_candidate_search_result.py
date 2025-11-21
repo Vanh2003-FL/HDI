@@ -6,7 +6,7 @@ import io
 
 import xlsxwriter
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 
 class NgscCandidateSearchResult(models.TransientModel):

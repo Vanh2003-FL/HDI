@@ -13,7 +13,7 @@
                     <page name="bmm" string="BMM">
                         <separator string="BMM theo giai đoạn"/>
                         <field name="bmm_stage_ids" nolabel="1">
-                            <list create="0" edit="0" delete="0" default_order="id asc">
+                            <list default_order="id asc">
                                 <field name="bmm_stage_id"/>
                                 <field name="number_of_week" sum="Tổng"/>
                                 <field name="date_start" invisible="1"/>
@@ -22,7 +22,7 @@
                                 <field name="expense" sum="Tổng" invisible="1"/>
                                 <field name="company_currency" invisible="1"/>
                             </list>
-                            <form create="0" edit="0" delete="0">
+                            <form>
                                 <sheet>
                                     <group>
                                         <field name="bmm_stage_id"/>
@@ -38,14 +38,14 @@
                         </field>
                         <separator string="BMM theo tháng"/>
                         <field name="bmm_ids" nolabel="1">
-                            <list create="0" edit="0" delete="0" default_order="date">
+                            <list default_order="date">
                                 <field name="date" invisible="1"/>
                                 <field name="month_txt"/>
                                 <field name="bmm" sum="Tổng"/>
                                 <field name="expense" sum="Tổng" invisible="1"/>
                                 <field name="company_currency" invisible="1"/>
                             </list>
-                            <form create="0" edit="0" delete="0">
+                            <form>
                                 <sheet>
                                     <group>
                                         <field name="date" invisible="1"/>

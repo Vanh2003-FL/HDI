@@ -2,7 +2,7 @@ import json
 from datetime import date, datetime, timedelta
 import unicodedata
 
-from odoo import models, api
+from odoo import models, api, _, exceptions
 from odoo.exceptions import ValidationError, UserError
 from odoo.tools import float_utils
 

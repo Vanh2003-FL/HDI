@@ -961,7 +961,7 @@
       <field name="name">timesheet.general.view.calendar</field>
       <field name="model">timesheet.general</field>
       <field name="arch" type="xml">
-        <calendar string="" js_class="timesheet_general" color="color" date_start="date" mode="month" create="0" delete="0">
+        <calendar string="" js_class="timesheet_general" color="color" date_start="date" mode="month">
           <field name="text_content" nolabel="1" invisible="type in ('leave_approved',)"/>
           <field name="color" invisible="1"/>
           <field name="type" invisible="1"/>

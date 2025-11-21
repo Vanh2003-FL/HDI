@@ -1,6 +1,6 @@
 from dateutil.relativedelta import relativedelta
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import UserError
 import logging
 

@@ -110,4 +110,5 @@
             "ngsd_base/static/src/scss/*.scss",
         ],
     },
+    'installable': True,
 }

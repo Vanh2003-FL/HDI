@@ -5,7 +5,7 @@
         <field name="name">ngsc.innovation.evaluation.period.form</field>
         <field name="model">ngsc.innovation.evaluation.period</field>
         <field name="arch" type="xml">
-            <form string="Thiết lập thời gian chấm điểm" create="false" delete="false">
+            <form string="Thiết lập thời gian chấm điểm">
                 <sheet>
                     <group col="2">
                         <div>

@@ -31,4 +31,5 @@
             'kpi_dashboard/static/src/xml/*.xml',
         ],
     },
+    'installable': True,
 }

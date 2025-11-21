@@ -1,8 +1,8 @@
 odoo.define("ks_binary_file_preview.KsListDocumentViewer", function (require) {
   "use strict";
 
-  var core = require("web.core");
-  var Widget = require("web.Widget");
+  import { core } from 'web.core';
+  import { Widget } from 'web.Widget';
 
   var QWeb = core.qweb;
 

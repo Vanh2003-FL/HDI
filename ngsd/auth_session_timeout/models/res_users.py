@@ -7,7 +7,7 @@ from os import utime
 from os.path import getmtime
 from time import time
 
-from odoo import api, http, models
+from odoo import models, api, _
 from odoo.http import SessionExpiredException
 
 _logger = logging.getLogger(__name__)

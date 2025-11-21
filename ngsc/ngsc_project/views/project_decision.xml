@@ -3,7 +3,7 @@
     <record id="project_decision_form" model="ir.ui.view">
         <field name="model">project.decision</field>
         <field name="arch" type="xml">
-            <form create="1" duplicate="0">
+            <form duplicate="0">
                 <header>
                     <field name="en_state" invisible="1"/>
                     <field name="sent_ok" invisible="1"/>
@@ -211,7 +211,7 @@
     <record id="project_decision_tree" model="ir.ui.view">
         <field name="model">project.decision</field>
         <field name="arch" type="xml">
-            <list create="0">
+            <list>
                 <field name="project_id"/>
                 <field name="version_number"/>
             </list>

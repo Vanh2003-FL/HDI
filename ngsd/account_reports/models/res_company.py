@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, _
 from odoo.tools.misc import DEFAULT_SERVER_DATE_FORMAT
 
 from datetime import timedelta, datetime

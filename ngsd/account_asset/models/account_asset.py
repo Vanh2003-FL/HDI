@@ -5,7 +5,7 @@ import calendar
 from dateutil.relativedelta import relativedelta
 from math import copysign
 
-from odoo import api, fields, models, _
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import UserError
 from odoo.tools import float_compare, float_is_zero, float_round
 

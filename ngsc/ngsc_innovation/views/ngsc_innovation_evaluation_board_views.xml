@@ -6,7 +6,7 @@
       <field name="name">ngsc.evaluation.board.tree</field>
       <field name="model">hr.employee</field>
       <field name="arch" type="xml">
-        <list create="false" edit="false" delete="false">
+        <list>
           <field name="barcode" string="ID"/>
           <field name="name" string="Họ và tên"/>
           <field name="job_id" string="Chức danh"/>

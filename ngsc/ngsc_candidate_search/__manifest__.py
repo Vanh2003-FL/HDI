@@ -9,7 +9,7 @@
     'author': "NGSC-DEVELOPER-TEAMS",
     'website': "http://ngsc.com.vn",
     'category': 'Human Resources',
-    'version': '0.1',
+    'version': '18.0.1.0.0',
     'depends': ['ngsc_hr_skill', 'account_reports'],
     'data': [
         # data

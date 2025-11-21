@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from odoo.exceptions import UserError, ValidationError
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _, exceptions
 
 from ..constants.constants import STATUS_ACTIVE, STATUS_INACTIVE
 

@@ -1,4 +1,4 @@
-from odoo import fields, models, api, Command
+from odoo import models, fields, api, _
 
 class ReasonForRefuseWizard(models.TransientModel):
     _name = 'reason.for.refuse.wizard'

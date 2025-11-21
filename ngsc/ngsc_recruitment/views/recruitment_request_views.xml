@@ -140,7 +140,7 @@
         <field name="name">hr.recruitment.request.tree</field>
         <field name="model">hr.recruitment.request</field>
         <field name="arch" type="xml">
-            <list create="true" delete="true" edit="true">
+            <list>
                 <field name="date_request"/>
                 <field name="department_id"/>
                 <field name="name"/>

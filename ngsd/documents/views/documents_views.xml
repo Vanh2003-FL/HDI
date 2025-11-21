@@ -55,7 +55,7 @@
         <field name="name">documents.document kanban</field>
         <field name="model">documents.document</field>
         <field name="arch" type="xml">
-            <kanban js_class="documents_kanban" create="false" sample="1">
+            <kanban js_class="documents_kanban" sample="1">
                 <field name="id"/>
                 <field name="mimetype"/>
                 <field name="favorited_ids"/>
@@ -153,7 +153,7 @@
         <field name="model">documents.document</field>
         <field name="priority" eval="1"/>
         <field name="arch" type="xml">
-            <form create="false">
+            <form>
                 <header>
                     <button type="object" name="access_content" string="Access" class="oe_highlight" invisible="url == False"/>
                     <button type="object" name="access_content" string="Download" class="oe_highlight" invisible="type != 'binary'"/>
@@ -242,7 +242,6 @@
         <field name="model">documents.document</field>
         <field name="arch" type="xml">
             <list js_class="documents_list"
-                  create="false" edit="false"
                   decoration-info="type == 'empty'"
                   sample="1">
                 <field name="id" optional="hide" groups="base.group_no_one"/>
@@ -408,7 +407,7 @@
         <field name="name">share tree</field>
         <field name="model">documents.share</field>
         <field name="arch" type="xml">
-            <list create="false" default_order="create_date desc" decoration-muted="state == 'expired'">
+            <list default_order="create_date desc" decoration-muted="state == 'expired'">
                 <header>
                     <button name="action_delete_shares" type="object" string="Delete"/>
                 </header>
@@ -427,7 +426,7 @@
         <field name="name">Share form</field>
         <field name="model">documents.share</field>
         <field name="arch" type="xml">
-            <form class="o_share_form" create="false">
+            <form class="o_share_form">
                 <sheet class="o_share_sheet">
                     <group class="o_url_group">
                         <field name="full_url" widget="CopyClipboardChar" readonly="1"/>

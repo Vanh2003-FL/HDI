@@ -5,7 +5,7 @@
             <field name="name">task.evaluation.view.tree</field>
             <field name="model">task.evaluation</field>
             <field name="arch" type="xml">
-                <list string="Đánh giá chất lượng công việc" create="0" delete="0" editable="bottom"
+                <list string="Đánh giá chất lượng công việc" editable="bottom"
                       decoration-danger="hour_actual == 0" class="o_list_view_task_evaluation">
                     <header>
                         <button name="action_confirm"

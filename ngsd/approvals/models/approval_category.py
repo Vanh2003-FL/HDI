@@ -3,7 +3,7 @@
 
 import base64
 
-from odoo import api, fields, models, tools, _
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError
 from odoo.modules.module import get_module_resource
 

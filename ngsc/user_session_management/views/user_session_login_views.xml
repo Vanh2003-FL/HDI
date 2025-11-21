@@ -5,7 +5,7 @@
         <field name="name">use.session.login.view.tree</field>
         <field name="model">user.session.login</field>
         <field name="arch" type="xml">
-            <list name="session_login_tree" create="0">
+            <list name="session_login_tree">
                 <field name="status" widget="state_selection" nolabel="1"
                        colspan="1"/>
                 <field name="name"/>
@@ -29,7 +29,7 @@
         <field name="name">user.session.login.view.form</field>
         <field name="model">user.session.login</field>
         <field name="arch" type="xml">
-            <form name="session_login_form" create="0" edit="0">
+            <form name="session_login_form">
                 <header>
                     <field name="state" widget="statusbar"/>
                 </header>

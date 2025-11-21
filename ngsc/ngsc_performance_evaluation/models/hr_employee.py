@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from odoo import fields, models, api
+from odoo import models, fields, api, _
 
 
 class HrEmployee(models.Model):

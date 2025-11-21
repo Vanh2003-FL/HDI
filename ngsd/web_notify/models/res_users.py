@@ -1,6 +1,6 @@
 # Copyright 2016 ACSONE SA/NV
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from odoo import _, api, exceptions, fields, models
+from odoo import models, fields, api, _, exceptions
 
 from odoo.addons.bus.models.bus import channel_with_db, json_dump
 # Removed for Odoo 18 compatibility - clean_action not available

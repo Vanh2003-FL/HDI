@@ -1,4 +1,4 @@
-from odoo import _, api, fields, models
+from odoo import models, fields, api, _
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, time, timedelta, date
 from pytz import timezone

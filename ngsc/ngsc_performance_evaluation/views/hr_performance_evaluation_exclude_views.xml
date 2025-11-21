@@ -65,7 +65,7 @@
                                         <field name="date_from"/>
                                         <field name="date_to"/>
                                     </list>
-                                    <form create="0" edit="0" delete="0">
+                                    <form>
                                         <sheet>
                                             <group>
                                                 <field name="employee_id"/>

@@ -1,5 +1,5 @@
 
-from odoo import models, api
+from odoo import models, api, _
 
 
 class IrActionsActWindow(models.Model):

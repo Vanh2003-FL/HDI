@@ -23,7 +23,7 @@ import pickle
 from ast import literal_eval
 from datetime import timedelta
 import odoo
-from odoo import api, fields, models
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError
 from odoo.http import request
 from odoo.tools._vendor import sessions

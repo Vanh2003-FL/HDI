@@ -2,7 +2,7 @@ import math
 import logging
 from datetime import datetime, time, timedelta
 from dateutil.relativedelta import relativedelta
-from odoo import api, fields, models
+from odoo import models, fields, api, _
 _logger = logging.getLogger(__name__)
 
 

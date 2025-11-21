@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkg_resources import require
 
-from odoo import models, fields, api, exceptions
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError, UserError
 
 READONLY_STATES = {
@@ -653,7 +653,7 @@ class ProjectDecision(models.Model):
         return super().unlink()
 
     def write(self, vals):
-        res = super(ProjectDecision, self).write(vals)
+        res = super().write(vals)
 
         if 'state' in vals and vals['state'] == 'approved':
             for rec in self:

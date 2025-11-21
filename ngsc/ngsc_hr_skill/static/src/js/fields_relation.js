@@ -1,10 +1,10 @@
 odoo.define('ngsc_hr_skill.FieldRelation', function (require) {
     "use strict";
 
-    var dialogs = require('web.view_dialogs');
-    var relational_fields = require('web.relational_fields');
+    import { dialogs } from 'web.view_dialogs';
+    import { relational_fields } from 'web.relational_fields';
     var FieldMany2One = relational_fields.FieldMany2One;
-    var core = require('web.core');
+    import { core } from 'web.core';
 
     var _t = core._t;
 

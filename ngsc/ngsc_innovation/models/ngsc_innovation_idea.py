@@ -6,7 +6,7 @@ from io import BytesIO
 import xlsxwriter
 from bs4 import BeautifulSoup
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)

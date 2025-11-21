@@ -8,7 +8,7 @@ from odoo.tools import config
 from odoo.tools import float_round
 
 _logger = logging.getLogger(__name__)
-from odoo import fields, models, api, SUPERUSER_ID
+from odoo import models, fields, api, _, exceptions
 
 
 class EnWbs(models.Model):

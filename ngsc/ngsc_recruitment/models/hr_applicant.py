@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 import logging
 
-from odoo import api, fields, models
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError, UserError
 from odoo import _
 from odoo.exceptions import RedirectWarning

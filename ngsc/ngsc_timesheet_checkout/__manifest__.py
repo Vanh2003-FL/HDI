@@ -1,8 +1,9 @@
 {
     "name": "Timesheet before Checkout Wizard",
-    "version": "1.5",
+    'version': '18.0.1.0.0',
     "summary": "Wizard hỗ trợ chấm công + timesheet khi checkout",
     "author": "Ngọc Tuấn",
+    'license': 'LGPL-3',
     "depends": ["ngs_attendance", "ngsc_project"],
     "data": [
         "security/ir.model.access.csv",

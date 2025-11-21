@@ -3,7 +3,7 @@
     <record id="quality_control_form" model="ir.ui.view">
         <field name="model">en.quality.control</field>
         <field name="arch" type="xml">
-            <form create="0">
+            <form>
                 <header>
                     <field name="en_state" invisible="1"/>
                     <field name="sent_ok" invisible="1"/>
@@ -96,7 +96,7 @@
     <record id="quality_detail_form" model="ir.ui.view">
         <field name="model">en.quality.detail</field>
         <field name="arch" type="xml">
-            <form create="0">
+            <form>
                 <sheet>
                     <group>
                         <group>

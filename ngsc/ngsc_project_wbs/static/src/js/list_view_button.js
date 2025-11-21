@@ -1,8 +1,8 @@
 odoo.define('ngsc_project_wbs.ListViewButton', function (require) {
     "use strict";
 
-    var ListView = require('web.ListView');
-    var viewRegistry = require('web.view_registry');
+    import { ListView } from 'web.ListView';
+    import { viewRegistry } from 'web.view_registry';
 
     var ListViewButton = ListView.extend({
         config: _.extend({}, ListView.prototype.config, {

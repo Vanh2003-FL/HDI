@@ -36,4 +36,5 @@
         'data/ir_cron.xml',
         'wizard/crm_lead_lost_views.xml',
     ],
+    'installable': True,
 }

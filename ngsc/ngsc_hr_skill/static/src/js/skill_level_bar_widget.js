@@ -1,8 +1,8 @@
 odoo.define('ngsc_hr_skill.skill_level_bar', function (require) {
     "use strict";
 
-    var AbstractField = require('web.AbstractField');
-    var fieldRegistry = require('web.field_registry');
+    import { AbstractField } from 'web.AbstractField';
+    import { fieldRegistry } from 'web.field_registry';
 
     var StepProgressBar = AbstractField.extend({
         template: 'StepProgressBar', supportedFieldTypes: ['integer'],

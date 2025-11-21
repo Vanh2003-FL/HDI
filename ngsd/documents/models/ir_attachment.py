@@ -3,7 +3,7 @@
 import base64
 import io
 
-from odoo import models, api
+from odoo import models, api, _
 from PyPDF2 import PdfFileWriter, PdfFileReader
 
 

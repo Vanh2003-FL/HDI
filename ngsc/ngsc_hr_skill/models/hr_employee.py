@@ -2,7 +2,7 @@
 import json
 import ast
 from lxml import etree
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 readonly_fields = {
     'name', 'image_1920', 'state_hr_employee', 'en_type_id',

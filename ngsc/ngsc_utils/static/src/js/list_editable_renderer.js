@@ -1,7 +1,7 @@
 odoo.define('ngsc_utils.list_editable_renderer', function (require) {
     "use strict";
 
-    var ListRenderer = require('web.ListRenderer');
+    import { ListRenderer } from 'web.ListRenderer';
 
     ListRenderer.include({
 

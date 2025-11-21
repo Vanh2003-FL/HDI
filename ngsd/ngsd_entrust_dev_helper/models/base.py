@@ -1,4 +1,4 @@
-from odoo import api, models, _, exceptions, fields, SUPERUSER_ID
+from odoo import models, fields, api, _, exceptions
 # Removed invalid import:
 # from odoo.osv.expression import Domain
 from odoo.addons.ngsd_entrust_dev_helper.tools.number2text import number2text_vn

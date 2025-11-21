@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from ast import literal_eval
-from odoo import models, fields, api, exceptions
+from odoo import models, fields, api, _, exceptions
 from odoo.tools.translate import _
 from odoo.tools import consteq
 import uuid

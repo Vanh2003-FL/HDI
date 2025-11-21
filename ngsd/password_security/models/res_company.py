@@ -2,7 +2,7 @@
 # Copyright 2017 Kaushal Prajapati <kbprajapati@live.com>.
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import _, api, fields, models
+from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import ValidationError
 
 

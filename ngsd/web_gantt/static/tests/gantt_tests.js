@@ -2,11 +2,11 @@ odoo.define('web_gantt.tests', function (require) {
 'use strict';
 
 const Domain = require('web.Domain');
-var GanttView = require('web_gantt.GanttView');
-var GanttRenderer = require('web_gantt.GanttRenderer');
-var GanttRow = require('web_gantt.GanttRow');
+import { GanttView } from 'web_gantt.GanttView';
+import { GanttRenderer } from 'web_gantt.GanttRenderer';
+import { GanttRow } from 'web_gantt.GanttRow';
 const SampleServer = require('web.SampleServer');
-var testUtils = require('web.test_utils');
+import { testUtils } from 'web.test_utils';
 const { createWebClient, doAction } = require('@web/../tests/webclient/helpers');
 
 const patchDate = testUtils.mock.patchDate;

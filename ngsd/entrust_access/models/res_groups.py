@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import models, fields, api, _
 
 from lxml import etree
 from lxml.builder import E

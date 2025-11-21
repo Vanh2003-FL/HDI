@@ -1,13 +1,13 @@
 odoo.define('documents.DocumentsInspectorMobile', function (require) {
 "use strict";
 
-var config = require('web.config');
+import { config } from 'web.config';
 
 if (!config.device.isMobile) {
     return;
 }
 
-var DocumentsInspector = require('documents.DocumentsInspector');
+import { DocumentsInspector } from 'documents.DocumentsInspector';
 
 DocumentsInspector.include({
     template: 'documents.DocumentsInspectorMobile',

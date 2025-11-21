@@ -1,4 +1,4 @@
-from odoo import models, api, fields
+from odoo import models, fields, api, _
 from psycopg2.extensions import AsIs
 
 # Log thêm thời gian bắt đầu request

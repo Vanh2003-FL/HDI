@@ -3,6 +3,7 @@
     'version': '18.0.1.0.0',
     'summary': 'Ghi nhận chấm công bất đồng bộ, chống bấm nút 2 lần, quy trình phê duyệt và bảo trì dữ liệu',
     'author': 'Odoo Team',
+    'license': 'LGPL-3',
     'website': 'https://erp-ngsc.com.vn/',
     'depends': ['base', 'hr', 'hr_attendance', 'web'],
     'data': [

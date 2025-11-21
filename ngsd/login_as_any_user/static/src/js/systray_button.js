@@ -1,9 +1,9 @@
 /** @odoo-module**/
 import SystrayMenu from 'web.SystrayMenu';
 import Widget from 'web.Widget';
-var session = require('web.session');
-var rpc = require('web.rpc');
-var ajax = require('web.ajax');
+import { session } from 'web.session';
+import { rpc } from 'web.rpc';
+import { ajax } from 'web.ajax';
 /**
  * We define this module for the function of wizard button
  *

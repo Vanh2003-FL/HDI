@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Đánh giá hiệu suất nhân viên',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     'category': 'HR',
     'sequence': 100,
     'summary': 'Đánh giá hiệu suất nhân viên',

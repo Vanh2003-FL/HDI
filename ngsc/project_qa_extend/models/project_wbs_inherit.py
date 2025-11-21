@@ -1,6 +1,6 @@
 from odoo.exceptions import UserError
 
-from odoo import fields, models, api
+from odoo import models, fields, api, _, exceptions
 
 
 class ProjectWbs(models.Model):

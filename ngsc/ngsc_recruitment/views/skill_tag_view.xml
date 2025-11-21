@@ -13,7 +13,7 @@
             <field name="name">ngsc.recruitment.skill.tag.tree</field>
             <field name="model">ngsc.recruitment.skill.tag</field>
             <field name="arch" type="xml">
-                <list create="true">
+                <list>
                     <field name="code"/>
                     <field name="name"/>
                     <field name="color_code" widget="color_picker"/>
@@ -27,7 +27,7 @@
             <field name="name">ngsc.recruitment.skill.tag.form</field>
             <field name="model">ngsc.recruitment.skill.tag</field>
             <field name="arch" type="xml">
-                <form string="skill" create="true">
+                <form string="skill">
                     <sheet>
                         <h1>
                             <field name="name" placeholder="Tên thẻ" string="Tên viết tắt"/>

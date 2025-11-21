@@ -7,7 +7,7 @@
             <field name="name">res.users.evaluation.board.tree</field>
             <field name="model">res.users</field>
             <field name="arch" type="xml">
-                <list string="Danh sách hội đồng đánh giá" create="false" edit="false" delete="false">
+                <list string="Danh sách hội đồng đánh giá">
                     <field name="name"/>
                     <field name="login"/>
                     <field name="email"/>

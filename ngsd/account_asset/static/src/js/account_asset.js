@@ -1,10 +1,10 @@
 odoo.define('account_asset.AssetFormView', function(require) {
 "use strict";
 
-var FormRenderer = require('web.FormRenderer');
-var FormView = require('web.FormView');
-var core = require('web.core');
-var viewRegistry = require('web.view_registry');
+import { FormRenderer } from 'web.FormRenderer';
+import { FormView } from 'web.FormView';
+import { core } from 'web.core';
+import { viewRegistry } from 'web.view_registry';
 
 var _t = core._t;
 
