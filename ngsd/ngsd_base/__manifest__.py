@@ -45,7 +45,7 @@
         # 'data/account_analytic_line_action.xml',
         'data/en_hr_overtime_action.xml',
         'data/table_criteria_api.xml',
-        'views/a.xml',
+        # 'views/a.xml',  # Temporarily disabled - contains project/wbs models not enabled
         'views/res_partner_views.xml',
         'views/message_subtypes.xml',
         'views/email_data.xml',
