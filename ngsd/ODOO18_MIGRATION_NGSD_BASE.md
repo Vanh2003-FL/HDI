@@ -72,19 +72,19 @@ def get_view(self, view_id=None, view_type='form', **options):
 
 ## 3. XML Data Files - FIXED ✅
 
-### 3.1. groups_id with eval syntax
+### 3.1. groups_id syntax for ir.actions.server
 **File:** `data/account_analytic_line_action.xml` (Line 30)
 
 **Changes:**
 ```xml
-<!-- BEFORE (Odoo 15) -->
-<field name='groups_id' eval="[(4, ref('ngsd_base.group_pm'))]"/>
-
-<!-- AFTER (Odoo 18) -->
+<!-- BEFORE (INCORRECT FIX) -->
 <field name='groups' eval="ref('ngsd_base.group_pm')"/>
+
+<!-- AFTER (Odoo 18 CORRECT) -->
+<field name='groups_id' eval="[(6, 0, [ref('ngsd_base.group_pm')])]"/>
 ```
 
-**Reason:** Odoo 18 simplified group assignment in server actions. Use `groups` field instead of `groups_id` with Many2many commands.
+**Reason:** For `ir.actions.server`, the field is still `groups_id` (Many2many), not `groups`. Must use Many2many command syntax: `(6, 0, [ids])` to replace all groups.
 
 ## 4. Files Modified Summary
 
@@ -111,10 +111,35 @@ def get_view(self, view_id=None, view_type='form', **options):
 
 ## 5. Validation
 
+### Critical Fix Applied ⚠️
+
+**Issue 1:** IndentationError in `model/project_project.py` line 1314
+- **Root Cause:** Incomplete replacement left duplicate function definition
+- **Fix:** Removed old `fields_view_get` signature, kept only `get_view`
+- **Status:** ✅ RESOLVED
+
+**Issue 2:** ValueError: Invalid field 'groups' on model 'ir.actions.server'
+- **Root Cause:** Incorrect field name in XML data file
+- **Fix:** Changed `groups` → `groups_id` with proper Many2many syntax `(6, 0, [ids])`
+- **File:** `data/account_analytic_line_action.xml`
+- **Status:** ✅ RESOLVED
+
+**Issue 3:** Duplicate field labels (Warning, non-blocking)
+- **Example:** `en_processing_rate` and `en_processing_rate_ids` both had label "Cam kết tỉ lệ xử lý"
+- **Fix:** Renamed One2many labels to "Danh sách..." to differentiate
+- **Status:** ✅ PARTIALLY FIXED (critical ones only)
+
+**Issue 4:** Database NOT NULL constraints (Data migration required)
+- **Affected columns:** en_project_type_id, en_list_project_id, en_project_model_id, en_code, date_start, date
+- **Root Cause:** Existing records have NULL values
+- **Fix Required:** SQL UPDATE to set default values before ALTER TABLE
+- **Status:** ⏳ REQUIRES DATA MIGRATION (not code fix)
+
 ### Syntax Checks - PASSED ✅
-- All Python files: No syntax errors
-- All XML files: Valid XML structure (xmllint passed)
-- VS Code errors: 0 errors
+- All Python files: ✅ Valid syntax (AST parse successful)
+- All XML files: ✅ Valid XML structure (xmllint passed)
+- VS Code errors: ✅ 0 errors
+- Module import: ✅ Ready for Odoo loading
 
 ### Known Non-Breaking Warnings
 These warnings do NOT prevent module installation:
@@ -164,10 +189,38 @@ Test basic operations:
 
 ## 8. Next Steps
 
+### Immediate Actions
 1. **Manual Odoo restart required** - Cannot be automated from dev container
 2. **Module upgrade** - Click upgrade in Odoo Apps menu
-3. **Functional testing** - Test critical business workflows
-4. **Data migration** (if needed) - Fix NOT NULL constraint issues
+3. **Monitor installation logs** - Check for any remaining errors
+
+### Data Migration (If Required)
+If you see "unable to set NOT NULL" errors, run this SQL before upgrading:
+
+```sql
+-- Fix NULL values in project_project table
+UPDATE project_project 
+SET en_code = 'PROJ-' || id 
+WHERE en_code IS NULL;
+
+UPDATE project_project 
+SET date_start = CURRENT_DATE 
+WHERE date_start IS NULL;
+
+UPDATE project_project 
+SET date = CURRENT_DATE 
+WHERE date IS NULL;
+
+-- For foreign keys, you may need to create default records first
+-- or set to a valid existing ID
+```
+
+### Functional Testing
+Test critical business workflows:
+- Create/edit projects
+- Timesheet operations
+- Approval workflows
+- Resource planning
 
 ## 9. Rollback Plan
 

@@ -1053,9 +1053,9 @@ class ProjectProject(models.Model):
       rec.en_planned_resource = rec.en_resource_id.resource_total
 
   en_response_rate_ids = fields.One2many('en.response.rate', 'project_id',
-                                         string='Cam kết tỉ lệ phản hồi')
+                                         string='Danh sách cam kết tỉ lệ phản hồi')
   en_processing_rate_ids = fields.One2many('en.processing.rate', 'project_id',
-                                           string='Cam kết tỉ lệ xử lý')
+                                           string='Danh sách cam kết tỉ lệ xử lý')
 
   def import_wbs(self):
     if self.en_wbs_ids.filtered(lambda w: w.state in ['draft', 'awaiting']):
@@ -1311,8 +1311,6 @@ class ProjectStage(models.Model):
   wbs_state = fields.Selection(related='wbs_version.state')
 
   @api.model
-  def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
-      submenu=False):
   def get_view(self, view_id=None, view_type='form', **options):
     res = super().get_view(view_id=view_id, view_type=view_type, **options)
     if view_type != 'form':
