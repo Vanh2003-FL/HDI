@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
     <record id="hr_overtime_type_tree" model="ir.ui.view">
         <field name="model">en.hr.overtime.type</field>
         <field name="arch" type="xml">
@@ -71,4 +72,5 @@
 <!--    <record id="hr_overtime_type_menu" model="ir.ui.menu">-->
 <!--        <field name="action" ref="hr_overtime_type_act"/>-->
 <!--    </record>-->
+    </data>
 </odoo>

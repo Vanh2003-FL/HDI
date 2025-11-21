@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <data>
     <record id="account_analytic_line_confirm_wizard_form" model="ir.ui.view">
         <field name="name">Xác nhận</field>
         <field name="model">account.analytic.line.confirm.wizard</field>
@@ -630,4 +631,5 @@
             (0, 0, {'view_mode': 'list', 'view_id': ref('ngsd_base.hr_timesheet_line_non_project_tree')})]"/>
     </record>
 
+    </data>
 </odoo>

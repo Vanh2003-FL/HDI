@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
     <record id="en_nonproject_task_tree" model="ir.ui.view">
         <field name="model">en.nonproject.task</field>
         <field name="arch" type="xml">
@@ -110,4 +111,5 @@
     </record>
 
 
+    </data>
 </odoo>

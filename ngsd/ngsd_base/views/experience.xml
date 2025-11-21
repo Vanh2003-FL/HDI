@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
     <record id="en_experience_tree" model="ir.ui.view">
         <field name="model">en.experience</field>
         <field name="arch" type="xml">
@@ -51,4 +52,5 @@
         <field name="action" ref="en_experience_action"/>
     </record>
 
+    </data>
 </odoo>

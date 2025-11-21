@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
     <record id="approve_role_search" model="ir.ui.view">
         <field name="model">en.approve.role</field>
         <field name="arch" type="xml">
@@ -153,4 +154,5 @@
             </form>
         </field>
     </record>
+    </data>
 </odoo>

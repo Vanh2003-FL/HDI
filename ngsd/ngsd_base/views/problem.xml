@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
     <record id="problem_level_tree" model="ir.ui.view">
         <field name="model">en.problem.level</field>
         <field name="arch" type="xml">
@@ -36,4 +37,5 @@
         <field name="action" ref="problem_priority_action"/>
     </record>
 
+    </data>
 </odoo>

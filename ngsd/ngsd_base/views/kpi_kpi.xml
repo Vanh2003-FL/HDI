@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
     <record id="kpi_kpi_search" model="ir.ui.view">
         <field name="model">en.kpi.kpi</field>
         <field name="arch" type="xml">
@@ -119,4 +120,5 @@
     <record id="kpi_kpi_menu" model="ir.ui.menu">
         <field name="action" ref="kpi_kpi_action"/>
     </record>
+    </data>
 </odoo>

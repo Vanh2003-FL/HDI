@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
     <record id="bfsi_tree" model="ir.ui.view">
         <field name="model">en.bfsi</field>
         <field name="arch" type="xml">
@@ -896,4 +897,5 @@
         <field name="res_model">en.problem</field>
         <field name="view_mode">kanban,tree,form</field>
     </record>
+    </data>
 </odoo>

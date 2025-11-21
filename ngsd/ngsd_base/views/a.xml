@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
 
     <record model="ir.actions.client" id="action_en_project_stage_line_import">
         <field name="name">Nhập Giai đoạn</field>
@@ -134,4 +135,5 @@
     </record>
 
 
+    </data>
 </odoo>

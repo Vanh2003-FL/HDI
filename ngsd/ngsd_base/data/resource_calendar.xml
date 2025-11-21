@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
     <record id="res_partner_dcsVN_quangvinh_muonnam" model="res.partner">
         <field name="name">Nội bộ</field>
         <field name="company_id" eval="False"/>
@@ -30,5 +31,6 @@
                     (0, 0, {'name': 'Sunday Afternoon', 'dayofweek': '6', 'hour_from': 12, 'hour_to': 24, 'day_period': 'afternoon'}),
                 ]"/>
         </record>
+    </data>
     </data>
 </odoo>

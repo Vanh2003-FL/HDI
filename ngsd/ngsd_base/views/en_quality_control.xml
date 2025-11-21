@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <data>
     <record id="quality_control_form" model="ir.ui.view">
         <field name="model">en.quality.control</field>
         <field name="arch" type="xml">
@@ -133,4 +134,5 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    </data>
 </odoo>
