@@ -1,7 +1,6 @@
 {
     'name': "NGS Attendance",
-    'author': 'Entrust Consulting Co.,
-    'license': 'LGPL-3', LTD - Report',
+    'author': 'Entrust Consulting Co., LTD - Report',
     'summary': '(TT)☞ Entrust Consulting (TT)',
     'depends': ['base', 'hr_attendance', 'ngsd_base', 'ngs_e_office', 'hr_attendance_geolocation'],
     'data': [

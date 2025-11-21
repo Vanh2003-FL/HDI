@@ -1,8 +1,8 @@
 odoo.define('order_line_import.import_action',function (require) {
 "use strict";
 
-import { core } from 'web.core';
-import { Model } from 'web.BasicModel';
+var core = require('web.core');
+var Model = require('web.BasicModel');
 var DataImport=require('base_import.import');
 var Dialog=require('web.Dialog');
 

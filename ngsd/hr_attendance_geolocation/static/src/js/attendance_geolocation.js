@@ -1,12 +1,12 @@
 odoo.define("hr_attendance_geolocation.attendances_geolocation", function (require) {
     "use strict";
 
-    import { MyAttendances } from 'hr_attendance.my_attendances';
-    import { KioskConfirm } from 'hr_attendance.kiosk_confirm';
+    var MyAttendances = require("hr_attendance.my_attendances");
+    var KioskConfirm = require("hr_attendance.kiosk_confirm");
     const session = require("web.session");
 
-    import { core } from 'web.core';
-    import { Dialog } from 'web.Dialog';
+    var core = require("web.core");
+    var Dialog = require("web.Dialog");
     var _t = core._t;
 
     MyAttendances.include({

@@ -1,8 +1,8 @@
 odoo.define('account_reports.activity', function (require) {
 "use strict";
 
-import { core } from 'web.core';
-import { AccountActivity } from 'account.activity';
+var core = require('web.core');
+var AccountActivity = require('account.activity');
 
 var _t = core._t;
 

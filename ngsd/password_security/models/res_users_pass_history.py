@@ -1,7 +1,7 @@
 # Copyright 2016 LasLabs Inc.
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import models, fields, _
+from odoo import fields, models
 
 
 class ResUsersPassHistory(models.Model):

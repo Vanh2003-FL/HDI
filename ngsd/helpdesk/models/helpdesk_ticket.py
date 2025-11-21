@@ -5,7 +5,7 @@ import math
 from dateutil.relativedelta import relativedelta
 from random import randint
 
-from odoo import models, fields, api, _, exceptions
+from odoo import api, Command, fields, models, tools, _
 from odoo.addons.iap.tools import iap_tools
 from odoo.exceptions import AccessError, UserError
 from datetime import datetime

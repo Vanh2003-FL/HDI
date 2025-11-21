@@ -3,7 +3,7 @@
 # date       ：
 # description:
 
-from odoo import models, fields, api, _, exceptions
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import operator
 import re

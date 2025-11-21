@@ -1,4 +1,4 @@
-from odoo import models, fields, api, _, exceptions
+from odoo import fields, models, api, exceptions, _
 
 
 class WorkLocation(models.Model):

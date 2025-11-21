@@ -1,4 +1,4 @@
-from odoo import models, fields, api, _
+from odoo import fields, models, api, Command
 import logging
 from odoo.tools import float_round
 from dateutil.relativedelta import relativedelta

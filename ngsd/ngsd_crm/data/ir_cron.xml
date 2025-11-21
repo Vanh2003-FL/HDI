@@ -7,7 +7,7 @@
         <field name="code">env['x.sale.contract.annex'].fill_en_change_ids_old_data()</field>
         <field name="interval_number">5</field>
         <field name='interval_type'>minutes</field>
-        <field name="numbercall">1</field>
+        <!-- removed numbercall: not supported in Odoo 18 -->
         <field name="nextcall" eval="DateTime.now() - relativedelta(minutes=5)"/>
         <field name="active">1</field>
     </record>
@@ -18,7 +18,7 @@
         <field name="code">env['x.sale.contract.guarantee'].re_create_guarantee()</field>
         <field name="interval_number">5</field>
         <field name='interval_type'>minutes</field>
-        <field name="numbercall">1</field>
+        <!-- removed numbercall: not supported in Odoo 18 -->
         <field name="nextcall" eval="DateTime.now() - relativedelta(minutes=5)"/>
         <field name="active">1</field>
     </record>
@@ -29,7 +29,7 @@
         <field name="code">env.cr.execute('update project_project set first_date = date;')</field>
         <field name="interval_number">5</field>
         <field name='interval_type'>minutes</field>
-        <field name="numbercall">1</field>
+        <!-- removed numbercall: not supported in Odoo 18 -->
         <field name="nextcall" eval="DateTime.now() - relativedelta(minutes=5)"/>
         <field name="active">0</field>
     </record>

@@ -4,7 +4,7 @@ from itertools import chain, repeat
 from lxml import etree
 from lxml.builder import E
 
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 from odoo.tools import partition, pycompat
 
 concat = chain.from_iterable

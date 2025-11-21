@@ -123,4 +123,5 @@
         <field name="res_model">en.borrow.employee</field>
         <field name="view_mode">tree,form</field>
     </record>
+
 </odoo>

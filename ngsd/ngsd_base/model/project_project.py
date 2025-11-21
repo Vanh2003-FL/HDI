@@ -309,8 +309,10 @@ class ProjectProject(models.Model):
   _inherit = 'project.project'
 
   @api.model
-  def get_view(self, view_id=None, view_type='form', **options):
-    res = super().get_view(view_id=view_id, view_type=view_type, **options)
+  def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+      submenu=False):
+    res = super().fields_view_get(view_id=view_id, view_type=view_type,
+                                  toolbar=toolbar, submenu=submenu)
     if view_type != 'form':
       return res
     doc = etree.XML(res['arch'])
@@ -326,7 +328,7 @@ class ProjectProject(models.Model):
                                       compute='_compute_technical_field_28187',
                                       readonly=True)
   name_partner = fields.Char('Khách hàng', related='partner_id.display_name',
-                             store=True)
+                             stored=True)
   can_view_draft = fields.Boolean(compute='_compute_can_view_draft',
                                   search='_search_can_view_draft')
 
@@ -414,7 +416,7 @@ class ProjectProject(models.Model):
                                      readonly=True)
 
   date_start = fields.Date(required=True)
-  date = fields.Date(required=True)
+  date = fields.Date(required=True, tracking=True)
   mm_rate = fields.Float(string='Đơn vị quy đổi MM', required=False)
   mm_conversion = fields.Float(string='MM quy đổi của dự án',
                                compute='_compute_mm_conversion')
@@ -486,7 +488,7 @@ class ProjectProject(models.Model):
   en_area_id = fields.Many2one(string='Khu vực', comodel_name='en.name.area')
   en_block_id = fields.Many2one(string='Khối', comodel_name='en.name.block',
                                 domain="[('area_id', '=?', en_area_id)]")
-  en_bmm_ids = fields.One2many(string='Danh sách BMM', comodel_name='en.bmm',
+  en_bmm_ids = fields.One2many(string='BMM', comodel_name='en.bmm',
                                inverse_name='project_id', compute=False,
                                store=True, readonly=False)
 
@@ -562,10 +564,10 @@ class ProjectProject(models.Model):
           [('en_mark', '=', 'b'), ('en_mark', '!=', False),
            ('user_id', '=', False)], order='en_mark asc'))
 
-  en_problem_ids = fields.One2many(string='Danh sách vấn đề',
+  en_problem_ids = fields.One2many(string='Các vấn đề',
                                    comodel_name='en.problem',
                                    inverse_name='project_id')
-  en_problem_count = fields.Integer(string='Số lượng vấn đề', compute_sudo=True,
+  en_problem_count = fields.Integer(string='Các vấn đề', compute_sudo=True,
                                     compute='_compute_en_problem_count')
   first_date = fields.Date(string='Ngày kết thúc', readonly=1, copy=False)
   old_pending_stage_id = fields.Many2one('project.project.stage', readonly=1,
@@ -685,7 +687,7 @@ class ProjectProject(models.Model):
 
   en_risk_ids = fields.One2many(string='Rủi ro/Cơ hội', comodel_name='en.risk',
                                 inverse_name='project_id')
-  en_risk_count = fields.Integer(string='Số lượng rủi ro', compute_sudo=True,
+  en_risk_count = fields.Integer(string='Rủi ro/Cơ hội', compute_sudo=True,
                                  compute='_compute_en_risk_count')
 
   @api.depends('en_risk_ids')
@@ -715,7 +717,7 @@ class ProjectProject(models.Model):
   en_folder_ids = fields.One2many(string='Thư mục',
                                   comodel_name='documents.folder',
                                   inverse_name='en_project_id')
-  en_folder_count = fields.Integer(string='Số lượng thư mục', compute_sudo=True,
+  en_folder_count = fields.Integer(string='Thư mục', compute_sudo=True,
                                    compute='_compute_en_folder_count')
 
   @api.depends('en_folder_ids')
@@ -886,8 +888,8 @@ class ProjectProject(models.Model):
     if any(rec.en_bmm <= 0 for rec in self):
       raise exceptions.ValidationError('Bạn cần phải nhập BMM cho dự án')
 
-  en_response_rate = fields.Float(string='% Cam kết phản hồi', default=0)
-  en_processing_rate = fields.Float(string='% Cam kết xử lý', default=0)
+  en_response_rate = fields.Float(string='Cam kết tỉ lệ phản hồi', default=0)
+  en_processing_rate = fields.Float(string='Cam kết tỉ lệ xử lý', default=0)
   en_code = fields.Char(string='Mã dự án', required=True)
 
   @api.constrains('en_code')
@@ -915,13 +917,13 @@ class ProjectProject(models.Model):
                                         comodel_name='en.project.model',
                                         required=True)
 
-  en_resource_ids = fields.One2many(string='Danh sách kế hoạch nguồn lực',
+  en_resource_ids = fields.One2many(string='Kế hoạch nguồn lực',
                                     comodel_name='en.resource.planning',
                                     inverse_name='project_id')
-  en_resource_count = fields.Integer(string='Số lượng KHNL',
+  en_resource_count = fields.Integer(string='Kế hoạch nguồn lực',
                                      compute_sudo=True,
                                      compute='_compute_en_resource_count')
-  en_resource_id = fields.Many2one(string='KHNL hiện tại',
+  en_resource_id = fields.Many2one(string='Kế hoạch nguồn lực',
                                    comodel_name='en.resource.planning',
                                    store=True, compute_sudo=True,
                                    compute='_compute_en_resource_count')
@@ -982,7 +984,7 @@ class ProjectProject(models.Model):
   en_document_ids = fields.One2many(string='Sản phẩm bàn giao',
                                     comodel_name='en.project.document',
                                     inverse_name='project_id')
-  en_document_count = fields.Integer(string='Số lượng sản phẩm',
+  en_document_count = fields.Integer(string='Sản phẩm bàn giao',
                                      compute_sudo=True,
                                      compute='_compute_en_document_count')
 
@@ -1040,7 +1042,7 @@ class ProjectProject(models.Model):
                                       string='Hiển thị nút import')
   show_import_button_viewer = fields.Boolean(related='show_import_button',
                                              groups=False,
-                                             string='Xem nút import')
+                                             string='Hiển thị nút import')
 
   @api.depends('en_resource_id')
   def _compute_en_md_resource(self):
@@ -1053,9 +1055,9 @@ class ProjectProject(models.Model):
       rec.en_planned_resource = rec.en_resource_id.resource_total
 
   en_response_rate_ids = fields.One2many('en.response.rate', 'project_id',
-                                         string='Danh sách cam kết tỉ lệ phản hồi')
+                                         string='Cam kết tỉ lệ phản hồi')
   en_processing_rate_ids = fields.One2many('en.processing.rate', 'project_id',
-                                           string='Danh sách cam kết tỉ lệ xử lý')
+                                           string='Cam kết tỉ lệ xử lý')
 
   def import_wbs(self):
     if self.en_wbs_ids.filtered(lambda w: w.state in ['draft', 'awaiting']):
@@ -1100,7 +1102,7 @@ class ProjectProject(models.Model):
 
   en_project_vicepm_id = fields.Many2one('res.users', 'Vice PM (old)')
   en_project_vicepm_ids = fields.Many2many('res.users',
-                                           relation="project_project_en_project_vicepm_rel",
+                                           relattion="project_project_en_project_vicepm_rel",
                                            string='Vice PM')
 
   def _compute_pm_project(self):
@@ -1311,8 +1313,10 @@ class ProjectStage(models.Model):
   wbs_state = fields.Selection(related='wbs_version.state')
 
   @api.model
-  def get_view(self, view_id=None, view_type='form', **options):
-    res = super().get_view(view_id=view_id, view_type=view_type, **options)
+  def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+      submenu=False):
+    res = super().fields_view_get(view_id=view_id, view_type=view_type,
+                                  toolbar=toolbar, submenu=submenu)
     if view_type != 'form':
       return res
     doc = etree.XML(res['arch'])
@@ -1781,8 +1785,10 @@ class Workpackage(models.Model):
   wbs_state = fields.Selection(related='wbs_version.state')
 
   @api.model
-  def get_view(self, view_id=None, view_type='form', **options):
-    res = super().get_view(view_id=view_id, view_type=view_type, **options)
+  def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+      submenu=False):
+    res = super().fields_view_get(view_id=view_id, view_type=view_type,
+                                  toolbar=toolbar, submenu=submenu)
     if view_type != 'form':
       return res
     doc = etree.XML(res['arch'])
@@ -2171,8 +2177,10 @@ class Wbs(models.Model):
     return client_action
 
   @api.model
-  def get_view(self, view_id=None, view_type='form', **options):
-    res = super().get_view(view_id=view_id, view_type=view_type, **options)
+  def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+      submenu=False):
+    res = super().fields_view_get(view_id=view_id, view_type=view_type,
+                                  toolbar=toolbar, submenu=submenu)
     if view_id != self.env.ref('ngsd_base.wbs_form_create_popup').id:
       return res
     doc = etree.XML(res['arch'])
@@ -2509,7 +2517,12 @@ class Wbs(models.Model):
         rec.technical_field_after = 0
 
   user_id = fields.Many2one(string='Người phụ trách', comodel_name='res.users',
-                            required=True, readonly=True)
+                            required=True,
+                            states={
+                              'approved': [('readonly', True)],
+                              'inactive': [('readonly', True)],
+                              'refused': [('readonly', True)],
+                            })
 
   @api.onchange('project_id')
   def en_onchange_project_id(self):
@@ -2552,7 +2565,6 @@ class Wbs(models.Model):
                                      domain="[('project_id', '=', project_id),('state','=','approved')]",
                                      comodel_name='en.resource.planning',
                                      required=False,
-                                     store=True,
                                      compute='_compute_resource_plan')
   planned_resource = fields.Float(string='Tổng nguồn lực (MM)', default=0,
                                   compute_sudo=True,
@@ -2578,7 +2590,10 @@ class Wbs(models.Model):
   workpackage_ids = fields.One2many(string='Gói công việc',
                                     comodel_name='en.workpackage',
                                     inverse_name='wbs_version',
-                                    readonly=True)
+                                    states={
+                                      'refused': [('readonly', True)],
+                                      'inactive': [('readonly', True)],
+                                    })
 
   project_stage_ids = fields.One2many(string='Giai đoạn',
                                       comodel_name='en.project.stage',
@@ -2965,7 +2980,7 @@ class Risk(models.Model):
                                     comodel_name='en.effect.level',
                                     required=True)
   risk_level_id = fields.Many2one(string='Mức độ rủi ro/cơ hội',
-                                  comodel_name='en.risk.level',
+                                  comodel_name='en.risk.level', tracking=True,
                                   compute='compute_to_risk_level', store=True)
   risk_level_priority = fields.Selection(related='risk_level_id.priority')
   priority = fields.Selection(string='Mức độ ưu tiên',
@@ -3060,7 +3075,7 @@ class RiskLeftOver(models.Model):
                                default=lambda self: fields.Date.today(),
                                required=True)
   risk_level_id = fields.Many2one(string='Mức độ rủi ro/cơ hội',
-                                  comodel_name='en.risk.level',
+                                  comodel_name='en.risk.level', tracking=True,
                                   required=True)
   pic_id = fields.Many2one(string='Người chịu trách nhiệm',
                            comodel_name='res.users',
@@ -3089,12 +3104,14 @@ class EnRiskSolution(models.Model):
   risk_id = fields.Many2one('en.risk', string='Rủi ro/ Cơ hội', required=1,
                             ondelete='cascade', readonly=1)
   risk_level_id = fields.Many2one(related='risk_id.risk_level_id')
-  name = fields.Text('Biện pháp', required=1, readonly=True)
+  name = fields.Text('Biện pháp', required=1, readonly=True,
+                     states={'draft': [('readonly', False)]})
   state = fields.Selection(
       selection=[('draft', 'Mới'), ('to_approve', 'Chờ duyệt'),
                  ('approved', 'Đã duyệt'), ('refused', 'Từ chối')], required=1,
       default='draft', string='Trạng thái', readonly=1)
-  note = fields.Text('Ghi chú', readonly=True)
+  note = fields.Text('Ghi chú', readonly=True,
+                     states={'draft': [('readonly', False)]})
 
 
 class EnResponseRate(models.Model):

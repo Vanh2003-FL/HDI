@@ -3,8 +3,8 @@
 odoo.define("password_security.signup.policy", function (require) {
     "use strict";
 
-    import { policy } from 'auth_password_policy';
-    import { PasswordMeter } from 'auth_password_policy.Meter';
+    var policy = require("auth_password_policy");
+    var PasswordMeter = require("auth_password_policy.Meter");
     // Wait until auth_password_policy_signup.policy is done
     require("auth_password_policy_signup.policy");
 

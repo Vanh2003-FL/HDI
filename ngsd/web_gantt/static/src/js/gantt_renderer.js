@@ -1,13 +1,13 @@
 odoo.define('web_gantt.GanttRenderer', function (require) {
 "use strict";
 
-import { AbstractRenderer } from 'web.AbstractRenderer';
-import { config } from 'web.config';
-import { core } from 'web.core';
-import { GanttRow } from 'web_gantt.GanttRow';
-import { qweb } from 'web.QWeb';
-import { session } from 'web.session';
-import { utils } from 'web.utils';
+var AbstractRenderer = require('web.AbstractRenderer');
+var config = require('web.config');
+var core = require('web.core');
+var GanttRow = require('web_gantt.GanttRow');
+var qweb = require('web.QWeb');
+var session = require('web.session');
+var utils = require('web.utils');
 
 var QWeb = core.qweb;
 var _t = core._t;

@@ -1,7 +1,7 @@
 odoo.define('web_cohort.MockServer', function (require) {
 'use strict';
 
-import { MockServer } from 'web.MockServer';
+var MockServer = require('web.MockServer');
 
 MockServer.include({
     //--------------------------------------------------------------------------

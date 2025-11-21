@@ -38,7 +38,7 @@ class EnLenderEmployee(models.Model):
     ('pending', 'Chưa bàn giao'),
     ('done', 'Đã bàn giao'),
     ('cancel', 'Hủy'),
-  ], required=False, default='pending')
+  ], required=False, default='pending', tracking=True)
   borrow_employee_id = fields.Many2one('en.borrow.employee', 'Mã phiếu mượn',
                                        ondelete='cascade')
   lender_employee_ids = fields.One2many('en.lender.employee.detail',

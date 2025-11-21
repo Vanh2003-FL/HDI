@@ -1,5 +1,5 @@
 from itertools import chain, repeat
-from odoo import models, fields, api, _
+from odoo import api, fields, models, _
 
 concat = chain.from_iterable
 

@@ -1,8 +1,8 @@
 odoo.define("ngsd_base.relational_fields", function (require) {
     "use strict";
-    import { core } from 'web.core';
+    var core = require('web.core');
     var _t = core._t;
-    import { concurrency } from 'web.concurrency';
+    var concurrency = require('web.concurrency');
     const RelationalFields = require('web.relational_fields');
     RelationalFields.FieldMany2One.include({
     init: function (parent, name, record, options) {

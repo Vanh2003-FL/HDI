@@ -2,10 +2,10 @@
 odoo.define('month_year_widget.month_year_format', function (require) {
     "use strict";
 
-    import { fieldRegistry } from 'web.field_registry';
+    var fieldRegistry = require('web.field_registry');
     var DateWidget = require('web.datepicker').DateWidget;
     var FieldDate = require('web.basic_fields').FieldDate;
-    import { time } from 'web.time';
+    var time = require('web.time');
 
 
     // Modified DateWidget to be used used for month and years

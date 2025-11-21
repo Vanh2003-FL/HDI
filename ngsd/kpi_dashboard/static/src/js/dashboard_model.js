@@ -1,7 +1,7 @@
 odoo.define("kpi_dashboard.DashboardModel", function (require) {
     "use strict";
 
-    import { BasicModel } from 'web.BasicModel';
+    var BasicModel = require("web.BasicModel");
 
     var DashboardModel = BasicModel.extend({
         _fetchRecord: function (record) {

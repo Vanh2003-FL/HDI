@@ -1,5 +1,5 @@
 from werkzeug.useragents import UserAgent
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 from datetime import datetime, date, time, timedelta
 
 from odoo.http import request

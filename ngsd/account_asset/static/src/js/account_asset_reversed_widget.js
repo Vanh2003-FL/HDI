@@ -9,9 +9,9 @@ odoo.define('account_asset.widget', function(require) {
  * model as some of its fields are harcoded.
  */
 
-import { AbstractField } from 'web.AbstractField';
-import { core } from 'web.core';
-import { registry } from 'web.field_registry';
+var AbstractField = require('web.AbstractField');
+var core = require('web.core');
+var registry = require('web.field_registry');
 
 var _t = core._t;
 

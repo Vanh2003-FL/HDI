@@ -9,7 +9,7 @@ from pytz import timezone, UTC
 from lxml import etree
 import json
 from odoo.exceptions import AccessError, UserError, ValidationError
-from odoo.osv.expression import TRUE_LEAF, FALSE_LEAF
+# Domain, TRUE_LEAF, FALSE_LEAF removed - not available in Odoo 18
 
 READONLY_STATES = {
     'approved': [('readonly', True)],
@@ -75,7 +75,8 @@ def new_write(self, vals):
         recurrence_domain = []
         if recurrence_update == 'subsequent':
             for task in self:
-                recurrence_domain = Domain.OR([recurrence_domain, ['&', ('recurrence_id', '=', task.recurrence_id.id), ('create_date', '>=', task.create_date)]])
+                # Combine domains using OR operator
+                recurrence_domain = recurrence_domain + ['|', ('recurrence_id', '=', task.recurrence_id.id), ('create_date', '>=', task.create_date)]
         else:
             recurrence_domain = [('recurrence_id', 'in', self.recurrence_id.ids)]
         tasks |= self.env['project.task'].search(recurrence_domain)
@@ -335,7 +336,6 @@ class HrLeave(models.Model):
     leave_manager_id = fields.Many2one(related='employee_id.leave_manager_id', string='Người phê duyệt')
     project_id = fields.Many2one('project.project', string='Dự án')
     can_approve = fields.Boolean(compute_sudo=True)
-    en_area_id = fields.Many2one(related='employee_id.en_area_id')
     employee_barcode = fields.Char(string='Mã nhân viên', related='employee_id.barcode', store=True)
     state = fields.Selection(compute=False, default='draft')
     reason_refused = fields.Char('Lý do từ chối', readonly=1)
@@ -754,8 +754,8 @@ class ProjectTask(models.Model):
     wbs_state = fields.Selection(related='en_task_position.wbs_version.state')
 
     @api.model
-    def get_view(self, view_id=None, view_type='form', **options):
-        res = super().get_view(view_id=view_id, view_type=view_type, **options)
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        res = super().fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
         if view_type != 'form':
             return res
         doc = etree.XML(res['arch'])
@@ -797,7 +797,7 @@ class ProjectTask(models.Model):
                         technical_field_27058 = workperiod_hours / workmonth_hours
             rec.technical_field_27058 = min(technical_field_27058, 1)
 
-    parent_id = fields.Many2one()
+    parent_id = fields.Many2one(tracking=True)
 
     @api.depends('timesheet_ids.ot_time', 'timesheet_ids.en_state', 'timesheet_ids.ot_state', 'timesheet_ids.unit_amount')
     def _compute_effective_hours(self):
@@ -814,7 +814,7 @@ class ProjectTask(models.Model):
         for rec in self:
             rec.technical_field_27026 = rec.project_id.en_resource_project_ids.mapped('employee_id.user_id')
 
-    en_task_position = fields.Many2one(string='Gói công việc', comodel_name='en.workpackage', ondelete='cascade', required=True, domain="[('id','in',en_task_position_ids)]")
+    en_task_position = fields.Many2one(string='Gói công việc', comodel_name='en.workpackage', ondelete='cascade', required=True, tracking=True, domain="[('id','in',en_task_position_ids)]")
     en_wbs_id = fields.Many2one(related='en_task_position.wbs_version', store=True)
     en_wbs_old_id = fields.Many2one('en.wbs', 'Phiên bản wbs cũ', copy=False)
     en_wbs_state = fields.Selection(related='en_task_position.wbs_version.state', store=True)
@@ -842,7 +842,7 @@ class ProjectTask(models.Model):
         for rec in self:
             rec.technical_field_27450 = rec.project_id.en_resource_project_ids.mapped('employee_id.user_id')
 
-    en_handler = fields.Many2one(string='Người chịu trách nhiệm', comodel_name='res.users', required=False)
+    en_handler = fields.Many2one(string='Người chịu trách nhiệm', comodel_name='res.users', required=False, tracking=True)
     en_task_code = fields.Char(string='Mã công việc', readonly=True, copy=False, compute_sudo=True, compute='_compute_en_task_code', store=True)
     seq_id = fields.Integer(string='💰', default=lambda self: int(self.env['ir.sequence'].next_by_code('seq.id')), copy=False)
     origin_code = fields.Char(string='Mã gốc', readonly=True, copy=True)
@@ -885,7 +885,7 @@ class ProjectTask(models.Model):
             rec.en_task_code = f"T.{sequence}"
 
     en_start_date = fields.Date(string='Ngày bắt đầu', required=True)
-    en_progress = fields.Float(string='% Hoàn thành', default=0, required=True)
+    en_progress = fields.Float(string='% Hoàn thành', default=0, required=True, tracking=True)
     en_open_date = fields.Datetime(string='Ngày bắt đầu thực tế', compute_sudo=True, compute='_compute_en_open_date', store=True, readonly=False, copy=False) # tạm thời bỏ readonly
 
     @api.constrains('en_progress')
@@ -1024,7 +1024,7 @@ class ProjectTask(models.Model):
     related_task_id = fields.Many2one('project.task', readonly=1, copy=False)
     project_id = fields.Many2one('project.project', string='Project',
                                  compute='_compute_project_id', recursive=True, store=True, readonly=False,
-                                 index=True, check_company=True, change_default=True)
+                                 index=True, tracking=True, check_company=True, change_default=True)
 
     @api.depends('parent_id.project_id', 'en_task_position.project_id')
     def _compute_project_id(self):
@@ -1075,7 +1075,7 @@ class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
     request_date = fields.Datetime("Thời gian gửi phê duyệt", readonly=True, copy=False)
-    approver = fields.Char(string='Tên người duyệt', size=32, required=False, readonly=True, copy=False)
+    approver = fields.Char(string='Người phê duyệt', size=32, required=False, readonly=True, copy=False)
     approve_date = fields.Datetime("Thời gian phê duyệt", readonly=True, copy=False)
 
     @api.model
@@ -1274,7 +1274,7 @@ class AccountAnalyticLine(models.Model):
     ot_date_from = fields.Datetime('Bắt đầu OT', related='ot_id.date_from')
     ot_date_to = fields.Datetime('Kết thúc OT', related='ot_id.date_to')
 
-    en_sent_ok = fields.Boolean(string='✅ Gửi', compute='_compute_en_sent_ok')
+    en_sent_ok = fields.Boolean(string='💰', compute='_compute_en_sent_ok')
 
     @api.depends_context('uid')
     @api.depends('employee_id')
@@ -1282,7 +1282,7 @@ class AccountAnalyticLine(models.Model):
         for rec in self:
             rec.en_sent_ok = rec.employee_id == self.env.user.employee_id
 
-    en_approve_ok = fields.Boolean(string='✅ Duyệt', compute='_compute_en_approve_ok')
+    en_approve_ok = fields.Boolean(string='💰', compute='_compute_en_approve_ok')
 
     @api.depends_context('uid')
     @api.depends('en_approver_id')

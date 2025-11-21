@@ -16,7 +16,7 @@ import logging
 from werkzeug.routing import Map, Rule
 
 import odoo
-from odoo import models, api, _
+from odoo import http, models
 
 from odoo.addons.component.core import WorkContext
 

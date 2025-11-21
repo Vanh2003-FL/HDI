@@ -1,11 +1,11 @@
 odoo.define("kpi_dashboard.KpiFieldWidget", function (require) {
     "use strict";
 
-    import { basic_fields } from 'web.basic_fields';
-    import { field_registry } from 'web.field_registry';
-    import { core } from 'web.core';
+    var basic_fields = require("web.basic_fields");
+    var field_registry = require("web.field_registry");
+    var core = require("web.core");
     var qweb = core.qweb;
-    import { registry } from 'kpi_dashboard.widget_registry';
+    var registry = require("kpi_dashboard.widget_registry");
 
     var KpiFieldWidget = basic_fields.FieldChar.extend({
         jsLibs: ["/kpi_dashboard/static/lib/gridster/jquery.dsmorse-gridster.min.js"],

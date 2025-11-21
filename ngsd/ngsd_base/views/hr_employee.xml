@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Commented out for Odoo 18 compatibility - hr_holidays module renamed to hr_leave -->
-    <!-- <record id="hr_holidays.act_hr_employee_holiday_request" model="ir.actions.server">
-        <field name="binding_model_id"></field>
-    </record>
-    <record id="hr_holidays.action_hr_holidays_by_employee_and_type_report" model="ir.actions.server">
-        <field name="binding_model_id"></field>
-    </record> -->
-
+  <data>
     <record id="view_employee_filter_inherit" model="ir.ui.view">
       <field name="name">hr.employee.search.inherit</field>
       <field name="model">hr.employee</field>
@@ -30,21 +23,6 @@
           <field name="department_id"/>
           <field name="en_department_id"/>
         </xpath>
-        <!-- Commented out for Odoo 18 compatibility - filter may not exist -->
-        <!-- <xpath expr="//filter[@name='newly_hired_employee']" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </xpath> -->
-        <!-- Commented out for Odoo 18 compatibility - filters may not exist -->
-        <!-- <xpath expr="//filter[@name='with_contract_warning']" position="before">
-            <filter string="Hoạt động" name="active" domain="[('active', '=', True)]"/>
-            <filter string="Nghỉ" name="inactive" domain="[('en_status', '=', 'inactive'), ('active', 'in', [True, False])]"/>
-            <filter string="Nghỉ dài hạn" name="semi-inactive" domain="[('en_status', '=', 'semi-inactive')]"/>
-        </xpath> -->
-        <!-- <xpath expr="//filter[@name='group_manager']" position="after">
-            <filter name="group_by_en_type_id" string="Loại" domain="[]" context="{'group_by': 'en_type_id'}"/>
-            <filter name="group_by_en_area_id" string="Khu vực" domain="[]" context="{'group_by': 'en_area_id'}"/>
-            <filter name="group_by_en_block_id" string="Khối" domain="[]" context="{'group_by': 'en_block_id'}"/>
-        </xpath> -->
       </field>
     </record>
 
@@ -77,21 +55,6 @@
           </notebook>
 
         </xpath>
-        <!-- Commented out for Odoo 18 compatibility - buttons may not exist or have different names -->
-        <!--
-        <xpath expr="//button[@name='action_confirm']" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </xpath>
-        <xpath expr="//button[@name='action_approve']" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </xpath>
-        <xpath expr="//button[@name='action_refuse']" position="attributes">
-            <attribute name="invisible">1</attribute>
-        </xpath>
-        <xpath expr="//button[@name='action_draft']" position="attributes">
-            <attribute name="invisible">can_reset == False</attribute>
-        </xpath>
-        -->
         <xpath expr="//field[@name='holiday_status_id']" position="attributes">
           <attribute name="readonly">state not in ['draft']</attribute>
         </xpath>
@@ -143,9 +106,6 @@
           <attribute name="required">1</attribute>
         </xpath>
 
-        <!--                <xpath expr="//sheet" position="inside">-->
-        <!--                    <field name="leave_manager_id" string="Người phê duyệt"/>-->
-        <!--                </xpath>-->
         <xpath expr="//header" position="inside">
           <field name="sent_ok" invisible="1"/>
           <field name="approve_ok" invisible="1"/>
@@ -155,6 +115,7 @@
         </xpath>
       </field>
     </record>
+
     <record id="hr_leave_view_form_popup_inherit" model="ir.ui.view">
       <field name="name">hr.leave.form</field>
       <field name="model">hr.leave</field>
@@ -184,6 +145,7 @@
         </xpath>
       </field>
     </record>
+
     <record id="ngs_hr_leave_view_dashboard" model="ir.ui.view">
       <field name="name">ngs_hr_leave_view_dashboard</field>
       <field name="model">hr.leave</field>
@@ -240,18 +202,6 @@
           <attribute name="invisible">1</attribute>
           <attribute name="groups"></attribute>
         </button>
-        <!-- Commented out for Odoo 18 compatibility - tree structure may have changed -->
-        <!-- <xpath expr="//list" position="inside">
-            <header>
-                <button string="Duyệt nghỉ phép" type="object" class="btn-primary" name="button_mass_approved" groups="hr.group_hr_manager"/>
-            </header>
-            <field name="sent_ok" invisible="1"/>
-            <field name="approve_ok" invisible="1"/>
-            <button string="Gửi duyệt" type="object" class="btn-primary" name="button_to_approve" invisible="state != 'draft' or not sent_ok"/>
-            <button string="Duyệt" type="object" class="btn-primary" name="button_approved" invisible="state != 'confirm' or not approve_ok"/>
-            <button string="Từ chối" type="object" name="button_refused" invisible="state != 'confirm' or not approve_ok"/>
-        </xpath> -->
-
       </field>
     </record>
 
@@ -278,6 +228,7 @@
         </list>
       </field>
     </record>
+
     <record id="view_employee_tree_hr" model="ir.ui.view">
       <field name="inherit_id" ref="view_employee_tree"/>
       <field name="mode">primary</field>
@@ -299,10 +250,10 @@
       <field name="arch" type="xml">
         <form string="Employee" js_class="hr_employee_form" class='o_employee_form_popup'>
           <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
+            <field name="message_follower_ids"/>
+            <field name="activity_ids"/>
+            <field name="message_ids"/>
+          </div>
         </form>
       </field>
     </record>
@@ -310,7 +261,6 @@
     <record id="view_department_form" model="ir.ui.view">
       <field name="inherit_id" ref="hr.view_department_form"/>
       <field name="arch" type="xml">
-        <!-- Thêm field sau company_id -->
         <field name="company_id" position="after">
           <field name="en_os"/>
           <field name="is_support"/>
@@ -320,97 +270,22 @@
           <field name="no_check_lender"/>
         </field>
 
-        <!-- Thêm field code sau name -->
         <field name="name" position="after">
           <field name="code"/>
         </field>
 
-        <!-- Thêm deputy_manager_id sau manager_id -->
         <field name="manager_id" position="after">
           <field name="deputy_manager_id"/>
         </field>
 
-        <!-- Đổi label của field name -->
         <xpath expr="//field[@name='name']" position="attributes">
           <attribute name="string">Tên Trung tâm/Ban</attribute>
         </xpath>
 
-        <!-- Thêm notebook vào cuối sheet, trước chatter -->
         <xpath expr="//sheet" position="inside">
           <group string="Phòng ban">
             <field name="en_department_ids" nolabel="1"/>
           </group>
-
-          <!-- Comment out for Odoo 18 - Các trường không tồn tại trong mô hình -->
-          <!-- <notebook>
-            <page string="Nhân sự đang cho mượn">
-              <field name="employee_lender_ids" readonly="1">
-                <list>
-                  <field name="borrow_department_id" string="Trung tâm đang mượn"/>
-                  <field name="employee_id"/>
-                  <field name="email"/>
-                  <field name="job_position_id"/>
-                  <field name="level_id"/>
-                  <field name="date_start"/>
-                  <field name="date_end"/>
-                  <field name="workload" widget="percentage"/>
-                  <field name="state"/>
-                </list>
-                <form>
-                  <sheet>
-                    <group>
-                      <group>
-                        <field name="employee_id"/>
-                        <field name="email"/>
-                        <field name="department_id" string="Trung tâm của nhân sự"/>
-                        <field name="job_position_id"/>
-                        <field name="level_id"/>
-                      </group>
-                      <group>
-                        <field name="borrow_department_id" string="Trung tâm đang mượn"/>
-                        <field name="date_start"/>
-                        <field name="date_end"/>
-                        <field name="workload" widget="percentage"/>
-                      </group>
-                    </group>
-                  </sheet>
-                </form>
-              </field>
-            </page>
-            <page string="Nhân sự mượn từ trung tâm khác">
-              <field name="employee_borrow_ids" readonly="1">
-                <list>
-                  <field name="department_id" string="Mượn từ trung tâm"/>
-                  <field name="employee_id"/>
-                  <field name="email"/>
-                  <field name="job_position_id"/>
-                  <field name="level_id"/>
-                  <field name="date_start"/>
-                  <field name="date_end"/>
-                  <field name="workload" widget="percentage"/>
-                  <field name="state"/>
-                </list>
-                <form>
-                  <sheet>
-                    <group>
-                      <group>
-                        <field name="employee_id"/>
-                        <field name="email"/>
-                        <field name="job_position_id"/>
-                        <field name="level_id"/>
-                      </group>
-                      <group>
-                        <field name="department_id" string="Mượn từ trung tâm"/>
-                        <field name="date_start"/>
-                        <field name="date_end"/>
-                        <field name="workload" widget="percentage"/>
-                      </group>
-                    </group>
-                  </sheet>
-                </form>
-              </field>
-            </page>
-          </notebook> -->
         </xpath>
       </field>
     </record>
@@ -424,41 +299,10 @@
       </field>
     </record>
 
-    <!-- Commented out for Odoo 18 compatibility - action may not exist -->
-    <!-- <record id="hr_holidays.hr_leave_action_action_approve_department" model="ir.actions.act_window">
-        <field name="context">{'hide_employee_name': 1, 'create': 0, 'search_default_my_confirm': 1}</field>
-    </record> -->
-
     <record id="hr_leave_view_form_manager" model="ir.ui.view">
       <field name="mode">extension</field>
       <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
       <field name="arch" type="xml">
-        <!-- Comment out for Odoo 18 - employee_ids field không tồn tại -->
-        <!-- <field name="employee_ids" position="replace"/>
-        <field name="employee_ids" position="attributes">
-          <attribute name="required">holiday_type == 'employee'</attribute>
-          <attribute name="invisible">holiday_type != 'employee' or (state == 'validate' and employee_id != False)</attribute>
-          <attribute name="groups"></attribute>
-        </field> -->
-        <!-- Comment out for Odoo 18 - Các trường này có thể không tồn tại hoặc đã thay đổi -->
-        <!-- <field name="employee_id" position="attributes">
-          <attribute name="groups"></attribute>
-        </field>
-        <field name="holiday_type" position="attributes">
-          <attribute name="groups"></attribute>
-        </field>
-        <field name="mode_company_id" position="attributes">
-          <attribute name="groups"></attribute>
-        </field>
-        <field name="category_id" position="attributes">
-          <attribute name="groups"></attribute>
-        </field>
-        <field name="department_id" position="attributes">
-          <attribute name="groups"></attribute>
-        </field>
-        <field name="name" position="attributes">
-          <attribute name="readonly">state in ['confirm','validate']</attribute>
-        </field> -->
       </field>
     </record>
 
@@ -599,7 +443,6 @@
           <field name="mobile_phone" position="move"/>
           <field name="work_phone" position="move"/>
           <field name="parent_id" position="move"/>
-          <!--                    <field name="leave_manager_id" position="move"/>-->
           <field name="coach_id" position="move"/>
           <field name="company_id" position="move"/>
         </field>
@@ -628,7 +471,7 @@
             string="Thông tin nguồn lực" type="object"/>
           <button name="en_button_layoff" string="Nghỉ việc" invisible="en_status == 'inactive'" groups="ngsd_base.group_tpvh,ngsd_base.group_gdkndu,ngsd_base.group_userhr" type="object"/>
           <button name="button_show_history" string="Lịch sử" type="object"/>
-          <button name="button_user_reset_password" string="Gửi email đặt mặt khẩu" groups="base.group_system,ngsd_base.group_userhr" type="object"/>
+          <button name="button_user_reset_password" string="Gửi email đặt mật khẩu" groups="base.group_system,ngsd_base.group_userhr" type="object"/>
           <button name="button_user_reset_login_failed_number" string="Mở khóa" groups="base.group_system,ngsd_base.group_userhr" type="object"/>
           <field name="en_status" widget="statusbar"/>
         </header>
@@ -894,6 +737,7 @@
       <field name="state">code</field>
       <field name="code">action = model.check_x_support_history()</field>
     </record>
+
     <record model="ir.actions.server" id="action_noti_not_target_year">
       <field name="name">Thông báo Chưa đạt chỉ tiêu năm</field>
       <field name="model_id" ref="hr.model_hr_employee"/>
@@ -901,6 +745,7 @@
       <field name="state">code</field>
       <field name="code">action = model.noti_not_target_year()</field>
     </record>
+
     <record id="hr_employee_layoff_wizard_form" model="ir.ui.view">
       <field name="model">hr.employee.layoff.wizard</field>
       <field name="arch" type="xml">
@@ -961,7 +806,7 @@
       <field name="name">timesheet.general.view.calendar</field>
       <field name="model">timesheet.general</field>
       <field name="arch" type="xml">
-        <calendar string="" js_class="timesheet_general" color="color" date_start="date" mode="month">
+        <calendar string="" js_class="timesheet_general" color="color" date_start="date" mode="month" create="0" delete="0">
           <field name="text_content" nolabel="1" invisible="type in ('leave_approved',)"/>
           <field name="color" invisible="1"/>
           <field name="type" invisible="1"/>
@@ -1005,6 +850,7 @@
         }
       </field>
     </record>
+
     <record id="change_lock_license_create_action_server" model="ir.actions.server">
       <field name="name">Thay đổi ngày khóa khai timesheet</field>
       <field name="model_id" ref="hr.model_hr_employee"/>
@@ -1026,6 +872,7 @@
       </field>
       <field name="groups" value="ngsd_base.ngs_lock_timesheet_group"/>
     </record>
+
     <record id="change_lock_license_approve_action_server" model="ir.actions.server">
       <field name="name">Thay đổi ngày khóa duyệt timesheet</field>
       <field name="model_id" ref="hr.model_hr_employee"/>
@@ -1063,6 +910,7 @@
         </list>
       </field>
     </record>
+
     <record id="pay_grade_tree" model="ir.ui.view">
       <field name="name">pay.grade.tree</field>
       <field name="model">pay.grade</field>
@@ -1108,5 +956,5 @@
                           ]"/>
 
     </record>
-
+  </data>
 </odoo>

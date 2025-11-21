@@ -1,9 +1,9 @@
 odoo.define("kpi_dashboard.NumberWidget", function (require) {
     "use strict";
 
-    import { IntegerWidget } from 'kpi_dashboard.IntegerWidget';
-    import { registry } from 'kpi_dashboard.widget_registry';
-    import { field_utils } from 'web.field_utils';
+    var IntegerWidget = require("kpi_dashboard.IntegerWidget");
+    var registry = require("kpi_dashboard.widget_registry");
+    var field_utils = require("web.field_utils");
 
     var NumberWidget = IntegerWidget.extend({
         digits: [3, 1],

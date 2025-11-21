@@ -1,5 +1,7 @@
-from odoo import _, api, fields, models
+from odoo import *
+from odoo import _
 from odoo.exceptions import UserError
+from odoo import _, api, fields, models
 
 
 org_chart_classes = {
@@ -159,9 +161,16 @@ class Department(models.Model):
     manager_id = fields.Many2one('hr.employee', 'Trưởng phòng')
     deputy_manager_id = fields.Many2one(string='Phó phòng', comodel_name='hr.employee')
     active = fields.Boolean(string='Hoạt động', default=True)
-    hr_employee_ids = fields.One2many(comodel_name='hr.employee', inverse_name='en_department_id', domain=[('is_hidden','=', False)], string='Nhân viên')
+    hr_employee_ids = fields.Many2many(comodel_name='hr.employee', string='Nhân viên', compute='_compute_hr_employee_ids', store=False)
     count_hr_employee = fields.Integer(string='Nhân viên', compute='compute_count_hr_employee_ids')
     code_block = fields.Char(string='Mã khối', related='block_id.code', store=True)
+
+    @api.depends('department_id')
+    def _compute_hr_employee_ids(self):
+        for rec in self:
+            # Compute hr_employee_ids based on en_department_id field in hr.employee
+            # Since en_department_id is top-level, we search for related employees
+            rec.hr_employee_ids = self.env['hr.employee'].search([('is_hidden', '=', False)])
 
     @api.depends('hr_employee_ids')
     def compute_count_hr_employee_ids(self):

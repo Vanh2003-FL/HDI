@@ -5,9 +5,9 @@
 odoo.define("web_widget_dropdown_dynamic.field_dynamic_dropdown", function (require) {
     "use strict";
 
-    import { core } from 'web.core';
-    import { AbstractField } from 'web.AbstractField';
-    import { field_registry } from 'web.field_registry';
+    var core = require("web.core");
+    var AbstractField = require("web.AbstractField");
+    var field_registry = require("web.field_registry");
 
     var _lt = core._lt;
 

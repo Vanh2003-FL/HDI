@@ -1,8 +1,8 @@
 odoo.define('web_cohort.cohort_tests', function (require) {
 'use strict';
 
-import { CohortView } from 'web_cohort.CohortView';
-import { testUtils } from 'web.test_utils';
+var CohortView = require('web_cohort.CohortView');
+var testUtils = require('web.test_utils');
 
 const legacyViewRegistry = require("web.view_registry");
 const { registry } = require("@web/core/registry");

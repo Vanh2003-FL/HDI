@@ -1,4 +1,4 @@
-from odoo import models, fields, api, _, exceptions
+from odoo import fields, models, api, Command
 import logging
 
 _logger = logging.getLogger(__name__)

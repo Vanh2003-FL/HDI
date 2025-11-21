@@ -50,4 +50,5 @@
     <record id="en_experience_menu" model="ir.ui.menu">
         <field name="action" ref="en_experience_action"/>
     </record>
+
 </odoo>

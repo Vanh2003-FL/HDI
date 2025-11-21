@@ -1,10 +1,10 @@
 odoo.define("kpi_dashboard.AbstractWidget", function (require) {
     "use strict";
-    import { Widget } from 'web.Widget';
-    import { field_utils } from 'web.field_utils';
-    import { time } from 'web.time';
-    import { ajax } from 'web.ajax';
-    import { registry } from 'kpi_dashboard.widget_registry';
+    var Widget = require("web.Widget");
+    var field_utils = require("web.field_utils");
+    var time = require("web.time");
+    var ajax = require("web.ajax");
+    var registry = require("kpi_dashboard.widget_registry");
 
     var AbstractWidget = Widget.extend({
         // Template used by the widget

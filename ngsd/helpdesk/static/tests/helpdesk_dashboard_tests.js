@@ -1,8 +1,8 @@
 odoo.define('helpdesk.dashboard_tests', function (require) {
 "use strict";
 
-import { testUtils } from 'web.test_utils';
-import { view_registry } from 'web.view_registry';
+var testUtils = require('web.test_utils');
+var view_registry = require('web.view_registry');
 
 var createView = testUtils.createView;
 

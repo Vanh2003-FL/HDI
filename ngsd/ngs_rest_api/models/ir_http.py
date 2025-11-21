@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import models, api, _, exceptions
+from odoo import models
 from odoo.exceptions import AccessDenied
 from odoo.http import request
 

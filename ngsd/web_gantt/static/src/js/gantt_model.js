@@ -1,12 +1,12 @@
 odoo.define('web_gantt.GanttModel', function (require) {
 "use strict";
 
-import { AbstractModel } from 'web.AbstractModel';
-import { concurrency } from 'web.concurrency';
-import { core } from 'web.core';
-import { fieldUtils } from 'web.field_utils';
+var AbstractModel = require('web.AbstractModel');
+var concurrency = require('web.concurrency');
+var core = require('web.core');
+var fieldUtils = require('web.field_utils');
 const { findWhere, groupBy } = require('web.utils');
-import { session } from 'web.session';
+var session = require('web.session');
 
 var _t = core._t;
 

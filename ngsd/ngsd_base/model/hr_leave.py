@@ -480,7 +480,9 @@ class HrLeave(models.Model):
 
     employee_ids = fields.Many2many(
         'hr.employee', compute='_compute_from_holiday_type', store=True, string='Employees', readonly=False,
-        groups="hr_holidays.group_hr_holidays_user")
+        groups="hr_holidays.group_hr_holidays_user",
+        states={'cancel': [('readonly', True)], 'refuse': [('readonly', True)], 'confirm': [('readonly', True)],
+                'validate1': [('readonly', True)], 'validate': [('readonly', True)]})
 
     holiday_type = fields.Selection([
         ('employee', 'By Employee'),
@@ -488,11 +490,14 @@ class HrLeave(models.Model):
         ('department', 'By Department'),
         ('category', 'By Employee Tag')],
         string='Allocation Mode', readonly=True, required=True, default='employee',
+        states={'draft': [('readonly', False)]},
         help='By Employee: Allocation/Request for individual Employee, By Employee Tag: Allocation/Request for group of employees in category')
 
     holiday_status_id = fields.Many2one(
         "hr.leave.type", compute='_compute_from_employee_id', store=True, string="Time Off Type", required=True,
         readonly=False,
+        states={'cancel': [('readonly', True)], 'confirm': [('readonly', True)], 'refuse': [('readonly', True)],
+                'validate1': [('readonly', True)], 'validate': [('readonly', True)]},
         domain=['|', ('requires_allocation', '=', 'no'), ('has_valid_allocation', '=', True)])
 
     def read(self, fields=None, load='_classic_read'):

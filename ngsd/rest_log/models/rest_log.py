@@ -5,7 +5,7 @@
 import logging
 from datetime import datetime, timedelta
 
-from odoo import models, fields, api, _, exceptions
+from odoo import api, fields, models, tools
 
 _logger = logging.getLogger(__name__)
 

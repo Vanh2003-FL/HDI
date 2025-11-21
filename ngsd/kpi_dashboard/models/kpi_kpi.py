@@ -8,7 +8,7 @@ from datetime import date, datetime, time
 
 from dateutil import relativedelta
 
-from odoo import models, fields, api, _, exceptions
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.float_utils import float_compare
 from odoo.tools.safe_eval import safe_eval

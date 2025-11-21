@@ -1,4 +1,4 @@
-from odoo import models, fields, api, _, exceptions
+from odoo import models, fields, api, _
 from odoo.tools.misc import format_date, DEFAULT_SERVER_DATE_FORMAT
 from datetime import timedelta, datetime, time
 from odoo.tools import config, date_utils, get_lang, html2plaintext

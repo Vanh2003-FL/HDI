@@ -20,5 +20,4 @@
             "hr_attendance_geolocation/static/src/js/attendance_geolocation.js",
         ],
     },
-    'installable': True,
 }

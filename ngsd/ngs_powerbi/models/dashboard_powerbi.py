@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api, _, exceptions
+from odoo import api, fields, models, _
 from lxml import etree
 from odoo.exceptions import UserError
 

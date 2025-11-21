@@ -4,9 +4,9 @@ global nv, d3
 odoo.define("kpi_dashboard.GraphWidget", function (require) {
     "use strict";
 
-    import { AbstractWidget } from 'kpi_dashboard.AbstractWidget';
-    import { registry } from 'kpi_dashboard.widget_registry';
-    import { core } from 'web.core';
+    var AbstractWidget = require("kpi_dashboard.AbstractWidget");
+    var registry = require("kpi_dashboard.widget_registry");
+    var core = require("web.core");
     var qweb = core.qweb;
 
     var GraphWidget = AbstractWidget.extend({

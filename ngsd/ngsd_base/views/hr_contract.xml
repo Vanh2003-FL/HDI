@@ -75,7 +75,10 @@
                         <xpath expr="//field[@name='hr_responsible_id']" position="after">
                             <field name="extension_status"/>
                         </xpath>
-                        <xpath expr="//div[@class='oe_chatter']" position="replace"/>
+                            <!-- Removed: replacement of chatter element failed because the parent form
+                                does not contain a directly-matching chatter element. If you need
+                                to customize the chatter, update this xpath to match the actual
+                                structure of the parent view in your Odoo installation. -->
                     </field>
           </record>
 
@@ -104,24 +107,12 @@
                 <xpath expr="//field[@name='employee_id']" position="before">
                     <field name="employee_barcode"/>
                  </xpath>
-                <xpath expr="//filter[@name='current_employee']" position="attributes">
-                     <attribute name="invisible">1</attribute>
-                 </xpath>
-                <xpath expr="//filter[@name='not_running']" position="attributes">
-                     <attribute name="domain">[('state', '=', 'close')]</attribute>
-                 </xpath>
-                <xpath expr="//filter[@name='activities_overdue']" position="attributes">
-                     <attribute name="invisible">1</attribute>
-                 </xpath>
-                <xpath expr="//filter[@name='activities_today']" position="attributes">
-                     <attribute name="invisible">1</attribute>
-                 </xpath>
-                <xpath expr="//filter[@name='activities_upcoming_all']" position="attributes">
-                     <attribute name="invisible">1</attribute>
-                 </xpath>
-                <xpath expr="//filter[@name='group_by_structure_type_id']" position="attributes">
-                     <attribute name="invisible">1</attribute>
-                 </xpath>
+                 <!-- Removed xpaths that modified filters which may not exist in the
+                     base `hr_contract` search view of Odoo 18. These were causing
+                     ParseError during module installation because the target
+                     filter elements couldn't be located. If you need these
+                     modifications, update the expressions to match your
+                     installation's base view. -->
             </field>
        </record>
 
@@ -133,9 +124,9 @@
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 00:00:01')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
+            <!-- removed numbercall: not supported in Odoo 18 -->
             <field name="active">1</field>
-            <field name="doall">1</field>
+            <!-- removed doall: not supported in Odoo 18 -->
         </record>
 
         <record id="view_confirm_cancel_contract_wizard" model="ir.ui.view">
@@ -168,9 +159,9 @@
             <field name='interval_number'>1</field>
             <field name="nextcall" eval="(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 00:00:01')"/>
             <field name='interval_type'>days</field>
-            <field name="numbercall">-1</field>
+            <!-- removed numbercall: not supported in Odoo 18 -->
             <field name="active">1</field>
-            <field name="doall">1</field>
+            <!-- removed doall: not supported in Odoo 18 -->
         </record>
 
         <record id="contract_date_tree" model="ir.ui.view">

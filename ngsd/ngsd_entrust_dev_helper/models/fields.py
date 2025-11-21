@@ -1,4 +1,4 @@
-from odoo import fields, _
+from odoo import fields
 from odoo.tools import format_duration
 
 # Legacy support for custom field attributes - these are no longer actively used in Odoo 18

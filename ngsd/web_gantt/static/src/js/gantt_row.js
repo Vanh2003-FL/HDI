@@ -1,10 +1,10 @@
 odoo.define('web_gantt.GanttRow', function (require) {
 "use strict";
 
-import { core } from 'web.core';
-import { config } from 'web.config';
-import { session } from 'web.session';
-import { Widget } from 'web.Widget';
+var core = require('web.core');
+var config = require('web.config');
+var session = require('web.session');
+var Widget = require('web.Widget');
 const pyUtils = require('web.py_utils');
 let pyUtilsContext = null;
 

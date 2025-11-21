@@ -8,7 +8,7 @@
         <field name='interval_number'>30</field>
         <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:05:00')"/>
         <field name='interval_type'>minutes</field>
-        <field name="numbercall">-1</field>
+        <!-- removed numbercall: not supported in Odoo 18 -->
         <field name="active">0</field>
     </record>
     <record id="get_center_data_refresh_data_cron" model="ir.cron">
@@ -19,7 +19,7 @@
         <field name='interval_number'>30</field>
         <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:05:00')"/>
         <field name='interval_type'>minutes</field>
-        <field name="numbercall">-1</field>
+        <!-- removed numbercall: not supported in Odoo 18 -->
         <field name="active">0</field>
     </record>
     <record id="get_slide_data_refresh_data_cron" model="ir.cron">
@@ -30,7 +30,7 @@
         <field name='interval_number'>30</field>
         <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:05:00')"/>
         <field name='interval_type'>minutes</field>
-        <field name="numbercall">-1</field>
+        <!-- removed numbercall: not supported in Odoo 18 -->
         <field name="active">0</field>
     </record>
 

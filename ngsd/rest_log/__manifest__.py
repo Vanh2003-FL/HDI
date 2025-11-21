@@ -20,5 +20,4 @@
         "views/rest_log_views.xml",
         "views/menu.xml",
     ],
-    'installable': True,
 }

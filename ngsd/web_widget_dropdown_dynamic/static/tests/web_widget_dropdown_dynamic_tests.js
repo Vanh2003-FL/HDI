@@ -5,8 +5,8 @@ odoo.define(
 
         /* global QUnit*/
 
-        import { FormView } from 'web.FormView';
-        import { testUtils } from 'web.test_utils';
+        var FormView = require("web.FormView");
+        var testUtils = require("web.test_utils");
 
         QUnit.module("web_widget_dropdown_dynamic", {}, function () {
             QUnit.test(

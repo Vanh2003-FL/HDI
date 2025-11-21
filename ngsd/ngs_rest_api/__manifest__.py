@@ -1,7 +1,6 @@
 {
     'name': 'NGS Restful API',
-    'author': "Entrust Consulting Co.,
-    'license': 'LGPL-3', LTD",
+    'author': "Entrust Consulting Co., LTD",
     'summary': '(☞ﾟヮﾟ)☞ Entrust Consulting (❁´◡`❁)',
     'website': "http://entrustlab.com",
     'depends': [

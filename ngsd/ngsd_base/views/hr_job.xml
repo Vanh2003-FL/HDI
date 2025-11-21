@@ -16,7 +16,6 @@
                     <field name="no_of_recruitment" optional="hide"/>
                     <field name="expected_employees" optional="hide"/>
                     <field name="no_of_hired_employee" optional="hide"/>
-                    <field name="state" optional="hide"/>
                     <field name="is_published" optional="hide" string="Đã đăng"/>
                 </list>
             </field>

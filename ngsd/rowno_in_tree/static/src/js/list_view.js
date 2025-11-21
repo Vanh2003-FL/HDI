@@ -1,8 +1,8 @@
 odoo.define('rowno_in_tree.ListNumber', function (require) {
 "use strict";
 
-import { core } from 'web.core';
-import { ListRenderer } from 'web.ListRenderer';
+var core = require('web.core');
+var ListRenderer = require('web.ListRenderer');
 var _t = core._t;
 
 ListRenderer.include({

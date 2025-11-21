@@ -6,7 +6,7 @@
             <field name="model">hr.department</field>
             <field name="inherit_id" ref="hr.view_department_tree"/>
             <field name="arch" type="xml">
-               <xpath expr="//field[@name='display_name']" position="attributes">
+               <xpath expr="//field[@name='name']" position="attributes">
                    <attribute name="invisible">1</attribute>
                </xpath>
                <xpath expr="//field[@name='company_id']" position="attributes">
@@ -23,7 +23,7 @@
                <xpath expr="//field[@name='parent_id']" position="attributes">
                    <attribute name="invisible">1</attribute>
                </xpath>
-               <xpath expr="//field[@name='display_name']" position="before">
+               <xpath expr="//field[@name='name']" position="before">
                    <field name="code"/>
                    <field name="name"/>
                </xpath>

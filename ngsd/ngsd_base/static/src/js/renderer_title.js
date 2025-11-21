@@ -1,7 +1,7 @@
 odoo.define('planning.renderer_title', function (require) {
     "use strict";
 
-    import { ListRenderer } from 'web.ListRenderer';
+    var ListRenderer = require('web.ListRenderer');
 
     ListRenderer.include({
         // render lại title để hiển thị hạn mức còn lại

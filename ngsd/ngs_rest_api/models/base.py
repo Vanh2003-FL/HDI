@@ -2,7 +2,7 @@ from odoo.addons.component.core import Component
 from odoo.tools.safe_eval import safe_eval
 from odoo.addons.base_rest import restapi
 # from odoo.addons.base_rest_datamodel.restapi import Datamodel
-from odoo import models, fields, api, _
+from odoo import fields, models
 from odoo.addons.base_rest.components.service import to_bool, to_int
 from pytz import timezone, UTC
 from dateutil.relativedelta import relativedelta

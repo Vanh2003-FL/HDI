@@ -1,9 +1,9 @@
 odoo.define('ngsd_base.remove_decimal_zero_trailing.field_utils', function (require) {
     "use strict";
 
-import { core } from 'web.core';
-import { field_utils } from 'web.field_utils';
-import { utils } from 'web.utils';
+var core = require('web.core');
+var field_utils = require('web.field_utils');
+var utils = require('web.utils');
 
 var countDecimals = function (value) {
     if(Math.floor(value) === value) return 0;
@@ -37,8 +37,8 @@ function formatFloat(value, field, options) {
 
 field_utils.format.float = formatFloat;
 
-import { odoo_session } from 'web.session';
-import { basic_fields } from 'web.basic_fields';
+var odoo_session = require('web.session');
+var basic_fields = require('web.basic_fields');
 basic_fields.FieldDateTime.include({
     getSession: function () {
         var session;

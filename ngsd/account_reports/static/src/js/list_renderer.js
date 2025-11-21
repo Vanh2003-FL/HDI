@@ -1,6 +1,6 @@
  odoo.define('galle_account_report.get_report_info', function (require) {"use strict";
 
-import { ListController } from 'web.ListController';
+var ListController = require('web.ListController');
     ListController.include({
 
         _startRenderer: function () {

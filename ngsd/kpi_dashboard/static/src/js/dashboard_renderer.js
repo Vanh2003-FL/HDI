@@ -1,9 +1,9 @@
 odoo.define("kpi_dashboard.DashboardRenderer", function (require) {
     "use strict";
 
-    import { BasicRenderer } from 'web.BasicRenderer';
-    import { core } from 'web.core';
-    import { registry } from 'kpi_dashboard.widget_registry';
+    var BasicRenderer = require("web.BasicRenderer");
+    var core = require("web.core");
+    var registry = require("kpi_dashboard.widget_registry");
     var qweb = core.qweb;
 
     var DashboardRenderer = BasicRenderer.extend({

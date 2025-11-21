@@ -1,6 +1,6 @@
 import logging
 
-from odoo import models, fields, api, _, exceptions
+from odoo import api, http, models, fields
 from odoo.exceptions import AccessDenied
 _logger = logging.getLogger(__name__)
 

@@ -1,7 +1,7 @@
 odoo.define("mbank_attendance.attendances_work_location", function (require) {
     "use strict";
 
-    import { MyAttendances } from 'hr_attendance.my_attendances';
+    var MyAttendances = require("hr_attendance.my_attendances");
     const session = require("web.session");
 
     MyAttendances.include({

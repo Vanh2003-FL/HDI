@@ -5,7 +5,7 @@
 odoo.define("web_widget_dropdown_dynamic.basic_model", function (require) {
     "use strict";
 
-    import { BasicModel } from 'web.BasicModel';
+    var BasicModel = require("web.BasicModel");
 
     BasicModel.include({
         /**

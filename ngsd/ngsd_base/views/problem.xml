@@ -35,4 +35,5 @@
     <record id="problem_priority_menu" model="ir.ui.menu">
         <field name="action" ref="problem_priority_action"/>
     </record>
+
 </odoo>

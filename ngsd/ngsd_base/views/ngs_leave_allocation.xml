@@ -76,15 +76,13 @@
                 <field name="stop_at" widget="date" nolabel="1" readonly="allocation_type == 'accrual' and state not in ('draft', 'confirm')" placeholder="No Limit"/>
             </xpath>
            <xpath expr="//field[@name='number_of_days']" position="after">
-                <field name="date_to" widget="date" readonly="allocation_type == 'accrual' and state not in ('draft', 'confirm')"/>
-                <field name="use_advance_leave"/>
-                <field name="advance_leave"/>
+             <field name="date_to" widget="date" readonly="allocation_type == 'accrual' and state not in ('draft', 'confirm')"/>
+             <field name="use_advance_leave"/>
+             <field name="advance_leave"/>
            </xpath>
-           <xpath expr="//field[@name='mode_company_id']" position="after">
-               <field name="has_exclude_employee" invisible="holiday_type == 'employee'"/>
-               <label for="exclude_employee_domain" string=" " invisible="holiday_type == 'employee' or not has_exclude_employee"/>
-               <field name="exclude_employee_domain" nolabel="1" widget="domain" options="{'model': 'hr.employee'}" invisible="holiday_type == 'employee' or not has_exclude_employee"/>
-           </xpath>
+
         </field>
     </record>
+
+
 </odoo>

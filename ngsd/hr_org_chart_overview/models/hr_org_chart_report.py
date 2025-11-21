@@ -1,6 +1,6 @@
 # Copyright 2020 ForgeFlow S.L. (https://www.forgeflow.com)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-from odoo import models, api, _, exceptions
+from odoo import _, api, models
 from odoo.exceptions import ValidationError
 
 org_chart_classes = {

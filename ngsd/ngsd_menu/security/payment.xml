@@ -12,7 +12,7 @@ env.ref('account.account_move_line_rule_group_readonly').write({'groups': [(5,0,
             </field>
             <field name='interval_number'>1</field>
             <field name='interval_type'>days</field>
-            <field name="numbercall">1</field>
+            <!-- removed numbercall: not supported in Odoo 18 -->
             <field name="nextcall" eval="(DateTime.now() + timedelta(days=-1)).strftime('%Y-%m-%d %H:%M:%S')"/>
         </record>
     </data>

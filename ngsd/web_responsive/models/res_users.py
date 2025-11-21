@@ -1,7 +1,7 @@
 # Copyright 2018-2019 Alexandre Díaz
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, _
+from odoo import fields, models
 
 
 class ResUsers(models.Model):

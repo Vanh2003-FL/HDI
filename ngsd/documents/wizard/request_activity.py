@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from dateutil.relativedelta import relativedelta
-from odoo import models, fields, api, _
+from odoo import api, fields, models
 
 
 class RequestWizard(models.TransientModel):

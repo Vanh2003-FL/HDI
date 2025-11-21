@@ -21,5 +21,4 @@
             "web_advanced_search/static/src/xml/**/*.xml",
         ],
     },
-    'installable': True,
 }

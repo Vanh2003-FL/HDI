@@ -36,7 +36,7 @@ class ResPartner(models.Model):
                                          (6, 0, self.env.user.ids)])
 
   x_department = fields.Char('Phòng ban')
-  name = fields.Char()
+  name = fields.Char(tracking=True)
   # overwrite field comany_id
   company_id = fields.Many2one(default=lambda self: self.env.company)
 
@@ -88,7 +88,8 @@ class ResPartner(models.Model):
         raise UserError('Mã số thuế đã tồn tại!')
 
   @api.model
-  def get_view(self, view_id=None, view_type='form', **options):
+  def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+      submenu=False):
     if view_type == 'tree':
       ncs_company_ids = self.env['res.company'].search(
           [('company_type', '=', 'ncs')]).ids
@@ -96,9 +97,10 @@ class ResPartner(models.Model):
                                                        False) + ncs_company_ids)) != len(
           self._context.get('allowed_company_ids', False) + ncs_company_ids):
         view_id = self.env.ref('ngsd_base.partner_ncs_res_view_tree').id
-    res = super(ResPartner, self).get_view(view_id=view_id,
+    res = super(ResPartner, self).fields_view_get(view_id=view_id,
                                                   view_type=view_type,
-                                                  **options)
+                                                  toolbar=toolbar,
+                                                  submenu=submenu)
     return res
 
   @api.model_create_multi

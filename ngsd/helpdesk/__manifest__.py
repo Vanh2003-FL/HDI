@@ -85,5 +85,4 @@ Features:
             'helpdesk/static/src/xml/**/*',
         ],
     }
-    'installable': True,
 }

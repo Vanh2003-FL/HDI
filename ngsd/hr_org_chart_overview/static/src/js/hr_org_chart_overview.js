@@ -1,8 +1,8 @@
 odoo.define("hr_org_chart_overview", function (require) {
     "use strict";
 
-    import { core } from 'web.core';
-    import { AbstractAction } from 'web.AbstractAction';
+    var core = require("web.core");
+    var AbstractAction = require("web.AbstractAction");
 
     var HrOrgChartOverview = AbstractAction.extend({
         contentTemplate: "HrOrgChartOverview",

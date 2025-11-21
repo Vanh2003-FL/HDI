@@ -1,11 +1,11 @@
 odoo.define('web_cohort.CohortView', function (require) {
 'use strict';
 
-import { AbstractView } from 'web.AbstractView';
-import { core } from 'web.core';
-import { CohortController } from 'web_cohort.CohortController';
-import { CohortModel } from 'web_cohort.CohortModel';
-import { CohortRenderer } from 'web_cohort.CohortRenderer';
+var AbstractView = require('web.AbstractView');
+var core = require('web.core');
+var CohortController = require('web_cohort.CohortController');
+var CohortModel = require('web_cohort.CohortModel');
+var CohortRenderer = require('web_cohort.CohortRenderer');
 const RendererWrapper = require('web.RendererWrapper');
 const legacyViewRegistry = require("web.view_registry");
 

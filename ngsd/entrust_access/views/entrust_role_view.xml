@@ -21,7 +21,7 @@
 <!--                        </page>-->
                         <page string="Người Dùng">
                             <field name="user_ids" widget="many2many">
-                                <list>
+                                <list create="false" edit="false">
                                     <field name="name"/>
                                     <field name="login"/>
                                     <field name="lang"/>
