@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <data>
-
     <record model="ir.actions.client" id="action_en_resource_project_import">
         <field name="name">Nhập Danh sách nhân sự</field>
         <field name="tag">import</field>
@@ -864,6 +862,4 @@
           </p>
         </field>
     </record>
-
-    </data>
 </odoo>
