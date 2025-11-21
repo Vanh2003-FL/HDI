@@ -562,10 +562,10 @@ class ProjectProject(models.Model):
           [('en_mark', '=', 'b'), ('en_mark', '!=', False),
            ('user_id', '=', False)], order='en_mark asc'))
 
-  en_problem_ids = fields.One2many(string='Các vấn đề',
+  en_problem_ids = fields.One2many(string='Danh sách vấn đề',
                                    comodel_name='en.problem',
                                    inverse_name='project_id')
-  en_problem_count = fields.Integer(string='Các vấn đề', compute_sudo=True,
+  en_problem_count = fields.Integer(string='Số lượng vấn đề', compute_sudo=True,
                                     compute='_compute_en_problem_count')
   first_date = fields.Date(string='Ngày kết thúc', readonly=1, copy=False)
   old_pending_stage_id = fields.Many2one('project.project.stage', readonly=1,
@@ -1040,7 +1040,7 @@ class ProjectProject(models.Model):
                                       string='Hiển thị nút import')
   show_import_button_viewer = fields.Boolean(related='show_import_button',
                                              groups=False,
-                                             string='Hiển thị nút import')
+                                             string='Xem nút import')
 
   @api.depends('en_resource_id')
   def _compute_en_md_resource(self):
@@ -2552,6 +2552,7 @@ class Wbs(models.Model):
                                      domain="[('project_id', '=', project_id),('state','=','approved')]",
                                      comodel_name='en.resource.planning',
                                      required=False,
+                                     store=True,
                                      compute='_compute_resource_plan')
   planned_resource = fields.Float(string='Tổng nguồn lực (MM)', default=0,
                                   compute_sudo=True,

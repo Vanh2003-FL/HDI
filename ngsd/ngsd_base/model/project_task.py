@@ -1075,7 +1075,7 @@ class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
     request_date = fields.Datetime("Thời gian gửi phê duyệt", readonly=True, copy=False)
-    approver = fields.Char(string='Người phê duyệt', size=32, required=False, readonly=True, copy=False)
+    approver = fields.Char(string='Tên người duyệt', size=32, required=False, readonly=True, copy=False)
     approve_date = fields.Datetime("Thời gian phê duyệt", readonly=True, copy=False)
 
     @api.model
@@ -1274,7 +1274,7 @@ class AccountAnalyticLine(models.Model):
     ot_date_from = fields.Datetime('Bắt đầu OT', related='ot_id.date_from')
     ot_date_to = fields.Datetime('Kết thúc OT', related='ot_id.date_to')
 
-    en_sent_ok = fields.Boolean(string='💰', compute='_compute_en_sent_ok')
+    en_sent_ok = fields.Boolean(string='✅ Gửi', compute='_compute_en_sent_ok')
 
     @api.depends_context('uid')
     @api.depends('employee_id')
@@ -1282,7 +1282,7 @@ class AccountAnalyticLine(models.Model):
         for rec in self:
             rec.en_sent_ok = rec.employee_id == self.env.user.employee_id
 
-    en_approve_ok = fields.Boolean(string='💰', compute='_compute_en_approve_ok')
+    en_approve_ok = fields.Boolean(string='✅ Duyệt', compute='_compute_en_approve_ok')
 
     @api.depends_context('uid')
     @api.depends('en_approver_id')
