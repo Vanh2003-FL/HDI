@@ -97,16 +97,20 @@
 
     ],
     'license': 'LGPL-3',
+    'installable': True,
+    'application': False,
+    'auto_install': False,
     "assets": {
-        "web.assets_qweb": [
-            "ngsd_base/static/src/xml/**/*",
+        "web.assets_backend": [
+            "ngsd_base/static/src/scss/*.scss",
+            # Temporary comment JS files until migrated to Owl/ES6
+            # "ngsd_base/static/src/js/*.js",
         ],
         "web.assets_common": [
-            "ngsd_base/static/src/js/tempusdominus.js",
+            # "ngsd_base/static/src/js/tempusdominus.js",
         ],
-        "web.assets_backend": [
-            "ngsd_base/static/src/js/*.js",
-            "ngsd_base/static/src/scss/*.scss",
+        "web.assets_qweb": [
+            # "ngsd_base/static/src/xml/**/*",
         ],
     },
 }
