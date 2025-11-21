@@ -886,8 +886,8 @@ class ProjectProject(models.Model):
     if any(rec.en_bmm <= 0 for rec in self):
       raise exceptions.ValidationError('Bạn cần phải nhập BMM cho dự án')
 
-  en_response_rate = fields.Float(string='Cam kết tỉ lệ phản hồi', default=0)
-  en_processing_rate = fields.Float(string='Cam kết tỉ lệ xử lý', default=0)
+  en_response_rate = fields.Float(string='% Cam kết phản hồi', default=0)
+  en_processing_rate = fields.Float(string='% Cam kết xử lý', default=0)
   en_code = fields.Char(string='Mã dự án', required=True)
 
   @api.constrains('en_code')
