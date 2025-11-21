@@ -486,7 +486,7 @@ class ProjectProject(models.Model):
   en_area_id = fields.Many2one(string='Khu vực', comodel_name='en.name.area')
   en_block_id = fields.Many2one(string='Khối', comodel_name='en.name.block',
                                 domain="[('area_id', '=?', en_area_id)]")
-  en_bmm_ids = fields.One2many(string='BMM', comodel_name='en.bmm',
+  en_bmm_ids = fields.One2many(string='Danh sách BMM', comodel_name='en.bmm',
                                inverse_name='project_id', compute=False,
                                store=True, readonly=False)
 
@@ -685,7 +685,7 @@ class ProjectProject(models.Model):
 
   en_risk_ids = fields.One2many(string='Rủi ro/Cơ hội', comodel_name='en.risk',
                                 inverse_name='project_id')
-  en_risk_count = fields.Integer(string='Rủi ro/Cơ hội', compute_sudo=True,
+  en_risk_count = fields.Integer(string='Số lượng rủi ro', compute_sudo=True,
                                  compute='_compute_en_risk_count')
 
   @api.depends('en_risk_ids')
@@ -715,7 +715,7 @@ class ProjectProject(models.Model):
   en_folder_ids = fields.One2many(string='Thư mục',
                                   comodel_name='documents.folder',
                                   inverse_name='en_project_id')
-  en_folder_count = fields.Integer(string='Thư mục', compute_sudo=True,
+  en_folder_count = fields.Integer(string='Số lượng thư mục', compute_sudo=True,
                                    compute='_compute_en_folder_count')
 
   @api.depends('en_folder_ids')
@@ -915,13 +915,13 @@ class ProjectProject(models.Model):
                                         comodel_name='en.project.model',
                                         required=True)
 
-  en_resource_ids = fields.One2many(string='Kế hoạch nguồn lực',
+  en_resource_ids = fields.One2many(string='Danh sách kế hoạch nguồn lực',
                                     comodel_name='en.resource.planning',
                                     inverse_name='project_id')
-  en_resource_count = fields.Integer(string='Kế hoạch nguồn lực',
+  en_resource_count = fields.Integer(string='Số lượng KHNL',
                                      compute_sudo=True,
                                      compute='_compute_en_resource_count')
-  en_resource_id = fields.Many2one(string='Kế hoạch nguồn lực',
+  en_resource_id = fields.Many2one(string='KHNL hiện tại',
                                    comodel_name='en.resource.planning',
                                    store=True, compute_sudo=True,
                                    compute='_compute_en_resource_count')
@@ -982,7 +982,7 @@ class ProjectProject(models.Model):
   en_document_ids = fields.One2many(string='Sản phẩm bàn giao',
                                     comodel_name='en.project.document',
                                     inverse_name='project_id')
-  en_document_count = fields.Integer(string='Sản phẩm bàn giao',
+  en_document_count = fields.Integer(string='Số lượng sản phẩm',
                                      compute_sudo=True,
                                      compute='_compute_en_document_count')
 
