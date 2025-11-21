@@ -115,11 +115,8 @@ class QualityControl(models.Model):
                                          compute='_compute_technical_field_beter',
                                          store=True)
   mm_rate = fields.Float(string='Đơn vị quy đổi MM',
-                         states={'to_approve': [('readonly', True)],
-                                 'approved': [('readonly', True)],
-                                 'refused': [('readonly', True)],
-                                 'expire': [('readonly', True)]},
-                         required=False, related='project_id.mm_rate')
+                         required=False, related='project_id.mm_rate',
+                         readonly=True)
 
   @api.depends('version_number')
   def _compute_technical_field_beter(self):
@@ -287,7 +284,6 @@ class QualityControl(models.Model):
       'target': 'current',
     }
 
-  @api.returns('self', lambda value: value.id)
   def copy(self, default=None):
     # raise UserError('Bạn không được phép tạo KHNL tại thời điểm này')
     default = dict(default or {})
