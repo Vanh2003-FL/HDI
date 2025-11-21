@@ -100,17 +100,11 @@
     'installable': True,
     'application': False,
     'auto_install': False,
-    "assets": {
-        "web.assets_backend": [
-            "ngsd_base/static/src/scss/*.scss",
-            # Temporary comment JS files until migrated to Owl/ES6
-            # "ngsd_base/static/src/js/*.js",
-        ],
-        "web.assets_common": [
-            # "ngsd_base/static/src/js/tempusdominus.js",
-        ],
-        "web.assets_qweb": [
-            # "ngsd_base/static/src/xml/**/*",
-        ],
-    },
+    # Assets temporarily disabled due to Odoo 18 compatibility issues
+    # Will be re-enabled after migration to Owl/ES6
+    # "assets": {
+    #     "web.assets_backend": [
+    #         "ngsd_base/static/src/css/*.css",
+    #     ],
+    # },
 }
