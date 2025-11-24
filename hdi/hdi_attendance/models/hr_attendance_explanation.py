@@ -196,8 +196,8 @@ class HrAttendanceExplanation(models.Model):
                 self.missing_hr_attendance_id.sudo().write(attendance_values)
         else:
             # Update existing attendance
-            if self.attendance_id and attendance_values:
-                self.attendance_id.sudo().write(attendance_values)
+            if self.hr_attendance_id and attendance_values:
+                self.hr_attendance_id.sudo().write(attendance_values)
         
         # Update state
         self.write({'state': 'approved'})
@@ -308,7 +308,7 @@ class HrAttendanceExplanation(models.Model):
             if not rec.submission_type_id.mark_count:
                 continue
             
-            date_check = rec.attendance_id.date if rec.attendance_id else rec.explanation_date
+            date_check = rec.hr_attendance_id.date if rec.hr_attendance_id else rec.explanation_date
             if not date_check:
                 continue
             
