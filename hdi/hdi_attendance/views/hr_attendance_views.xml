@@ -32,7 +32,7 @@
                 <field name="explanation_month_count" optional="hide"/>
             </xpath>
             <!-- Add color decoration -->
-            <xpath expr="//tree" position="attributes">
+            <xpath expr="//list" position="attributes">
                 <attribute name="decoration-success">color == 10</attribute>
                 <attribute name="decoration-warning">color == 1 or color == 3</attribute>
                 <attribute name="decoration-danger">color == 2</attribute>
