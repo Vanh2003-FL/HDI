@@ -20,12 +20,12 @@
         <field name="name">hr.attendance.explanation.detail.tree</field>
         <field name="model">hr.attendance.explanation.detail</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="sequence" widget="handle"/>
                 <field name="type"/>
                 <field name="time" widget="float_time"/>
                 <field name="date" readonly="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>
