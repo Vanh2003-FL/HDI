@@ -1,21 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Attendance Calendar View with Color Coding -->
+    <record id="view_attendance_calendar_hdi" model="ir.ui.view">
+        <field name="name">hr.attendance.calendar.hdi</field>
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <calendar string="Lịch chấm công" 
+                      date_start="check_in" 
+                      date_stop="check_out"
+                      color="color"
+                      mode="month"
+                      event_open_popup="true"
+                      quick_add="False">
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="en_dayofweek"/>
+                <field name="warning_message"/>
+                <field name="en_late"/>
+                <field name="en_soon"/>
+                <field name="worked_hours"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Attendance Tree View Enhancement -->
+    <record id="view_attendance_tree_inherit_hdi" model="ir.ui.view">
+        <field name="name">hr.attendance.tree.inherit.hdi</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='check_in']" position="before">
+                <field name="date" optional="show"/>
+                <field name="en_dayofweek" optional="show"/>
+            </xpath>
+            <xpath expr="//field[@name='worked_hours']" position="after">
+                <field name="color" optional="hide"/>
+                <field name="en_late" optional="show" widget="boolean_toggle"/>
+                <field name="en_soon" optional="show" widget="boolean_toggle"/>
+                <field name="en_missing_attendance" optional="show" widget="boolean_toggle"/>
+                <field name="warning_message" optional="show"/>
+                <field name="en_checkin_distance" optional="hide" string="Khoảng cách CI (km)"/>
+                <field name="en_checkout_distance" optional="hide" string="Khoảng cách CO (km)"/>
+                <field name="explanation_month_count" optional="hide"/>
+            </xpath>
+            <!-- Add color decoration -->
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-success">color == 10</attribute>
+                <attribute name="decoration-warning">color == 1 or color == 3</attribute>
+                <attribute name="decoration-danger">color == 2</attribute>
+                <attribute name="decoration-info">color == 4</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <!-- Inherit Attendance Form View -->
     <record id="view_attendance_form_inherit_hdi" model="ir.ui.view">
         <field name="name">hr.attendance.form.inherit.hdi</field>
         <field name="model">hr.attendance</field>
         <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='check_out']" position="after">
-                <field name="note"/>
-                <field name="explanation_required" invisible="1"/>
-                <field name="explanation_id" readonly="1"/>
+            <!-- Add button box at top -->
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="button_create_explanation" 
+                            string="Giải trình" 
+                            type="object" 
+                            class="btn-primary"
+                            invisible="not explanation_required or explanation_id"/>
+                    <button name="button_create_hr_leave" 
+                            string="Xin nghỉ" 
+                            type="object" 
+                            class="btn-secondary"/>
+                </header>
             </xpath>
+            
+            <!-- Smart buttons -->
             <xpath expr="//sheet" position="inside">
-                <div class="oe_button_box" name="button_box" invisible="not explanation_required">
-                    <button name="button_create_explanation" string="Giải trình chấm công" 
-                            class="btn-primary" type="object" icon="fa-pencil-square-o"/>
+                <div class="oe_button_box" name="button_box">
+                    <button name="%(hdi_attendance.action_hr_attendance_explanation)d" 
+                            type="action" 
+                            class="oe_stat_button" 
+                            icon="fa-pencil-square-o"
+                            context="{'default_employee_id': employee_id}"
+                            invisible="not explanation_month_count">
+                        <field name="explanation_month_count" widget="statinfo" string="Giải trình tháng này"/>
+                    </button>
                 </div>
+            </xpath>
+
+            <!-- Add new fields after check_out -->
+            <xpath expr="//field[@name='check_out']" position="after">
+                <field name="date"/>
+                <field name="en_dayofweek"/>
+                <field name="check_in_date"/>
+                <field name="check_in_time" widget="float_time"/>
+                <field name="check_out_date"/>
+                <field name="check_out_time" widget="float_time"/>
+            </xpath>
+            
+            <!-- Add notebook page for additional info -->
+            <xpath expr="//field[@name='worked_hours']" position="after">
+                <notebook>
+                    <page string="Thông tin chi tiết" name="details">
+                        <group>
+                            <group string="Trạng thái">
+                                <field name="en_late" widget="boolean_toggle"/>
+                                <field name="en_soon" widget="boolean_toggle"/>
+                                <field name="en_missing_attendance" widget="boolean_toggle"/>
+                                <field name="color" invisible="1"/>
+                                <field name="warning_message" widget="text" readonly="1"/>
+                            </group>
+                            <group string="Vị trí GPS">
+                                <field name="en_location_id"/>
+                                <field name="en_location_checkout_id"/>
+                                <field name="en_checkin_distance"/>
+                                <field name="en_checkout_distance"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Nhân viên">
+                                <field name="employee_barcode" readonly="1"/>
+                            </group>
+                            <group string="Giải trình">
+                                <field name="explanation_required" readonly="1"/>
+                                <field name="explanation_id" readonly="1"/>
+                                <field name="explanation_month_count" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Ghi chú">
+                            <field name="note" nolabel="1" colspan="2"/>
+                        </group>
+                    </page>
+                </notebook>
             </xpath>
         </field>
     </record>
@@ -24,9 +140,12 @@
     <record id="own_hr_attendance_action" model="ir.actions.act_window">
         <field name="name">Chấm công của tôi</field>
         <field name="res_model">hr.attendance</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">calendar,tree,form</field>
         <field name="domain">[('employee_id.user_id', '=', uid)]</field>
-        <field name="context">{'search_default_today': 1}</field>
+        <field name="context">{
+            'search_default_thismonth': 1,
+            'default_employee_id': context.get('default_employee_id', False)
+        }</field>
     </record>
 
     <!-- Search View Enhancement -->
@@ -38,6 +157,16 @@
             <xpath expr="//filter[@name='myattendances']" position="after">
                 <filter string="Cần giải trình" name="need_explanation" 
                         domain="[('explanation_required', '=', True), ('explanation_id', '=', False)]"/>
+                <filter string="Đi muộn" name="late" 
+                        domain="[('en_late', '=', True)]"/>
+                <filter string="Về sớm" name="early" 
+                        domain="[('en_soon', '=', True)]"/>
+                <filter string="Quên chấm công" name="missing" 
+                        domain="[('en_missing_attendance', '=', True)]"/>
+            </xpath>
+            <xpath expr="//group[@name='groupby']" position="inside">
+                <filter string="Theo ngày" name="groupby_date" context="{'group_by':'date'}"/>
+                <filter string="Theo thứ" name="groupby_dayofweek" context="{'group_by':'en_dayofweek'}"/>
             </xpath>
         </field>
     </record>

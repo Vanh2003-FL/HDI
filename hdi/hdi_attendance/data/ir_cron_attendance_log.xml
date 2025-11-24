@@ -12,13 +12,17 @@
             <field name="active" eval="True"/>
         </record>
 
-        <!-- Sequence for Attendance Explanation -->
-        <record id="seq_hr_attendance_explanation" model="ir.sequence">
-            <field name="name">Attendance Explanation Sequence</field>
-            <field name="code">hr.attendance.explanation</field>
-            <field name="prefix">ATT-EXP-</field>
-            <field name="padding">5</field>
-            <field name="company_id" eval="False"/>
+        <!-- Cron Job: Auto Logout for Missing Check-out -->
+        <record id="ir_cron_auto_logout_attendance" model="ir.cron">
+            <field name="name">HDI: Auto Logout Missing Check-out</field>
+            <field name="model_id" ref="model_hr_attendance"/>
+            <field name="state">code</field>
+            <field name="code">model.auto_log_out_job()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=23, minute=59, second=0)"/>
+            <field name="active" eval="True"/>
+            <field name="priority">10</field>
         </record>
     </data>
 </odoo>

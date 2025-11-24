@@ -44,13 +44,16 @@
         'security/ir.model.access.csv',
         
         # Data
-        'data/ir_cron_attendance_log.xml',
+        'data/sequence_data.xml',
+        'data/system_parameter_data.xml',
         'data/submission_type_data.xml',
+        'data/ir_cron_attendance_log.xml',
         
         # Views
         'views/attendance_dashboard.xml',
         'views/hr_attendance_views.xml',
         'views/hr_attendance_explanation_views.xml',
+        'views/submission_type_views.xml',
         'views/hr_attendance_log_views.xml',
         
         # Wizard
