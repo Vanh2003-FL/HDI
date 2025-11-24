@@ -1,27 +1,45 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
 
 
 class ReasonForRefuseWizard(models.TransientModel):
     _name = 'reason.for.refuse.wizard'
-    _description = 'Wizard to refuse attendance explanation'
+    _description = 'Reason for refusing attendance explanation'
     
-    explanation_id = fields.Many2one('hr.attendance.explanation', string='Giải trình', required=True)
-    refusal_reason = fields.Text(string='Lý do từ chối', required=True)
+    explanation_id = fields.Many2one(
+        'hr.attendance.explanation',
+        string='Giải trình chấm công',
+        required=True
+    )
+    reason = fields.Text(string='Lý do từ chối', required=True)
     
-    def action_refuse(self):
-        """Refuse the explanation with reason"""
+    def action_confirm(self):
+        """Confirm refusal with reason"""
         self.ensure_one()
         
-        if not self.env.user.has_group('hdi_attendance.group_attendance_manager'):
-            raise ValidationError(_('Chỉ quản lý chấm công mới có thể từ chối giải trình.'))
-        
+        # Update explanation state
         self.explanation_id.write({
-            'state': 'refused',
-            'approver_id': self.env.user.id,
-            'approval_date': fields.Datetime.now(),
-            'refusal_reason': self.refusal_reason,
+            'state': 'refuse',
+            'refusal_reason': self.reason,
         })
+        
+        # Update approver status
+        approver = self.explanation_id.approver_ids.filtered(
+            lambda a: a.user_id == self.env.user and a.state == 'pending'
+        )
+        if approver:
+            approver.write({
+                'state': 'refuse',
+                'approval_date': fields.Datetime.now(),
+                'comment': self.reason
+            })
+        
+        # Send notification to employee
+        if self.explanation_id.employee_id.user_id:
+            self.explanation_id.message_post(
+                body=_('Giải trình chấm công của bạn đã bị từ chối.<br/>Lý do: %s') % self.reason,
+                partner_ids=[self.explanation_id.employee_id.user_id.partner_id.id],
+                message_type='notification'
+            )
         
         return {'type': 'ir.actions.act_window_close'}

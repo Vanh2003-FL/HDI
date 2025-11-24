@@ -56,6 +56,7 @@
         'views/hr_attendance_explanation_views.xml',
         'views/submission_type_views.xml',
         'views/hr_attendance_log_views.xml',
+        'views/res_config_settings_views.xml',
         
         # Wizard
         'wizard/reason_for_refuse_wizard_views.xml',

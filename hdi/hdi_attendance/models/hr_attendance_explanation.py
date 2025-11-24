@@ -1,310 +1,259 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _, Command
 from odoo.exceptions import ValidationError, UserError
-from datetime import date, datetime
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 
 class HrAttendanceExplanation(models.Model):
     _name = 'hr.attendance.explanation'
-    _description = 'Attendance Explanation'
+    _description = 'Giải trình chấm công'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'explanation_date desc, id desc'
     
-    name = fields.Char(
-        string='Số tham chiếu',
-        required=True,
-        copy=False,
-        readonly=True,
-        default=lambda self: _('New')
-    )
-    employee_id = fields.Many2one(
-        'hr.employee',
-        string='Nhân viên',
-        required=True,
-        default=lambda self: self.env.user.employee_id
-    )
-    employee_barcode = fields.Char(
-        string='Mã nhân viên',
-        related='employee_id.barcode',
-        store=True
-    )
-    submission_type_id = fields.Many2one(
-        'submission.type',
-        string='Loại giải trình',
-        required=True
-    )
-    submission_code = fields.Char(
-        related='submission_type_id.code',
-        string='Mã loại',
-        store=True
-    )
-    used_explanation_date = fields.Boolean(
-        related='submission_type_id.used_explanation_date',
-        string='Sử dụng ngày giải trình',
-        store=True
-    )
-    hr_attendance_id = fields.Many2one(
-        'hr.attendance',
-        string='Ngày điều chỉnh',
-        domain="[('employee_id', '=', employee_id)]"
-    )
-    explanation_date = fields.Date(
-        string='Ngày giải trình',
-        tracking=True,
-        required=True
-    )
-    
-    # Details
-    line_ids = fields.One2many(
-        'hr.attendance.explanation.detail',
-        'explanation_id',
-        string='Chi tiết điều chỉnh'
-    )
-    
-    # Explanation
+    name = fields.Char(string='Tên giải trình', compute='_compute_name', compute_sudo=True, store=True)
+    employee_id = fields.Many2one('hr.employee', string='Nhân viên', required=True, 
+                                   default=lambda self: self.env.user.employee_id, ondelete='cascade')
+    employee_barcode = fields.Char(string='Mã nhân viên', related='employee_id.barcode', store=True)
+    submission_type_id = fields.Many2one('submission.type', string='Loại giải trình', required=True)
+    submission_code = fields.Char(related='submission_type_id.code', store=True)
+    used_explanation_date = fields.Boolean(related='submission_type_id.used_explanation_date', store=True)
+    hr_attendance_id = fields.Many2one('hr.attendance', string='Ngày điều chỉnh', 
+                                        domain="[('employee_id', '=', employee_id)]")
+    explanation_date = fields.Date(string='Ngày giải trình', compute='_compute_explanation_date',
+                                    store=True, readonly=False, tracking=True, required=True)
+    line_ids = fields.One2many('hr.attendance.explanation.detail', 'explanation_id', 
+                                string='Chi tiết điều chỉnh')
     explanation_reason = fields.Text(string='Lý do giải trình', required=True)
-    attachment_ids = fields.Many2many(
-        'ir.attachment',
-        string='Tài liệu đính kèm'
-    )
+    state = fields.Selection([('new', 'Mới'), ('to_approve', 'Đã gửi duyệt'), ('approved', 'Đã duyệt'),
+                              ('refuse', 'Từ chối'), ('cancel', 'Hủy')], 
+                             string='Trạng thái', default='new', tracking=True, required=True)
+    approver_ids = fields.One2many('hr.attendance.explanation.approver', 'explanation_id', 
+                                    string='Người phê duyệt')
+    reason_for_refuse = fields.Text(string='Lý do từ chối', readonly=True)
+    missing_hr_attendance_id = fields.Many2one('hr.attendance', string='Bản chấm công bổ sung', readonly=True)
+    check_need_approve = fields.Boolean(string='Cần phê duyệt', compute='_compute_check_need_approve',
+                                         search='_search_check_need_approve')
+    condition_visible_button_refuse_approve = fields.Boolean(compute='_compute_condition_visible_button_refuse_approve')
     
-    # Approval
-    state = fields.Selection([
-        ('new', 'Mới'),
-        ('to_approve', 'Đã gửi duyệt'),
-        ('approved', 'Đã duyệt'),
-        ('refuse', 'Từ chối'),
-        ('cancel', 'Đã hủy'),
-    ], string='Trạng thái', default='new', tracking=True, required=True)
-    
-    approver_ids = fields.One2many(
-        'hr.attendance.explanation.approver',
-        'explanation_id',
-        string='Người phê duyệt'
-    )
-    
-    refusal_reason = fields.Text(string='Lý do từ chối')
-    
-    # For missing attendance (MA)
-    missing_hr_attendance_id = fields.Many2one(
-        'hr.attendance',
-        string='Bản ghi chấm công bổ sung',
-        readonly=True
-    )
-    
-    # Computed fields
-    check_need_approve = fields.Boolean(
-        string='Cần phê duyệt',
-        compute='_compute_check_need_approve'
-    )
-    condition_visible_button_refuse_approve = fields.Boolean(
-        string='Hiển thị nút duyệt/từ chối',
-        compute='compute_condition_visible_button_refuse_approve'
-    )
-    
-    @api.depends('employee_id', 'hr_attendance_id')
-    def _compute_check_need_approve(self):
-        """Check if current user can approve"""
+    @api.depends('hr_attendance_id', 'submission_type_id', 'hr_attendance_id.date')
+    def _compute_explanation_date(self):
         for rec in self:
-            rec.check_need_approve = False
-            if rec.employee_id and rec.employee_id.parent_id:
-                # User is manager of employee
-                if rec.employee_id.parent_id.user_id == self.env.user:
-                    rec.check_need_approve = True
+            if not rec.submission_type_id.used_explanation_date and rec.hr_attendance_id:
+                rec.explanation_date = rec.hr_attendance_id.date
+            elif not rec.explanation_date:
+                rec.explanation_date = fields.Date.today()
     
-    def compute_condition_visible_button_refuse_approve(self):
-        """Check if approve/refuse buttons should be visible"""
-        for rec in self:
-            rec.condition_visible_button_refuse_approve = rec.check_need_approve
-    
-    @api.depends('employee_id', 'hr_attendance_id')
-    def create_name(self):
-        """Generate name for explanation"""
+    @api.depends('employee_id', 'explanation_date')
+    def _compute_name(self):
         for rec in self:
             if rec.employee_id and rec.explanation_date:
-                rec.name = f"GT-{rec.employee_id.barcode or rec.employee_id.id}-{rec.explanation_date}"
+                rec.name = f'{rec.employee_id.name} giải trình công ngày {rec.explanation_date.strftime("%d/%m/%Y")}'
+            else:
+                rec.name = 'Giải trình chấm công'
     
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            if vals.get('name', _('New')) == _('New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('hr.attendance.explanation') or _('New')
-        return super().create(vals_list)
+    @api.model
+    def _search_check_need_approve(self, operator, operand):
+        if operator not in ['=', '!=']:
+            raise UserError(_('Invalid operator'))
+        matching = self.env['hr.attendance.explanation.approver'].search([
+            ('state', '=', 'pending'), ('user_id', '=', self.env.user.id),
+            ('explanation_id.state', '=', 'to_approve')
+        ]).mapped('explanation_id')
+        if (operator == '=' and operand) or (operator == '!=' and not operand):
+            return [('id', 'in', matching.ids)]
+        return [('id', 'not in', matching.ids)]
+    
+    @api.depends('approver_ids', 'approver_ids.state', 'state')
+    def _compute_check_need_approve(self):
+        for rec in self:
+            rec.check_need_approve = bool(rec.state == 'to_approve' and 
+                rec.approver_ids.filtered(lambda a: a.state == 'pending' and a.user_id == self.env.user))
+    
+    @api.depends('approver_ids', 'approver_ids.state')
+    def _compute_condition_visible_button_refuse_approve(self):
+        for rec in self:
+            pending = rec.approver_ids.filtered(lambda a: a.state == 'pending').sorted('sequence')
+            rec.condition_visible_button_refuse_approve = pending[0].user_id == self.env.user if pending else False
+    
+    @api.model
+    def fields_get(self, allfields=None, attributes=None):
+        res = super().fields_get(allfields, attributes)
+        for fname in res:
+            if not res.get(fname).get('readonly'):
+                res[fname]['states'] = {'new': [('readonly', False)], 'to_approve': [('readonly', True)],
+                                         'approved': [('readonly', True)], 'refuse': [('readonly', True)],
+                                         'cancel': [('readonly', True)]}
+        return res
+    
+    def float_to_relativedelta(self, float_hour):
+        if float_hour >= 24:
+            float_hour = 23.9999
+        h = int(float_hour)
+        m = int((float_hour % 1) * 60)
+        s = int(((float_hour % 1) * 60 % 1) * 60)
+        return relativedelta(hours=h, minutes=m, seconds=s)
     
     def send_approve(self):
-        """Submit explanation for approval"""
         self.ensure_one()
-        if self.state != 'new':
-            raise UserError(_('Chỉ có thể gửi duyệt bản ghi ở trạng thái Mới.'))
+        if self.create_uid != self.env.user:
+            raise UserError(_('Chỉ người tạo mới có thể gửi phê duyệt!'))
+        if self.explanation_date > fields.Date.today():
+            raise UserError(_('Không thể giải trình trong tương lai!'))
+        if not self.line_ids:
+            raise UserError(_('Bạn cần thêm chi tiết điều chỉnh!'))
         
-        self.write({'state': 'to_approve'})
+        if self.submission_code == 'MA':
+            check_in = self.line_ids.filtered(lambda x: x.type == 'check_in')
+            check_out = self.line_ids.filtered(lambda x: x.type == 'check_out')
+            if not check_in or not check_out:
+                raise UserError(_('Cần có cả Check in và Check out'))
+            if check_in.time >= check_out.time:
+                raise UserError(_('Check in phải nhỏ hơn Check out'))
+            if self.env['hr.attendance'].search([('employee_id', '=', self.employee_id.id),
+                                                   ('date', '=', self.explanation_date)], limit=1):
+                raise UserError(_('Đã chấm công ngày này'))
+        
+        en_max = float(self.env['ir.config_parameter'].sudo().get_param('en_max_attendance_request', 0))
+        if en_max > 0:
+            check_out_time = None
+            if self.submission_code == 'MA':
+                co = self.line_ids.filtered(lambda x: x.type == 'check_out')
+                if co:
+                    check_out_time = self.explanation_date + self.float_to_relativedelta(co.time)
+            elif self.hr_attendance_id and self.hr_attendance_id.check_out:
+                check_out_time = self.hr_attendance_id.check_out
+            if check_out_time and (datetime.now() - check_out_time).total_seconds() / 3600 > en_max:
+                raise UserError(_('Đã quá thời gian giải trình'))
+        
         self.apply_approver()
-        
-        # Send notification
-        if self.employee_id.parent_id and self.employee_id.parent_id.user_id:
-            self.message_post(
-                body=_('Giải trình chấm công đã được gửi để phê duyệt.'),
-                partner_ids=[self.employee_id.parent_id.user_id.partner_id.id]
-            )
+        self.write({'state': 'to_approve'})
+        if self.approver_ids:
+            self.message_post(body=_('Giải trình chấm công cần phê duyệt.'),
+                            partner_ids=[self.approver_ids.sorted('sequence')[0].user_id.partner_id.id],
+                            message_type='notification')
     
     def apply_approver(self):
-        """Create approver records"""
         self.ensure_one()
-        # Clear existing approvers
         self.approver_ids.unlink()
-        
-        # Add manager as approver
         if self.employee_id.parent_id and self.employee_id.parent_id.user_id:
             self.env['hr.attendance.explanation.approver'].create({
-                'explanation_id': self.id,
-                'user_id': self.employee_id.parent_id.user_id.id,
-                'role_selection': 'manager',
-                'status': 'pending',
+                'explanation_id': self.id, 'user_id': self.employee_id.parent_id.user_id.id,
+                'role_selection': 'manager', 'state': 'pending', 'sequence': 10,
             })
     
     def button_approve(self):
-        """Approve explanation"""
         self.ensure_one()
         if self.state != 'to_approve':
-            raise UserError(_('Chỉ có thể phê duyệt bản ghi ở trạng thái Đã gửi duyệt.'))
-        
+            raise UserError(_('Chỉ phê duyệt ở trạng thái Đã gửi duyệt'))
         if not self.condition_visible_button_refuse_approve:
-            raise UserError(_('Bạn không có quyền phê duyệt bản ghi này.'))
+            raise UserError(_('Không có quyền phê duyệt'))
         
-        # Apply changes to attendance
-        attendance_values = {}
+        approver = self.approver_ids.filtered(lambda a: a.user_id == self.env.user and a.state == 'pending')
+        if approver:
+            approver.write({'state': 'approved', 'approval_date': fields.Datetime.now()})
         
-        for line in self.line_ids:
-            if line.type == 'check_in':
-                attendance_values['check_in'] = line.date
-            elif line.type == 'check_out':
-                attendance_values['check_out'] = line.date
-        
-        # Handle different submission types
-        if self.submission_code == 'MA':  # Missing attendance
-            # Create new attendance record
-            attendance_values.update({
-                'employee_id': self.employee_id.id,
-                'en_location_id': self.employee_id.work_location_id.id,
-                'en_missing_attendance': True,
-            })
-            
-            if not self.missing_hr_attendance_id:
-                self.missing_hr_attendance_id = self.env['hr.attendance'].create(attendance_values)
-            else:
-                self.missing_hr_attendance_id.sudo().write(attendance_values)
+        if all(a.state == 'approved' for a in self.approver_ids):
+            self._action_approve_complete()
         else:
-            # Update existing attendance
-            if self.hr_attendance_id and attendance_values:
-                self.hr_attendance_id.sudo().write(attendance_values)
+            next_app = self.approver_ids.filtered(lambda a: a.state == 'pending').sorted('sequence')
+            if next_app:
+                self.message_post(body=_('Giải trình chấm công cần phê duyệt.'),
+                                partner_ids=[next_app[0].user_id.partner_id.id], message_type='notification')
+    
+    def _action_approve_complete(self):
+        self.ensure_one()
+        att_vals = {}
+        for line in self.line_ids:
+            att_vals[line.type] = self.explanation_date + self.float_to_relativedelta(line.time) - relativedelta(hours=7)
         
-        # Update state
+        if self.submission_code == 'MA':
+            att_vals.update({'employee_id': self.employee_id.id, 'en_missing_attendance': True,
+                           'en_location_id': self.employee_id.work_location_id.id if self.employee_id.work_location_id else False})
+            if not self.missing_hr_attendance_id:
+                self.missing_hr_attendance_id = self.env['hr.attendance'].sudo().create(att_vals)
+            else:
+                self.missing_hr_attendance_id.sudo().write(att_vals)
+            self.missing_hr_attendance_id.sudo()._compute_worked_hours()
+        elif self.hr_attendance_id and att_vals:
+            self.hr_attendance_id.sudo().write(att_vals)
+            self.hr_attendance_id.sudo()._compute_worked_hours()
+        
         self.write({'state': 'approved'})
-        
-        # Update approver status
-        for approver in self.approver_ids:
-            if approver.user_id == self.env.user:
-                approver.status = 'approved'
-        
-        # Send notification
-        self.message_post(
-            body=_('Giải trình chấm công đã được phê duyệt.'),
-            partner_ids=[self.employee_id.user_id.partner_id.id]
-        )
+        if self.employee_id.user_id:
+            self.message_post(body=_('Giải trình đã được phê duyệt.'),
+                            partner_ids=[self.employee_id.user_id.partner_id.id], message_type='notification')
     
     def mass_button_approve(self):
-        """Mass approve explanations"""
         for rec in self:
             if rec.state != 'to_approve':
-                raise UserError(_('Chỉ có thể phê duyệt bản ghi ở trạng thái Đã gửi duyệt\n%s') % rec.name)
+                raise UserError(_('Chỉ phê duyệt ở trạng thái Đã gửi duyệt\n%s') % rec.name)
             if not rec.condition_visible_button_refuse_approve:
-                raise UserError(_('Bạn không được phép phê duyệt bản ghi %s') % rec.name)
+                raise UserError(_('Không có quyền phê duyệt %s') % rec.name)
             rec.button_approve()
     
     def button_refuse(self):
-        """Open wizard to refuse explanation"""
         self.ensure_one()
-        return {
-            'name': _('Từ chối giải trình'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'reason.for.refuse.wizard',
-            'view_mode': 'form',
-            'target': 'new',
-            'context': {
-                'default_explanation_id': self.id,
-            },
-        }
+        if self.state != 'to_approve':
+            raise UserError(_('Chỉ từ chối ở trạng thái Đã gửi duyệt'))
+        if not self.condition_visible_button_refuse_approve:
+            raise UserError(_('Không có quyền từ chối'))
+        return {'name': _('Lý do từ chối'), 'type': 'ir.actions.act_window',
+                'res_model': 'reason.for.refuse.wizard', 'view_mode': 'form',
+                'context': {'default_explanation_id': self.id}, 'target': 'new'}
     
     def mass_button_refuse(self):
-        """Mass refuse explanations"""
         for rec in self:
             if rec.state != 'to_approve':
-                raise UserError(_('Chỉ có thể từ chối bản ghi ở trạng thái Đã gửi duyệt\n%s') % rec.name)
+                raise UserError(_('Chỉ từ chối ở trạng thái Đã gửi duyệt\n%s') % rec.name)
             if not rec.condition_visible_button_refuse_approve:
-                raise UserError(_('Bạn không được phép từ chối bản ghi %s') % rec.name)
-    
-    def button_draft(self):
-        """Reset to new"""
-        self.ensure_one()
-        if self.create_uid != self.env.user and not self.env.user.has_group('base.group_system'):
-            raise UserError(_('Chỉ người tạo hoặc Administrator mới có thể chuyển về Mới!'))
-        
-        self.write({
-            'state': 'new',
-            'approver_ids': [(5, 0, 0)],
-        })
+                raise UserError(_('Không có quyền từ chối %s') % rec.name)
+        return {'name': _('Lý do từ chối'), 'type': 'ir.actions.act_window',
+                'res_model': 'reason.for.refuse.wizard', 'view_mode': 'form',
+                'context': {'default_explanation_ids': [(6, 0, self.ids)]}, 'target': 'new'}
     
     def button_cancel(self):
-        """Cancel explanation"""
-        self.ensure_one()
-        self.write({'state': 'cancel'})
+        for rec in self:
+            if rec.state not in ['new', 'refuse']:
+                raise UserError(_('Chỉ hủy ở trạng thái Mới hoặc Từ chối'))
+            rec.write({'state': 'cancel'})
     
-    @api.constrains('employee_id', 'attendance_id', 'line_ids', 'explanation_date', 'submission_type_id')
-    def check_limit_explanation(self):
-        """Validate explanation limits and constraints"""
-        en_max_attendance_request_count = int(
-            self.env['ir.config_parameter'].sudo().get_param('en_max_attendance_request_count', 3)
-        )
-        en_attendance_request_start = int(
-            self.env['ir.config_parameter'].sudo().get_param('en_attendance_request_start', 25)
-        )
+    def button_draft(self):
+        self.ensure_one()
+        if self.create_uid != self.env.user and not self.env.user.has_group('base.group_system'):
+            raise UserError(_('Chỉ người tạo hoặc Admin mới được chuyển về Mới'))
+        self.write({'state': 'new', 'reason_for_refuse': False})
+        self.approver_ids.unlink()
+    
+    @api.constrains('explanation_date')
+    def _check_explanation_date(self):
+        for rec in self:
+            if rec.explanation_date and rec.explanation_date > fields.Date.today():
+                raise ValidationError(_('Không thể giải trình trong tương lai'))
+    
+    @api.constrains('employee_id', 'explanation_date', 'submission_type_id', 'line_ids')
+    def _check_limit_explanation(self):
+        count_max = int(self.env['ir.config_parameter'].sudo().get_param('en_max_attendance_request_count', 3))
+        start_day = int(self.env['ir.config_parameter'].sudo().get_param('en_attendance_request_start', 25))
         
         for rec in self:
+            if rec.state != 'new':
+                continue
+            
             today = fields.Date.today()
-            day = today.day
-            start_date = today.replace(day=en_attendance_request_start)
-            if day < en_attendance_request_start:
-                start_date = start_date - relativedelta(months=1)
+            if today.day < start_day:
+                period_start = today.replace(day=start_day) - relativedelta(months=1)
+            else:
+                period_start = today.replace(day=start_day)
             
-            # Check if explanation date is valid
-            if rec.explanation_date and rec.explanation_date < start_date:
-                raise UserError(
-                    _('Bạn chỉ được phép giải trình từ ngày %s') % start_date.strftime('%d/%m/%Y')
-                )
+            if rec.explanation_date and rec.explanation_date < period_start:
+                raise ValidationError(_('Chỉ giải trình từ ngày %s') % period_start.strftime('%d/%m/%Y'))
             
-            # Validate time fields
-            time_check_in = rec.line_ids.filtered(lambda x: x.type == 'check_in').time
-            time_check_out = rec.line_ids.filtered(lambda x: x.type == 'check_out').time
+            ci = rec.line_ids.filtered(lambda x: x.type == 'check_in')
+            co = rec.line_ids.filtered(lambda x: x.type == 'check_out')
+            if ci and co and ci.time >= co.time:
+                raise ValidationError(_('Check in phải nhỏ hơn Check out'))
             
-            if time_check_in and time_check_out and time_check_in > time_check_out:
-                raise UserError(_('Giá trị mới Check in phải nhỏ hơn Check out'))
-            
-            # Check for missing attendance (MA)
-            if rec.submission_code == 'MA':
-                if not time_check_in or not time_check_out:
-                    raise UserError(_('Bạn cần chọn cả giá trị Check in và Check out'))
-                if not rec.explanation_date:
-                    raise UserError(_('Bạn cần chọn Ngày giải trình chấm công'))
-                if self.env['hr.attendance'].sudo().search_count([
-                    ('employee_id', '=', rec.employee_id.id),
-                    ('date', '=', rec.explanation_date)
-                ]):
-                    raise UserError(
-                        _('Bạn đã chấm công cho ngày %s') % rec.explanation_date.strftime('%d/%m/%Y')
-                    )
-            
-            # Check limit explanation count
             if not rec.submission_type_id.mark_count:
                 continue
             
@@ -312,52 +261,51 @@ class HrAttendanceExplanation(models.Model):
             if not date_check:
                 continue
             
-            if date_check.day < en_attendance_request_start:
-                date_start = date_check.replace(day=en_attendance_request_start) - relativedelta(months=1)
-                date_end = date_check.replace(day=en_attendance_request_start) - relativedelta(days=1)
+            if date_check.day < start_day:
+                ds = date_check.replace(day=start_day) - relativedelta(months=1)
+                de = date_check.replace(day=start_day) - relativedelta(days=1)
             else:
-                date_start = date_check.replace(day=en_attendance_request_start)
-                date_end = (date_start + relativedelta(months=1)).replace(day=en_attendance_request_start) - relativedelta(days=1)
+                ds = date_check.replace(day=start_day)
+                de = (ds + relativedelta(months=1)).replace(day=start_day) - relativedelta(days=1)
             
-            explanation_count = len(set(self.search([
-                ('employee_id', '=', rec.employee_id.id),
-                ('submission_type_id.mark_count', '=', True),
-                ('state', 'not in', ['refuse', 'cancel']),
-                ('explanation_date', '>=', date_start),
-                ('explanation_date', '<=', date_end)
-            ]).mapped('explanation_date')))
+            exp_count = len(set(self.search([('employee_id', '=', rec.employee_id.id),
+                ('submission_type_id.mark_count', '=', True), ('state', 'not in', ['refuse', 'cancel']),
+                ('explanation_date', '>=', ds), ('explanation_date', '<=', de),
+                ('id', '!=', rec.id)]).mapped('explanation_date')))
             
-            if 0 < en_max_attendance_request_count < explanation_count:
-                raise UserError(
-                    _('Bạn đã có %s giải trình chấm công trong tháng này. Vui lòng liên hệ nhân sự để được hỗ trợ.') 
-                    % en_max_attendance_request_count
-                )
+            if 0 < count_max <= exp_count:
+                raise ValidationError(_('Đã có %s giải trình trong chu kỳ') % count_max)
+    
+    @api.onchange('submission_type_id')
+    def _onchange_submission_type_id(self):
+        if self.submission_type_id:
+            self.line_ids = [(5, 0, 0)]
+    
+    @api.onchange('hr_attendance_id')
+    def _onchange_hr_attendance_id(self):
+        if self.hr_attendance_id and not self.submission_type_id.used_explanation_date:
+            self.explanation_date = self.hr_attendance_id.date
     
     @api.ondelete(at_uninstall=True)
     def _unlink_if_draft(self):
-        """Only allow delete if state is new"""
         for rec in self:
             if rec.state != 'new':
-                raise UserError(_('Bạn chỉ xoá được bản ghi ở trạng thái Mới'))
+                raise UserError(_('Chỉ xóa ở trạng thái Mới'))
 
 
 class HrAttendanceExplanationApprover(models.Model):
     _name = 'hr.attendance.explanation.approver'
-    _description = 'Attendance Explanation Approver'
+    _description = 'Người phê duyệt giải trình'
+    _order = 'sequence, id'
     
-    explanation_id = fields.Many2one(
-        'hr.attendance.explanation',
-        string='Giải trình',
-        required=True,
-        ondelete='cascade'
-    )
+    explanation_id = fields.Many2one('hr.attendance.explanation', required=True, ondelete='cascade')
+    sequence = fields.Integer(default=10)
     user_id = fields.Many2one('res.users', string='Người duyệt', required=True)
-    role_selection = fields.Selection([
-        ('manager', 'Quản lý'),
-        ('hr', 'Nhân sự'),
-    ], string='Vai trò', required=True)
-    status = fields.Selection([
-        ('pending', 'Chờ duyệt'),
-        ('approved', 'Đã duyệt'),
-        ('refused', 'Từ chối'),
-    ], string='Trạng thái', default='pending', required=True)
+    role_selection = fields.Selection([('manager', 'Quản lý'), ('hr_manager', 'HR'),
+                                        ('department_head', 'Trưởng phòng'), ('director', 'Giám đốc')],
+                                       string='Vai trò', required=True)
+    state = fields.Selection([('new', 'Mới'), ('pending', 'Chờ duyệt'),
+                              ('approved', 'Đã duyệt'), ('refuse', 'Từ chối')],
+                             default='new', required=True)
+    approval_date = fields.Datetime(string='Ngày duyệt', readonly=True)
+    comment = fields.Text(string='Nhận xét')
