@@ -31,14 +31,14 @@ class HrAttendanceExplanationDetail(models.Model):
         readonly=False
     )
 
-    @api.depends('explanation_id.date', 'time')
+    @api.depends('explanation_id.explanation_date', 'time')
     def _compute_date(self):
         """Compute datetime from date + time"""
         for rec in self:
-            if rec.explanation_id.date and rec.time:
+            if rec.explanation_id.explanation_date and rec.time:
                 # Convert float time to datetime
                 from datetime import datetime, timedelta
-                date = rec.explanation_id.date
+                date = rec.explanation_id.explanation_date
                 hours = int(rec.time)
                 minutes = int((rec.time - hours) * 60)
                 rec.date = datetime.combine(date, datetime.min.time()) + timedelta(hours=hours, minutes=minutes)

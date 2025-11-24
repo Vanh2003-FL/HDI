@@ -52,6 +52,7 @@
         # Views
         'views/attendance_dashboard.xml',
         'views/hr_attendance_views.xml',
+        'views/hr_attendance_explanation_detail_views.xml',
         'views/hr_attendance_explanation_views.xml',
         'views/submission_type_views.xml',
         'views/hr_attendance_log_views.xml',

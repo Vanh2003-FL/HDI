@@ -62,7 +62,7 @@
                                    options="{'no_create': True, 'no_create_edit': True}"/>
                             <field name="submission_code" invisible="1"/>
                             <field name="used_explanation_date" invisible="1"/>
-                            <field name="attendance_id" readonly="state != 'new'" 
+                            <field name="hr_attendance_id" readonly="state != 'new'" 
                                    invisible="used_explanation_date"
                                    options="{'no_create': True}"/>
                             <field name="explanation_date" readonly="state != 'new'" 
@@ -77,19 +77,12 @@
                     
                     <notebook>
                         <page string="Chi tiết giờ giấc" name="details">
-                            <field name="line_ids" 
-                                   readonly="state != 'new'">
-                                <tree editable="bottom">
-                                    <field name="type"/>
-                                    <field name="time" widget="float_time"/>
-                                    <field name="date" readonly="1"/>
-                                </tree>
-                            </field>
+                            <field name="line_ids" readonly="state != 'new'"/>
                         </page>
                         
                         <page string="Giải trình" name="reason">
                             <group>
-                                <field name="reason" readonly="state != 'new'" nolabel="1" 
+                                <field name="explanation_reason" readonly="state != 'new'" nolabel="1" 
                                        placeholder="Nhập lý do giải trình chi tiết..."/>
                             </group>
                             <group string="Tài liệu đính kèm">

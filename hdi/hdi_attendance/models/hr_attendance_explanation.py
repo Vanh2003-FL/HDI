@@ -9,7 +9,7 @@ class HrAttendanceExplanation(models.Model):
     _name = 'hr.attendance.explanation'
     _description = 'Attendance Explanation'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _order = 'date desc, id desc'
+    _order = 'explanation_date desc, id desc'
     
     name = fields.Char(
         string='Số tham chiếu',
@@ -29,15 +29,6 @@ class HrAttendanceExplanation(models.Model):
         related='employee_id.barcode',
         store=True
     )
-    date = fields.Date(
-        string='Ngày',
-        required=True,
-        default=fields.Date.today
-    )
-    explanation_date = fields.Date(
-        string='Ngày giải trình',
-        help='Dùng cho loại giải trình có sử dụng ngày riêng'
-    )
     submission_type_id = fields.Many2one(
         'submission.type',
         string='Loại giải trình',
@@ -53,10 +44,15 @@ class HrAttendanceExplanation(models.Model):
         string='Sử dụng ngày giải trình',
         store=True
     )
-    attendance_id = fields.Many2one(
+    hr_attendance_id = fields.Many2one(
         'hr.attendance',
-        string='Bản ghi chấm công',
+        string='Ngày điều chỉnh',
         domain="[('employee_id', '=', employee_id)]"
+    )
+    explanation_date = fields.Date(
+        string='Ngày giải trình',
+        tracking=True,
+        required=True
     )
     
     # Details
@@ -67,7 +63,7 @@ class HrAttendanceExplanation(models.Model):
     )
     
     # Explanation
-    reason = fields.Text(string='Lý do', required=True)
+    explanation_reason = fields.Text(string='Lý do giải trình', required=True)
     attachment_ids = fields.Many2many(
         'ir.attachment',
         string='Tài liệu đính kèm'
@@ -107,7 +103,7 @@ class HrAttendanceExplanation(models.Model):
         compute='compute_condition_visible_button_refuse_approve'
     )
     
-    @api.depends('employee_id', 'attendance_id')
+    @api.depends('employee_id', 'hr_attendance_id')
     def _compute_check_need_approve(self):
         """Check if current user can approve"""
         for rec in self:
@@ -122,12 +118,12 @@ class HrAttendanceExplanation(models.Model):
         for rec in self:
             rec.condition_visible_button_refuse_approve = rec.check_need_approve
     
-    @api.depends('employee_id', 'attendance_id')
+    @api.depends('employee_id', 'hr_attendance_id')
     def create_name(self):
         """Generate name for explanation"""
         for rec in self:
-            if rec.employee_id and rec.date:
-                rec.name = f"GT-{rec.employee_id.barcode or rec.employee_id.id}-{rec.date}"
+            if rec.employee_id and rec.explanation_date:
+                rec.name = f"GT-{rec.employee_id.barcode or rec.employee_id.id}-{rec.explanation_date}"
     
     @api.model_create_multi
     def create(self, vals_list):
