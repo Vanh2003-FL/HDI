@@ -7,56 +7,48 @@
         <record id="ir_config_parameter_max_attendance_request" model="ir.config_parameter">
             <field name="key">en_max_attendance_request_count</field>
             <field name="value">3</field>
-            <field name="description">Số lần giải trình tối đa trong tháng (mặc định: 3)</field>
         </record>
 
         <!-- Day of month from which explanation period starts (previous month) -->
         <record id="ir_config_parameter_attendance_request_start_day" model="ir.config_parameter">
             <field name="key">en_attendance_request_start</field>
             <field name="value">25</field>
-            <field name="description">Ngày bắt đầu chu kỳ giải trình (từ ngày 25 tháng trước, mặc định: 25)</field>
         </record>
 
         <!-- Grace period for late check-in (in minutes) -->
         <record id="ir_config_parameter_late_tolerance_minutes" model="ir.config_parameter">
             <field name="key">en_late_tolerance_minutes</field>
             <field name="value">15</field>
-            <field name="description">Thời gian gia hạn cho đi muộn (phút, mặc định: 15)</field>
         </record>
 
         <!-- Grace period for early check-out (in minutes) -->
         <record id="ir_config_parameter_early_tolerance_minutes" model="ir.config_parameter">
             <field name="key">en_early_tolerance_minutes</field>
             <field name="value">15</field>
-            <field name="description">Thời gian gia hạn cho về sớm (phút, mặc định: 15)</field>
         </record>
 
         <!-- Minimum working hours threshold for color coding -->
         <record id="ir_config_parameter_min_working_hours" model="ir.config_parameter">
             <field name="key">en_min_working_hours</field>
             <field name="value">7.75</field>
-            <field name="description">Số giờ làm việc tối thiểu (mặc định: 7.75 = 7h45p)</field>
         </record>
 
         <!-- Maximum GPS distance for valid check-in/out (in kilometers) -->
         <record id="ir_config_parameter_max_gps_distance" model="ir.config_parameter">
             <field name="key">en_max_gps_distance</field>
             <field name="value">0.5</field>
-            <field name="description">Khoảng cách GPS tối đa cho phép (km, mặc định: 0.5)</field>
         </record>
 
         <!-- Auto logout time (format: HH:MM) -->
         <record id="ir_config_parameter_auto_logout_time" model="ir.config_parameter">
             <field name="key">en_auto_logout_time</field>
             <field name="value">23:59</field>
-            <field name="description">Giờ tự động checkout nếu quên checkout (mặc định: 23:59)</field>
         </record>
 
         <!-- Enable/disable auto logout feature -->
         <record id="ir_config_parameter_enable_auto_logout" model="ir.config_parameter">
             <field name="key">en_enable_auto_logout</field>
             <field name="value">True</field>
-            <field name="description">Bật/tắt tính năng tự động checkout (mặc định: True)</field>
         </record>
     </data>
 </odoo>

@@ -5,19 +5,10 @@
         <field name="name">hr.attendance.calendar.hdi</field>
         <field name="model">hr.attendance</field>
         <field name="arch" type="xml">
-            <calendar string="Lịch chấm công" 
-                      date_start="check_in" 
-                      date_stop="check_out"
-                      color="color"
-                      mode="month"
-                      event_open_popup="true"
-                      quick_add="False">
+            <calendar date_start="check_in" date_stop="check_out" hide_time="true" event_limit="5" quick_add="false" event_open_popup="true" create="0" color="employee_id">
                 <field name="employee_id"/>
-                <field name="date"/>
-                <field name="en_dayofweek"/>
-                <field name="warning_message"/>
-                <field name="en_late"/>
-                <field name="en_soon"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
                 <field name="worked_hours"/>
             </calendar>
         </field>
