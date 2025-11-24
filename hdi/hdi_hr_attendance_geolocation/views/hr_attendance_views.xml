@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Attendance Form View - Add Geolocation Fields -->
+    <record id="view_attendance_form_inherit_geolocation" model="ir.ui.view">
+        <field name="name">hr.attendance.form.geolocation</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Add location info after employee field -->
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="is_check_in_valid_location" invisible="1"/>
+                <field name="is_check_out_valid_location" invisible="1"/>
+                <field name="location_warning" invisible="1"/>
+            </xpath>
+            
+            <!-- Add Check-in location group -->
+            <xpath expr="//sheet" position="inside">
+                <group string="Thông tin vị trí Check-in" 
+                       name="group_checkin_location"
+                       groups="hr.group_hr_manager"
+                       class="o_hr_attendance_location_group">
+                    <group>
+                        <field name="check_in_latitude_text" readonly="1"/>
+                        <field name="check_in_longitude_text" readonly="1"/>
+                        <field name="check_in_distance_from_office" readonly="1"
+                               widget="float" 
+                               class="o_hr_attendance_distance"/>
+                    </group>
+                    <group>
+                        <field name="check_in_address" readonly="1" colspan="2"/>
+                        <field name="check_in_address_url" widget="url" 
+                               text="Xem trên Google Maps" readonly="1" colspan="2"
+                               class="o_hr_attendance_map_link"/>
+                        <button name="action_recompute_check_in_address" 
+                                string="Tính lại địa chỉ" 
+                                type="object"
+                                icon="fa-refresh"
+                                invisible="not check_in_latitude or not check_in_longitude"/>
+                    </group>
+                </group>
+                
+                <!-- Add Check-out location group -->
+                <group string="Thông tin vị trí Check-out" 
+                       name="group_checkout_location"
+                       groups="hr.group_hr_manager"
+                       class="o_hr_attendance_location_group"
+                       invisible="not check_out">
+                    <group>
+                        <field name="check_out_latitude_text" readonly="1"/>
+                        <field name="check_out_longitude_text" readonly="1"/>
+                        <field name="check_out_distance_from_office" readonly="1"
+                               widget="float"
+                               class="o_hr_attendance_distance"/>
+                    </group>
+                    <group>
+                        <field name="check_out_address" readonly="1" colspan="2"/>
+                        <field name="check_out_address_url" widget="url" 
+                               text="Xem trên Google Maps" readonly="1" colspan="2"
+                               class="o_hr_attendance_map_link"/>
+                        <button name="action_recompute_check_out_address" 
+                                string="Tính lại địa chỉ" 
+                                type="object"
+                                icon="fa-refresh"
+                                invisible="not check_out_latitude or not check_out_longitude"/>
+                    </group>
+                </group>
+                
+                <!-- Location warning -->
+                <div class="alert alert-warning o_hr_attendance_location_warning" 
+                     role="alert"
+                     invisible="not location_warning">
+                    <i class="fa fa-exclamation-triangle" title="Cảnh báo vị trí"/> 
+                    <field name="location_warning" readonly="1" nolabel="1"/>
+                </div>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    <!-- Attendance Tree View - Add Optional Location Columns -->
+    <record id="view_attendance_tree_inherit_geolocation" model="ir.ui.view">
+        <field name="name">hr.attendance.tree.geolocation</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='check_out']" position="after">
+                <field name="check_in_address" optional="hide" 
+                       groups="hr.group_hr_manager"/>
+                <field name="check_in_distance_from_office" optional="hide"
+                       groups="hr.group_hr_manager"/>
+                <field name="is_check_in_valid_location" optional="hide"
+                       widget="boolean_icon"
+                       groups="hr.group_hr_manager"/>
+                <field name="check_out_address" optional="hide"
+                       groups="hr.group_hr_manager"/>
+                <field name="check_out_distance_from_office" optional="hide"
+                       groups="hr.group_hr_manager"/>
+                <field name="is_check_out_valid_location" optional="hide"
+                       widget="boolean_icon"
+                       groups="hr.group_hr_manager"/>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    <!-- Attendance Search View - Add Location Filters -->
+    <record id="view_attendance_search_inherit_geolocation" model="ir.ui.view">
+        <field name="name">hr.attendance.search.geolocation</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter name="invalid_checkin_location" 
+                        string="Vị trí check-in không hợp lệ"
+                        domain="[('is_check_in_valid_location', '=', False)]"
+                        groups="hr.group_hr_manager"/>
+                <filter name="invalid_checkout_location" 
+                        string="Vị trí check-out không hợp lệ"
+                        domain="[('is_check_out_valid_location', '=', False)]"
+                        groups="hr.group_hr_manager"/>
+                <filter name="has_location_warning" 
+                        string="Có cảnh báo vị trí"
+                        domain="[('location_warning', '!=', False)]"
+                        groups="hr.group_hr_manager"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>

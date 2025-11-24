@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="hdi_attendance.AttendanceDashboard">
+        <div class="o_attendance_dashboard p-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6">
+                        <div class="card shadow-lg border-0">
+                            <div class="card-body text-center p-5">
+                                <t t-if="state.employee">
+                                    <!-- Employee Info -->
+                                    <div class="mb-4">
+                                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" 
+                                             style="width: 100px; height: 100px; font-size: 48px; font-weight: bold;">
+                                            <t t-esc="state.employee.name[0].toUpperCase()"/>
+                                        </div>
+                                        <h2 class="mb-2"><t t-esc="state.employee.name"/></h2>
+                                        <h5 class="text-muted">Xin chào!</h5>
+                                    </div>
+                                    
+                                    <!-- Status -->
+                                    <div class="mb-4">
+                                        <span class="badge fs-5 py-2 px-4" 
+                                              t-attf-class="{{state.employee.attendance_state === 'checked_in' ? 'bg-success' : 'bg-secondary'}}">
+                                            <t t-esc="statusText"/>
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- Location Selector -->
+                                    <div class="mb-4" t-if="state.locations.length > 0">
+                                        <div class="row g-3 align-items-center">
+                                            <label class="col-4 text-end fw-bold fs-5" for="location_select">Địa điểm:</label>
+                                            <div class="col-8">
+                                                <select class="form-select form-select-lg" id="location_select" 
+                                                        t-model="state.selectedLocationId"
+                                                        t-on-change="onLocationChange">
+                                                    <t t-foreach="state.locations" t-as="location" t-key="location.id">
+                                                        <option t-att-value="location.id" 
+                                                                t-att-selected="location.id === state.selectedLocationId">
+                                                            <t t-esc="location.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Check In/Out Button -->
+                                    <div class="mt-4">
+                                        <button class="btn btn-lg px-5 py-4 fs-3 fw-bold shadow"
+                                                t-attf-class="{{buttonClass}}"
+                                                t-on-click="onCheckInOut"
+                                                t-att-disabled="state.isProcessing">
+                                            <i class="fa fa-sign-in me-2" t-if="state.employee.attendance_state !== 'checked_in'"/>
+                                            <i class="fa fa-sign-out me-2" t-else=""/>
+                                            <t t-if="state.isProcessing">Đang xử lý...</t>
+                                            <t t-else="" t-esc="buttonText"/>
+                                        </button>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Cron Job: Process Pending Attendance Logs -->
+        <record id="ir_cron_process_attendance_log" model="ir.cron">
+            <field name="name">HDI: Process Pending Attendance Logs</field>
+            <field name="model_id" ref="model_hr_attendance_log"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_process_pending_logs()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Sequence for Attendance Explanation -->
+        <record id="seq_hr_attendance_explanation" model="ir.sequence">
+            <field name="name">Attendance Explanation Sequence</field>
+            <field name="code">hr.attendance.explanation</field>
+            <field name="prefix">ATT-EXP-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

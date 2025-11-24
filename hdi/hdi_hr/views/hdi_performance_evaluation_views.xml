@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Performance Evaluation Menu -->
+        <menuitem id="menu_hdi_performance_main" 
+                  name="Đánh giá hiệu suất" 
+                  parent="hr.menu_hr_root"
+                  sequence="40"/>
+
+        <!-- HDI Performance Evaluation Views -->
+        <record id="view_hdi_performance_evaluation_tree" model="ir.ui.view">
+            <field name="name">hdi.performance.evaluation.tree</field>
+            <field name="model">hdi.performance.evaluation</field>
+            <field name="arch" type="xml">
+                <list string="Đánh giá hiệu suất">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="evaluator_id"/>
+                    <field name="evaluation_type"/>
+                    <field name="evaluation_date"/>
+                    <field name="final_score" widget="progressbar"/>
+                    <field name="performance_rating" decoration-success="performance_rating == 'excellent'" decoration-info="performance_rating == 'good'" decoration-warning="performance_rating == 'average'" decoration-danger="performance_rating in ('poor', 'below_average')"/>
+                    <field name="state" decoration-info="state == 'draft'" decoration-warning="state in ('employee_review', 'manager_review')" decoration-success="state == 'approved'"/>
+                    <field name="is_overdue" invisible="1"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_hdi_performance_evaluation_form" model="ir.ui.view">
+            <field name="name">hdi.performance.evaluation.form</field>
+            <field name="model">hdi.performance.evaluation</field>
+            <field name="arch" type="xml">
+                <form string="Đánh giá hiệu suất">
+                    <header>
+                        <button name="action_start_employee_review" string="Bắt đầu đánh giá" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="action_submit_employee_review" string="Gửi tự đánh giá" type="object" class="oe_highlight" invisible="state != 'employee_review'"/>
+                        <button name="action_submit_manager_review" string="Gửi đánh giá quản lý" type="object" class="oe_highlight" invisible="state != 'manager_review'"/>
+                        <button name="action_approve" string="Phê duyệt" type="object" class="oe_highlight" invisible="state != 'hr_review'"/>
+                        <button name="action_cancel" string="Hủy" type="object" invisible="state in ('approved', 'cancelled')"/>
+                        <button name="action_reset_to_draft" string="Reset về nháp" type="object" invisible="state == 'draft'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,employee_review,manager_review,hr_review,approved"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="employee_id" readonly="state != 'draft'"/>
+                                <field name="evaluator_id" readonly="state != 'draft'"/>
+                                <field name="evaluation_template_id" readonly="state != 'draft'"/>
+                            </group>
+                            <group>
+                                <field name="evaluation_type" readonly="state != 'draft'"/>
+                                <field name="evaluation_date" readonly="state != 'draft'"/>
+                                <field name="period_from" readonly="state != 'draft'"/>
+                                <field name="period_to" readonly="state != 'draft'"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="employee_deadline" readonly="state not in ('draft', 'employee_review')"/>
+                                <field name="manager_deadline" readonly="state not in ('draft', 'manager_review')"/>
+                            </group>
+                            <group>
+                                <field name="final_score" widget="progressbar"/>
+                                <field name="performance_rating"/>
+                                <field name="goal_achievement_rate" widget="percentage"/>
+                                <field name="is_overdue" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="KPI đánh giá">
+                                <field name="kpi_line_ids">
+                                    <list editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="target"/>
+                                        <field name="weight"/>
+                                        <field name="self_score" readonly="parent.state not in ('employee_review', 'draft')"/>
+                                        <field name="manager_score" readonly="parent.state not in ('manager_review', 'hr_review')"/>
+                                        <field name="final_score" readonly="parent.state != 'hr_review'"/>
+                                    </list>
+                                    <form string="Chi tiết KPI">
+                                        <group>
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="target"/>
+                                                <field name="weight"/>
+                                                <field name="measurement"/>
+                                            </group>
+                                            <group>
+                                                <field name="self_score"/>
+                                                <field name="manager_score"/>
+                                                <field name="final_score"/>
+                                            </group>
+                                        </group>
+                                        <group string="Mô tả">
+                                            <field name="description" nolabel="1"/>
+                                        </group>
+                                        <notebook>
+                                            <page string="Tự đánh giá">
+                                                <field name="self_comment" nolabel="1"/>
+                                            </page>
+                                            <page string="Đánh giá quản lý">
+                                                <field name="manager_comment" nolabel="1"/>
+                                            </page>
+                                            <page string="Bằng chứng">
+                                                <field name="achievement_evidence" nolabel="1"/>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Đánh giá năng lực">
+                                <field name="competency_line_ids">
+                                    <list editable="bottom">
+                                        <field name="competency_id"/>
+                                        <field name="self_score" readonly="parent.state not in ('employee_review', 'draft')"/>
+                                        <field name="manager_score" readonly="parent.state not in ('manager_review', 'hr_review')"/>
+                                        <field name="final_score" readonly="parent.state != 'hr_review'"/>
+                                    </list>
+                                    <form string="Chi tiết năng lực">
+                                        <group>
+                                            <field name="competency_id"/>
+                                            <field name="self_score"/>
+                                            <field name="manager_score"/>
+                                            <field name="final_score"/>
+                                        </group>
+                                        <notebook>
+                                            <page string="Tự đánh giá">
+                                                <field name="self_comment" nolabel="1"/>
+                                            </page>
+                                            <page string="Đánh giá quản lý">
+                                                <field name="manager_comment" nolabel="1"/>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Mục tiêu cá nhân">
+                                <field name="goal_line_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="target_date"/>
+                                        <field name="achievement_rate" widget="percentage"/>
+                                        <field name="status"/>
+                                    </list>
+                                    <form string="Chi tiết mục tiêu">
+                                        <group>
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="target_date"/>
+                                                <field name="achievement_rate"/>
+                                                <field name="status"/>
+                                            </group>
+                                        </group>
+                                        <group string="Mô tả chi tiết">
+                                            <field name="description" nolabel="1"/>
+                                        </group>
+                                        <group string="Nhận xét hoàn thành">
+                                            <field name="achievement_comment" nolabel="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Nhận xét &amp; Phản hồi">
+                                <group>
+                                    <group string="Tự đánh giá">
+                                        <field name="employee_comments" nolabel="1"/>
+                                    </group>
+                                    <group string="Đánh giá quản lý">
+                                        <field name="manager_comments" nolabel="1"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Điểm mạnh">
+                                        <field name="strengths" nolabel="1"/>
+                                    </group>
+                                    <group string="Điểm cần cải thiện">
+                                        <field name="areas_for_improvement" nolabel="1"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Kế hoạch phát triển">
+                                        <field name="development_plan" nolabel="1"/>
+                                    </group>
+                                    <group string="Định hướng sự nghiệp">
+                                        <field name="career_aspirations" nolabel="1"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="hr_comments"/>
+                                </group>
+                            </page>
+                            <page string="Đề xuất">
+                                <group>
+                                    <group>
+                                        <field name="salary_recommendation"/>
+                                        <field name="promotion_recommendation"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="training_recommendation"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hdi_performance_evaluation_kanban" model="ir.ui.view">
+            <field name="name">hdi.performance.evaluation.kanban</field>
+            <field name="model">hdi.performance.evaluation</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_kanban_small_column">
+                    <field name="employee_id"/>
+                    <field name="evaluator_id"/>
+                    <field name="evaluation_date"/>
+                    <field name="final_score"/>
+                    <field name="performance_rating"/>
+                    <field name="state"/>
+                    <field name="is_overdue"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><field name="employee_id"/></strong>
+                                        <br/>
+                                        <div class="o_kanban_record_subtitle">
+                                            <field name="evaluation_date"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_top_right">
+                                        <div class="o_priority_star">
+                                            <t t-if="record.is_overdue.raw_value">
+                                                <i class="fa fa-clock-o text-danger" title="Quá hạn"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div>Người đánh giá: <field name="evaluator_id"/></div>
+                                    <div class="mt8">
+                                        <div class="o_field_widget o_field_progressbar" name="final_score">
+                                            <div class="o_progressbar" role="progressbar" t-att-aria-valuenow="record.final_score.raw_value" aria-valuemin="0" aria-valuemax="5">
+                                                <div class="o_progressbar_value" t-attf-style="width: #{record.final_score.raw_value * 20}%"/>
+                                            </div>
+                                            <div class="o_progressbar_text">
+                                                <t t-esc="Math.round(record.final_score.raw_value * 100) / 100"/> / 5.0
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span class="badge" t-att-class="record.performance_rating.raw_value == 'excellent' ? 'badge-success' : record.performance_rating.raw_value == 'good' ? 'badge-info' : record.performance_rating.raw_value == 'average' ? 'badge-warning' : 'badge-danger'">
+                                            <field name="performance_rating"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_hdi_performance_evaluation_search" model="ir.ui.view">
+            <field name="name">hdi.performance.evaluation.search</field>
+            <field name="model">hdi.performance.evaluation</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm đánh giá hiệu suất">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="evaluator_id"/>
+                    <filter string="Đánh giá của tôi" name="my_evaluations" domain="[('evaluator_id.user_id', '=', uid)]"/>
+                    <filter string="Tự đánh giá" name="my_self_evaluations" domain="[('employee_id.user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter string="Nháp" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Nhân viên đánh giá" name="employee_review" domain="[('state', '=', 'employee_review')]"/>
+                    <filter string="Quản lý đánh giá" name="manager_review" domain="[('state', '=', 'manager_review')]"/>
+                    <filter string="HR xem xét" name="hr_review" domain="[('state', '=', 'hr_review')]"/>
+                    <filter string="Đã phê duyệt" name="approved" domain="[('state', '=', 'approved')]"/>
+                    <separator/>
+                    <filter string="Quá hạn" name="overdue" domain="[('is_overdue', '=', True)]"/>
+                    <filter string="Hiệu suất xuất sắc" name="excellent" domain="[('performance_rating', '=', 'excellent')]"/>
+                    <filter string="Hiệu suất tốt" name="good" domain="[('performance_rating', '=', 'good')]"/>
+                    <separator/>
+                    <filter string="Tháng này" name="this_month" domain="[('evaluation_date', '&gt;=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d')), ('evaluation_date', '&lt;', (context_today() + relativedelta(months=1, day=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Quý này" name="this_quarter" domain="[('evaluation_date', '&gt;=', (context_today() - relativedelta(months=((context_today().month-1) % 3), day=1)).strftime('%Y-%m-%d')), ('evaluation_date', '&lt;', (context_today() + relativedelta(months=(3-((context_today().month-1) % 3)), day=1)).strftime('%Y-%m-%d'))]"/>
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Nhân viên" name="group_employee" context="{'group_by': 'employee_id'}"/>
+                        <filter string="Người đánh giá" name="group_evaluator" context="{'group_by': 'evaluator_id'}"/>
+                        <filter string="Loại đánh giá" name="group_type" context="{'group_by': 'evaluation_type'}"/>
+                        <filter string="Trạng thái" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Xếp loại" name="group_rating" context="{'group_by': 'performance_rating'}"/>
+                        <filter string="Tháng đánh giá" name="group_month" context="{'group_by': 'evaluation_date:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_hdi_performance_evaluation" model="ir.actions.act_window">
+            <field name="name">Đánh giá hiệu suất</field>
+            <field name="res_model">hdi.performance.evaluation</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="search_view_id" ref="view_hdi_performance_evaluation_search"/>
+            <field name="context">{'search_default_my_evaluations': 1}</field>
+        </record>
+
+        <menuitem id="menu_hdi_performance_evaluation" 
+                  name="Đánh giá hiệu suất" 
+                  parent="menu_hdi_performance_main" 
+                  action="action_hdi_performance_evaluation" 
+                  sequence="10"/>
+
+        <!-- Performance Templates -->
+        <record id="view_hdi_performance_template_tree" model="ir.ui.view">
+            <field name="name">hdi.performance.template.tree</field>
+            <field name="model">hdi.performance.template</field>
+            <field name="arch" type="xml">
+                <list string="Mẫu đánh giá">
+                    <field name="name"/>
+                    <field name="evaluation_type"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_hdi_performance_template_form" model="ir.ui.view">
+            <field name="name">hdi.performance.template.form</field>
+            <field name="model">hdi.performance.template</field>
+            <field name="arch" type="xml">
+                <form string="Mẫu đánh giá">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="evaluation_type"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                        <notebook>
+                            <page string="KPI mẫu">
+                                <field name="kpi_template_ids">
+                                    <list editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="target"/>
+                                        <field name="weight"/>
+                                        <field name="measurement"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Năng lực mẫu">
+                                <field name="competency_template_ids">
+                                    <list editable="bottom">
+                                        <field name="competency_id"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hdi_performance_template" model="ir.actions.act_window">
+            <field name="name">Mẫu đánh giá</field>
+            <field name="res_model">hdi.performance.template</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_hdi_performance_template" 
+                  name="Mẫu đánh giá" 
+                  parent="menu_hdi_performance_main" 
+                  action="action_hdi_performance_template" 
+                  sequence="20"/>
+
+    </data>
+</odoo>

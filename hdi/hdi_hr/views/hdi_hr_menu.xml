@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Employees Menu -->
+    <menuitem id="menu_hdi_hr_employees"
+              name="Quản lý nhân sự"
+              parent="menu_hdi_hr_root"
+              sequence="10"/>
+
+    <menuitem id="menu_hr_employee"
+              name="Danh sách nhân viên"
+              parent="menu_hdi_hr_employees"
+              action="action_hdi_hr_employee"
+              sequence="1"/>
+
+    <menuitem id="menu_hr_department"
+              name="Phòng ban"
+              parent="menu_hdi_hr_employees"
+              action="action_hdi_hr_department"
+              sequence="2"/>
+
+    <menuitem id="menu_hr_job"
+              name="Vị trí công việc"
+              parent="menu_hdi_hr_employees"
+              action="action_hdi_hr_job"
+              sequence="3"/>
+
+    <!-- Work Management Menu (Parent) -->
+    <menuitem id="menu_hdi_hr_work_management"
+              name="Quản lý công"
+              parent="menu_hdi_hr_root"
+              sequence="30"/>
+
+    <!-- Performance Evaluation -->
+    <menuitem id="menu_hr_evaluation"
+              name="Đánh giá nhân viên"
+              parent="menu_hdi_hr_work_management"
+              action="action_hr_evaluation"
+              sequence="10"/>
+
+    <!-- Advanced Leave Management -->
+    <menuitem id="menu_hdi_leave_advanced_main"
+              name="Quản lý nghỉ nâng cao"
+              parent="menu_hdi_hr_work_management"
+              sequence="20"/>
+
+    <menuitem id="menu_hdi_leave_accruals"
+              name="Tích lũy nghỉ phép"
+              parent="menu_hdi_leave_advanced_main"
+              action="action_hdi_leave_accrual"
+              sequence="10"/>
+
+    <menuitem id="menu_hdi_leave_policies"
+              name="Chính sách nghỉ phép"
+              parent="menu_hdi_leave_advanced_main"
+              action="action_hdi_leave_policy"
+              sequence="20"/>
+
+    <menuitem id="menu_hdi_leave_calendars"
+              name="Lịch nghỉ phép"
+              parent="menu_hdi_leave_advanced_main"
+              action="action_hdi_leave_calendar"
+              sequence="30"/>
+
+    <menuitem id="menu_hdi_leave_encashments"
+              name="Quy đổi ngày phép"
+              parent="menu_hdi_leave_advanced_main"
+              action="action_hdi_leave_encashment"
+              sequence="40"/>
+
+    <menuitem id="menu_hr_leave"
+              name="Xin nghỉ phép"
+              parent="menu_hdi_leave_advanced_main"
+              action="action_hdi_hr_leave"
+              sequence="50"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_hdi_hr_config"
+              name="Cài đặt"
+              parent="menu_hdi_hr_root"
+              sequence="100"/>
+
+    <!-- Skills Configuration -->
+    <menuitem id="menu_hdi_hr_config_skills"
+              name="Kỹ năng"
+              parent="menu_hdi_hr_config"
+              sequence="10"/>
+
+    <menuitem id="menu_hr_skill_type"
+              name="Loại kỹ năng"
+              parent="menu_hdi_hr_config_skills"
+              action="action_hr_skill_type"
+              sequence="10"/>
+
+    <menuitem id="menu_hr_skill"
+              name="Kỹ năng"
+              parent="menu_hdi_hr_config_skills"
+              action="action_hr_skill"
+              sequence="11"/>
+
+    <!-- Payroll Configuration -->
+    <menuitem id="menu_hdi_hr_config_payroll"
+              name="Lương"
+              parent="menu_hdi_hr_config"
+              sequence="20"/>
+
+    <menuitem id="menu_hdi_payroll_components"
+              name="Thành phần lương"
+              parent="menu_hdi_hr_config_payroll"
+              action="action_hdi_payroll_component"
+              sequence="20"/>
+
+    <menuitem id="menu_hdi_payroll_rules"
+              name="Quy tắc lương"
+              parent="menu_hdi_hr_config_payroll"
+              action="action_hdi_payroll_rule"
+              sequence="21"/>
+
+    <menuitem id="menu_hdi_payroll_structures"
+              name="Cấu trúc lương"
+              parent="menu_hdi_hr_config_payroll"
+              action="action_hdi_payroll_structure"
+              sequence="22"/>
+
+    <menuitem id="menu_hdi_employee_payroll_components"
+              name="Thành phần lương nhân viên"
+              parent="menu_hdi_hr_config_payroll"
+              action="action_hdi_employee_payroll_component"
+              sequence="23"/>
+
+    <!-- Contract & Benefits Configuration -->
+    <menuitem id="menu_hdi_hr_config_contract"
+              name="Hợp đồng &amp; Phúc lợi"
+              parent="menu_hdi_hr_config"
+              sequence="30"/>
+
+    <menuitem id="menu_hdi_benefit_packages"
+              name="Gói phúc lợi"
+              parent="menu_hdi_hr_config_contract"
+              action="action_hdi_benefit_package"
+              sequence="25"/>
+
+    <menuitem id="menu_hdi_contract_types"
+              name="Loại hợp đồng"
+              parent="menu_hdi_hr_config_contract"
+              action="action_hdi_contract_type"
+              sequence="26"/>
+
+</odoo>

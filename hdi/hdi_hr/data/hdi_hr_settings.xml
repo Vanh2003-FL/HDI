@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- HDI HR Settings Data -->
+    
+    <!-- Create default HDI HR Settings -->
+    <record id="hdi_hr_settings_default" model="hdi.hr.settings">
+        <field name="name">Cấu hình HDI HR mặc định</field>
+        <field name="late_tolerance_minutes">15</field>
+        <field name="early_leave_tolerance_minutes">15</field>
+        <field name="auto_checkout_hours">12</field>
+        <field name="leave_advance_notice_days">3</field>
+        <field name="max_consecutive_leave_days">10</field>
+        <field name="payroll_cutoff_day">25</field>
+        <field name="overtime_rate_weekday">1.5</field>
+        <field name="overtime_rate_weekend">2.0</field>
+        <field name="overtime_rate_holiday">3.0</field>
+        <field name="cv_retention_days">365</field>
+        <field name="interview_feedback_required">True</field>
+        <field name="evaluation_frequency">quarterly</field>
+        <field name="kpi_weight_technical">40.0</field>
+        <field name="kpi_weight_soft_skill">30.0</field>
+        <field name="kpi_weight_attitude">30.0</field>
+    </record>
+
+    <!-- Create HDI Sequences -->
+    <record id="seq_hdi_employee_code" model="ir.sequence">
+        <field name="name">HDI Employee Code</field>
+        <field name="code">hdi.employee</field>
+        <field name="prefix">HDI/EMP/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_hdi_contract_code" model="ir.sequence">
+        <field name="name">HDI Contract Code</field>
+        <field name="code">hdi.contract</field>
+        <field name="prefix">HDI/CT/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_hdi_leave_code" model="ir.sequence">
+        <field name="name">HDI Leave Code</field>
+        <field name="code">hdi.leave</field>
+        <field name="prefix">HDI/LV/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_hdi_leave_allocation_code" model="ir.sequence">
+        <field name="name">HDI Leave Allocation Code</field>
+        <field name="code">hdi.leave.allocation</field>
+        <field name="prefix">HDI/AL/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_hdi_evaluation_code" model="ir.sequence">
+        <field name="name">HDI Evaluation Code</field>
+        <field name="code">hdi.evaluation</field>
+        <field name="prefix">HDI/EV/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_attendance_log_user,hr.attendance.log.user,model_hr_attendance_log,base.group_user,1,1,1,0
+access_hr_attendance_log_manager,hr.attendance.log.manager,model_hr_attendance_log,hdi_attendance.group_attendance_manager,1,1,1,1
+access_hr_attendance_explanation_user,hr.attendance.explanation.user,model_hr_attendance_explanation,base.group_user,1,1,1,0
+access_hr_attendance_explanation_manager,hr.attendance.explanation.manager,model_hr_attendance_explanation,hdi_attendance.group_attendance_manager,1,1,1,1
+access_submission_type_user,submission.type.user,model_submission_type,base.group_user,1,0,0,0
+access_submission_type_manager,submission.type.manager,model_submission_type,hdi_attendance.group_attendance_manager,1,1,1,1
+
+
