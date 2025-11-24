@@ -61,20 +61,6 @@
                             class="btn-secondary"/>
                 </header>
             </xpath>
-            
-            <!-- Smart buttons -->
-            <xpath expr="//sheet" position="inside">
-                <div class="oe_button_box" name="button_box">
-                    <button name="%(hdi_attendance.action_hr_attendance_explanation)d" 
-                            type="action" 
-                            class="oe_stat_button" 
-                            icon="fa-pencil-square-o"
-                            context="{'default_employee_id': employee_id}"
-                            invisible="not explanation_month_count">
-                        <field name="explanation_month_count" widget="statinfo" string="Giải trình tháng này"/>
-                    </button>
-                </div>
-            </xpath>
 
             <!-- Add new fields after check_out -->
             <xpath expr="//field[@name='check_out']" position="after">
@@ -152,9 +138,11 @@
                 <filter string="Quên chấm công" name="missing" 
                         domain="[('en_missing_attendance', '=', True)]"/>
             </xpath>
-            <xpath expr="//group[@name='groupby']" position="inside">
-                <filter string="Theo ngày" name="groupby_date" context="{'group_by':'date'}"/>
-                <filter string="Theo thứ" name="groupby_dayofweek" context="{'group_by':'en_dayofweek'}"/>
+            <xpath expr="//search" position="inside">
+                <group expand="0" string="Group By">
+                    <filter string="Theo ngày" name="groupby_date" context="{'group_by':'date'}"/>
+                    <filter string="Theo thứ" name="groupby_dayofweek" context="{'group_by':'en_dayofweek'}"/>
+                </group>
             </xpath>
         </field>
     </record>

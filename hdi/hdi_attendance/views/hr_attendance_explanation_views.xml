@@ -46,9 +46,6 @@
                     <button name="mass_button_refuse" string="Từ chối hàng loạt" type="object" 
                             invisible="state != 'to_approve'" 
                             groups="hdi_attendance.group_attendance_manager"/>
-                    <button name="action_reset_to_draft" string="Đặt lại nháp" type="object" 
-                            invisible="state == 'new'"
-                            groups="hdi_attendance.group_attendance_manager"/>
                     <field name="state" widget="statusbar" 
                            statusbar_visible="new,to_approve,approved"/>
                 </header>
