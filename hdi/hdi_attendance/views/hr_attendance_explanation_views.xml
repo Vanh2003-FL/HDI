@@ -77,9 +77,17 @@
                     
                     <notebook>
                         <page string="Chi tiết giờ giấc" name="details">
-                            <field name="line_ids" 
+                            <field name="line_ids" widget="one2many" 
                                    readonly="state != 'new'"
-                                   context="{'default_date': explanation_date or attendance_id.date}">
+                                   context="{'default_date': explanation_date}">
+                                <form>
+                                    <group>
+                                        <field name="type"/>
+                                        <field name="date"/>
+                                        <field name="time" widget="float_time"/>
+                                        <field name="datetime" readonly="1"/>
+                                    </group>
+                                </form>
                                 <tree editable="bottom">
                                     <field name="type"/>
                                     <field name="date"/>
