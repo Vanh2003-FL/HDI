@@ -77,7 +77,8 @@
                     
                     <notebook>
                         <page string="Chi tiết giờ giấc" name="details">
-                            <field name="line_ids" readonly="state != 'new'"/>
+                            <field name="line_ids" readonly="state != 'new'" 
+                                   context="{'tree_view_ref': 'hdi_attendance.view_hr_attendance_explanation_detail_tree'}"/>
                         </page>
                         
                         <page string="Giải trình" name="reason">
@@ -92,16 +93,8 @@
                         </page>
                         
                         <page string="Quy trình phê duyệt" name="approval" invisible="state == 'new'">
-                            <field name="approver_ids" readonly="1">
-                                <tree decoration-success="state=='approved'" 
-                                      decoration-danger="state=='refuse'">
-                                    <field name="sequence"/>
-                                    <field name="user_id"/>
-                                    <field name="state" widget="badge"/>
-                                    <field name="approval_date"/>
-                                    <field name="comment"/>
-                                </tree>
-                            </field>
+                            <field name="approver_ids" readonly="1" 
+                                   context="{'tree_view_ref': 'hdi_attendance.view_hr_attendance_explanation_approver_tree'}"/>
                         </page>
                     </notebook>
                 </sheet>
