@@ -111,10 +111,10 @@
     </record>
 
     <!-- My Attendance Action -->
-    <record id="own_hr_attendance_action" model="ir.actions.act_window">
+    <record id="hr_attendance_action" model="ir.actions.act_window">
         <field name="name">Chấm công của tôi</field>
         <field name="res_model">hr.attendance</field>
-        <field name="view_mode">calendar,tree,form</field>
+        <field name="view_mode">calendar,list,form</field>
         <field name="domain">[('employee_id.user_id', '=', uid)]</field>
         <field name="context">{
             'search_default_thismonth': 1,
