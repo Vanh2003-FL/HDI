@@ -7,10 +7,10 @@
             <form string="Từ chối giải trình">
                 <group>
                     <field name="explanation_id" invisible="1"/>
-                    <field name="refusal_reason" placeholder="Nhập lý do từ chối..." nolabel="1"/>
+                    <field name="reason" placeholder="Nhập lý do từ chối..." nolabel="1"/>
                 </group>
                 <footer>
-                    <button string="Xác nhận" name="action_refuse" type="object" class="btn-primary"/>
+                    <button string="Xác nhận" name="action_confirm" type="object" class="btn-primary"/>
                     <button string="Hủy" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>
