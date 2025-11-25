@@ -5,14 +5,14 @@
         <field name="name">submission.type.tree</field>
         <field name="model">submission.type</field>
         <field name="arch" type="xml">
-            <tree string="Loại giải trình">
+            <list string="Loại giải trình">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="code"/>
                 <field name="mark_count" widget="boolean_toggle"/>
                 <field name="used_explanation_date" widget="boolean_toggle"/>
                 <field name="description"/>
-            </tree>
+            </list>
         </field>
     </record>
 
