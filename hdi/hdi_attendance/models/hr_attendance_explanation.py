@@ -25,6 +25,7 @@ class HrAttendanceExplanation(models.Model):
     line_ids = fields.One2many('hr.attendance.explanation.detail', 'explanation_id', 
                                 string='Chi tiết điều chỉnh')
     explanation_reason = fields.Text(string='Lý do giải trình', required=True)
+    attachment_ids = fields.Many2many('ir.attachment', string='Tài liệu đính kèm')
     state = fields.Selection([('new', 'Mới'), ('to_approve', 'Đã gửi duyệt'), ('approved', 'Đã duyệt'),
                               ('refuse', 'Từ chối'), ('cancel', 'Hủy')], 
                              string='Trạng thái', default='new', tracking=True, required=True)
@@ -298,14 +299,14 @@ class HrAttendanceExplanationApprover(models.Model):
     _description = 'Người phê duyệt giải trình'
     _order = 'sequence, id'
     
-    explanation_id = fields.Many2one('hr.attendance.explanation', required=True, ondelete='cascade')
-    sequence = fields.Integer(default=10)
+    explanation_id = fields.Many2one('hr.attendance.explanation', string='Giải trình', required=True, ondelete='cascade')
+    sequence = fields.Integer(string='Thứ tự', default=10)
     user_id = fields.Many2one('res.users', string='Người duyệt', required=True)
     role_selection = fields.Selection([('manager', 'Quản lý'), ('hr_manager', 'HR'),
                                         ('department_head', 'Trưởng phòng'), ('director', 'Giám đốc')],
                                        string='Vai trò', required=True)
     state = fields.Selection([('new', 'Mới'), ('pending', 'Chờ duyệt'),
                               ('approved', 'Đã duyệt'), ('refuse', 'Từ chối')],
-                             default='new', required=True)
+                             string='Trạng thái', default='new', required=True)
     approval_date = fields.Datetime(string='Ngày duyệt', readonly=True)
     comment = fields.Text(string='Nhận xét')
