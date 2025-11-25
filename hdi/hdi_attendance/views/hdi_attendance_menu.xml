@@ -10,7 +10,7 @@
     <menuitem id="menu_own_hr_attendance"
               name="Chấm công của tôi"
               parent="menu_hdi_attendance_root"
-              action="own_hr_attendance_action"
+              action="hr_attendance_action"
               sequence="5"/>
 
     <!-- Attendance Explanation -->
