@@ -254,8 +254,8 @@ class HrAttendance(models.Model):
                 
                 count = self.env['hr.attendance.explanation'].search_count([
                     ('employee_id', '=', rec.employee_id.id),
-                    ('date', '>=', month_start),
-                    ('date', '<=', month_end),
+                    ('explanation_date', '>=', month_start),
+                    ('explanation_date', '<=', month_end),
                     ('state', '!=', 'refused')
                 ])
                 rec.explanation_month_count = count
