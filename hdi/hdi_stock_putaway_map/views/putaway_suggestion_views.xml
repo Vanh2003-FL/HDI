@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_putaway_suggestion_tree" model="ir.ui.view">
+        <field name="name">putaway.suggestion.tree</field>
+        <field name="model">putaway.suggestion</field>
+        <field name="arch" type="xml">
+            <tree string="Putaway Rules" decoration-muted="not active">
+                <field name="priority" widget="handle"/>
+                <field name="name"/>
+                <field name="strategy"/>
+                <field name="product_id"/>
+                <field name="product_categ_id"/>
+                <field name="warehouse_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_putaway_suggestion_form" model="ir.ui.view">
+        <field name="name">putaway.suggestion.form</field>
+        <field name="model">putaway.suggestion</field>
+        <field name="arch" type="xml">
+            <form string="Putaway Rule">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active" invisible="1"/>
+                            <field name="priority"/>
+                            <field name="strategy"/>
+                        </group>
+                        <group>
+                            <field name="warehouse_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Conditions">
+                            <group>
+                                <group>
+                                    <field name="product_id"/>
+                                    <field name="product_categ_id"/>
+                                </group>
+                                <group>
+                                    <field name="min_accessibility"/>
+                                    <field name="max_distance"/>
+                                    <field name="require_same_product"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Strategy Settings">
+                            <group>
+                                <field name="abc_class" invisible="strategy != 'abc'"/>
+                                <field name="fixed_location_id" invisible="strategy != 'fixed'"/>
+                            </group>
+                            <group string="Strategy Description">
+                                <div invisible="strategy != 'fifo'">
+                                    <p><strong>FIFO (First In First Out):</strong></p>
+                                    <p>Prioritizes locations with oldest stock first. Good for perishable items.</p>
+                                </div>
+                                <div invisible="strategy != 'abc'">
+                                    <p><strong>ABC Classification:</strong></p>
+                                    <p>A: High turnover items, easily accessible locations</p>
+                                    <p>B: Medium turnover items, standard locations</p>
+                                    <p>C: Low turnover items, any available location</p>
+                                </div>
+                                <div invisible="strategy != 'nearest'">
+                                    <p><strong>Nearest to Dock:</strong></p>
+                                    <p>Suggests locations closest to shipping/receiving dock.</p>
+                                </div>
+                                <div invisible="strategy != 'capacity'">
+                                    <p><strong>Available Capacity:</strong></p>
+                                    <p>Suggests locations with sufficient available capacity.</p>
+                                </div>
+                                <div invisible="strategy != 'fixed'">
+                                    <p><strong>Fixed Location:</strong></p>
+                                    <p>Always suggests the same predefined location.</p>
+                                </div>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_putaway_suggestion" model="ir.actions.act_window">
+        <field name="name">Putaway Rules</field>
+        <field name="res_model">putaway.suggestion</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first putaway rule
+            </p>
+            <p>
+                Define intelligent rules to suggest optimal storage locations.
+            </p>
+        </field>
+    </record>
+</odoo>

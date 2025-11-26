@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Stock Location Form View -->
+    <record id="view_location_form_inherit_3d" model="ir.ui.view">
+        <field name="name">stock.location.form.inherit.3d</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="location_full_name"/>
+                <field name="is_blocked"/>
+                <field name="blocked_reason" invisible="not is_blocked"/>
+            </xpath>
+            
+            <xpath expr="//notebook" position="inside">
+                <page string="3D Coordinates">
+                    <group>
+                        <group string="Warehouse Structure">
+                            <field name="floor_level"/>
+                            <field name="aisle"/>
+                            <field name="rack"/>
+                            <field name="shelf"/>
+                        </group>
+                        <group string="3D Position">
+                            <field name="coordinate_x"/>
+                            <field name="coordinate_y"/>
+                            <field name="coordinate_z"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Location Properties">
+                            <field name="location_type"/>
+                            <field name="location_capacity"/>
+                            <field name="max_weight"/>
+                        </group>
+                        <group string="Accessibility">
+                            <field name="abc_classification"/>
+                            <field name="accessibility_score"/>
+                            <field name="distance_from_dock"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree View for 3D Map -->
+    <record id="view_location_tree_3d" model="ir.ui.view">
+        <field name="name">stock.location.tree.3d</field>
+        <field name="model">stock.location</field>
+        <field name="arch" type="xml">
+            <tree string="Location 3D Map" decoration-danger="is_blocked" decoration-success="abc_classification == 'a'">
+                <field name="name"/>
+                <field name="location_full_name"/>
+                <field name="floor_level"/>
+                <field name="aisle"/>
+                <field name="rack"/>
+                <field name="shelf"/>
+                <field name="coordinate_x"/>
+                <field name="coordinate_y"/>
+                <field name="coordinate_z"/>
+                <field name="abc_classification" widget="badge"/>
+                <field name="accessibility_score"/>
+                <field name="location_capacity"/>
+                <field name="is_blocked" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action for 3D Location Map -->
+    <record id="action_stock_location_3d_map" model="ir.actions.act_window">
+        <field name="name">Warehouse 3D Map</field>
+        <field name="res_model">stock.location</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_location_tree_3d"/>
+        <field name="domain">[('usage', '=', 'internal')]</field>
+        <field name="context">{'search_default_group_by_aisle': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure your warehouse 3D map
+            </p>
+            <p>
+                Set up coordinates and structure for warehouse locations.
+            </p>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_location_search_3d" model="ir.ui.view">
+        <field name="name">stock.location.search.3d</field>
+        <field name="model">stock.location</field>
+        <field name="arch" type="xml">
+            <search string="Location Search">
+                <field name="name"/>
+                <field name="aisle"/>
+                <field name="rack"/>
+                <field name="abc_classification"/>
+                <filter string="Blocked" name="blocked" domain="[('is_blocked', '=', True)]"/>
+                <filter string="High Turnover (A)" name="abc_a" domain="[('abc_classification', '=', 'a')]"/>
+                <filter string="Medium Turnover (B)" name="abc_b" domain="[('abc_classification', '=', 'b')]"/>
+                <filter string="Low Turnover (C)" name="abc_c" domain="[('abc_classification', '=', 'c')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Floor Level" name="group_by_floor" context="{'group_by': 'floor_level'}"/>
+                    <filter string="Aisle" name="group_by_aisle" context="{'group_by': 'aisle'}"/>
+                    <filter string="ABC Classification" name="group_by_abc" context="{'group_by': 'abc_classification'}"/>
+                    <filter string="Location Type" name="group_by_type" context="{'group_by': 'location_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

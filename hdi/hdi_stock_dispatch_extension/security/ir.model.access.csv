@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_picking_picklist_user,picking.picklist.user,model_picking_picklist,stock.group_stock_user,1,1,1,0
+access_picking_picklist_manager,picking.picklist.manager,model_picking_picklist,stock.group_stock_manager,1,1,1,1
+access_picklist_line_user,picklist.line.user,model_picklist_line,stock.group_stock_user,1,1,1,1
+access_picklist_line_manager,picklist.line.manager,model_picklist_line,stock.group_stock_manager,1,1,1,1

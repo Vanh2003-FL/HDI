@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_stock_batch_split_tree" model="ir.ui.view">
+        <field name="name">stock.batch.split.tree</field>
+        <field name="model">stock.batch.split</field>
+        <field name="arch" type="xml">
+            <tree string="Batch Split">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="source_lot_id"/>
+                <field name="product_id"/>
+                <field name="source_quantity"/>
+                <field name="total_split_quantity"/>
+                <field name="location_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'confirmed'" decoration-muted="state == 'cancel'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_stock_batch_split_form" model="ir.ui.view">
+        <field name="name">stock.batch.split.form</field>
+        <field name="model">stock.batch.split</field>
+        <field name="arch" type="xml">
+            <form string="Batch Split">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_done" string="Process Split" type="object" class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ['done', 'cancel']"/>
+                    <button name="action_draft" string="Reset to Draft" type="object" invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="source_lot_id" readonly="state != 'draft'"/>
+                            <field name="product_id"/>
+                            <field name="source_quantity" readonly="state != 'draft'"/>
+                            <field name="uom_id"/>
+                        </group>
+                        <group>
+                            <field name="location_id" readonly="state != 'draft'"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="total_split_quantity"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Split Lines">
+                            <field name="split_line_ids" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="new_lot_name"/>
+                                    <field name="quantity"/>
+                                    <field name="new_lot_id" readonly="1"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_stock_batch_split" model="ir.actions.act_window">
+        <field name="name">Batch Split</field>
+        <field name="res_model">stock.batch.split</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new batch split
+            </p>
+            <p>
+                Split a large batch/lot into multiple smaller batches.
+            </p>
+        </field>
+    </record>
+</odoo>

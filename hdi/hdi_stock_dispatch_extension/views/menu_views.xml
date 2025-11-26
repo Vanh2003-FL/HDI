@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_dispatch_root" name="Dispatch Management" parent="stock.menu_stock_warehouse_mgmt" sequence="53"/>
+    <menuitem id="menu_picklist" name="Picklists" parent="menu_dispatch_root" action="action_picking_picklist" sequence="10"/>
+</odoo>

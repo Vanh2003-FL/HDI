@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_stock_receipt_tree" model="ir.ui.view">
+        <field name="name">stock.receipt.tree</field>
+        <field name="model">stock.receipt</field>
+        <field name="arch" type="xml">
+            <tree string="Stock Receipts" decoration-info="state == 'qc'" decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="receipt_date"/>
+                <field name="picking_id"/>
+                <field name="container_no"/>
+                <field name="customs_declaration_no"/>
+                <field name="qc_status" widget="badge" decoration-warning="qc_status == 'pending'" decoration-success="qc_status == 'passed'" decoration-danger="qc_status == 'failed'"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'qc'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_stock_receipt_form" model="ir.ui.view">
+        <field name="name">stock.receipt.form</field>
+        <field name="model">stock.receipt</field>
+        <field name="arch" type="xml">
+            <form string="Stock Receipt">
+                <header>
+                    <button name="action_start_qc" string="Start QC" type="object" class="oe_highlight" invisible="state != 'draft' or not qc_required"/>
+                    <button name="action_qc_pass" string="QC Pass" type="object" class="oe_highlight" invisible="state != 'qc'"/>
+                    <button name="action_qc_fail" string="QC Fail" type="object" class="btn-danger" invisible="state != 'qc'"/>
+                    <button name="action_done" string="Done" type="object" class="oe_highlight" invisible="state not in ['draft', 'approved']"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ['done', 'cancel']"/>
+                    <button name="action_draft" string="Reset to Draft" type="object" invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,qc,approved,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="picking_id"/>
+                            <field name="warehouse_id"/>
+                            <field name="receipt_date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="vehicle_no"/>
+                            <field name="driver_name"/>
+                            <field name="driver_phone"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Container Information">
+                            <group>
+                                <group>
+                                    <field name="container_no"/>
+                                    <field name="container_type"/>
+                                    <field name="seal_no"/>
+                                </group>
+                                <group>
+                                    <field name="bill_of_lading"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Customs Information">
+                            <group>
+                                <group>
+                                    <field name="customs_declaration_no"/>
+                                    <field name="customs_date"/>
+                                </group>
+                                <group>
+                                    <field name="import_license"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Quality Control">
+                            <group>
+                                <group>
+                                    <field name="qc_required"/>
+                                    <field name="qc_status"/>
+                                    <field name="qc_date"/>
+                                </group>
+                                <group>
+                                    <field name="qc_user_id"/>
+                                </group>
+                            </group>
+                            <field name="qc_notes" placeholder="QC inspection notes..."/>
+                        </page>
+                        
+                        <page string="Batch Lines">
+                            <field name="batch_line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="lot_id"/>
+                                    <field name="lot_name"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="package_no"/>
+                                    <field name="pallet_no"/>
+                                    <field name="manufacturing_date"/>
+                                    <field name="expiry_date"/>
+                                    <field name="qc_result" widget="badge"/>
+                                    <field name="qc_remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                        <page string="Notes">
+                            <field name="notes" placeholder="Additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_stock_receipt" model="ir.actions.act_window">
+        <field name="name">Stock Receipts</field>
+        <field name="res_model">stock.receipt</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first stock receipt
+            </p>
+            <p>
+                Manage detailed receipt information including container, customs, and QC.
+            </p>
+        </field>
+    </record>
+</odoo>

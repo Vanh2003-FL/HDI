@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Items -->
+    <menuitem id="menu_putaway_map_root"
+        name="Putaway Strategy"
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="51"/>
+
+    <menuitem id="menu_warehouse_3d_map"
+        name="Warehouse 3D Map"
+        parent="menu_putaway_map_root"
+        action="action_stock_location_3d_map"
+        sequence="10"/>
+
+    <menuitem id="menu_putaway_suggestion"
+        name="Putaway Rules"
+        parent="menu_putaway_map_root"
+        action="action_putaway_suggestion"
+        sequence="20"/>
+</odoo>

@@ -1,0 +1,95 @@
+hdi_stock_batch_flow
+├── __init__.py
+├── __manifest__.py
+├── data
+│   └── ir_sequence_data.xml
+├── models
+│   ├── __init__.py
+│   ├── stock_batch_merge.py
+│   └── stock_batch_split.py
+├── security
+│   └── ir.model.access.csv
+└── views
+    ├── menu_views.xml
+    ├── stock_batch_merge_views.xml
+    └── stock_batch_split_views.xml
+hdi_stock_dispatch_extension
+├── __init__.py
+├── __manifest__.py
+├── data
+│   └── ir_sequence_data.xml
+├── models
+│   ├── __init__.py
+│   ├── picking_picklist.py
+│   ├── picklist_line.py
+│   └── stock_picking.py
+├── security
+│   └── ir.model.access.csv
+├── views
+│   └── menu_views.xml
+└── wizard
+hdi_stock_inventory_extension
+├── __init__.py
+├── __manifest__.py
+├── data
+├── models
+│   ├── __init__.py
+│   ├── inventory_result_line.py
+│   └── stock_inventory.py
+├── security
+│   └── ir.model.access.csv
+└── views
+    └── menu_views.xml
+hdi_stock_odd_items
+├── __init__.py
+├── __manifest__.py
+├── models
+│   ├── __init__.py
+│   ├── odd_item.py
+│   └── stock_quant.py
+├── security
+│   └── ir.model.access.csv
+└── views
+    └── menu_views.xml
+hdi_stock_putaway_map
+├── __init__.py
+├── __manifest__.py
+├── models
+│   ├── __init__.py
+│   ├── putaway_suggestion.py
+│   └── stock_location.py
+├── security
+│   └── ir.model.access.csv
+└── views
+    ├── menu_views.xml
+    ├── putaway_suggestion_views.xml
+    └── stock_location_views.xml
+hdi_stock_receipt_extension
+├── __init__.py
+├── __manifest__.py
+├── data
+│   └── ir_sequence_data.xml
+├── models
+│   ├── __init__.py
+│   ├── receipt_batch_line.py
+│   ├── stock_picking.py
+│   └── stock_receipt.py
+├── security
+│   └── ir.model.access.csv
+└── views
+    ├── menu_views.xml
+    ├── stock_picking_views.xml
+    └── stock_receipt_views.xml
+hdi_stock_reporting
+├── __init__.py
+├── __manifest__.py
+├── models
+│   ├── __init__.py
+│   └── stock_report_entry.py
+├── report
+├── security
+│   └── ir.model.access.csv
+└── views
+    └── menu_views.xml
+
+34 directories, 59 files

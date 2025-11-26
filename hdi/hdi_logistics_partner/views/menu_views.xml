@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_logistics_root" name="3PL Logistics" parent="stock.menu_stock_warehouse_mgmt" sequence="56"/>
+</odoo>

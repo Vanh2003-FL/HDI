@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_logistics_partner_user,logistics.partner.user,model_logistics_partner,stock.group_stock_user,1,0,0,0
+access_logistics_partner_manager,logistics.partner.manager,model_logistics_partner,stock.group_stock_manager,1,1,1,1
+access_logistics_rate_user,logistics.rate.user,model_logistics_rate,stock.group_stock_user,1,0,0,0
+access_logistics_rate_manager,logistics.rate.manager,model_logistics_rate,stock.group_stock_manager,1,1,1,1

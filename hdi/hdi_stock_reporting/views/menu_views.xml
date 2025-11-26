@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_wms_reporting_root" name="WMS Reports" parent="stock.menu_warehouse_report" sequence="10"/>
+</odoo>

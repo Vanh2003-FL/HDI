@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_inventory_ext_root" name="Advanced Inventory" parent="stock.menu_stock_inventory_control" sequence="10"/>
+</odoo>

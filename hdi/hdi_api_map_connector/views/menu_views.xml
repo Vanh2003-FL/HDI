@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_map_connector_root" name="3D Map Sync" parent="stock.menu_stock_config" sequence="50"/>
+</odoo>

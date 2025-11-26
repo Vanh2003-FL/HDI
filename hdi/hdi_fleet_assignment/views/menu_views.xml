@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_fleet_assign_root" name="Fleet Assignment" parent="stock.menu_stock_warehouse_mgmt" sequence="57"/>
+</odoo>
