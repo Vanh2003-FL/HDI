@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fleet_vehicle_user,fleet.vehicle.user,fleet.model_fleet_vehicle,base.group_user,1,1,1,0
+access_fleet_vehicle_manager,fleet.vehicle.manager,fleet.model_fleet_vehicle,base.group_system,1,1,1,1
+access_picking_vehicle_assign_user,picking.vehicle.assign.user,model_picking_vehicle_assign,base.group_user,1,1,1,0
+access_picking_vehicle_assign_manager,picking.vehicle.assign.manager,model_picking_vehicle_assign,base.group_system,1,1,1,1
+access_vehicle_route_plan_user,vehicle.route.plan.user,model_vehicle_route_plan,base.group_user,1,1,1,0
+access_vehicle_route_plan_manager,vehicle.route.plan.manager,model_vehicle_route_plan,base.group_system,1,1,1,1
+access_vehicle_gps_tracking_user,vehicle.gps.tracking.user,model_vehicle_gps_tracking,base.group_user,1,0,1,0
+access_vehicle_gps_tracking_manager,vehicle.gps.tracking.manager,model_vehicle_gps_tracking,base.group_system,1,1,1,1
+access_vehicle_geofence_user,vehicle.geofence.user,model_vehicle_geofence,base.group_user,1,0,0,0
+access_vehicle_geofence_manager,vehicle.geofence.manager,model_vehicle_geofence,base.group_system,1,1,1,1

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vehicle Route Plan Form -->
+    <record id="view_vehicle_route_plan_form" model="ir.ui.view">
+        <field name="name">vehicle.route.plan.form</field>
+        <field name="model">vehicle.route.plan</field>
+        <field name="arch" type="xml">
+            <form string="Route Plan">
+                <header>
+                    <button name="action_optimize_route" string="Optimize Route" type="object" 
+                            class="btn-primary" icon="fa-magic"/>
+                    <button name="action_view_map" string="View Map" type="object" 
+                            class="btn-info" icon="fa-map"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Route Info">
+                            <field name="delivery_date"/>
+                            <field name="stop_count" readonly="1"/>
+                            <field name="optimization_method"/>
+                            <field name="is_optimized" widget="boolean_toggle"/>
+                        </group>
+                        <group string="Statistics">
+                            <field name="total_distance_km" readonly="1"/>
+                            <field name="estimated_duration_hours" widget="float_time" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Starting Point">
+                        <group>
+                            <field name="start_location_id"/>
+                        </group>
+                        <group>
+                            <field name="start_latitude"/>
+                            <field name="start_longitude"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Route Stops" name="stops">
+                            <field name="assignment_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="vehicle_id"/>
+                                    <field name="delivery_count"/>
+                                    <field name="planned_distance_km"/>
+                                    <field name="total_weight_kg"/>
+                                    <field name="weight_utilization" widget="progressbar"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                        <page string="Map View" name="map">
+                            <group>
+                                <field name="route_coordinates" widget="text" readonly="1"/>
+                            </group>
+                            <div class="alert alert-info">
+                                <p><strong>Route Visualization:</strong> Click "View Map" to see interactive map with route.</p>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vehicle Route Plan Tree -->
+    <record id="view_vehicle_route_plan_tree" model="ir.ui.view">
+        <field name="name">vehicle.route.plan.tree</field>
+        <field name="model">vehicle.route.plan</field>
+        <field name="arch" type="xml">
+            <tree string="Route Plans" decoration-success="state == 'completed'" 
+                  decoration-info="state == 'in_progress'">
+                <field name="name"/>
+                <field name="delivery_date"/>
+                <field name="stop_count"/>
+                <field name="total_distance_km"/>
+                <field name="estimated_duration_hours" widget="float_time"/>
+                <field name="is_optimized" widget="boolean_toggle"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vehicle Route Plan Action -->
+    <record id="action_vehicle_route_plan" model="ir.actions.act_window">
+        <field name="name">Route Plans</field>
+        <field name="res_model">vehicle.route.plan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

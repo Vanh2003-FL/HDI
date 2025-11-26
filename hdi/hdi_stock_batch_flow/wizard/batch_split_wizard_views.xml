@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_batch_split_wizard_form" model="ir.ui.view">
+        <field name="name">batch.split.wizard.form</field>
+        <field name="model">batch.split.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Quick Batch Split">
+                <group>
+                    <group>
+                        <field name="parent_batch_id"/>
+                        <field name="product_id"/>
+                        <field name="available_quantity"/>
+                    </group>
+                    <group>
+                        <field name="warehouse_id"/>
+                        <field name="location_id"/>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="split_method" widget="radio"/>
+                        <field name="num_parts" invisible="split_method != 'equal'"/>
+                        <field name="child_quantity" invisible="split_method != 'equal'"/>
+                    </group>
+                    <group>
+                        <field name="reason"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_create_split" string="Create Split" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_batch_split_wizard" model="ir.actions.act_window">
+        <field name="name">Quick Batch Split</field>
+        <field name="res_model">batch.split.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

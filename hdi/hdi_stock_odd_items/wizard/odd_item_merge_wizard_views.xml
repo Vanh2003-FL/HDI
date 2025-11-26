@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_odd_item_merge_wizard_form" model="ir.ui.view">
+        <field name="name">odd.item.merge.wizard.form</field>
+        <field name="model">odd.item.merge.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Merge Odd Items">
+                <group>
+                    <field name="product_id"/>
+                    <field name="warehouse_id"/>
+                    <field name="odd_item_ids" widget="many2many_tags"/>
+                    <field name="total_quantity"/>
+                    <field name="standard_pack_qty"/>
+                    <field name="can_create_standard"/>
+                    <field name="target_location_id"/>
+                </group>
+                <footer>
+                    <button name="action_merge" string="Merge Items" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

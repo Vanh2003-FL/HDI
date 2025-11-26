@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Warehouse Map Config Form -->
+    <record id="view_warehouse_map_config_form" model="ir.ui.view">
+        <field name="name">warehouse.map.config.form</field>
+        <field name="model">warehouse.map.config</field>
+        <field name="arch" type="xml">
+            <form string="Warehouse Map Configuration">
+                <header>
+                    <button name="action_view_map" string="View Map" type="object" 
+                            class="btn-primary" icon="fa-map"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g., Main Warehouse Floor 1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Warehouse">
+                            <field name="warehouse_id"/>
+                            <field name="highlight_location_id"/>
+                        </group>
+                        <group string="Map Dimensions">
+                            <field name="map_width"/>
+                            <field name="map_height"/>
+                            <field name="grid_size"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Visualization Settings">
+                        <group>
+                            <field name="show_capacity_heatmap"/>
+                            <field name="show_abc_zones"/>
+                            <field name="show_location_labels"/>
+                        </group>
+                        <group string="Color Scheme">
+                            <field name="color_empty" widget="color"/>
+                            <field name="color_medium" widget="color"/>
+                            <field name="color_full" widget="color"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Map Preview" name="preview">
+                            <group>
+                                <field name="location_data" widget="text" readonly="1"/>
+                            </group>
+                            <div class="alert alert-info">
+                                <p><strong>Map Data Ready:</strong> Click "View Map" to see the full interactive warehouse layout.</p>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Warehouse Map Config Tree -->
+    <record id="view_warehouse_map_config_tree" model="ir.ui.view">
+        <field name="name">warehouse.map.config.tree</field>
+        <field name="model">warehouse.map.config</field>
+        <field name="arch" type="xml">
+            <tree string="Warehouse Maps">
+                <field name="name"/>
+                <field name="warehouse_id"/>
+                <field name="map_width"/>
+                <field name="map_height"/>
+                <field name="show_capacity_heatmap"/>
+                <button name="action_view_map" string="View Map" type="object" 
+                        class="btn-link" icon="fa-map"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Warehouse Map Config Action -->
+    <record id="action_warehouse_map_config" model="ir.actions.act_window">
+        <field name="name">Warehouse Maps</field>
+        <field name="res_model">warehouse.map.config</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first warehouse map
+            </p>
+            <p>
+                Configure warehouse floor layouts with 3D visualization and capacity heatmaps.
+            </p>
+        </field>
+    </record>
+</odoo>

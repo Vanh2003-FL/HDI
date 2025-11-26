@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shipment Create Wizard Form -->
+    <record id="view_shipment_create_wizard_form" model="ir.ui.view">
+        <field name="name">shipment.create.wizard.form</field>
+        <field name="model">shipment.create.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create 3PL Shipment">
+                <sheet>
+                    <group>
+                        <group string="Delivery">
+                            <field name="delivery_id"/>
+                        </group>
+                        <group string="Carrier">
+                            <field name="logistics_partner_id"/>
+                            <field name="service_type"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Package Details">
+                        <group>
+                            <label for="weight"/>
+                            <div class="o_row">
+                                <field name="weight"/> kg
+                            </div>
+                        </group>
+                        <group>
+                            <label for="length"/>
+                            <div class="o_row">
+                                <field name="length"/> x 
+                                <field name="width"/> x 
+                                <field name="height"/> cm
+                            </div>
+                        </group>
+                    </group>
+                    
+                    <group string="COD">
+                        <group>
+                            <field name="is_cod"/>
+                            <field name="cod_amount" attrs="{'invisible': [('is_cod', '=', False)]}"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Cost Estimate">
+                        <group>
+                            <field name="estimated_cost" widget="monetary" class="oe_subtotal_footer_separator"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="notes" placeholder="Special instructions for carrier..."/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Create Shipment" name="action_create_shipment" 
+                            type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Shipment Create Wizard Action -->
+    <record id="action_shipment_create_wizard" model="ir.actions.act_window">
+        <field name="name">Create Shipment</field>
+        <field name="res_model">shipment.create.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

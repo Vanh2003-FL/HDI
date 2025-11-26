@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Smart Putaway Wizard Form -->
+    <record id="view_smart_putaway_wizard_form" model="ir.ui.view">
+        <field name="name">smart.putaway.wizard.form</field>
+        <field name="model">smart.putaway.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Smart Putaway Suggestions">
+                <header>
+                    <button name="action_generate_suggestions" string="Generate Suggestions" 
+                            type="object" class="btn-primary" icon="fa-magic"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Product Details">
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="warehouse_id"/>
+                        </group>
+                        <group string="Suggestion Strategy">
+                            <field name="rule" widget="radio"/>
+                            <field name="max_suggestions"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Suggestions" name="suggestions">
+                            <field name="suggestion_ids" nolabel="1">
+                                <tree decoration-success="rank == 1" decoration-info="rank == 2">
+                                    <field name="rank" widget="badge"/>
+                                    <field name="suggested_location_id"/>
+                                    <field name="location_address"/>
+                                    <field name="score" widget="progressbar"/>
+                                    <field name="capacity_score"/>
+                                    <field name="abc_score"/>
+                                    <field name="distance_score"/>
+                                    <field name="available_capacity"/>
+                                    <button name="action_apply_suggestion" string="Select" 
+                                            type="object" class="btn-primary" icon="fa-check"/>
+                                </tree>
+                            </field>
+                            
+                            <group>
+                                <field name="selected_location_id"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Strategy Help" name="help">
+                            <group>
+                                <div class="alert alert-info">
+                                    <h4>Suggestion Strategies:</h4>
+                                    <ul>
+                                        <li><strong>ABC Classification:</strong> Match products to zones (A=fast-moving near picking, C=slow-moving far)</li>
+                                        <li><strong>FIFO:</strong> Prefer locations already containing the same product</li>
+                                        <li><strong>FEFO:</strong> Group products by expiry date ranges</li>
+                                        <li><strong>Shortest Distance:</strong> Minimize travel from receiving dock</li>
+                                        <li><strong>Best Fit Capacity:</strong> Fill locations optimally (80-100% utilization)</li>
+                                        <li><strong>Mixed Strategy:</strong> Balanced approach combining all factors (Recommended)</li>
+                                    </ul>
+                                </div>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Apply Selected" name="action_apply_suggestion" 
+                            type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Smart Putaway Wizard Action -->
+    <record id="action_smart_putaway_wizard" model="ir.actions.act_window">
+        <field name="name">Smart Putaway Wizard</field>
+        <field name="res_model">smart.putaway.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

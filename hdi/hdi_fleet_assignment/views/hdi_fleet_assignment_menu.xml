@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Structure -->
+    <menuitem id="menu_hdi_fleet_assignment_root"
+              name="Fleet Assignment"
+              parent="wms_base.menu_wms_root"
+              sequence="70"/>
+
+    <menuitem id="menu_vehicle_assignments"
+              name="Vehicle Assignments"
+              parent="menu_hdi_fleet_assignment_root"
+              action="action_picking_vehicle_assign"
+              sequence="10"/>
+
+    <menuitem id="menu_route_plans"
+              name="Route Plans"
+              parent="menu_hdi_fleet_assignment_root"
+              action="action_vehicle_route_plan"
+              sequence="20"/>
+
+    <menuitem id="menu_fleet_vehicles"
+              name="Vehicles"
+              parent="menu_hdi_fleet_assignment_root"
+              action="fleet.fleet_vehicle_action"
+              sequence="30"/>
+
+    <menuitem id="menu_gps_tracking"
+              name="GPS Tracking"
+              parent="menu_hdi_fleet_assignment_root"
+              action="action_vehicle_gps_tracking"
+              sequence="40"/>
+
+    <menuitem id="menu_route_optimize_wizard"
+              name="Route Optimizer"
+              parent="menu_hdi_fleet_assignment_root"
+              action="action_route_optimize_wizard"
+              sequence="5"/>
+</odoo>

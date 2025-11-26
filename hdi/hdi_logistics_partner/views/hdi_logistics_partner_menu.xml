@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Structure -->
+    <menuitem id="menu_hdi_logistics_partner_root"
+              name="3PL Logistics"
+              parent="wms_base.menu_wms_root"
+              sequence="60"/>
+
+    <menuitem id="menu_logistics_tracking"
+              name="Shipment Tracking"
+              parent="menu_hdi_logistics_partner_root"
+              action="action_logistics_tracking"
+              sequence="10"/>
+
+    <menuitem id="menu_logistics_partner"
+              name="Carriers"
+              parent="menu_hdi_logistics_partner_root"
+              action="action_logistics_partner"
+              sequence="20"/>
+
+    <menuitem id="menu_logistics_rate"
+              name="Rate Tables"
+              parent="menu_hdi_logistics_partner_root"
+              action="action_logistics_rate"
+              sequence="30"/>
+</odoo>

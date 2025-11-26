@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_logistics_partner_user,logistics.partner.user,model_logistics_partner,base.group_user,1,1,1,0
+access_logistics_partner_manager,logistics.partner.manager,model_logistics_partner,base.group_system,1,1,1,1
+access_logistics_service_user,logistics.service.user,model_logistics_service,base.group_user,1,1,1,0
+access_logistics_service_manager,logistics.service.manager,model_logistics_service,base.group_system,1,1,1,1
+access_logistics_rate_user,logistics.rate.user,model_logistics_rate,base.group_user,1,0,0,0
+access_logistics_rate_manager,logistics.rate.manager,model_logistics_rate,base.group_system,1,1,1,1
+access_logistics_zone_user,logistics.zone.user,model_logistics_zone,base.group_user,1,0,0,0
+access_logistics_zone_manager,logistics.zone.manager,model_logistics_zone,base.group_system,1,1,1,1
+access_logistics_tracking_user,logistics.tracking.user,model_logistics_tracking,base.group_user,1,1,1,0
+access_logistics_tracking_manager,logistics.tracking.manager,model_logistics_tracking,base.group_system,1,1,1,1
+access_logistics_tracking_event_user,logistics.tracking.event.user,model_logistics_tracking_event,base.group_user,1,1,1,0
+access_logistics_tracking_event_manager,logistics.tracking.event.manager,model_logistics_tracking_event,base.group_system,1,1,1,1

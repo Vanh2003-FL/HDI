@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Location Form - Add 3D Fields -->
+    <record id="view_wms_location_form_3d" model="ir.ui.view">
+        <field name="name">wms.location.form.3d</field>
+        <field name="model">wms.location</field>
+        <field name="inherit_id" ref="wms_location.view_wms_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='general_info']" position="after">
+                <group string="3D Address &amp; Coordinates" name="3d_address">
+                    <group>
+                        <field name="floor_level"/>
+                        <field name="aisle"/>
+                        <field name="rack"/>
+                        <field name="bin_position"/>
+                        <field name="location_address" readonly="1" class="font-weight-bold text-primary"/>
+                    </group>
+                    <group>
+                        <field name="x_coordinate"/>
+                        <field name="y_coordinate"/>
+                        <field name="z_coordinate"/>
+                    </group>
+                </group>
+                
+                <group string="Putaway Configuration" name="putaway_config">
+                    <group>
+                        <field name="abc_zone"/>
+                        <field name="putaway_priority"/>
+                        <field name="putaway_sequence"/>
+                    </group>
+                    <group>
+                        <field name="distance_from_receiving" readonly="1"/>
+                        <field name="distance_from_picking" readonly="1"/>
+                        <field name="color_code" widget="color"/>
+                    </group>
+                </group>
+            </xpath>
+            
+            <xpath expr="//header" position="inside">
+                <button name="action_view_on_map" string="View on Map" type="object" 
+                        class="btn-primary" icon="fa-map-marker"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Location List - Add 3D Address -->
+    <record id="view_wms_location_tree_3d" model="ir.ui.view">
+        <field name="name">wms.location.tree.3d</field>
+        <field name="model">wms.location</field>
+        <field name="inherit_id" ref="wms_location.view_wms_location_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='complete_name']" position="after">
+                <field name="location_address" optional="show"/>
+                <field name="abc_zone" optional="show"/>
+                <field name="distance_from_picking" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Location Search - Add 3D Filters -->
+    <record id="view_wms_location_search_3d" model="ir.ui.view">
+        <field name="name">wms.location.search.3d</field>
+        <field name="model">wms.location</field>
+        <field name="inherit_id" ref="wms_location.view_wms_location_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter string="Zone A" name="zone_a" domain="[('abc_zone', '=', 'a')]"/>
+                <filter string="Zone B" name="zone_b" domain="[('abc_zone', '=', 'b')]"/>
+                <filter string="Zone C" name="zone_c" domain="[('abc_zone', '=', 'c')]"/>
+                <separator/>
+                <filter string="Has Coordinates" name="has_coordinates" 
+                        domain="[('x_coordinate', '!=', 0), ('y_coordinate', '!=', 0)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="ABC Zone" name="group_abc_zone" context="{'group_by': 'abc_zone'}"/>
+                    <filter string="Floor" name="group_floor" context="{'group_by': 'floor_level'}"/>
+                    <filter string="Aisle" name="group_aisle" context="{'group_by': 'aisle'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
