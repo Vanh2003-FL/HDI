@@ -19,6 +19,7 @@
         'security/ir.model.access.csv',
         'views/stock_batch_split_views.xml',
         'views/stock_batch_merge_views.xml',
+        'views/stock_lot_views.xml',
         'views/menu_views.xml',
     ],
     'installable': True,

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_barcode_item_tree" model="ir.ui.view">
+        <field name="name">barcode.item.tree</field>
+        <field name="model">barcode.item</field>
+        <field name="arch" type="xml">
+            <tree string="Barcode Items" decoration-success="state == 'confirmed'" decoration-warning="state == 'scanned'">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="receipt_date"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_barcode_item_form" model="ir.ui.view">
+        <field name="name">barcode.item.form</field>
+        <field name="model">barcode.item</field>
+        <field name="arch" type="xml">
+            <form string="Barcode Item">
+                <header>
+                    <button name="action_scan" string="Scan" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'placed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,scanned,placed,confirmed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="location_id"/>
+                        </group>
+                        <group>
+                            <field name="receipt_id"/>
+                            <field name="receipt_date"/>
+                            <field name="picking_id"/>
+                            <field name="picked_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Additional notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_barcode_item" model="ir.actions.act_window">
+        <field name="name">Barcode Items</field>
+        <field name="res_model">barcode.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_barcode_item"
+        name="Barcode Items"
+        parent="menu_odd_items_root"
+        action="action_barcode_item"
+        sequence="20"/>
+</odoo>

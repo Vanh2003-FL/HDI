@@ -54,13 +54,24 @@ class StockLocation(models.Model):
         ('pallet', 'Pallet Position'),
     ], string='Location Type', default='rack')
     
-    # ABC Classification
+    # ABC Classification (Moving attributes)
     abc_classification = fields.Selection([
         ('a', 'A - High Turnover'),
         ('b', 'B - Medium Turnover'),
         ('c', 'C - Low Turnover'),
-    ], string='ABC Classification',
+        ('e', 'E - Extra Slow Moving'),
+    ], string='ABC/Moving Classification',
        help='Classification based on product movement frequency')
+    
+    # Priority products for this location
+    priority_product_ids = fields.Many2many(
+        'product.product',
+        'location_product_priority_rel',
+        'location_id',
+        'product_id',
+        string='Priority Products',
+        help='Danh sách sản phẩm ưu tiên đặt tại vị trí này'
+    )
     
     # Accessibility
     accessibility_score = fields.Integer(

@@ -3,3 +3,5 @@ access_picking_picklist_user,picking.picklist.user,model_picking_picklist,stock.
 access_picking_picklist_manager,picking.picklist.manager,model_picking_picklist,stock.group_stock_manager,1,1,1,1
 access_picklist_line_user,picklist.line.user,model_picklist_line,stock.group_stock_user,1,1,1,1
 access_picklist_line_manager,picklist.line.manager,model_picklist_line,stock.group_stock_manager,1,1,1,1
+access_stock_internal_transfer_user,stock.internal.transfer.user,model_stock_internal_transfer,stock.group_stock_user,1,1,1,0
+access_stock_internal_transfer_manager,stock.internal.transfer.manager,model_stock_internal_transfer,stock.group_stock_manager,1,1,1,1

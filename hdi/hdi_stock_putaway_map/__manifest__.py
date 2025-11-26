@@ -18,6 +18,7 @@
         'security/ir.model.access.csv',
         'views/stock_location_views.xml',
         'views/putaway_suggestion_views.xml',
+        'views/product_template_views.xml',
         'views/menu_views.xml',
     ],
     'installable': True,

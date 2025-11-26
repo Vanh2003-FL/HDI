@@ -104,13 +104,36 @@ class StockReceipt(models.Model):
     )
     
     # Status
+    # Receipt type theo 4 luồng chính
+    receipt_type = fields.Selection([
+        ('production_domestic', 'NK_NV_01: Production Domestic'),
+        ('production_export', 'NK_NV_02: Production Export'),
+        ('import', 'NK_NV_03: Import'),
+        ('transfer_return', 'NK_NV_04: Transfer/Return'),
+    ], string='Receipt Type', required=True, default='production_domestic',
+       tracking=True)
+    
+    # State theo tài liệu: new → done → approved → transferred
     state = fields.Selection([
+        ('new', 'New'),
         ('draft', 'Draft'),
-        ('qc', 'QC In Progress'),
-        ('approved', 'Approved'),
         ('done', 'Done'),
+        ('approved', 'Approved'),
+        ('transferred', 'Transferred'),
         ('cancel', 'Cancelled')
-    ], string='Status', default='draft', tracking=True)
+    ], string='Status', default='new', tracking=True)
+    
+    # Work Order cho xuất khẩu (NK_NV_02)
+    work_order_export = fields.Char(
+        string='Export Work Order',
+        help='Required for NK_NV_02'
+    )
+    
+    # Số chứng từ SAP (NK_NV_03)
+    sap_document_no = fields.Char(
+        string='SAP Document Number',
+        help='Required for NK_NV_03'
+    )
     
     notes = fields.Text(string='Notes')
     company_id = fields.Many2one(

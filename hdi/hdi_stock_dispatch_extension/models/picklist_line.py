@@ -80,3 +80,34 @@ class PicklistLine(models.Model):
     def action_mark_picked(self):
         for line in self:
             line.picked_qty = line.qty_ordered
+
+    def get_fifo_suggestion(self):
+        """FIFO logic: Lấy hàng từ batch/lot cũ nhất trước"""
+        self.ensure_one()
+        
+        # Find oldest lots with available quantity
+        quants = self.env['stock.quant'].search([
+            ('product_id', '=', self.product_id.id),
+            ('location_id', '=', self.location_id.id),
+            ('quantity', '>', 0),
+            ('lot_id', '!=', False),
+        ], order='lot_id.create_date asc')
+        
+        suggestions = []
+        remaining_qty = self.qty_ordered
+        
+        for quant in quants:
+            if remaining_qty <= 0:
+                break
+            
+            take_qty = min(quant.quantity, remaining_qty)
+            suggestions.append({
+                'lot': quant.lot_id.name,
+                'location': quant.location_id.name,
+                'available_qty': quant.quantity,
+                'take_qty': take_qty,
+                'lot_date': quant.lot_id.create_date,
+            })
+            remaining_qty -= take_qty
+        
+        return suggestions
