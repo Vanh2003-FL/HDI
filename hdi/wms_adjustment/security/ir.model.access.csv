@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_wms_adjustment_user,wms.adjustment.user,model_wms_adjustment,wms_base.group_wms_user,1,1,1,0
-access_wms_adjustment_manager,wms.adjustment.manager,model_wms_adjustment,wms_base.group_wms_manager,1,1,1,1
-access_wms_adjustment_line_user,wms.adjustment.line.user,model_wms_adjustment_line,wms_base.group_wms_user,1,1,1,0
-access_wms_adjustment_line_manager,wms.adjustment.line.manager,model_wms_adjustment_line,wms_base.group_wms_manager,1,1,1,1
-access_wms_adjustment_reason_user,wms.adjustment.reason.user,model_wms_adjustment_reason,wms_base.group_wms_user,1,0,0,0
-access_wms_adjustment_reason_manager,wms.adjustment.reason.manager,model_wms_adjustment_reason,wms_base.group_wms_manager,1,1,1,1

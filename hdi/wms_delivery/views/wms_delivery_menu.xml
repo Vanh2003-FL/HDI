@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <menuitem id="wms_menu_delivery"
-              name="Deliveries"
-              parent="wms_receipt.wms_menu_operations"
-              action="wms_delivery_action"
-              sequence="20"/>
-</odoo>

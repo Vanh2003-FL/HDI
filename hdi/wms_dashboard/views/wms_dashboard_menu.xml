@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <!-- Dashboard Menu -->
-    <menuitem id="wms_menu_dashboard"
-              name="Dashboard"
-              parent="wms_base.wms_menu_root"
-              action="action_wms_dashboard"
-              sequence="5"/>
-</odoo>

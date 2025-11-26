@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_odd_item_user,stock.odd.item.user,model_stock_odd_item,wms_base.group_wms_user,1,1,1,0
-access_stock_odd_item_manager,stock.odd.item.manager,model_stock_odd_item,wms_base.group_wms_manager,1,1,1,1
-access_stock_odd_item_history_user,stock.odd.item.history.user,model_stock_odd_item_history,wms_base.group_wms_user,1,1,1,0
-access_stock_odd_item_history_manager,stock.odd.item.history.manager,model_stock_odd_item_history,wms_base.group_wms_manager,1,1,1,1

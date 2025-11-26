@@ -1,9 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_wms_location_user,wms.location.user,model_wms_location,base.group_user,1,1,1,0
-access_wms_location_manager,wms.location.manager,model_wms_location,base.group_system,1,1,1,1
-access_putaway_suggestion_user,putaway.suggestion.user,model_putaway_suggestion,base.group_user,1,1,1,0
-access_putaway_suggestion_manager,putaway.suggestion.manager,model_putaway_suggestion,base.group_system,1,1,1,1
-access_warehouse_map_config_user,warehouse.map.config.user,model_warehouse_map_config,base.group_user,1,0,0,0
-access_warehouse_map_config_manager,warehouse.map.config.manager,model_warehouse_map_config,base.group_system,1,1,1,1
-access_warehouse_map_layer_user,warehouse.map.layer.user,model_warehouse_map_layer,base.group_user,1,0,0,0
-access_warehouse_map_layer_manager,warehouse.map.layer.manager,model_warehouse_map_layer,base.group_system,1,1,1,1
