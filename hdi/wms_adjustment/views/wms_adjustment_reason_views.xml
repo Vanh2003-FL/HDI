@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Adjustment Reason List View -->
+    <record id="view_wms_adjustment_reason_tree" model="ir.ui.view">
+        <field name="name">wms.adjustment.reason.tree</field>
+        <field name="model">wms.adjustment.reason</field>
+        <field name="arch" type="xml">
+            <list string="Adjustment Reasons">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="adjustment_type"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Adjustment Reason Form View -->
+    <record id="view_wms_adjustment_reason_form" model="ir.ui.view">
+        <field name="name">wms.adjustment.reason.form</field>
+        <field name="model">wms.adjustment.reason</field>
+        <field name="arch" type="xml">
+            <form string="Adjustment Reason">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="adjustment_type"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Description of this adjustment reason..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Adjustment Reason Action -->
+    <record id="action_wms_adjustment_reason" model="ir.actions.act_window">
+        <field name="name">Adjustment Reasons</field>
+        <field name="res_model">wms.adjustment.reason</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

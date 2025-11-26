@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wms_stock_quant_user,wms.stock.quant.user,model_wms_stock_quant,wms_base.group_wms_user,1,1,1,0
+access_wms_stock_quant_manager,wms.stock.quant.manager,model_wms_stock_quant,wms_base.group_wms_manager,1,1,1,1
+access_wms_stock_move_user,wms.stock.move.user,model_wms_stock_move,wms_base.group_wms_user,1,1,1,0
+access_wms_stock_move_manager,wms.stock.move.manager,model_wms_stock_move,wms_base.group_wms_manager,1,1,1,1
+access_wms_stock_move_line_user,wms.stock.move.line.user,model_wms_stock_move_line,wms_base.group_wms_user,1,1,1,0
+access_wms_stock_move_line_manager,wms.stock.move.line.manager,model_wms_stock_move_line,wms_base.group_wms_manager,1,1,1,1

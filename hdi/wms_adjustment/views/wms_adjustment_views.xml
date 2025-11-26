@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Adjustment List View -->
+    <record id="view_wms_adjustment_tree" model="ir.ui.view">
+        <field name="name">wms.adjustment.tree</field>
+        <field name="model">wms.adjustment</field>
+        <field name="arch" type="xml">
+            <list string="Inventory Adjustments" decoration-info="state=='draft'" decoration-warning="state=='pending'" decoration-success="state=='done'" decoration-muted="state=='cancel'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="warehouse_id"/>
+                <field name="location_id"/>
+                <field name="adjustment_type"/>
+                <field name="reason_id"/>
+                <field name="total_lines"/>
+                <field name="total_variance"/>
+                <field name="has_variance" column_invisible="1"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="state" widget="badge" decoration-info="state=='draft'" decoration-warning="state=='pending'" decoration-success="state in ('approved','done')" decoration-danger="state=='cancel'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Adjustment Form View -->
+    <record id="view_wms_adjustment_form" model="ir.ui.view">
+        <field name="name">wms.adjustment.form</field>
+        <field name="model">wms.adjustment</field>
+        <field name="arch" type="xml">
+            <form string="Inventory Adjustment">
+                <header>
+                    <button name="action_load_stock" string="Load Stock" type="object" 
+                            invisible="state != 'draft' or line_ids" class="oe_highlight"/>
+                    <button name="action_submit" string="Submit for Approval" type="object" 
+                            invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_approve" string="Approve" type="object" 
+                            invisible="state != 'pending'" class="oe_highlight"
+                            groups="wms_base.group_wms_manager"/>
+                    <button name="action_reject" string="Reject" type="object" 
+                            invisible="state != 'pending'"
+                            groups="wms_base.group_wms_manager"/>
+                    <button name="action_validate" string="Validate" type="object" 
+                            invisible="state != 'approved'" class="oe_highlight"/>
+                    <button name="action_cancel" string="Cancel" type="object" 
+                            invisible="state in ('done', 'cancel')"/>
+                    <button name="action_set_to_draft" string="Set to Draft" type="object" 
+                            invisible="state not in ('cancel', 'pending')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_wms_stock_move)d" type="action" 
+                                class="oe_stat_button" icon="fa-exchange"
+                                invisible="not move_ids"
+                                context="{'search_default_adjustment_id': id}">
+                            <field name="move_ids" widget="statinfo" string="Moves"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="warehouse_id" options="{'no_create': True}"/>
+                            <field name="location_id" options="{'no_create': True}"/>
+                            <field name="adjustment_type"/>
+                            <field name="reason_id" options="{'no_create': True}" domain="[('adjustment_type', '=', adjustment_type)]"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="total_lines"/>
+                            <field name="total_variance"/>
+                            <field name="has_variance" invisible="1"/>
+                        </group>
+                    </group>
+                    <group invisible="state not in ('approved','done')">
+                        <group>
+                            <field name="approved_by"/>
+                            <field name="approved_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products" name="products">
+                            <field name="line_ids">
+                                <list editable="bottom" decoration-danger="variance_status=='critical'" decoration-warning="variance_status=='warning'" decoration-success="variance_status=='no_variance'">
+                                    <field name="product_id" domain="[('type', '=', 'product')]"/>
+                                    <field name="lot_id" optional="show" context="{'default_product_id': product_id}"/>
+                                    <field name="theoretical_qty" readonly="adjustment_type in ('cycle_count','physical')"/>
+                                    <field name="counted_qty" readonly="state not in ('draft','pending')"/>
+                                    <field name="variance_qty" readonly="1"/>
+                                    <field name="variance_percent" readonly="1"/>
+                                    <field name="variance_status" widget="badge" decoration-success="variance_status=='no_variance'" decoration-info="variance_status=='acceptable'" decoration-warning="variance_status=='warning'" decoration-danger="variance_status=='critical'"/>
+                                    <field name="product_uom_id" groups="uom.group_uom"/>
+                                    <field name="notes" optional="hide"/>
+                                    <field name="state" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Additional Info" name="info">
+                            <group>
+                                <field name="notes"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Adjustment Search View -->
+    <record id="view_wms_adjustment_search" model="ir.ui.view">
+        <field name="name">wms.adjustment.search</field>
+        <field name="model">wms.adjustment</field>
+        <field name="arch" type="xml">
+            <search string="Search Adjustments">
+                <field name="name"/>
+                <field name="warehouse_id"/>
+                <field name="location_id"/>
+                <field name="reason_id"/>
+                <field name="user_id"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Pending Approval" name="pending" domain="[('state', '=', 'pending')]"/>
+                <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter string="With Variance" name="with_variance" domain="[('has_variance', '=', True)]"/>
+                <filter string="No Variance" name="no_variance" domain="[('has_variance', '=', False)]"/>
+                <separator/>
+                <filter string="My Adjustments" name="my_adjustments" domain="[('user_id', '=', uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Warehouse" name="group_warehouse" context="{'group_by': 'warehouse_id'}"/>
+                    <filter string="Location" name="group_location" context="{'group_by': 'location_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'adjustment_type'}"/>
+                    <filter string="Reason" name="group_reason" context="{'group_by': 'reason_id'}"/>
+                    <filter string="Responsible" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Adjustment Action -->
+    <record id="action_wms_adjustment" model="ir.actions.act_window">
+        <field name="name">Inventory Adjustments</field>
+        <field name="res_model">wms.adjustment</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first inventory adjustment
+            </p>
+            <p>
+                Adjust stock quantities after physical counting or corrections.
+            </p>
+        </field>
+    </record>
+
+</odoo>

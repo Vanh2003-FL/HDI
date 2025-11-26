@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wms_transfer_user,wms.transfer.user,model_wms_transfer,wms_base.group_wms_user,1,1,1,0
+access_wms_transfer_manager,wms.transfer.manager,model_wms_transfer,wms_base.group_wms_manager,1,1,1,1
+access_wms_transfer_line_user,wms.transfer.line.user,model_wms_transfer_line,wms_base.group_wms_user,1,1,1,0
+access_wms_transfer_line_manager,wms.transfer.line.manager,model_wms_transfer_line,wms_base.group_wms_manager,1,1,1,1

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Transfer Menu -->
+    <menuitem id="wms_menu_transfer"
+              name="Transfers"
+              parent="wms_receipt.wms_menu_operations"
+              action="action_wms_transfer"
+              sequence="30"/>
+</odoo>

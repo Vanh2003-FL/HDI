@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wms_receipt_user,wms.receipt.user,model_wms_receipt,wms_base.group_wms_user,1,1,1,0
+access_wms_receipt_manager,wms.receipt.manager,model_wms_receipt,wms_base.group_wms_manager,1,1,1,1
+access_wms_receipt_line_user,wms.receipt.line.user,model_wms_receipt_line,wms_base.group_wms_user,1,1,1,0
+access_wms_receipt_line_manager,wms.receipt.line.manager,model_wms_receipt_line,wms_base.group_wms_manager,1,1,1,1
+access_putaway_suggestion_wizard_user,putaway.suggestion.wizard.user,model_putaway_suggestion_wizard,wms_base.group_wms_user,1,1,1,1
+access_putaway_suggestion_line_user,putaway.suggestion.line.user,model_putaway_suggestion_line,wms_base.group_wms_user,1,1,1,1

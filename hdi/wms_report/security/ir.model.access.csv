@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_aging_report_wizard_user,stock.aging.report.wizard.user,model_stock_aging_report_wizard,wms_base.group_wms_user,1,1,1,1
+access_abc_analysis_wizard_user,abc.analysis.wizard.user,model_abc_analysis_wizard,wms_base.group_wms_user,1,1,1,1
+access_stock_movement_report_wizard_user,stock.movement.report.wizard.user,model_stock_movement_report_wizard,wms_base.group_wms_user,1,1,1,1
+access_inventory_valuation_wizard_user,inventory.valuation.wizard.user,model_inventory_valuation_wizard,wms_base.group_wms_user,1,1,1,1
+access_location_utilization_wizard_user,location.utilization.wizard.user,model_location_utilization_wizard,wms_base.group_wms_user,1,1,1,1

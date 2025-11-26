@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- EDI Export Wizard -->
+    <record id="view_edi_export_wizard_form" model="ir.ui.view">
+        <field name="name">edi.export.wizard.form</field>
+        <field name="model">edi.export.wizard</field>
+        <field name="arch" type="xml">
+            <form string="EDI Export">
+                <group invisible="file_data">
+                    <group>
+                        <field name="export_type"/>
+                        <field name="export_format"/>
+                        <field name="warehouse_id"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="state"/>
+                    </group>
+                </group>
+                <group string="Export Result" invisible="not file_data">
+                    <group>
+                        <field name="record_count"/>
+                        <field name="file_name" invisible="1"/>
+                        <field name="file_data" filename="file_name"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Export" name="action_export" type="object" class="btn-primary" invisible="file_data"/>
+                    <button string="Close" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edi_export_wizard" model="ir.actions.act_window">
+        <field name="name">EDI Export</field>
+        <field name="res_model">edi.export.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

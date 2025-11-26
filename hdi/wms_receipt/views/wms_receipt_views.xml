@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Receipt Tree View -->
+    <record id="wms_receipt_view_tree" model="ir.ui.view">
+        <field name="name">wms.receipt.view.list</field>
+        <field name="model">wms.receipt</field>
+        <field name="arch" type="xml">
+            <list string="Receipts" decoration-info="state == 'draft'" decoration-success="state == 'done'" decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="warehouse_id"/>
+                <field name="total_quantity" sum="Total"/>
+                <field name="received_quantity" sum="Received"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'confirmed'" decoration-warning="state == 'quality_check'"/>
+                <field name="user_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Receipt Form View -->
+    <record id="wms_receipt_view_form" model="ir.ui.view">
+        <field name="name">wms.receipt.view.form</field>
+        <field name="model">wms.receipt</field>
+        <field name="arch" type="xml">
+            <form string="Receipt">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_set_arrived" type="object" string="Set Arrived" class="btn-primary" invisible="state != 'confirmed'"/>
+                    <button name="action_start_quality_check" type="object" string="Start QC" invisible="state != 'quality_check'"/>
+                    <button name="action_quality_pass" type="object" string="Pass QC" class="btn-success" invisible="state != 'quality_check'"/>
+                    <button name="action_quality_fail" type="object" string="Fail QC" class="btn-danger" invisible="state != 'quality_check'"/>
+                    <button name="action_suggest_putaway" type="object" string="Suggest Putaway" class="btn-primary" invisible="state != 'ready_putaway'"/>
+                    <button name="action_validate_receipt" type="object" string="Validate" class="btn-success" invisible="state != 'ready_putaway'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ['done', 'cancel']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,ready_putaway,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Supplier">
+                            <field name="partner_id"/>
+                            <field name="purchase_order_id"/>
+                            <field name="origin"/>
+                        </group>
+                        <group string="Warehouse">
+                            <field name="warehouse_id"/>
+                            <field name="receiving_location_id"/>
+                            <field name="date"/>
+                            <field name="date_done" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Quality Check">
+                            <field name="require_quality_check"/>
+                            <field name="quality_check_status" invisible="not require_quality_check"/>
+                            <field name="quality_notes" invisible="not require_quality_check"/>
+                        </group>
+                        <group string="Putaway">
+                            <field name="putaway_strategy"/>
+                            <field name="putaway_done"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="total_quantity"/>
+                            <field name="received_quantity"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Receipt Lines">
+                            <field name="line_ids">
+                                <list string="Lines" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="lot_id"/>
+                                    <field name="expected_qty"/>
+                                    <field name="received_qty"/>
+                                    <field name="difference_qty"/>
+                                    <field name="damaged_qty"/>
+                                    <field name="putaway_location_id"/>
+                                    <field name="quality_status" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Receipt Action -->
+    <record id="wms_receipt_action" model="ir.actions.act_window">
+        <field name="name">Receipts</field>
+        <field name="res_model">wms.receipt</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first receipt</p>
+        </field>
+    </record>
+</odoo>

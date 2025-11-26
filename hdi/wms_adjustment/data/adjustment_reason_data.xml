@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Increase Stock Reasons -->
+        <record id="reason_found_stock" model="wms.adjustment.reason">
+            <field name="name">Found Stock</field>
+            <field name="code">FOUND</field>
+            <field name="adjustment_type">increase</field>
+            <field name="sequence">10</field>
+            <field name="description">Stock found during physical count</field>
+        </record>
+
+        <record id="reason_system_error_plus" model="wms.adjustment.reason">
+            <field name="name">System Error (Increase)</field>
+            <field name="code">SYS_ERR_PLUS</field>
+            <field name="adjustment_type">increase</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Decrease Stock Reasons -->
+        <record id="reason_damage" model="wms.adjustment.reason">
+            <field name="name">Damaged Goods</field>
+            <field name="code">DAMAGE</field>
+            <field name="adjustment_type">decrease</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="reason_expired" model="wms.adjustment.reason">
+            <field name="name">Expired Products</field>
+            <field name="code">EXPIRED</field>
+            <field name="adjustment_type">decrease</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="reason_lost" model="wms.adjustment.reason">
+            <field name="name">Lost/Missing Stock</field>
+            <field name="code">LOST</field>
+            <field name="adjustment_type">decrease</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="reason_system_error_minus" model="wms.adjustment.reason">
+            <field name="name">System Error (Decrease)</field>
+            <field name="code">SYS_ERR_MINUS</field>
+            <field name="adjustment_type">decrease</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <!-- Cycle Count Reasons -->
+        <record id="reason_cycle_count" model="wms.adjustment.reason">
+            <field name="name">Cycle Count</field>
+            <field name="code">CYCLE</field>
+            <field name="adjustment_type">cycle_count</field>
+            <field name="sequence">10</field>
+            <field name="description">Regular cycle counting adjustment</field>
+        </record>
+
+        <!-- Physical Inventory Reasons -->
+        <record id="reason_physical_inventory" model="wms.adjustment.reason">
+            <field name="name">Physical Inventory</field>
+            <field name="code">PHYSICAL</field>
+            <field name="adjustment_type">physical</field>
+            <field name="sequence">10</field>
+            <field name="description">Annual physical inventory</field>
+        </record>
+
+        <!-- Correction Reasons -->
+        <record id="reason_correction" model="wms.adjustment.reason">
+            <field name="name">Stock Correction</field>
+            <field name="code">CORRECT</field>
+            <field name="adjustment_type">correction</field>
+            <field name="sequence">10</field>
+        </record>
+
+    </data>
+</odoo>

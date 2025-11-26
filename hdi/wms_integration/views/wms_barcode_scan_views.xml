@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Barcode Scan Views -->
+    <record id="view_wms_barcode_scan_tree" model="ir.ui.view">
+        <field name="name">wms.barcode.scan.tree</field>
+        <field name="model">wms.barcode.scan</field>
+        <field name="arch" type="xml">
+            <list string="Barcode Scans">
+                <field name="create_date"/>
+                <field name="barcode"/>
+                <field name="scan_type"/>
+                <field name="operation_type"/>
+                <field name="user_id"/>
+                <field name="warehouse_id"/>
+                <field name="success"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_wms_barcode_scan_form" model="ir.ui.view">
+        <field name="name">wms.barcode.scan.form</field>
+        <field name="model">wms.barcode.scan</field>
+        <field name="arch" type="xml">
+            <form string="Barcode Scan">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="barcode"/>
+                            <field name="scan_type"/>
+                            <field name="operation_type"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="warehouse_id"/>
+                            <field name="quantity"/>
+                            <field name="success"/>
+                        </group>
+                    </group>
+                    <group string="Scanned Data">
+                        <field name="product_id"/>
+                        <field name="location_id"/>
+                        <field name="lot_id"/>
+                    </group>
+                    <group string="Related Document">
+                        <field name="receipt_id"/>
+                        <field name="delivery_id"/>
+                        <field name="transfer_id"/>
+                        <field name="adjustment_id"/>
+                    </group>
+                    <group string="Result">
+                        <field name="result_message" nolabel="1"/>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Mobile Scanner View -->
+    <record id="view_wms_barcode_scan_kanban" model="ir.ui.view">
+        <field name="name">wms.barcode.scan.kanban</field>
+        <field name="model">wms.barcode.scan</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" create="0">
+                <field name="name"/>
+                <field name="barcode"/>
+                <field name="scan_type"/>
+                <field name="operation_type"/>
+                <field name="success"/>
+                <field name="create_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <div class="oe_kanban_content">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <strong><field name="barcode"/></strong><br/>
+                                        <span><field name="scan_type"/> - <field name="operation_type"/></span>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <span t-if="record.success.raw_value" class="badge bg-success">Success</span>
+                                        <span t-else="" class="badge bg-danger">Failed</span>
+                                    </div>
+                                </div>
+                                <div><field name="create_date"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_wms_barcode_scan" model="ir.actions.act_window">
+        <field name="name">Barcode Scans</field>
+        <field name="res_model">wms.barcode.scan</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+</odoo>

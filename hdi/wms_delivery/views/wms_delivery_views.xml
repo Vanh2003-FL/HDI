@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="wms_delivery_view_tree" model="ir.ui.view">
+        <field name="name">wms.delivery.view.list</field>
+        <field name="model">wms.delivery</field>
+        <field name="arch" type="xml">
+            <list string="Deliveries">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="warehouse_id"/>
+                <field name="total_quantity"/>
+                <field name="picked_quantity"/>
+                <field name="state" widget="badge"/>
+                <field name="user_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="wms_delivery_view_form" model="ir.ui.view">
+        <field name="name">wms.delivery.view.form</field>
+        <field name="model">wms.delivery</field>
+        <field name="arch" type="xml">
+            <form string="Delivery">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_assign" type="object" string="Check Availability" class="btn-primary" invisible="state != 'confirmed'"/>
+                    <button name="action_start_picking" type="object" string="Start Picking" invisible="state != 'assigned'"/>
+                    <button name="action_validate_picking" type="object" string="Validate Picking" class="btn-success" invisible="state != 'picking'"/>
+                    <button name="action_ship" type="object" string="Ship" class="btn-success" invisible="state != 'ready_ship'"/>
+                    <button name="action_done" type="object" string="Done" invisible="state != 'shipped'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ['done', 'cancel']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,assigned,picking,ready_ship,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="sale_order_id"/>
+                            <field name="origin"/>
+                        </group>
+                        <group>
+                            <field name="warehouse_id"/>
+                            <field name="date"/>
+                            <field name="picking_strategy"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="ordered_qty"/>
+                                    <field name="picked_qty"/>
+                                    <field name="availability_status" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="wms_delivery_action" model="ir.actions.act_window">
+        <field name="name">Deliveries</field>
+        <field name="res_model">wms.delivery</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

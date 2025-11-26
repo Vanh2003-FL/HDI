@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Operations Menu -->
+    <menuitem id="wms_menu_operations"
+              name="Operations"
+              parent="wms_base.wms_menu_root"
+              sequence="10"/>
+
+    <!-- Receipt Menu -->
+    <menuitem id="wms_menu_receipt"
+              name="Receipts"
+              parent="wms_menu_operations"
+              action="wms_receipt_action"
+              sequence="10"/>
+</odoo>

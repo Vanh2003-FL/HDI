@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Stock Aging Report Wizard Form -->
+    <record id="view_stock_aging_report_wizard_form" model="ir.ui.view">
+        <field name="name">stock.aging.report.wizard.form</field>
+        <field name="model">stock.aging.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Stock Aging Report">
+                <group>
+                    <group>
+                        <field name="warehouse_id" options="{'no_create': True}"/>
+                        <field name="location_ids" widget="many2many_tags"/>
+                        <field name="product_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="as_of_date"/>
+                        <field name="aging_type"/>
+                        <field name="aging_periods"/>
+                        <field name="group_by"/>
+                    </group>
+                </group>
+                <group string="Custom Periods" invisible="aging_periods != 'custom'">
+                    <group>
+                        <field name="custom_period_1"/>
+                        <field name="custom_period_2"/>
+                    </group>
+                    <group>
+                        <field name="custom_period_3"/>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="show_zero_stock"/>
+                        <field name="output_format"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Generate Report" name="action_generate_report" 
+                            type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Stock Aging Report Action -->
+    <record id="action_stock_aging_report_wizard" model="ir.actions.act_window">
+        <field name="name">Stock Aging Report</field>
+        <field name="res_model">stock.aging.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

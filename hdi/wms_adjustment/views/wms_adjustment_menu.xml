@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Adjustment Menu -->
+    <menuitem id="wms_menu_adjustment"
+              name="Adjustments"
+              parent="wms_receipt.wms_menu_operations"
+              action="action_wms_adjustment"
+              sequence="40"/>
+
+    <!-- Configuration Menu for Reasons -->
+    <menuitem id="wms_menu_adjustment_config"
+              name="Adjustment Reasons"
+              parent="wms_base.wms_menu_configuration"
+              action="action_wms_adjustment_reason"
+              sequence="50"/>
+</odoo>

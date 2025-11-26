@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wms_api_key_user,access.wms.api.key.user,model_wms_api_key,wms_base.group_wms_user,1,0,0,0
+access_wms_api_key_manager,access.wms.api.key.manager,model_wms_api_key,wms_base.group_wms_manager,1,1,1,1
+access_wms_api_log_user,access.wms.api.log.user,model_wms_api_log,wms_base.group_wms_user,1,0,0,0
+access_wms_api_log_manager,access.wms.api.log.manager,model_wms_api_log,wms_base.group_wms_manager,1,1,1,1
+access_wms_barcode_scan_user,access.wms.barcode.scan.user,model_wms_barcode_scan,wms_base.group_wms_user,1,1,1,0
+access_wms_barcode_scan_manager,access.wms.barcode.scan.manager,model_wms_barcode_scan,wms_base.group_wms_manager,1,1,1,1
+access_wms_barcode_rule_user,access.wms.barcode.rule.user,model_wms_barcode_rule,wms_base.group_wms_user,1,0,0,0
+access_wms_barcode_rule_manager,access.wms.barcode.rule.manager,model_wms_barcode_rule,wms_base.group_wms_manager,1,1,1,1
+access_wms_webhook_user,access.wms.webhook.user,model_wms_webhook,wms_base.group_wms_user,1,0,0,0
+access_wms_webhook_manager,access.wms.webhook.manager,model_wms_webhook,wms_base.group_wms_manager,1,1,1,1
+access_wms_webhook_log_user,access.wms.webhook.log.user,model_wms_webhook_log,wms_base.group_wms_user,1,0,0,0
+access_wms_webhook_log_manager,access.wms.webhook.log.manager,model_wms_webhook_log,wms_base.group_wms_manager,1,1,1,1
+access_edi_import_wizard_user,access.edi.import.wizard.user,model_edi_import_wizard,wms_base.group_wms_user,1,1,1,1
+access_edi_export_wizard_user,access.edi.export.wizard.user,model_edi_export_wizard,wms_base.group_wms_user,1,1,1,1

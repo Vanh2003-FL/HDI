@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- WMS Integration Menu -->
+    <menuitem id="wms_integration_menu_root"
+              name="Integration"
+              parent="wms_base.wms_menu_root"
+              sequence="100"/>
+
+    <!-- API Management -->
+    <menuitem id="wms_integration_api_menu"
+              name="API Management"
+              parent="wms_integration_menu_root"
+              sequence="10"/>
+
+    <menuitem id="wms_integration_api_key_menu"
+              name="API Keys"
+              parent="wms_integration_api_menu"
+              action="action_wms_api_key"
+              sequence="10"/>
+
+    <menuitem id="wms_integration_api_log_menu"
+              name="API Logs"
+              parent="wms_integration_api_menu"
+              action="action_wms_api_log"
+              sequence="20"/>
+
+    <!-- Barcode -->
+    <menuitem id="wms_integration_barcode_menu"
+              name="Barcode Scanner"
+              parent="wms_integration_menu_root"
+              sequence="20"/>
+
+    <menuitem id="wms_integration_barcode_scan_menu"
+              name="Scans"
+              parent="wms_integration_barcode_menu"
+              action="action_wms_barcode_scan"
+              sequence="10"/>
+
+    <menuitem id="wms_integration_barcode_rule_menu"
+              name="Barcode Rules"
+              parent="wms_integration_barcode_menu"
+              action="action_wms_barcode_rule"
+              sequence="20"/>
+
+    <!-- Webhooks -->
+    <menuitem id="wms_integration_webhook_menu"
+              name="Webhooks"
+              parent="wms_integration_menu_root"
+              action="action_wms_webhook"
+              sequence="30"/>
+
+    <!-- EDI -->
+    <menuitem id="wms_integration_edi_menu"
+              name="EDI"
+              parent="wms_integration_menu_root"
+              sequence="40"/>
+
+    <menuitem id="wms_integration_edi_import_menu"
+              name="Import Data"
+              parent="wms_integration_edi_menu"
+              action="action_edi_import_wizard"
+              sequence="10"/>
+
+    <menuitem id="wms_integration_edi_export_menu"
+              name="Export Data"
+              parent="wms_integration_edi_menu"
+              action="action_edi_export_wizard"
+              sequence="20"/>
+
+</odoo>
