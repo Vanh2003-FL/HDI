@@ -2,48 +2,48 @@
 <odoo>
     <!-- Root Menu -->
     <menuitem id="menu_wms_operations_root"
-        name="WMS Operations"
+        name="Nghiệp vụ kho"
         parent="stock.menu_stock_root"
         sequence="10"/>
 
     <!-- NK_NV: Receipt Operations -->
     <menuitem id="menu_receipt_operations"
-        name="Receipt (NK_NV)"
+        name="Nhập kho (NK_NV)"
         parent="menu_wms_operations_root"
         sequence="10"/>
     
     <menuitem id="menu_receipt_operation"
-        name="Receipt Operations"
+        name="Phiếu nhập kho"
         parent="menu_receipt_operations"
         action="action_receipt_operation"
         sequence="10"/>
 
     <!-- ĐC_NV: Transfer Operations -->
     <menuitem id="menu_transfer_operations"
-        name="Transfer (ĐC_NV)"
+        name="Điều chuyển (ĐC_NV)"
         parent="menu_wms_operations_root"
         sequence="20"/>
     
     <menuitem id="menu_transfer_operation"
-        name="Internal Transfers"
+        name="Lệnh chuyển kho"
         parent="menu_transfer_operations"
         action="action_transfer_operation"
         sequence="10"/>
 
     <!-- Barcode Items -->
     <menuitem id="menu_barcode_items"
-        name="Barcode Items"
+        name="Hàng lẻ mã vạch"
         parent="menu_wms_operations_root"
         sequence="30"/>
     
     <menuitem id="menu_barcode_item"
-        name="Barcode Items"
+        name="Hàng lẻ mã vạch"
         parent="menu_barcode_items"
         action="action_barcode_item"
         sequence="10"/>
     
     <menuitem id="menu_barcode_item_list"
-        name="Barcode Lists"
+        name="Bảng kê mã vạch"
         parent="menu_barcode_items"
         action="action_barcode_item_list"
         sequence="20"/>

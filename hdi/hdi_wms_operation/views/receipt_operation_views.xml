@@ -7,16 +7,16 @@
         <field name="name">receipt.operation.tree</field>
         <field name="model">receipt.operation</field>
         <field name="arch" type="xml">
-            <list string="Receipt Operations" 
+            <list string="Danh sách phiếu nhập kho" 
                   decoration-info="state == 'new'" 
                   decoration-primary="state == 'in_progress'"
                   decoration-success="state == 'approved'"
                   decoration-muted="state == 'cancel'">
-                <field name="name"/>
-                <field name="receipt_type"/>
-                <field name="date"/>
-                <field name="batch_count"/>
-                <field name="state" widget="badge" 
+                <field name="name" string="Mã phiếu"/>
+                <field name="receipt_type" string="Loại nhập kho"/>
+                <field name="date" string="Ngày nhập kho"/>
+                <field name="batch_count" string="Số batch"/>
+                <field name="state" string="Trạng thái" widget="badge" 
                        decoration-info="state == 'new'"
                        decoration-warning="state == 'in_progress'"
                        decoration-success="state in ['approved','transferred']"/>
@@ -29,21 +29,21 @@
         <field name="name">receipt.operation.form</field>
         <field name="model">receipt.operation</field>
         <field name="arch" type="xml">
-            <form string="Receipt Operation">
+            <form string="Phiếu nhập kho">
                 <header>
-                    <button name="action_start_process" string="Start Process" 
+                    <button name="action_start_process" string="Bắt đầu nhập kho" 
                             type="object" class="oe_highlight" 
                             invisible="state != 'new'"/>
-                    <button name="action_done" string="Mark as Done" 
+                    <button name="action_done" string="Hoàn thành nhập kho" 
                             type="object" class="oe_highlight" 
                             invisible="state != 'in_progress'"/>
-                    <button name="action_approve" string="Approve" 
+                    <button name="action_approve" string="Phê duyệt" 
                             type="object" class="oe_highlight" 
                             invisible="state != 'done'"/>
-                    <button name="action_transfer" string="Transfer Complete" 
+                    <button name="action_transfer" string="Hoàn tất chuyển kho" 
                             type="object" class="oe_highlight" 
                             invisible="state != 'approved'"/>
-                    <button name="action_cancel" string="Cancel" 
+                    <button name="action_cancel" string="Hủy" 
                             type="object" 
                             invisible="state in ['transferred', 'cancel']"/>
                     <field name="state" widget="statusbar" 
@@ -52,43 +52,43 @@
                 <sheet>
                     <div class="oe_title">
                         <h1>
-                            <field name="name" readonly="1"/>
+                            <field name="name" string="Mã phiếu" readonly="1"/>
                         </h1>
                     </div>
                     <group>
                         <group>
-                            <field name="receipt_type" required="1"/>
-                            <field name="date"/>
-                            <field name="stock_receipt_id"/>
+                            <field name="receipt_type" string="Loại nhập kho" required="1"/>
+                            <field name="date" string="Ngày nhập kho"/>
+                            <field name="stock_receipt_id" string="Phiếu nhập kho chi tiết"/>
                         </group>
                         <group>
-                            <field name="picking_id"/>
-                            <field name="batch_count"/>
-                            <field name="barcode_item_count"/>
+                            <field name="picking_id" string="Phiếu xuất kho liên quan"/>
+                            <field name="batch_count" string="Số batch"/>
+                            <field name="barcode_item_count" string="Số hàng lẻ mã vạch"/>
                         </group>
                     </group>
                     
                     <notebook>
-                        <page string="Batches" name="batches">
+                        <page string="Chi tiết batch" name="batches">
                             <field name="batch_ids">
                                 <list>
-                                    <field name="name"/>
-                                    <field name="product_id"/>
-                                    <field name="product_qty"/>
+                                    <field name="name" string="Mã batch"/>
+                                    <field name="product_id" string="Sản phẩm"/>
+                                    <field name="product_qty" string="Số lượng"/>
                                 </list>
                             </field>
                         </page>
-                        <page string="Barcode Lists" name="barcode_lists">
+                        <page string="Bảng kê hàng lẻ" name="barcode_lists">
                             <field name="barcode_list_ids">
                                 <list>
-                                    <field name="name"/>
-                                    <field name="item_count"/>
-                                    <field name="state"/>
+                                    <field name="name" string="Tên bảng kê"/>
+                                    <field name="item_count" string="Số lượng hàng lẻ"/>
+                                    <field name="state" string="Trạng thái"/>
                                 </list>
                             </field>
                         </page>
-                        <page string="Notes" name="notes">
-                            <field name="notes" placeholder="Additional notes..."/>
+                        <page string="Ghi chú" name="notes">
+                            <field name="notes" placeholder="Ghi chú nhập kho..."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -106,17 +106,17 @@
         <field name="name">receipt.operation.search</field>
         <field name="model">receipt.operation</field>
         <field name="arch" type="xml">
-            <search string="Receipt Operations">
-                <field name="name"/>
-                <field name="receipt_type"/>
-                <filter string="New" name="filter_new" domain="[('state','=','new')]"/>
-                <filter string="In Progress" name="filter_progress" domain="[('state','=','in_progress')]"/>
-                <filter string="Done" name="filter_done" domain="[('state','=','done')]"/>
-                <filter string="Approved" name="filter_approved" domain="[('state','=','approved')]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Receipt Type" name="group_type" context="{'group_by':'receipt_type'}"/>
-                    <filter string="Status" name="group_state" context="{'group_by':'state'}"/>
-                    <filter string="Date" name="group_date" context="{'group_by':'date'}"/>
+            <search string="Tìm kiếm phiếu nhập kho">
+                <field name="name" string="Mã phiếu"/>
+                <field name="receipt_type" string="Loại nhập kho"/>
+                <filter string="Mới" name="filter_new" domain="[('state','=','new')]"/>
+                <filter string="Đang thực hiện" name="filter_progress" domain="[('state','=','in_progress')]"/>
+                <filter string="Hoàn thành" name="filter_done" domain="[('state','=','done')]"/>
+                <filter string="Phê duyệt" name="filter_approved" domain="[('state','=','approved')]"/>
+                <group expand="0" string="Nhóm theo">
+                    <filter string="Loại nhập kho" name="group_type" context="{'group_by':'receipt_type'}"/>
+                    <filter string="Trạng thái" name="group_state" context="{'group_by':'state'}"/>
+                    <filter string="Ngày nhập kho" name="group_date" context="{'group_by':'date'}"/>
                 </group>
             </search>
         </field>
@@ -124,17 +124,17 @@
 
     <!-- Action -->
     <record id="action_receipt_operation" model="ir.actions.act_window">
-        <field name="name">Receipt Operations (NK_NV)</field>
+        <field name="name">Phiếu nhập kho (NK_NV)</field>
         <field name="res_model">receipt.operation</field>
         <field name="view_mode">list,form</field>
         <field name="context">{'search_default_filter_new': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create a Receipt Operation
+                Tạo phiếu nhập kho
             </p>
             <p>
-                Manage 4 receipt workflows: NK_NV_01 (Production Domestic), NK_NV_02 (Production Export), 
-                NK_NV_03 (Import), NK_NV_04 (Transfer/Return)
+                Quản lý 4 luồng nhập kho: NK_NV_01 (Sản xuất nội địa), NK_NV_02 (Sản xuất xuất khẩu), 
+                NK_NV_03 (Nhập khẩu), NK_NV_04 (Chuyển kho/Trả lại)
             </p>
         </field>
     </record>
