@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_stock_receipt_root"
-        name="Receipt Management"
+        name="Quản lý nhập kho"
         parent="stock.menu_stock_warehouse_mgmt"
         sequence="52"/>
 
     <menuitem id="menu_stock_receipt"
-        name="Stock Receipts"
+        name="Phiếu nhập kho"
         parent="menu_stock_receipt_root"
         action="action_stock_receipt"
         sequence="10"/>

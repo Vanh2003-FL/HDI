@@ -2,13 +2,13 @@
 <odoo>
     <!-- Sub Menu Items -->
     <menuitem id="menu_stock_batch_split"
-        name="Batch Split"
+        name="Tách batch"
         parent="menu_stock_batch_flow_root"
         action="action_stock_batch_split"
         sequence="10"/>
 
     <menuitem id="menu_stock_batch_merge"
-        name="Batch Merge"
+        name="Gộp batch"
         parent="menu_stock_batch_flow_root"
         action="action_stock_batch_merge"
         sequence="20"/>
