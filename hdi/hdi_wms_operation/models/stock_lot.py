@@ -10,31 +10,31 @@ class StockLot(models.Model):
 
     # Batch State Machine: draft → scanned → placed → confirmed
     batch_state = fields.Selection([
-        ('draft', 'Draft'),
-        ('scanned', 'Scanned'),
-        ('placed', 'Placed in Location'),
-        ('confirmed', 'Confirmed'),
-    ], string='Batch Status', default='draft', tracking=True,
-       help='State cho quy trình batch: draft → scanned → placed → confirmed')
+        ('draft', 'Khởi tạo'),
+        ('scanned', 'Đã quét'),
+        ('placed', 'Đã đặt vào vị trí'),
+        ('confirmed', 'Đã xác nhận'),
+    ], string='Trạng thái batch', default='draft', tracking=True,
+       help='Các trạng thái quy trình batch: Khởi tạo → Đã quét → Đã đặt vào vị trí → Đã xác nhận')
     
     # Batch information
     is_batch = fields.Boolean(
-        string='Is Batch',
+        string='Là batch',
         default=True,
         help='Đánh dấu đây là batch (không phải lot thường)'
     )
     batch_qr_code = fields.Char(
-        string='Batch QR Code',
+        string='Mã QR batch',
         help='Mã QR của batch để quét'
     )
     batch_printed = fields.Boolean(
-        string='Batch Printed',
+        string='Đã in nhãn batch',
         default=False,
-        help='Đã in batch label'
+        help='Đã in nhãn batch'
     )
     print_date = fields.Datetime(
-        string='Print Date',
-        help='Ngày in batch label'
+        string='Ngày in nhãn batch',
+        help='Ngày in nhãn batch'
     )
     
     # Location placement
