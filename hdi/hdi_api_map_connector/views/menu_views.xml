@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_map_connector_root" name="3D Map Sync" parent="stock.menu_stock_config" sequence="50"/>
+    <!-- Action để mở model map.sync.queue -->
+    <record id="action_map_connector_queue" model="ir.actions.act_window">
+        <field name="name">Hàng đợi đồng bộ bản đồ 3D</field>
+        <field name="res_model">map.sync.queue</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Chưa có tác vụ đồng bộ nào.
+            </p>
+            <p>Dùng menu này để theo dõi các thao tác đồng bộ bản đồ kho 3D.</p>
+        </field>
+    </record>
+
+    <!-- Menu gắn action -->
+    <menuitem id="menu_map_connector_root"
+              name="Đồng bộ bản đồ 3D"
+              parent="stock.menu_stock_root"
+              sequence="50"
+              action="action_map_connector_queue"/>
 </odoo>
