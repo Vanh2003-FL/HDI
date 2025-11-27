@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Root Menu (defined here to be available first) -->
+    <menuitem id="menu_stock_batch_flow_root"
+        name="Batch Management"
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="50"/>
+
     <!-- Tree View -->
     <record id="view_stock_batch_split_tree" model="ir.ui.view">
         <field name="name">stock.batch.split.tree</field>

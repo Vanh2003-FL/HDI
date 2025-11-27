@@ -20,7 +20,7 @@
         'views/stock_batch_split_views.xml',
         'views/stock_batch_merge_views.xml',
         'views/stock_lot_views.xml',
-        'views/menu_views.xml',
+        # 'views/menu_views.xml',  # Menus already defined in view files
     ],
     'installable': True,
     'application': False,
