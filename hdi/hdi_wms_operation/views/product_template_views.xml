@@ -7,23 +7,23 @@
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                <page string="WMS Settings" name="wms_settings">
+                <page string="Cài đặt WMS" name="wms_settings">
                     <group>
-                        <group string="Batch Management">
-                            <field name="standard_batch_qty"/>
-                            <field name="moving_classification"/>
+                        <group string="Quản lý batch">
+                            <field name="standard_batch_qty" string="Số lượng chuẩn/batch"/>
+                            <field name="moving_classification" string="Phân loại luân chuyển"/>
                         </group>
-                        <group string="Storage">
-                            <field name="priority_location_ids" widget="many2many_tags"/>
+                        <group string="Lưu kho">
+                            <field name="priority_location_ids" string="Vị trí ưu tiên" widget="many2many_tags"/>
                         </group>
                     </group>
                     <group>
-                        <group string="Quality Control">
-                            <field name="requires_qc"/>
-                            <field name="qc_days"/>
+                        <group string="Kiểm tra chất lượng">
+                            <field name="requires_qc" string="Yêu cầu QC"/>
+                            <field name="qc_days" string="Số ngày QC"/>
                         </group>
-                        <group string="FIFO Settings">
-                            <field name="enforce_fifo"/>
+                        <group string="Thiết lập FIFO">
+                            <field name="enforce_fifo" string="Bắt buộc FIFO"/>
                         </group>
                     </group>
                 </page>
