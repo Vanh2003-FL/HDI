@@ -52,7 +52,7 @@
                             <field name="location_id"/>
                         </group>
                         <group>
-                            <field name="receipt_date"/>
+                            <!-- <field name="receipt_date"/> -->
                             <field name="expiry_date"/>
                             <field name="barcode_list_id"/>
                         </group>
