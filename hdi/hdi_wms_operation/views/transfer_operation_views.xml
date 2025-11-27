@@ -69,9 +69,9 @@
                             <field name="line_ids">
                                 <list editable="bottom">
                                     <field name="product_id"/>
-                                    <field name="lot_id" domain="[('product_id','=',product_id)]"/>
-                                    <field name="location_src_id"/>
-                                    <field name="location_dest_id"/>
+                                    <!-- <field name="lot_id" domain="[('product_id','=',product_id)]"/> -->
+                                    <field name="source_location_id"/>
+                                    <field name="dest_location_id"/>
                                     <field name="quantity"/>
                                     <field name="state" readonly="1"/>
                                 </list>
