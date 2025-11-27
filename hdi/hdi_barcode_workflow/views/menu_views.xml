@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_barcode_workflow_root" name="Barcode Workflows" parent="stock.menu_stock_warehouse_mgmt" sequence="55"/>
+    <menuitem id="menu_barcode_workflow_root" name="Luồng quét mã vạch" parent="stock.menu_stock_warehouse_mgmt" sequence="55"/>
 </odoo>
