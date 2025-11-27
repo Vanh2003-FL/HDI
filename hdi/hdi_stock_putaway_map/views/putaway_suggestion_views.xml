@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Tree View -->
+    <!-- List View -->
     <record id="view_putaway_suggestion_tree" model="ir.ui.view">
-        <field name="name">putaway.suggestion.tree</field>
+        <field name="name">putaway.suggestion.list</field>
         <field name="model">putaway.suggestion</field>
         <field name="arch" type="xml">
-            <tree string="Putaway Rules" decoration-muted="not active">
+            <list string="Putaway Rules" decoration-muted="not active">
                 <field name="priority" widget="handle"/>
                 <field name="name"/>
                 <field name="strategy"/>
@@ -13,7 +13,7 @@
                 <field name="product_categ_id"/>
                 <field name="warehouse_id"/>
                 <field name="active" widget="boolean_toggle"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -95,7 +95,7 @@
     <record id="action_putaway_suggestion" model="ir.actions.act_window">
         <field name="name">Putaway Rules</field>
         <field name="res_model">putaway.suggestion</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first putaway rule
