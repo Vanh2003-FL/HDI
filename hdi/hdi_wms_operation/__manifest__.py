@@ -32,22 +32,22 @@
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
         # Master Data
-        'views/product_template_views.xml',
+        # 'views/product_template_views.xml',  # TODO: Create views folder and files
         # NK - Receipt Operations
-        'views/receipt_operation_views.xml',
-        'views/receipt_type_views.xml',
+        # 'views/receipt_operation_views.xml',
+        # 'views/receipt_type_views.xml',
         # DC - Transfer Operations
-        'views/transfer_operation_views.xml',
-        'views/batch_split_operation_views.xml',
+        # 'views/transfer_operation_views.xml',
+        # 'views/batch_split_operation_views.xml',
         # XK - Dispatch Operations
-        'views/dispatch_operation_views.xml',
-        'views/picking_area_views.xml',
+        # 'views/dispatch_operation_views.xml',
+        # 'views/picking_area_views.xml',
         # KK - Inventory Operations
-        'views/inventory_operation_views.xml',
+        # 'views/inventory_operation_views.xml',
         # Barcode Items
-        'views/barcode_item_views.xml',
+        # 'views/barcode_item_views.xml',
         # Menus
-        'views/menu_views.xml',
+        # 'views/menu_views.xml',
     ],
     'installable': True,
     'application': True,
