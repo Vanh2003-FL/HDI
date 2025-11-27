@@ -5,7 +5,7 @@
         <field name="name">stock.batch.merge.tree</field>
         <field name="model">stock.batch.merge</field>
         <field name="arch" type="xml">
-            <tree string="Batch Merge">
+            <list string="Batch Merge">
                 <field name="name"/>
                 <field name="date"/>
                 <field name="product_id"/>
@@ -13,7 +13,7 @@
                 <field name="target_lot_id"/>
                 <field name="location_id"/>
                 <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'confirmed'" decoration-muted="state == 'cancel'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -54,14 +54,14 @@
                     <notebook>
                         <page string="Merge Lines">
                             <field name="merge_line_ids" readonly="state != 'draft'">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
                                     <field name="source_lot_id" domain="[('product_id', '=', parent.product_id)]"/>
                                     <field name="quantity"/>
                                     <field name="available_quantity" readonly="1"/>
                                     <field name="notes"/>
                                     <field name="product_id" column_invisible="1"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Notes">
@@ -82,7 +82,7 @@
     <record id="action_stock_batch_merge" model="ir.actions.act_window">
         <field name="name">Batch Merge</field>
         <field name="res_model">stock.batch.merge</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new batch merge
