@@ -2,34 +2,34 @@
 <odoo>
     <!-- Tree View -->
     <record id="view_stock_receipt_tree" model="ir.ui.view">
-        <field name="name">stock.receipt.tree</field>
+        <field name="name">Danh sách phiếu nhập kho</field>
         <field name="model">stock.receipt</field>
         <field name="arch" type="xml">
-            <list string="Stock Receipts" decoration-info="state == 'qc'" decoration-success="state == 'done'">
-                <field name="name"/>
-                <field name="receipt_date"/>
-                <field name="picking_id"/>
-                <field name="container_no"/>
-                <field name="customs_declaration_no"/>
-                <field name="qc_status" widget="badge" decoration-warning="qc_status == 'pending'" decoration-success="qc_status == 'passed'" decoration-danger="qc_status == 'failed'"/>
-                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'qc'"/>
+            <list string="Danh sách phiếu nhập kho" decoration-info="state == 'qc'" decoration-success="state == 'done'">
+                <field name="name" string="Mã phiếu nhập kho"/>
+                <field name="receipt_date" string="Ngày nhập kho"/>
+                <field name="picking_id" string="Phiếu điều chuyển"/>
+                <field name="container_no" string="Số container"/>
+                <field name="customs_declaration_no" string="Số tờ khai hải quan"/>
+                <field name="qc_status" string="Trạng thái QC" widget="badge" decoration-warning="qc_status == 'pending'" decoration-success="qc_status == 'passed'" decoration-danger="qc_status == 'failed'"/>
+                <field name="state" string="Trạng thái" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'qc'"/>
             </list>
         </field>
     </record>
 
     <!-- Form View -->
     <record id="view_stock_receipt_form" model="ir.ui.view">
-        <field name="name">stock.receipt.form</field>
+        <field name="name">Chi tiết phiếu nhập kho</field>
         <field name="model">stock.receipt</field>
         <field name="arch" type="xml">
-            <form string="Stock Receipt">
+            <form string="Chi tiết phiếu nhập kho">
                 <header>
-                    <button name="action_start_qc" string="Start QC" type="object" class="oe_highlight" invisible="state != 'draft' or not qc_required"/>
-                    <button name="action_qc_pass" string="QC Pass" type="object" class="oe_highlight" invisible="state != 'qc'"/>
-                    <button name="action_qc_fail" string="QC Fail" type="object" class="btn-danger" invisible="state != 'qc'"/>
-                    <button name="action_done" string="Done" type="object" class="oe_highlight" invisible="state not in ['draft', 'approved']"/>
-                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ['done', 'cancel']"/>
-                    <button name="action_draft" string="Reset to Draft" type="object" invisible="state != 'cancel'"/>
+                    <button name="action_start_qc" string="Bắt đầu QC" type="object" class="oe_highlight" invisible="state != 'draft' or not qc_required"/>
+                    <button name="action_qc_pass" string="QC đạt" type="object" class="oe_highlight" invisible="state != 'qc'"/>
+                    <button name="action_qc_fail" string="QC không đạt" type="object" class="btn-danger" invisible="state != 'qc'"/>
+                    <button name="action_done" string="Hoàn thành" type="object" class="oe_highlight" invisible="state not in ['draft', 'approved']"/>
+                    <button name="action_cancel" string="Huỷ" type="object" invisible="state in ['done', 'cancel']"/>
+                    <button name="action_draft" string="Chuyển về nháp" type="object" invisible="state != 'cancel'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,qc,approved,done"/>
                 </header>
                 <sheet>
@@ -40,79 +40,79 @@
                     </div>
                     <group>
                         <group>
-                            <field name="picking_id"/>
-                            <field name="warehouse_id"/>
-                            <field name="receipt_date"/>
-                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="picking_id" string="Phiếu điều chuyển"/>
+                            <field name="warehouse_id" string="Kho nhập"/>
+                            <field name="receipt_date" string="Ngày nhập kho"/>
+                            <field name="company_id" string="Công ty" groups="base.group_multi_company"/>
                         </group>
                         <group>
-                            <field name="vehicle_no"/>
-                            <field name="driver_name"/>
-                            <field name="driver_phone"/>
+                            <field name="vehicle_no" string="Số xe"/>
+                            <field name="driver_name" string="Tên tài xế"/>
+                            <field name="driver_phone" string="SĐT tài xế"/>
                         </group>
                     </group>
-                    
+
                     <notebook>
-                        <page string="Container Information">
+                        <page string="Thông tin container">
                             <group>
                                 <group>
-                                    <field name="container_no"/>
-                                    <field name="container_type"/>
-                                    <field name="seal_no"/>
+                                    <field name="container_no" string="Số container"/>
+                                    <field name="container_type" string="Loại container"/>
+                                    <field name="seal_no" string="Số seal"/>
                                 </group>
                                 <group>
-                                    <field name="bill_of_lading"/>
+                                    <field name="bill_of_lading" string="Vận đơn"/>
                                 </group>
                             </group>
                         </page>
-                        
-                        <page string="Customs Information">
+
+                        <page string="Thông tin hải quan">
                             <group>
                                 <group>
-                                    <field name="customs_declaration_no"/>
-                                    <field name="customs_date"/>
+                                    <field name="customs_declaration_no" string="Số tờ khai hải quan"/>
+                                    <field name="customs_date" string="Ngày khai báo"/>
                                 </group>
                                 <group>
-                                    <field name="import_license"/>
+                                    <field name="import_license" string="Giấy phép nhập khẩu"/>
                                 </group>
                             </group>
                         </page>
-                        
-                        <page string="Quality Control">
+
+                        <page string="Kiểm tra chất lượng">
                             <group>
                                 <group>
-                                    <field name="qc_required"/>
-                                    <field name="qc_status"/>
-                                    <field name="qc_date"/>
+                                    <field name="qc_required" string="Yêu cầu QC"/>
+                                    <field name="qc_status" string="Trạng thái QC"/>
+                                    <field name="qc_date" string="Ngày QC"/>
                                 </group>
                                 <group>
-                                    <field name="qc_user_id"/>
+                                    <field name="qc_user_id" string="Nhân viên QC"/>
                                 </group>
                             </group>
-                            <field name="qc_notes" placeholder="QC inspection notes..."/>
+                            <field name="qc_notes" string="Ghi chú QC" placeholder="Ghi chú kiểm tra chất lượng..."/>
                         </page>
-                        
-                        <page string="Batch Lines">
+
+                        <page string="Chi tiết batch nhập kho">
                             <field name="batch_line_ids">
-                                <list editable="bottom">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="product_id"/>
-                                    <field name="lot_id"/>
-                                    <field name="lot_name"/>
-                                    <field name="quantity"/>
-                                    <field name="uom_id"/>
-                                    <field name="package_no"/>
-                                    <field name="pallet_no"/>
-                                    <field name="manufacturing_date"/>
-                                    <field name="expiry_date"/>
-                                    <field name="qc_result" widget="badge"/>
-                                    <field name="qc_remarks"/>
+                                <list editable="bottom" string="Danh sách batch nhập kho">
+                                    <field name="sequence" string="STT" widget="handle"/>
+                                    <field name="product_id" string="Sản phẩm"/>
+                                    <field name="lot_id" string="Batch/Lot"/>
+                                    <field name="lot_name" string="Tên batch/lot"/>
+                                    <field name="quantity" string="Số lượng"/>
+                                    <field name="uom_id" string="Đơn vị tính"/>
+                                    <field name="package_no" string="Số kiện"/>
+                                    <field name="pallet_no" string="Số pallet"/>
+                                    <field name="manufacturing_date" string="Ngày sản xuất"/>
+                                    <field name="expiry_date" string="Hạn sử dụng"/>
+                                    <field name="qc_result" string="Kết quả QC" widget="badge"/>
+                                    <field name="qc_remarks" string="Ghi chú QC"/>
                                 </list>
                             </field>
                         </page>
-                        
-                        <page string="Notes">
-                            <field name="notes" placeholder="Additional notes..."/>
+
+                        <page string="Ghi chú">
+                            <field name="notes" string="Ghi chú" placeholder="Ghi chú bổ sung..."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -127,15 +127,15 @@
 
     <!-- Action -->
     <record id="action_stock_receipt" model="ir.actions.act_window">
-        <field name="name">Stock Receipts</field>
+        <field name="name">Danh sách phiếu nhập kho</field>
         <field name="res_model">stock.receipt</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create your first stock receipt
+                Tạo mới phiếu nhập kho
             </p>
             <p>
-                Manage detailed receipt information including container, customs, and QC.
+                Quản lý chi tiết thông tin nhập kho, container, hải quan, kiểm tra chất lượng.
             </p>
         </field>
     </record>

@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_logistics_root" name="3PL Logistics" parent="stock.menu_stock_warehouse_mgmt" sequence="56"/>
+    <!-- Action để mở view của model logistics.partner -->
+    <record id="action_logistics_partner" model="ir.actions.act_window">
+        <field name="name">Đối tác vận tải/3PL</field>
+        <field name="res_model">logistics.partner</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu chính -->
+    <menuitem id="menu_logistics_root"
+              name="Đối tác vận tải/3PL"
+              parent="stock.menu_stock_warehouse_mgmt"
+              sequence="56"
+              action="action_logistics_partner"/>
 </odoo>

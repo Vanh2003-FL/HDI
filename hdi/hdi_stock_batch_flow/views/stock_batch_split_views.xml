@@ -2,39 +2,39 @@
 <odoo>
     <!-- Root Menu (defined here to be available first) -->
     <menuitem id="menu_stock_batch_flow_root"
-        name="Batch Management"
+        name="Quản lý batch"
         parent="stock.menu_stock_warehouse_mgmt"
         sequence="50"/>
 
     <!-- Tree View -->
     <record id="view_stock_batch_split_tree" model="ir.ui.view">
-        <field name="name">stock.batch.split.tree</field>
+        <field name="name">Danh sách tách batch</field>
         <field name="model">stock.batch.split</field>
         <field name="arch" type="xml">
-            <list string="Batch Split">
-                <field name="name"/>
-                <field name="date"/>
-                <field name="source_lot_id"/>
-                <field name="product_id"/>
-                <field name="source_quantity"/>
-                <field name="total_split_quantity"/>
-                <field name="location_id"/>
-                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'confirmed'" decoration-muted="state == 'cancel'"/>
+            <list string="Danh sách tách batch">
+                <field name="name" string="Tên tách batch"/>
+                <field name="date" string="Ngày tách"/>
+                <field name="source_lot_id" string="Batch nguồn"/>
+                <field name="product_id" string="Sản phẩm"/>
+                <field name="source_quantity" string="Số lượng nguồn"/>
+                <field name="total_split_quantity" string="Tổng số lượng tách"/>
+                <field name="location_id" string="Vị trí kho"/>
+                <field name="state" string="Trạng thái" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'confirmed'" decoration-muted="state == 'cancel'"/>
             </list>
         </field>
     </record>
 
     <!-- Form View -->
     <record id="view_stock_batch_split_form" model="ir.ui.view">
-        <field name="name">stock.batch.split.form</field>
+        <field name="name">Chi tiết tách batch</field>
         <field name="model">stock.batch.split</field>
         <field name="arch" type="xml">
-            <form string="Batch Split">
+            <form string="Chi tiết tách batch">
                 <header>
-                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'draft'"/>
-                    <button name="action_done" string="Process Split" type="object" class="oe_highlight" invisible="state != 'confirmed'"/>
-                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ['done', 'cancel']"/>
-                    <button name="action_draft" string="Reset to Draft" type="object" invisible="state != 'cancel'"/>
+                    <button name="action_confirm" string="Xác nhận" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_done" string="Thực hiện tách" type="object" class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" string="Huỷ" type="object" invisible="state in ['done', 'cancel']"/>
+                    <button name="action_draft" string="Chuyển về nháp" type="object" invisible="state != 'cancel'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
                 </header>
                 <sheet>
@@ -45,32 +45,32 @@
                     </div>
                     <group>
                         <group>
-                            <field name="source_lot_id" readonly="state != 'draft'"/>
-                            <field name="product_id"/>
-                            <field name="source_quantity" readonly="state != 'draft'"/>
-                            <field name="uom_id"/>
+                            <field name="source_lot_id" string="Batch nguồn" readonly="state != 'draft'"/>
+                            <field name="product_id" string="Sản phẩm"/>
+                            <field name="source_quantity" string="Số lượng nguồn" readonly="state != 'draft'"/>
+                            <field name="uom_id" string="Đơn vị tính"/>
                         </group>
                         <group>
-                            <field name="location_id" readonly="state != 'draft'"/>
-                            <field name="date" readonly="state != 'draft'"/>
-                            <field name="total_split_quantity"/>
-                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="location_id" string="Vị trí kho" readonly="state != 'draft'"/>
+                            <field name="date" string="Ngày tách" readonly="state != 'draft'"/>
+                            <field name="total_split_quantity" string="Tổng số lượng tách"/>
+                            <field name="company_id" string="Công ty" groups="base.group_multi_company"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Split Lines">
+                        <page string="Chi tiết tách">
                             <field name="split_line_ids" readonly="state != 'draft'">
-                                <list editable="bottom">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="new_lot_name"/>
-                                    <field name="quantity"/>
-                                    <field name="new_lot_id" readonly="1"/>
-                                    <field name="notes"/>
+                                <list editable="bottom" string="Danh sách batch sau tách">
+                                    <field name="sequence" string="STT" widget="handle"/>
+                                    <field name="new_lot_name" string="Tên batch mới"/>
+                                    <field name="quantity" string="Số lượng"/>
+                                    <field name="new_lot_id" string="Batch mới" readonly="1"/>
+                                    <field name="notes" string="Ghi chú"/>
                                 </list>
                             </field>
                         </page>
-                        <page string="Notes">
-                            <field name="notes" placeholder="Additional notes..."/>
+                        <page string="Ghi chú">
+                            <field name="notes" placeholder="Ghi chú bổ sung..."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -85,15 +85,15 @@
 
     <!-- Action -->
     <record id="action_stock_batch_split" model="ir.actions.act_window">
-        <field name="name">Batch Split</field>
+        <field name="name">Tách batch</field>
         <field name="res_model">stock.batch.split</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create a new batch split
+                Tạo mới phiếu tách batch
             </p>
             <p>
-                Split a large batch/lot into multiple smaller batches.
+                Tách một batch/lot lớn thành nhiều batch nhỏ hơn.
             </p>
         </field>
     </record>
