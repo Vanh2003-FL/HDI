@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_odd_items_root" name="Odd Items" parent="stock.menu_stock_warehouse_mgmt" sequence="54"/>
+    <!-- Root menu defined in barcode_item_views.xml -->
 </odoo>
