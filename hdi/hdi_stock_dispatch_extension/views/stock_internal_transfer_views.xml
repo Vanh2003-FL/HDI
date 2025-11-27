@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_dispatch_root" 
+        name="Dispatch Management" 
+        parent="stock.menu_stock_warehouse_mgmt" 
+        sequence="53"/>
+
     <record id="view_stock_internal_transfer_tree" model="ir.ui.view">
         <field name="name">stock.internal.transfer.tree</field>
         <field name="model">stock.internal.transfer</field>
