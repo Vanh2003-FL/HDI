@@ -36,7 +36,7 @@
                     <button name="action_start" string="Start Transfer" 
                             type="object" class="oe_highlight"
                             invisible="state != 'waiting'"/>
-                    <button name="action_complete" string="Complete" 
+                    <button name="action_done" string="Complete" 
                             type="object" class="oe_highlight"
                             invisible="state != 'in_progress'"/>
                     <button name="action_approve" string="Approve" 

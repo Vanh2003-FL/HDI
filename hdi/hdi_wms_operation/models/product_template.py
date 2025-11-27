@@ -37,6 +37,25 @@ class ProductTemplate(models.Model):
         string='Batch Prefix',
         help='Tiền tố cho mã batch (vd: BAT-)'
     )
+    
+    # Quality Control
+    requires_qc = fields.Boolean(
+        string='Requires QC',
+        default=False,
+        help='Sản phẩm cần kiểm tra chất lượng'
+    )
+    qc_days = fields.Integer(
+        string='QC Days',
+        default=0,
+        help='Số ngày cần để kiểm tra chất lượng'
+    )
+    
+    # FIFO Settings
+    enforce_fifo = fields.Boolean(
+        string='Enforce FIFO',
+        default=False,
+        help='Bắt buộc xuất kho theo FIFO (First In First Out)'
+    )
 
 
 class ProductProduct(models.Model):

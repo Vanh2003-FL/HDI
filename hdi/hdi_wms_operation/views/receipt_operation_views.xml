@@ -35,13 +35,13 @@
                     <button name="action_start_process" string="Start Process" 
                             type="object" class="oe_highlight" 
                             invisible="state != 'new'"/>
-                    <button name="action_mark_done" string="Mark as Done" 
+                    <button name="action_done" string="Mark as Done" 
                             type="object" class="oe_highlight" 
                             invisible="state != 'in_progress'"/>
                     <button name="action_approve" string="Approve" 
                             type="object" class="oe_highlight" 
                             invisible="state != 'done'"/>
-                    <button name="action_transfer_complete" string="Transfer Complete" 
+                    <button name="action_transfer" string="Transfer Complete" 
                             type="object" class="oe_highlight" 
                             invisible="state != 'approved'"/>
                     <button name="action_cancel" string="Cancel" 
