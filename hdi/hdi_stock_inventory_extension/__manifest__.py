@@ -7,7 +7,7 @@
     'depends': ['stock'],
     'data': [
         'security/ir.model.access.csv',
-        'views/stock_inventory_views.xml',
+        # 'views/stock_inventory_views.xml',  # File not created yet
         'views/menu_views.xml',
     ],
     'installable': True,

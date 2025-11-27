@@ -7,9 +7,9 @@
     'depends': ['stock'],
     'data': [
         'security/ir.model.access.csv',
-        'views/odd_item_views.xml',
+        # 'views/odd_item_views.xml',  # TODO
         'views/barcode_item_views.xml',
-        'views/stock_quant_views.xml',
+        # 'views/stock_quant_views.xml',  # TODO
         'views/menu_views.xml',
     ],
     'installable': True,

@@ -8,10 +8,10 @@
     'data': [
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
-        'views/picking_picklist_views.xml',
+        # 'views/picking_picklist_views.xml',  # TODO
         'views/stock_internal_transfer_views.xml',
         'views/menu_views.xml',
-        'wizard/generate_picklist_wizard_views.xml',
+        # 'wizard/generate_picklist_wizard_views.xml',  # TODO
     ],
     'installable': True,
     'license': 'LGPL-3',
