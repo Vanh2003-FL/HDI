@@ -10,12 +10,12 @@ class ProductTemplate(models.Model):
         help='Số lượng tiêu chuẩn của sản phẩm trong một batch'
     )
     moving_classification = fields.Selection([
-        ('a', 'A - Fast Moving'),
-        ('b', 'B - Medium Moving'),
-        ('c', 'C - Slow Moving'),
-        ('e', 'E - Extra Slow Moving'),
-    ], string='Moving Classification',
-       help='Phân loại tốc độ luân chuyển sản phẩm')
+        ('a', 'A - Luân chuyển nhanh'),
+        ('b', 'B - Luân chuyển trung bình'),
+        ('c', 'C - Luân chuyển chậm'),
+        ('e', 'E - Luân chuyển rất chậm'),
+    ], string='Phân loại luân chuyển',
+       help='Phân loại tốc độ luân chuyển sản phẩm theo ABC')
     
     # Priority locations
     priority_location_ids = fields.Many2many(
@@ -23,38 +23,38 @@ class ProductTemplate(models.Model):
         'product_location_priority_rel',
         'product_id',
         'location_id',
-        string='Priority Locations',
-        help='Vị trí ưu tiên để đặt sản phẩm này'
+        string='Vị trí ưu tiên',
+        help='Các vị trí kho ưu tiên để đặt sản phẩm này'
     )
     
     # Batch management
     require_batch = fields.Boolean(
-        string='Yêu cầu Batch',
+        string='Yêu cầu quản lý batch',
         default=True,
         help='Sản phẩm này có yêu cầu quản lý theo batch không'
     )
     batch_prefix = fields.Char(
-        string='Batch Prefix',
-        help='Tiền tố cho mã batch (vd: BAT-)'
+        string='Tiền tố batch',
+        help='Tiền tố cho mã batch (ví dụ: BAT-)'
     )
     
     # Quality Control
     requires_qc = fields.Boolean(
-        string='Requires QC',
+        string='Yêu cầu kiểm tra chất lượng',
         default=False,
-        help='Sản phẩm cần kiểm tra chất lượng'
+        help='Sản phẩm này cần kiểm tra chất lượng trước khi xuất kho'
     )
     qc_days = fields.Integer(
-        string='QC Days',
+        string='Số ngày kiểm tra chất lượng',
         default=0,
-        help='Số ngày cần để kiểm tra chất lượng'
+        help='Số ngày cần để kiểm tra chất lượng sản phẩm'
     )
     
     # FIFO Settings
     enforce_fifo = fields.Boolean(
-        string='Enforce FIFO',
+        string='Bắt buộc xuất kho theo FIFO',
         default=False,
-        help='Bắt buộc xuất kho theo FIFO (First In First Out)'
+        help='Bắt buộc xuất kho theo nguyên tắc FIFO (Nhập trước xuất trước)'
     )
 
 
