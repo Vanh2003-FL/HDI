@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Sub Menu (root menu defined in stock_internal_transfer_views.xml) -->
-    <menuitem id="menu_picklist" name="Picklists" parent="menu_dispatch_root" action="action_picking_picklist" sequence="10"/>
+    <!-- TODO: Uncomment when action_picking_picklist is created -->
+    <!-- <menuitem id="menu_picklist" name="Picklists" parent="menu_dispatch_root" action="action_picking_picklist" sequence="10"/> -->
 </odoo>
