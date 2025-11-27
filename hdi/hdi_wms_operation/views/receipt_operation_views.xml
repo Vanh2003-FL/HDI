@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- NK_NV: Receipt Operation Views -->
+    
+    <!-- Tree View -->
+    <record id="view_receipt_operation_tree" model="ir.ui.view">
+        <field name="name">receipt.operation.tree</field>
+        <field name="model">receipt.operation</field>
+        <field name="arch" type="xml">
+            <list string="Receipt Operations" 
+                  decoration-info="state == 'new'" 
+                  decoration-primary="state == 'in_progress'"
+                  decoration-success="state == 'approved'"
+                  decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="receipt_type"/>
+                <field name="date"/>
+                <field name="batch_count"/>
+                <field name="barcode_item_count"/>
+                <field name="state" widget="badge" 
+                       decoration-info="state == 'new'"
+                       decoration-warning="state == 'in_progress'"
+                       decoration-success="state in ['approved','transferred']"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_receipt_operation_form" model="ir.ui.view">
+        <field name="name">receipt.operation.form</field>
+        <field name="model">receipt.operation</field>
+        <field name="arch" type="xml">
+            <form string="Receipt Operation">
+                <header>
+                    <button name="action_start_process" string="Start Process" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'new'"/>
+                    <button name="action_mark_done" string="Mark as Done" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_approve" string="Approve" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'done'"/>
+                    <button name="action_transfer_complete" string="Transfer Complete" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'approved'"/>
+                    <button name="action_cancel" string="Cancel" 
+                            type="object" 
+                            invisible="state in ['transferred', 'cancel']"/>
+                    <field name="state" widget="statusbar" 
+                           statusbar_visible="new,in_progress,done,approved,transferred"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="receipt_type" required="1"/>
+                            <field name="date"/>
+                            <field name="stock_receipt_id"/>
+                        </group>
+                        <group>
+                            <field name="picking_id"/>
+                            <field name="batch_count"/>
+                            <field name="barcode_item_count"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Batches" name="batches">
+                            <field name="batch_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Barcode Lists" name="barcode_lists">
+                            <field name="barcode_list_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="total_items"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_receipt_operation_search" model="ir.ui.view">
+        <field name="name">receipt.operation.search</field>
+        <field name="model">receipt.operation</field>
+        <field name="arch" type="xml">
+            <search string="Receipt Operations">
+                <field name="name"/>
+                <field name="receipt_type"/>
+                <filter string="New" name="filter_new" domain="[('state','=','new')]"/>
+                <filter string="In Progress" name="filter_progress" domain="[('state','=','in_progress')]"/>
+                <filter string="Done" name="filter_done" domain="[('state','=','done')]"/>
+                <filter string="Approved" name="filter_approved" domain="[('state','=','approved')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Receipt Type" name="group_type" context="{'group_by':'receipt_type'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by':'state'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_receipt_operation" model="ir.actions.act_window">
+        <field name="name">Receipt Operations (NK_NV)</field>
+        <field name="res_model">receipt.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_new': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Receipt Operation
+            </p>
+            <p>
+                Manage 4 receipt workflows: NK_NV_01 (Production Domestic), NK_NV_02 (Production Export), 
+                NK_NV_03 (Import), NK_NV_04 (Transfer/Return)
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_wms_operations_root"
+        name="WMS Operations"
+        parent="stock.menu_stock_root"
+        sequence="10"/>
+
+    <!-- NK_NV: Receipt Operations -->
+    <menuitem id="menu_receipt_operations"
+        name="Receipt (NK_NV)"
+        parent="menu_wms_operations_root"
+        sequence="10"/>
+    
+    <menuitem id="menu_receipt_operation"
+        name="Receipt Operations"
+        parent="menu_receipt_operations"
+        action="action_receipt_operation"
+        sequence="10"/>
+
+    <!-- ĐC_NV: Transfer Operations -->
+    <menuitem id="menu_transfer_operations"
+        name="Transfer (ĐC_NV)"
+        parent="menu_wms_operations_root"
+        sequence="20"/>
+    
+    <menuitem id="menu_transfer_operation"
+        name="Internal Transfers"
+        parent="menu_transfer_operations"
+        action="action_transfer_operation"
+        sequence="10"/>
+
+    <!-- Barcode Items -->
+    <menuitem id="menu_barcode_items"
+        name="Barcode Items"
+        parent="menu_wms_operations_root"
+        sequence="30"/>
+    
+    <menuitem id="menu_barcode_item"
+        name="Barcode Items"
+        parent="menu_barcode_items"
+        action="action_barcode_item"
+        sequence="10"/>
+    
+    <menuitem id="menu_barcode_item_list"
+        name="Barcode Lists"
+        parent="menu_barcode_items"
+        action="action_barcode_item_list"
+        sequence="20"/>
+</odoo>

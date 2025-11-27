@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_receipt_operation_user,receipt.operation.user,model_receipt_operation,stock.group_stock_user,1,1,1,0
+access_receipt_operation_manager,receipt.operation.manager,model_receipt_operation,stock.group_stock_manager,1,1,1,1
+access_transfer_operation_user,transfer.operation.user,model_transfer_operation,stock.group_stock_user,1,1,1,0
+access_transfer_operation_manager,transfer.operation.manager,model_transfer_operation,stock.group_stock_manager,1,1,1,1
+access_transfer_operation_line_user,transfer.operation.line.user,model_transfer_operation_line,stock.group_stock_user,1,1,1,0
+access_transfer_operation_line_manager,transfer.operation.line.manager,model_transfer_operation_line,stock.group_stock_manager,1,1,1,1
+access_barcode_item_user,barcode.item.user,model_barcode_item,stock.group_stock_user,1,1,1,0
+access_barcode_item_manager,barcode.item.manager,model_barcode_item,stock.group_stock_manager,1,1,1,1
+access_barcode_item_list_user,barcode.item.list.user,model_barcode_item_list,stock.group_stock_user,1,1,1,0
+access_barcode_item_list_manager,barcode.item.list.manager,model_barcode_item_list,stock.group_stock_manager,1,1,1,1
