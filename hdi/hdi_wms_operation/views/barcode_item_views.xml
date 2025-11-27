@@ -54,7 +54,7 @@
                         <group>
                             <!-- <field name="receipt_date"/> -->
                             <!-- <field name="expiry_date"/> -->
-                            <field name="barcode_list_id"/>
+                            <!-- <field name="barcode_list_id"/> -->
                         </group>
                     </group>
                     <group>
