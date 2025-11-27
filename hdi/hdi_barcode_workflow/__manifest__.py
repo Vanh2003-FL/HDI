@@ -8,7 +8,7 @@
     'data': [
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
-        'views/barcode_workflow_views.xml',
+        # 'views/barcode_workflow_views.xml',  # TODO: Create this file
         'views/menu_views.xml',
     ],
     'installable': True,
