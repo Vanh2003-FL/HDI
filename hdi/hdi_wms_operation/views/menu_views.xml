@@ -3,7 +3,7 @@
     <!-- Root Menu -->
     <menuitem id="menu_wms_operations_root"
         name="Nghiệp vụ kho"
-        parent="stock.menu_stock_root"
+        parent="stock.menu_stock_warehouse_mgmt"
         sequence="10"/>
 
     <!-- NK_NV: Receipt Operations -->
