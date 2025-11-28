@@ -8,25 +8,18 @@ class BarcodeItem(models.Model):
     Dùng cho luồng NK_NV_01 (B) - Hàng lẻ không batch
     """
     _inherit = 'barcode.item'
-    _description = 'Barcode Item - Hàng lẻ (WMS extensions)'
+s    _description = 'Hàng lẻ mã vạch (mở rộng WMS)'
     _order = 'create_date desc'
 
     # Additional fields/extensions provided by WMS module
     quantity = fields.Float(
-        string='Quantity',
+        string='Số lượng',
         default=1.0,
         digits='Product Unit of Measure',
         tracking=True
     )
-    uom_id = fields.Many2one(
-        'uom.uom',
-        string='UoM',
-        compute='_compute_uom_id',
-        readonly=True,
-        store=False
-    )
     location_confirmed = fields.Boolean(
-        string='Location Confirmed',
+        string='Đã xác nhận vị trí',
         default=False,
         help='Đã xác nhận vị trí đặt hàng'
     )
@@ -35,35 +28,29 @@ class BarcodeItem(models.Model):
         ('production_export', 'NK_NV_02: Sản xuất xuất khẩu'),
         ('import', 'NK_NV_03: Nhập khẩu'),
         ('transfer_return', 'NK_NV_04: Chuyển kho/Trả lại'),
-    ], string='Receipt Type')
+    ], string='Loại nhập kho')
     lot_id = fields.Many2one(
         'stock.lot',
         string='Lot/Serial',
-        help='Nếu có lot/serial number'
+        help='Nếu có Lot/Serial'
     )
 
     @api.constrains('quantity')
     def _check_quantity(self):
         for item in self:
             if item.quantity <= 0:
-                raise ValidationError(_('Quantity must be greater than zero.'))
+                raise ValidationError(_('Số lượng phải lớn hơn 0.'))
 
     def action_place(self):
         """Xác nhận đã đặt vào vị trí"""
         if not self.location_id:
-            raise ValidationError(_('Please select a location first.'))
+            raise ValidationError(_('Vui lòng chọn vị trí trước.'))
         self.write({
             'state': 'placed',
             'location_confirmed': True
         })
 
-    @api.depends('product_id')
-    def _compute_uom_id(self):
-        for rec in self:
-            try:
-                rec.uom_id = rec.product_id.uom_id.id if rec.product_id else False
-            except Exception:
-                rec.uom_id = False
+    # Note: removed uom_id computed field to avoid _unknown sentinel issues in UI
 
     def action_reset(self):
         """Reset về draft"""
@@ -82,12 +69,12 @@ class BarcodeItem(models.Model):
             return {
                 'success': True,
                 'item': item,
-                'message': 'Barcode already exists'
+                'message': 'Mã vạch đã tồn tại'
             }
         if not product_id:
             return {
                 'success': False,
-                'message': 'Product ID required for new barcode'
+                'message': 'Cần Product ID để tạo mã vạch mới'
             }
         item = self.create({
             'name': barcode,
@@ -98,7 +85,7 @@ class BarcodeItem(models.Model):
         return {
             'success': True,
             'item': item,
-            'message': 'New barcode created'
+            'message': 'Tạo mã vạch mới thành công'
         }
 
 
@@ -112,32 +99,32 @@ class BarcodeItemList(models.Model):
     _order = 'create_date desc'
 
     name = fields.Char(
-        string='Reference',
+        string='Mã bảng kê',
         required=True,
         copy=False,
         readonly=True,
         default=lambda self: _('New')
     )
     date = fields.Datetime(
-        string='Date',
+        string='Ngày',
         default=fields.Datetime.now,
         required=True
     )
     item_ids = fields.Many2many(
         'barcode.item',
-        string='Barcode Items'
+        string='Hàng lẻ mã vạch'
     )
     item_count = fields.Integer(
         compute='_compute_item_count',
-        string='Total Items'
+        string='Tổng số hàng'
     )
     state = fields.Selection([
-        ('draft', 'Draft'),
-        ('confirmed', 'Confirmed'),
-        ('done', 'Done'),
+        ('draft', 'Nháp'),
+        ('confirmed', 'Đã xác nhận'),
+        ('done', 'Hoàn thành'),
     ], default='draft', tracking=True)
     
-    notes = fields.Text(string='Notes')
+    notes = fields.Text(string='Ghi chú')
     company_id = fields.Many2one(
         'res.company',
         default=lambda self: self.env.company
