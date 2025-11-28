@@ -3,84 +3,84 @@ from odoo.exceptions import ValidationError
 
 
 class BarcodeItem(models.Model):
-    """Hàng lẻ không có Batch - quản lý từng barcode riêng lẻ"""
+    """Hàng lẻ không có Batch - quản lý từng mã vạch riêng lẻ"""
     _name = 'barcode.item'
-    _description = 'Barcode Item (Loose Items without Batch)'
+    _description = 'Hàng lẻ mã vạch (không theo batch)'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'create_date desc'
 
     name = fields.Char(
-        string='Barcode',
+        string='Mã vạch',
         required=True,
         index=True,
-        help='Individual product barcode'
+        help='Mã vạch sản phẩm (mã duy nhất cho hàng lẻ)'
     )
     product_id = fields.Many2one(
         'product.product',
-        string='Product',
+        string='Sản phẩm',
         required=True,
         index=True
     )
     location_id = fields.Many2one(
         'stock.location',
-        string='Current Location',
+        string='Vị trí hiện tại',
         required=True,
         domain=[('usage', '=', 'internal')]
     )
     
     # Status
     state = fields.Selection([
-        ('draft', 'Draft'),
-        ('scanned', 'Scanned'),
-        ('placed', 'Placed in Location'),
-        ('confirmed', 'Confirmed'),
-        ('out', 'Out of Stock'),
-    ], string='Status', default='draft', tracking=True)
+        ('draft', 'Nháp'),
+        ('scanned', 'Đã quét'),
+        ('placed', 'Đã đặt'),
+        ('confirmed', 'Đã xác nhận'),
+        ('out', 'Hết hàng'),
+    ], string='Trạng thái', default='draft', tracking=True)
     
     # Receipt information
     receipt_id = fields.Many2one(
         'stock.receipt',
-        string='Receipt Reference'
+        string='Phiếu nhập liên quan'
     )
     receipt_date = fields.Datetime(
-        string='Receipt Date',
+        string='Ngày nhập',
         default=fields.Datetime.now
     )
     
     # Picking information (for outbound)
     picking_id = fields.Many2one(
         'stock.picking',
-        string='Picking Reference'
+        string='Phiếu xuất liên quan'
     )
     picked_date = fields.Datetime(
-        string='Picked Date'
+        string='Ngày lấy'
     )
     
     # Additional info
-    notes = fields.Text(string='Notes')
+    notes = fields.Text(string='Ghi chú')
     company_id = fields.Many2one(
         'res.company',
         default=lambda self: self.env.company
     )
 
     _sql_constraints = [
-        ('barcode_unique', 'unique(name, company_id)', 
-         'Barcode must be unique per company!')
+        ('barcode_unique', 'unique(name, company_id)',
+         'Mã vạch phải là duy nhất trong công ty!')
     ]
 
     @api.constrains('name')
     def _check_barcode(self):
         for item in self:
             if not item.name:
-                raise ValidationError(_('Barcode cannot be empty.'))
+                raise ValidationError(_('Mã vạch không được để trống.'))
 
     def action_scan(self):
-        """Action when barcode is scanned"""
+        """Gắn trạng thái 'Đã quét' khi quét mã vạch"""
         self.ensure_one()
         self.state = 'scanned'
 
     def action_place(self, location_id):
-        """Action to place item in a location"""
+        """Ghi nhận vị trí đặt hàng và chuyển trạng thái sang 'Đã đặt'"""
         self.ensure_one()
         self.write({
             'location_id': location_id,
@@ -88,12 +88,12 @@ class BarcodeItem(models.Model):
         })
 
     def action_confirm(self):
-        """Confirm item placement"""
+        """Xác nhận hoàn tất xử lý hàng lẻ"""
         self.ensure_one()
         self.state = 'confirmed'
 
     def action_pick(self, picking_id):
-        """Action when item is picked for outbound"""
+        """Đánh dấu đã lấy hàng cho xuất kho"""
         self.ensure_one()
         self.write({
             'picking_id': picking_id,

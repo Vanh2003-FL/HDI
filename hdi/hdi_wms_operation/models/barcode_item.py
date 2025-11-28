@@ -8,7 +8,7 @@ class BarcodeItem(models.Model):
     Dùng cho luồng NK_NV_01 (B) - Hàng lẻ không batch
     """
     _inherit = 'barcode.item'
-s    _description = 'Hàng lẻ mã vạch (mở rộng WMS)'
+    _description = 'Hàng lẻ mã vạch (mở rộng WMS)'
     _order = 'create_date desc'
 
     # Additional fields/extensions provided by WMS module
