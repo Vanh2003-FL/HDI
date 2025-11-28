@@ -21,8 +21,9 @@ class BarcodeItem(models.Model):
     uom_id = fields.Many2one(
         'uom.uom',
         string='UoM',
-        related='product_id.uom_id',
-        readonly=True
+        compute='_compute_uom_id',
+        readonly=True,
+        store=False
     )
     location_confirmed = fields.Boolean(
         string='Location Confirmed',
@@ -55,6 +56,14 @@ class BarcodeItem(models.Model):
             'state': 'placed',
             'location_confirmed': True
         })
+
+    @api.depends('product_id')
+    def _compute_uom_id(self):
+        for rec in self:
+            try:
+                rec.uom_id = rec.product_id.uom_id.id if rec.product_id else False
+            except Exception:
+                rec.uom_id = False
 
     def action_reset(self):
         """Reset về draft"""
