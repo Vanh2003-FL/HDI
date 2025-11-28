@@ -6,6 +6,7 @@ class BarcodeItem(models.Model):
     """Hàng lẻ không có Batch - quản lý từng barcode riêng lẻ"""
     _name = 'barcode.item'
     _description = 'Barcode Item (Loose Items without Batch)'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'create_date desc'
 
     name = fields.Char(
