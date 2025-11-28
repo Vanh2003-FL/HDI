@@ -7,23 +7,11 @@ class BarcodeItem(models.Model):
     Model quản lý hàng lẻ không thuộc batch nào
     Dùng cho luồng NK_NV_01 (B) - Hàng lẻ không batch
     """
-    _name = 'barcode.item'
-    _description = 'Barcode Item - Hàng lẻ'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = 'barcode.item'
+    _description = 'Barcode Item - Hàng lẻ (WMS extensions)'
     _order = 'create_date desc'
 
-    name = fields.Char(
-        string='Barcode',
-        required=True,
-        index=True,
-        tracking=True
-    )
-    product_id = fields.Many2one(
-        'product.product',
-        string='Product',
-        required=True,
-        tracking=True
-    )
+    # Additional fields/extensions provided by WMS module
     quantity = fields.Float(
         string='Quantity',
         default=1.0,
@@ -36,32 +24,10 @@ class BarcodeItem(models.Model):
         related='product_id.uom_id',
         readonly=True
     )
-    
-    # Location tracking
-    location_id = fields.Many2one(
-        'stock.location',
-        string='Current Location',
-        tracking=True
-    )
     location_confirmed = fields.Boolean(
         string='Location Confirmed',
         default=False,
         help='Đã xác nhận vị trí đặt hàng'
-    )
-    
-    # State management
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('scanned', 'Scanned'),
-        ('placed', 'Placed'),
-        ('confirmed', 'Confirmed'),
-    ], string='Status', default='draft', tracking=True)
-    
-    # Receipt information
-    receipt_id = fields.Many2one(
-        'stock.receipt',
-        string='Receipt',
-        help='Phiếu nhập liên quan'
     )
     receipt_type = fields.Selection([
         ('production_domestic', 'NK_NV_01: Sản xuất nội địa'),
@@ -69,33 +35,17 @@ class BarcodeItem(models.Model):
         ('import', 'NK_NV_03: Nhập khẩu'),
         ('transfer_return', 'NK_NV_04: Chuyển kho/Trả lại'),
     ], string='Receipt Type')
-    
-    # Additional info
     lot_id = fields.Many2one(
         'stock.lot',
         string='Lot/Serial',
         help='Nếu có lot/serial number'
     )
-    notes = fields.Text(string='Notes')
-    
-    company_id = fields.Many2one(
-        'res.company',
-        default=lambda self: self.env.company
-    )
-
-    _sql_constraints = [
-        ('barcode_unique', 'unique(name, company_id)', 'Barcode must be unique per company!')
-    ]
 
     @api.constrains('quantity')
     def _check_quantity(self):
         for item in self:
             if item.quantity <= 0:
                 raise ValidationError(_('Quantity must be greater than zero.'))
-
-    def action_scan(self):
-        """Xác nhận đã quét barcode"""
-        self.write({'state': 'scanned'})
 
     def action_place(self):
         """Xác nhận đã đặt vào vị trí"""
@@ -106,12 +56,6 @@ class BarcodeItem(models.Model):
             'location_confirmed': True
         })
 
-    def action_confirm(self):
-        """Xác nhận hoàn tất"""
-        if not self.location_confirmed:
-            raise ValidationError(_('Please confirm location first.'))
-        self.state = 'confirmed'
-
     def action_reset(self):
         """Reset về draft"""
         self.write({
@@ -121,35 +65,27 @@ class BarcodeItem(models.Model):
 
     @api.model
     def scan_barcode(self, barcode, product_id=None, quantity=1.0):
-        """
-        API để quét barcode từ thiết bị
+        """API để quét barcode từ thiết bị
         Returns: barcode.item record hoặc error
         """
-        # Check if barcode exists
         item = self.search([('name', '=', barcode)], limit=1)
-        
         if item:
-            # Barcode đã tồn tại
             return {
                 'success': True,
                 'item': item,
                 'message': 'Barcode already exists'
             }
-        
         if not product_id:
             return {
                 'success': False,
                 'message': 'Product ID required for new barcode'
             }
-        
-        # Create new barcode item
         item = self.create({
             'name': barcode,
             'product_id': product_id,
             'quantity': quantity,
             'state': 'scanned'
         })
-        
         return {
             'success': True,
             'item': item,
