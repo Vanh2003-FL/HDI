@@ -4,7 +4,7 @@
     'category': 'Inventory/Inventory',
     'summary': 'Quản lý hàng lẻ / thiếu lô',
     'author': 'HDI',
-    'depends': ['stock'],
+    'depends': ['stock', 'hdi_stock_receipt_extension'],
     'data': [
         'security/ir.model.access.csv',
         # 'views/odd_item_views.xml',  # TODO
