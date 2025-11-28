@@ -1,5 +1,9 @@
+import logging
+
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class BarcodeItem(models.Model):
@@ -100,3 +104,43 @@ class BarcodeItem(models.Model):
             'picked_date': fields.Datetime.now(),
             'state': 'out',
         })
+
+    def read(self, fields=None, load=False):
+        """Safe read wrapper: if a related/computed Many2one returns the
+        internal `_unknown` sentinel during web reads, Odoo's core will
+        raise AttributeError when trying to access `.id`. To avoid RPC
+        crashes in the web client we catch exceptions and return a
+        per-field safe result (False for failing fields) and log the
+        problematic field names for debugging.
+        """
+        try:
+            return super().read(fields=fields, load=load)
+        except Exception as exc:
+            _logger.exception('barcode.item: read() fallback triggered: %s', exc)
+            field_names = fields or list(self._fields.keys())
+            results = []
+            for rec in self:
+                row = {}
+                # Ensure `id` is always present (web client expects it)
+                row['id'] = rec.id or False
+                for name in field_names:
+                    try:
+                        field = self._fields.get(name)
+                        val = rec[name]
+                        # Convert relational recordsets to primitive types
+                        if field and field.type == 'many2one':
+                            row[name] = val.id or False
+                        elif field and field.type in ('one2many', 'many2many'):
+                            row[name] = val.ids
+                        else:
+                            # For other field types, use the raw value
+                            # (will be a basic Python type or False)
+                            row[name] = val
+                    except Exception as fexc:
+                        _logger.warning(
+                            "barcode.item read: field '%s' failed for record %s: %s",
+                            name, getattr(rec, 'id', repr(rec)), fexc
+                        )
+                        row[name] = False
+                results.append(row)
+            return results
