@@ -50,9 +50,9 @@
             <search string="Tìm kiếm loại giải trình">
                 <field name="name"/>
                 <field name="code"/>
-                <filter string="Tính vào hạn mức" name="filter_mark_count" 
+                <filter string="Tính vào hạn mức" name="filter_mark_count"
                         domain="[('mark_count', '=', True)]"/>
-                <filter string="Dùng ngày giải trình" name="filter_use_date" 
+                <filter string="Dùng ngày giải trình" name="filter_use_date"
                         domain="[('used_explanation_date', '=', True)]"/>
             </search>
         </field>

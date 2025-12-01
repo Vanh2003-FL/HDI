@@ -5,7 +5,7 @@
         <field name="name">hr.attendance.explanation.approver.tree</field>
         <field name="model">hr.attendance.explanation.approver</field>
         <field name="arch" type="xml">
-            <tree decoration-success="state=='approved'" 
+            <list decoration-success="state=='approved'"
                   decoration-danger="state=='refuse'">
                 <field name="sequence" widget="handle"/>
                 <field name="user_id"/>
@@ -13,7 +13,7 @@
                 <field name="state" widget="badge"/>
                 <field name="approval_date"/>
                 <field name="comment"/>
-            </tree>
+            </list>
         </field>
     </record>
 

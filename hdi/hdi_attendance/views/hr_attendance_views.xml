@@ -50,14 +50,14 @@
             <!-- Add button box at top -->
             <xpath expr="//sheet" position="before">
                 <header>
-                    <button name="button_create_explanation" 
-                            string="Giải trình" 
-                            type="object" 
+                    <button name="button_create_explanation"
+                            string="Giải trình"
+                            type="object"
                             class="btn-primary"
                             invisible="not explanation_required or explanation_id"/>
-                    <button name="button_create_hr_leave" 
-                            string="Xin nghỉ" 
-                            type="object" 
+                    <button name="button_create_hr_leave"
+                            string="Xin nghỉ"
+                            type="object"
                             class="btn-secondary"/>
                 </header>
             </xpath>
@@ -71,7 +71,7 @@
                 <field name="check_out_date"/>
                 <field name="check_out_time" widget="float_time"/>
             </xpath>
-            
+
             <!-- Add notebook page for additional info -->
             <xpath expr="//field[@name='worked_hours']" position="after">
                 <notebook>
@@ -129,13 +129,13 @@
         <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='myattendances']" position="after">
-                <filter string="Cần giải trình" name="need_explanation" 
+                <filter string="Cần giải trình" name="need_explanation"
                         domain="[('explanation_required', '=', True), ('explanation_id', '=', False)]"/>
-                <filter string="Đi muộn" name="late" 
+                <filter string="Đi muộn" name="late"
                         domain="[('en_late', '=', True)]"/>
-                <filter string="Về sớm" name="early" 
+                <filter string="Về sớm" name="early"
                         domain="[('en_soon', '=', True)]"/>
-                <filter string="Quên chấm công" name="missing" 
+                <filter string="Quên chấm công" name="missing"
                         domain="[('en_missing_attendance', '=', True)]"/>
             </xpath>
             <xpath expr="//search" position="inside">

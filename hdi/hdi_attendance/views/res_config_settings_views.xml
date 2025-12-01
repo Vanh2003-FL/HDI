@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                         </setting>
-                        
+
                         <setting>
                             <label for="en_late_request"/>
                             <div class="text-muted">
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                         </setting>
-                        
+
                         <setting>
                             <label for="en_soon_request"/>
                             <div class="text-muted">
@@ -46,7 +46,7 @@
                             </div>
                         </setting>
                     </block>
-                    
+
                     <block title="Giải trình chấm công">
                         <setting>
                             <label for="en_max_attendance_request_count"/>
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                         </setting>
-                        
+
                         <setting>
                             <label for="en_attendance_request_start"/>
                             <div class="text-muted">
@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                         </setting>
-                        
+
                         <setting>
                             <label for="en_max_attendance_request"/>
                             <div class="text-muted">
