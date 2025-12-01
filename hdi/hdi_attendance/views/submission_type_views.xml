@@ -74,12 +74,4 @@
             </p>
         </field>
     </record>
-
-    <!-- Submission Type Menu -->
-    <menuitem id="menu_submission_type"
-              name="Loại giải trình"
-              parent="menu_hr_attendance_configuration"
-              action="action_submission_type"
-              sequence="10"
-              groups="hdi_attendance.group_attendance_manager"/>
 </odoo>
