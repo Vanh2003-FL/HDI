@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Root Menu -->
+    <!-- Root Menu - Independent from Odoo core, at same level as "Hoạt động" -->
     <menuitem id="menu_wms_operations_root"
         name="Nghiệp vụ kho HDI"
-        parent="stock.menu_stock_warehouse_mgmt"
-        sequence="10"/>
+        web_icon="hdi_wms_operation,static/description/icon.png"
+        sequence="45"/>
 
     <!-- ========== 1. NHẬP KHO (NK_NV) ========== -->
     <menuitem id="menu_receipt_operations"
@@ -23,6 +23,18 @@
         name="3. Điều chuyển (ĐC_NV)"
         parent="menu_wms_operations_root"
         sequence="30"/>
+
+    <!-- ========== 4. KIỂM KÊ (KK_NV) ========== -->
+    <menuitem id="menu_inventory_operations"
+        name="4. Kiểm kê (KK_NV)"
+        parent="menu_wms_operations_root"
+        sequence="40"/>
+
+    <!-- ========== 5. BÁO CÁO ========== -->
+    <menuitem id="menu_wms_reporting"
+        name="5. Báo cáo"
+        parent="menu_wms_operations_root"
+        sequence="50"/>
 
     <!-- ========== CẤU HÌNH ========== -->
     <menuitem id="menu_wms_config"

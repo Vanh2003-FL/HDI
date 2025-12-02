@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_wms_reporting_root" name="Báo cáo WMS" parent="stock.menu_warehouse_report" sequence="10"/>
+    <!-- Moved under HDI WMS Operations → Báo cáo -->
+    <menuitem id="menu_wms_reporting_root" name="Báo cáo WMS" parent="hdi_wms_operation.menu_wms_reporting" sequence="10"/>
 </odoo>

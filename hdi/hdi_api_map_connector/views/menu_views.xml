@@ -13,10 +13,10 @@
         </field>
     </record>
 
-    <!-- Menu gắn action -->
+    <!-- Menu gắn action - Moved under HDI WMS Operations → Cấu hình -->
     <menuitem id="menu_map_connector_root"
               name="Đồng bộ bản đồ 3D"
-              parent="stock.menu_stock_root"
+              parent="hdi_wms_operation.menu_wms_config"
               sequence="50"
               action="action_map_connector_queue"/>
 </odoo>
