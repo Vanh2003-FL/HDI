@@ -102,12 +102,29 @@ class PickingPicklist(models.Model):
             self.picker_id = self.env.user.id
         self.state = 'in_progress'
 
-    def action_done(self):
+    def action_validate(self):
+        """Validate and complete picking"""
         self.ensure_one()
         if any(not line.is_picked for line in self.line_ids):
             raise UserError(_('All lines must be picked before completing.'))
         self.state = 'done'
 
+    def action_done(self):
+        """Alias for action_validate"""
+        return self.action_validate()
+
     def action_cancel(self):
         self.ensure_one()
         self.state = 'cancel'
+    
+    def action_view_picking(self):
+        """View related delivery order"""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Delivery Order'),
+            'res_model': 'stock.picking',
+            'res_id': self.picking_id.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
