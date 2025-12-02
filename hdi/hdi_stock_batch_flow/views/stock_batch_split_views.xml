@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Root Menu (defined here to be available first) -->
-    <menuitem id="menu_stock_batch_flow_root"
+    <!-- Gộp vào menu WMS Operations > Nhập kho -->
+    <!-- <menuitem id="menu_stock_batch_flow_root"
         name="Quản lý batch"
         parent="stock.menu_stock_warehouse_mgmt"
-        sequence="50"/>
+        sequence="50"/> -->
 
     <!-- Tree View -->
     <record id="view_stock_batch_split_tree" model="ir.ui.view">

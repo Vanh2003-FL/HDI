@@ -2,13 +2,13 @@
 <odoo>
     <!-- Root Menu -->
     <menuitem id="menu_wms_operations_root"
-        name="Nghiệp vụ kho"
+        name="Nghiệp vụ kho HDI"
         parent="stock.menu_stock_warehouse_mgmt"
         sequence="10"/>
 
-    <!-- NK_NV: Receipt Operations -->
+    <!-- ========== 1. NHẬP KHO (NK_NV) ========== -->
     <menuitem id="menu_receipt_operations"
-        name="Nhập kho (NK_NV)"
+        name="1. Nhập kho (NK_NV)"
         parent="menu_wms_operations_root"
         sequence="10"/>
     
@@ -18,18 +18,35 @@
         action="action_receipt_operation"
         sequence="10"/>
     
-    <!-- Batch Management -->
     <menuitem id="menu_batch_management"
         name="Quản lý Batch"
         parent="menu_receipt_operations"
         action="action_stock_lot_batch_wms"
         sequence="15"/>
+    
+    <menuitem id="menu_barcode_item"
+        name="Hàng lẻ mã vạch"
+        parent="menu_receipt_operations"
+        action="action_barcode_item"
+        sequence="20"/>
+    
+    <menuitem id="menu_barcode_item_list"
+        name="Bảng kê mã vạch"
+        parent="menu_receipt_operations"
+        action="action_barcode_item_list"
+        sequence="25"/>
 
-    <!-- ĐC_NV: Transfer Operations -->
-    <menuitem id="menu_transfer_operations"
-        name="Điều chuyển (ĐC_NV)"
+    <!-- ========== 2. XUẤT KHO (XK_NV) ========== -->
+    <menuitem id="menu_dispatch_operations"
+        name="2. Xuất kho (XK_NV)"
         parent="menu_wms_operations_root"
         sequence="20"/>
+
+    <!-- ========== 3. ĐIỀU CHUYỂN (ĐC_NV) ========== -->
+    <menuitem id="menu_transfer_operations"
+        name="3. Điều chuyển (ĐC_NV)"
+        parent="menu_wms_operations_root"
+        sequence="30"/>
     
     <menuitem id="menu_transfer_operation"
         name="Lệnh chuyển kho"
@@ -37,21 +54,9 @@
         action="action_transfer_operation"
         sequence="10"/>
 
-    <!-- Barcode Items -->
-    <menuitem id="menu_barcode_items"
-        name="Hàng lẻ mã vạch"
+    <!-- ========== CẤU HÌNH ========== -->
+    <menuitem id="menu_wms_config"
+        name="Cấu hình"
         parent="menu_wms_operations_root"
-        sequence="30"/>
-    
-    <menuitem id="menu_barcode_item"
-        name="Hàng lẻ mã vạch"
-        parent="menu_barcode_items"
-        action="action_barcode_item"
-        sequence="10"/>
-    
-    <menuitem id="menu_barcode_item_list"
-        name="Bảng kê mã vạch"
-        parent="menu_barcode_items"
-        action="action_barcode_item_list"
-        sequence="20"/>
+        sequence="90"/>
 </odoo>

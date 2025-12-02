@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Sub Menu Items -->
+    <!-- Gộp vào menu Nhập kho -->
     <menuitem id="menu_stock_batch_split"
         name="Tách batch"
-        parent="menu_stock_batch_flow_root"
+        parent="hdi_wms_operation.menu_receipt_operations"
         action="action_stock_batch_split"
-        sequence="10"/>
+        sequence="30"/>
 
     <menuitem id="menu_stock_batch_merge"
         name="Gộp batch"
-        parent="menu_stock_batch_flow_root"
+        parent="hdi_wms_operation.menu_receipt_operations"
         action="action_stock_batch_merge"
-        sequence="20"/>
+        sequence="35"/>
 </odoo>

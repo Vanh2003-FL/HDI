@@ -38,10 +38,10 @@
         <field name="view_id" ref="view_fleet_assignment_tree"/>
     </record>
 
-    <!-- Menu -->
+    <!-- Gộp vào Xuất kho -->
     <menuitem id="menu_fleet_assign_root"
               name="Phân công xe"
-              parent="stock.menu_stock_warehouse_mgmt"
-              sequence="57"
+              parent="hdi_wms_operation.menu_dispatch_operations"
+              sequence="10"
               action="action_fleet_assign"/>
 </odoo>

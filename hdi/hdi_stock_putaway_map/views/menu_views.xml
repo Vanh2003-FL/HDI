@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Menu Items -->
-    <menuitem id="menu_putaway_map_root"
-        name="Chiến lược sắp xếp kho"
-        parent="stock.menu_stock_warehouse_mgmt"
-        sequence="51"/>
-
+    <!-- Gộp vào Cấu hình -->
     <menuitem id="menu_warehouse_3d_map"
         name="Bản đồ kho 3D"
-        parent="menu_putaway_map_root"
+        parent="hdi_wms_operation.menu_wms_config"
         action="action_stock_location_3d_map"
         sequence="10"/>
 
     <menuitem id="menu_putaway_suggestion"
         name="Quy tắc sắp xếp kho"
-        parent="menu_putaway_map_root"
+        parent="hdi_wms_operation.menu_wms_config"
         action="action_putaway_suggestion"
         sequence="20"/>
 </odoo>
