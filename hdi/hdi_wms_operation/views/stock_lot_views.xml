@@ -57,6 +57,8 @@
                         <group string="Thông tin cơ bản">
                             <field name="product_id" required="1" 
                                    domain="[('type', '=', 'product')]"/>
+                            <field name="product_qty" string="Số lượng" readonly="1" 
+                                   help="Tổng số lượng tồn kho của batch này"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="receipt_type"/>
                         </group>
