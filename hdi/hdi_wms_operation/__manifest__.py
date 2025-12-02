@@ -33,9 +33,10 @@
         'security/ir.model.access.csv',
         # Master Data
         'views/product_template_views.xml',
-        'views/stock_lot_views.xml',
         # Menu Structure (load first - no actions)
         'views/menu_structure.xml',
+        # Master Data with menus (after menu structure)
+        'views/stock_lot_views.xml',
         # NK - Receipt Operations (includes menu)
         'views/receipt_operation_views.xml',
         # XK - Dispatch Operations (includes menu)
