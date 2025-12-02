@@ -70,10 +70,9 @@ class StockLot(models.Model):
     ], string='Receipt Type')
     
     # NK_NV_02: Xuất khẩu - Link with Work Order
-    work_order_id = fields.Many2one(
-        'mrp.workorder',
-        string='Work Order',
-        help='Work Order xuất khẩu (cho NK_NV_02)'
+    work_order_ref = fields.Char(
+        string='Work Order Reference',
+        help='Tham chiếu Work Order xuất khẩu (cho NK_NV_02)'
     )
     all_barcodes_scanned = fields.Boolean(
         string='All Products Scanned',
