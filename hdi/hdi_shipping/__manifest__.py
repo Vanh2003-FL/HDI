@@ -8,6 +8,8 @@
     'license': 'LGPL-3',
     'depends': [
         'contacts',
+        'mail',
+        'stock',
     ],
     'data': [
         'data/sequence_data.xml',
@@ -15,6 +17,8 @@
         'views/shipping_order_views.xml',
         'views/sender_address_views.xml',
         'views/shipping_service_views.xml',
+        'wizards/shipping_order_print_wizard_views.xml',
+        'reports/shipping_order_report.xml',
         'views/menu.xml',
     ],
     'installable': True,

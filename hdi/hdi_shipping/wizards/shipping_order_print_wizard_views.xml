@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Print Wizard Form View -->
+  <record id="view_shipping_order_print_wizard_form" model="ir.ui.view">
+    <field name="name">shipping.order.print.wizard.form</field>
+    <field name="model">shipping.order.print.wizard</field>
+    <field name="arch" type="xml">
+      <form string="In đơn hàng gửi">
+        <group>
+          <field name="order_ids" widget="many2many_tags" readonly="1"/>
+          <field name="order_count" readonly="1"/>
+          <field name="print_type" widget="radio"/>
+        </group>
+        <footer>
+          <button name="action_print" string="In đơn" type="object" class="btn-primary"/>
+          <button string="Hủy" class="btn-secondary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <!-- Print Wizard Action -->
+  <record id="action_shipping_order_print_wizard" model="ir.actions.act_window">
+    <field name="name">In đơn hàng</field>
+    <field name="res_model">shipping.order.print.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="binding_model_id" ref="model_shipping_order"/>
+    <field name="binding_view_types">list</field>
+  </record>
+</odoo>
