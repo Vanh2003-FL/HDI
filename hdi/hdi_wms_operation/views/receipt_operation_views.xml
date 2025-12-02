@@ -14,6 +14,7 @@
                   decoration-muted="state == 'cancel'">
                 <field name="name" string="Mã phiếu"/>
                 <field name="receipt_type" string="Loại nhập kho"/>
+                <field name="warehouse_id" string="Kho"/>
                 <field name="date" string="Ngày nhập kho"/>
                 <field name="batch_count" string="Số batch"/>
                 <field name="state" string="Trạng thái" widget="badge" 
@@ -58,27 +59,54 @@
                     <group>
                         <group>
                             <field name="receipt_type" string="Loại nhập kho" required="1"/>
+                            <field name="warehouse_id" string="Kho" required="1"/>
                             <field name="date" string="Ngày nhập kho"/>
                             <field name="stock_receipt_id" string="Phiếu nhập kho chi tiết"/>
                         </group>
                         <group>
+                            <field name="company_id" string="Công ty" invisible="1"/>
                             <field name="picking_id" string="Phiếu xuất kho liên quan"/>
                             <field name="batch_count" string="Số batch"/>
                             <field name="barcode_item_count" string="Số hàng lẻ mã vạch"/>
+                            <field name="warehouse_manager_id" string="Quản lý kho phê duyệt" readonly="1"/>
+                            <field name="production_manager_id" string="Quản lý sản xuất bàn giao" readonly="1"/>
                         </group>
                     </group>
                     
                     <notebook>
                         <page string="Chi tiết batch" name="batches">
+                            <div class="oe_button_box" name="button_box">
+                                <button name="action_create_batch" 
+                                        type="object" 
+                                        string="Tạo Batch" 
+                                        class="oe_stat_button" 
+                                        icon="fa-plus-square"/>
+                                <button name="action_view_batches" 
+                                        type="object" 
+                                        string="Xem Batches" 
+                                        class="oe_stat_button" 
+                                        icon="fa-cubes"
+                                        invisible="batch_count == 0">
+                                    <field name="batch_count" widget="statinfo" string="Batches"/>
+                                </button>
+                            </div>
                             <field name="batch_ids">
                                 <list>
                                     <field name="name" string="Mã batch"/>
                                     <field name="product_id" string="Sản phẩm"/>
                                     <field name="product_qty" string="Số lượng"/>
+                                    <field name="batch_state" string="Trạng thái" widget="badge"/>
                                 </list>
                             </field>
                         </page>
                         <page string="Bảng kê hàng lẻ" name="barcode_lists">
+                            <div class="oe_button_box" name="button_box_barcode">
+                                <button name="action_create_barcode_list" 
+                                        type="object" 
+                                        string="Tạo bảng kê" 
+                                        class="oe_stat_button" 
+                                        icon="fa-plus-square"/>
+                            </div>
                             <field name="barcode_list_ids">
                                 <list>
                                     <field name="name" string="Tên bảng kê"/>

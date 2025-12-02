@@ -33,6 +33,7 @@
         'security/ir.model.access.csv',
         # Master Data
         'views/product_template_views.xml',
+        'views/stock_lot_views.xml',
         # NK - Receipt Operations
         'views/receipt_operation_views.xml',
         # DC - Transfer Operations

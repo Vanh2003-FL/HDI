@@ -82,7 +82,8 @@ class ReceiptOperation(models.Model):
     warehouse_id = fields.Many2one(
         'stock.warehouse',
         string='Warehouse',
-        required=True
+        required=True,
+        default=lambda self: self.env['stock.warehouse'].search([('company_id', '=', self.env.company.id)], limit=1)
     )
     
     # Assignee
@@ -195,9 +196,11 @@ class ReceiptOperation(models.Model):
             'type': 'ir.actions.act_window',
             'res_model': 'stock.lot',
             'view_mode': 'form',
+            'view_id': self.env.ref('hdi_wms_operation.view_stock_lot_batch_form').id,
             'context': {
                 'default_is_batch': True,
-                'default_receipt_type': self.receipt_type
+                'default_receipt_type': self.receipt_type,
+                'default_company_id': self.company_id.id,
             },
             'target': 'new'
         }

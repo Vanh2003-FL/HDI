@@ -53,6 +53,14 @@ class StockLot(models.Model):
         default=False
     )
     
+    # Computed quantity
+    product_qty = fields.Float(
+        string='Quantity',
+        compute='_compute_product_qty',
+        digits='Product Unit of Measure',
+        help='Total quantity of this lot/batch in stock'
+    )
+    
     # Receipt Type (NK_NV_01 to NK_NV_04)
     receipt_type = fields.Selection([
         ('production_domestic', 'NK_NV_01: Sản xuất nội địa'),
@@ -96,6 +104,12 @@ class StockLot(models.Model):
         string='Return Document No',
         help='Số phiếu trả lại (NK_NV_04)'
     )
+
+    @api.depends('quant_ids.quantity')
+    def _compute_product_qty(self):
+        """Compute total quantity from quants"""
+        for lot in self:
+            lot.product_qty = sum(lot.quant_ids.mapped('quantity'))
 
     def action_generate_qr(self):
         """Tạo QR code cho batch"""

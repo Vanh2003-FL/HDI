@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Batch/Lot Form View for WMS -->
+    <record id="view_stock_lot_batch_form" model="ir.ui.view">
+        <field name="name">stock.lot.batch.form</field>
+        <field name="model">stock.lot</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form string="Batch/Lô hàng">
+                <header>
+                    <button name="action_scan_batch" string="Quét Batch" 
+                            type="object" class="oe_highlight" 
+                            invisible="batch_state != 'draft'"/>
+                    <button name="action_suggest_location" string="Gợi ý vị trí" 
+                            type="object" 
+                            invisible="batch_state != 'scanned'"/>
+                    <button name="action_place_batch" string="Đặt vào vị trí" 
+                            type="object" class="oe_highlight" 
+                            invisible="batch_state != 'scanned'"/>
+                    <button name="action_confirm_batch" string="Xác nhận Batch" 
+                            type="object" class="oe_highlight" 
+                            invisible="batch_state != 'placed'"/>
+                    <button name="action_print_batch" string="In nhãn Batch" 
+                            type="object" icon="fa-print"/>
+                    <button name="action_generate_qr" string="Tạo QR Code" 
+                            type="object" 
+                            invisible="batch_qr_code != False"/>
+                    <field name="batch_state" widget="statusbar" 
+                           statusbar_visible="draft,scanned,placed,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" 
+                                name="action_view_stock_moves" 
+                                icon="fa-exchange">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="product_qty" widget="float"/>
+                                </span>
+                                <span class="o_stat_text">Tồn kho</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <field name="is_batch" invisible="1"/>
+                    
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. LOT-001"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Thông tin cơ bản">
+                            <field name="product_id" required="1" 
+                                   domain="[('detailed_type', '=', 'product')]"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="receipt_type"/>
+                        </group>
+                        <group string="QR Code & In ấn">
+                            <field name="batch_qr_code" readonly="1"/>
+                            <field name="batch_printed" readonly="1"/>
+                            <field name="print_date" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Vị trí kho">
+                        <group>
+                            <field name="suggested_location_id" 
+                                   domain="[('usage', '=', 'internal')]"/>
+                            <field name="actual_location_id" 
+                                   domain="[('usage', '=', 'internal')]"/>
+                        </group>
+                        <group>
+                            <field name="location_confirmed" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <!-- Tab cho NK_NV_02: Xuất khẩu -->
+                        <page string="Thông tin xuất khẩu" name="export_info"
+                              invisible="receipt_type != 'production_export'">
+                            <group>
+                                <field name="work_order_id"/>
+                                <field name="all_barcodes_scanned"/>
+                            </group>
+                        </page>
+                        
+                        <!-- Tab cho NK_NV_03: Nhập khẩu -->
+                        <page string="Chứng từ nhập khẩu" name="import_docs"
+                              invisible="receipt_type != 'import'">
+                            <group>
+                                <group>
+                                    <field name="invoice_no" required="receipt_type == 'import'"/>
+                                    <field name="customs_no" required="receipt_type == 'import'"/>
+                                </group>
+                                <group>
+                                    <field name="sap_doc_no" required="receipt_type == 'import'"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <!-- Tab cho NK_NV_04: Chuyển kho/Trả lại -->
+                        <page string="Chứng từ chuyển kho" name="transfer_docs"
+                              invisible="receipt_type != 'transfer_return'">
+                            <group>
+                                <field name="transfer_doc_no"/>
+                                <field name="return_doc_no"/>
+                            </group>
+                        </page>
+                        
+                        <!-- Tab Tracking thông thường -->
+                        <page string="Thông tin tracking" name="tracking_info">
+                            <group>
+                                <field name="ref"/>
+                                <field name="note" placeholder="Ghi chú..."/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View for Batch -->
+    <record id="view_stock_lot_batch_tree" model="ir.ui.view">
+        <field name="name">stock.lot.batch.tree</field>
+        <field name="model">stock.lot</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <list string="Danh sách Batch">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="product_qty" sum="Total"/>
+                <field name="receipt_type"/>
+                <field name="batch_state" widget="badge"
+                       decoration-info="batch_state == 'draft'"
+                       decoration-warning="batch_state == 'scanned'"
+                       decoration-primary="batch_state == 'placed'"
+                       decoration-success="batch_state == 'confirmed'"/>
+                <field name="actual_location_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action for WMS Batch -->
+    <record id="action_stock_lot_batch_wms" model="ir.actions.act_window">
+        <field name="name">Quản lý Batch</field>
+        <field name="res_model">stock.lot</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_batch', '=', True)]</field>
+        <field name="context">{'default_is_batch': True, 'search_default_available': 1}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_stock_lot_batch_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_stock_lot_batch_form')})]"/>
+    </record>
+</odoo>
