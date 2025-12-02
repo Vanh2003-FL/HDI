@@ -18,6 +18,15 @@
         <field name="company_id" eval="False"/>
     </record>
 
+    <!-- Sequence for Dispatch Operation -->
+    <record id="seq_dispatch_operation" model="ir.sequence">
+        <field name="name">Dispatch Operation</field>
+        <field name="code">dispatch.operation</field>
+        <field name="prefix">XK/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
     <!-- Sequence for Barcode Item List -->
     <record id="seq_barcode_item_list" model="ir.sequence">
         <field name="name">Barcode Item List</field>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_dispatch_operation_tree" model="ir.ui.view">
+        <field name="name">dispatch.operation.tree</field>
+        <field name="model">dispatch.operation</field>
+        <field name="arch" type="xml">
+            <list string="Danh sách phiếu xuất kho"
+                  decoration-info="state == 'draft'"
+                  decoration-warning="state in ['picking', 'packed']"
+                  decoration-primary="state in ['staged', 'loaded']"
+                  decoration-success="state == 'shipped'">
+                <field name="name" string="Mã phiếu"/>
+                <field name="dispatch_date" string="Ngày xuất"/>
+                <field name="partner_id" string="Khách hàng"/>
+                <field name="warehouse_id" string="Kho" optional="hide"/>
+                <field name="total_qty" string="Tổng SL" sum="Total"/>
+                <field name="total_packages" string="Số kiện" sum="Total"/>
+                <field name="vehicle_id" string="Xe" optional="show"/>
+                <field name="state" string="Trạng thái" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state in ['picking', 'packed']"
+                       decoration-primary="state in ['staged', 'loaded']"
+                       decoration-success="state == 'shipped'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_dispatch_operation_form" model="ir.ui.view">
+        <field name="name">dispatch.operation.form</field>
+        <field name="model">dispatch.operation</field>
+        <field name="arch" type="xml">
+            <form string="Phiếu xuất kho">
+                <header>
+                    <button name="action_generate_picklist" string="Tạo lệnh lấy hàng" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'draft'"/>
+                    <button name="action_start_packing" string="Đóng gói" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'picking'"/>
+                    <button name="action_move_to_staging" string="Chuyển tập kết" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'packed'"/>
+                    <button name="action_load_vehicle" string="Lên xe" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'staged'"/>
+                    <button name="action_ship" string="Xuất hàng" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'loaded'"/>
+                    <button name="action_cancel" string="Hủy" 
+                            type="object" 
+                            invisible="state in ['shipped', 'cancel']"/>
+                    <field name="state" widget="statusbar" 
+                           statusbar_visible="draft,picking,packed,staged,loaded,shipped"
+                           options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-cubes">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="total_packages"/>
+                                </span>
+                                <span class="o_stat_text">Kiện hàng</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Thông tin khách hàng">
+                            <field name="partner_id"/>
+                            <field name="delivery_address" widget="text"/>
+                            <field name="dispatch_date"/>
+                        </group>
+                        <group string="Kho &amp; Vận chuyển">
+                            <field name="warehouse_id"/>
+                            <field name="staging_location_id"/>
+                            <field name="vehicle_id"/>
+                            <field name="driver_id"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Thống kê">
+                            <field name="total_qty"/>
+                            <field name="total_packages"/>
+                        </group>
+                        <group string="Phê duyệt">
+                            <field name="warehouse_manager_id"/>
+                            <field name="approved_date"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Chi tiết sản phẩm" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" string="STT" widget="handle"/>
+                                    <field name="product_id" string="Sản phẩm"/>
+                                    <field name="lot_id" string="Batch/Lô (FIFO)"
+                                           domain="[('product_id', '=', product_id), ('product_qty', '>', 0)]"
+                                           context="{'tree_view_ref': 'stock.view_stock_lot_tree'}"/>
+                                    <field name="qty_ordered" string="SL yêu cầu"/>
+                                    <field name="qty_picked" string="SL đã lấy"/>
+                                    <field name="uom_id" string="ĐVT" optional="show"/>
+                                    <field name="package_id" string="Kiện" optional="show"/>
+                                    <field name="notes" string="Ghi chú" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Ghi chú" name="notes">
+                            <field name="notes" placeholder="Ghi chú về phiếu xuất kho..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_dispatch_operation_search" model="ir.ui.view">
+        <field name="name">dispatch.operation.search</field>
+        <field name="model">dispatch.operation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Mã phiếu"/>
+                <field name="partner_id" string="Khách hàng"/>
+                <field name="warehouse_id" string="Kho"/>
+                <field name="vehicle_id" string="Xe"/>
+                
+                <filter string="Nháp" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Đang lấy hàng" name="picking" domain="[('state', '=', 'picking')]"/>
+                <filter string="Đã đóng gói" name="packed" domain="[('state', '=', 'packed')]"/>
+                <filter string="Tập kết" name="staged" domain="[('state', '=', 'staged')]"/>
+                <filter string="Đã lên xe" name="loaded" domain="[('state', '=', 'loaded')]"/>
+                <filter string="Đã xuất hàng" name="shipped" domain="[('state', '=', 'shipped')]"/>
+                
+                <separator/>
+                <filter string="Hôm nay" name="today" 
+                        domain="[('dispatch_date', '&gt;=', datetime.datetime.now().replace(hour=0, minute=0, second=0)), 
+                                 ('dispatch_date', '&lt;=', datetime.datetime.now().replace(hour=23, minute=59, second=59))]"/>
+                
+                <group expand="0" string="Nhóm theo">
+                    <filter string="Khách hàng" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Kho" name="group_warehouse" context="{'group_by': 'warehouse_id'}"/>
+                    <filter string="Trạng thái" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Ngày xuất" name="group_date" context="{'group_by': 'dispatch_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_dispatch_operation" model="ir.actions.act_window">
+        <field name="name">Phiếu xuất kho</field>
+        <field name="res_model">dispatch.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_picking': 1, 'search_default_packed': 1, 'search_default_staged': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo phiếu xuất kho mới
+            </p>
+            <p>
+                Phiếu xuất kho quản lý toàn bộ quy trình: Lấy hàng → Đóng gói → Tập kết → Lên xe → Giao hàng
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_dispatch_operation"
+        name="Phiếu xuất kho"
+        parent="menu_dispatch_operations"
+        action="action_dispatch_operation"
+        sequence="10"/>
+</odoo>
