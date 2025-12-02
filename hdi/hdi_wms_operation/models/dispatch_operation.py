@@ -66,16 +66,18 @@ class DispatchOperation(models.Model):
         help='Khu vực tập kết hàng trước khi lên xe'
     )
     
-    # Vehicle assignment
+    # Vehicle assignment (optional - requires fleet module)
     vehicle_id = fields.Many2one(
         'fleet.vehicle',
         string='Xe giao hàng',
-        tracking=True
+        tracking=True,
+        ondelete='set null'
     )
     driver_id = fields.Many2one(
         'res.partner',
         string='Tài xế',
-        tracking=True
+        tracking=True,
+        ondelete='set null'
     )
     
     # Warehouse
@@ -109,10 +111,11 @@ class DispatchOperation(models.Model):
         readonly=True
     )
     
-    # Related picking
+    # Related picking (optional)
     picking_id = fields.Many2one(
         'stock.picking',
-        string='Stock Picking'
+        string='Stock Picking',
+        ondelete='set null'
     )
     
     notes = fields.Text(string='Ghi chú')

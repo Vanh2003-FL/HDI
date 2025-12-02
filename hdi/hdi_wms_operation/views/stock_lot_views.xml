@@ -165,4 +165,11 @@
             (0, 0, {'view_mode': 'list', 'view_id': ref('view_stock_lot_batch_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('view_stock_lot_batch_form')})]"/>
     </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_batch_management"
+        name="Quản lý Batch"
+        parent="menu_receipt_operations"
+        action="action_stock_lot_batch_wms"
+        sequence="15"/>
 </odoo>

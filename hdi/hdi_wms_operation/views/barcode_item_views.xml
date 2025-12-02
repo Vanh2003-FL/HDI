@@ -154,4 +154,17 @@
             </p>
         </field>
     </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_barcode_item"
+        name="Hàng lẻ mã vạch"
+        parent="menu_receipt_operations"
+        action="action_barcode_item"
+        sequence="20"/>
+    
+    <menuitem id="menu_barcode_item_list"
+        name="Bảng kê mã vạch"
+        parent="menu_receipt_operations"
+        action="action_barcode_item_list"
+        sequence="25"/>
 </odoo>

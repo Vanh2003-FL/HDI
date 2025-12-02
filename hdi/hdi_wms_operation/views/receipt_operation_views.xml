@@ -166,4 +166,11 @@
             </p>
         </field>
     </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_receipt_operation"
+        name="Phiếu nhập kho"
+        parent="menu_receipt_operations"
+        action="action_receipt_operation"
+        sequence="10"/>
 </odoo>

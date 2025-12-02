@@ -127,4 +127,11 @@
             </p>
         </field>
     </record>
+
+    <!-- Menu (commented out - using stock.internal.transfer instead) -->
+    <!-- <menuitem id="menu_transfer_operation"
+        name="Lệnh chuyển kho"
+        parent="menu_transfer_operations"
+        action="action_transfer_operation"
+        sequence="10"/> -->
 </odoo>

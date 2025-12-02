@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_wms_operations_root"
+        name="Nghiệp vụ kho HDI"
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="10"/>
+
+    <!-- ========== 1. NHẬP KHO (NK_NV) ========== -->
+    <menuitem id="menu_receipt_operations"
+        name="1. Nhập kho (NK_NV)"
+        parent="menu_wms_operations_root"
+        sequence="10"/>
+
+    <!-- ========== 2. XUẤT KHO (XK_NV) ========== -->
+    <menuitem id="menu_dispatch_operations"
+        name="2. Xuất kho (XK_NV)"
+        parent="menu_wms_operations_root"
+        sequence="20"/>
+
+    <!-- ========== 3. ĐIỀU CHUYỂN (ĐC_NV) ========== -->
+    <menuitem id="menu_transfer_operations"
+        name="3. Điều chuyển (ĐC_NV)"
+        parent="menu_wms_operations_root"
+        sequence="30"/>
+
+    <!-- ========== CẤU HÌNH ========== -->
+    <menuitem id="menu_wms_config"
+        name="Cấu hình"
+        parent="menu_wms_operations_root"
+        sequence="90"/>
+</odoo>

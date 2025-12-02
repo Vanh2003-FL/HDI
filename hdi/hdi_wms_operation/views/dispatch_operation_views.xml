@@ -16,7 +16,6 @@
                 <field name="warehouse_id" string="Kho" optional="hide"/>
                 <field name="total_qty" string="Tổng SL" sum="Total"/>
                 <field name="total_packages" string="Số kiện" sum="Total"/>
-                <field name="vehicle_id" string="Xe" optional="show"/>
                 <field name="state" string="Trạng thái" widget="badge"
                        decoration-info="state == 'draft'"
                        decoration-warning="state in ['picking', 'packed']"
@@ -83,8 +82,6 @@
                         <group string="Kho &amp; Vận chuyển">
                             <field name="warehouse_id"/>
                             <field name="staging_location_id"/>
-                            <field name="vehicle_id"/>
-                            <field name="driver_id"/>
                         </group>
                     </group>
                     
@@ -139,7 +136,6 @@
                 <field name="name" string="Mã phiếu"/>
                 <field name="partner_id" string="Khách hàng"/>
                 <field name="warehouse_id" string="Kho"/>
-                <field name="vehicle_id" string="Xe"/>
                 
                 <filter string="Nháp" name="draft" domain="[('state', '=', 'draft')]"/>
                 <filter string="Đang lấy hàng" name="picking" domain="[('state', '=', 'picking')]"/>

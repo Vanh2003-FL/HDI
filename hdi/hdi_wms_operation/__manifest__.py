@@ -34,16 +34,16 @@
         # Master Data
         'views/product_template_views.xml',
         'views/stock_lot_views.xml',
-        # NK - Receipt Operations
+        # Menu Structure (load first - no actions)
+        'views/menu_structure.xml',
+        # NK - Receipt Operations (includes menu)
         'views/receipt_operation_views.xml',
-        # XK - Dispatch Operations
+        # XK - Dispatch Operations (includes menu)
         'views/dispatch_operation_views.xml',
-        # DC - Transfer Operations
+        # DC - Transfer Operations (includes menu)
         'views/transfer_operation_views.xml',
-        # Barcode Items
+        # Barcode Items (includes menus)
         'views/barcode_item_views.xml',
-        # Menus
-        'views/menu_views.xml',
     ],
     'installable': True,
     'application': True,
