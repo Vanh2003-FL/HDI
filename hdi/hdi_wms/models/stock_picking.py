@@ -5,33 +5,21 @@ from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):
-    """
-    ✅ INHERIT stock.picking (Odoo core)
-    
-    KHÔNG tạo màn hình Incoming/Outgoing mới
-    CHỈ thêm:
-    - batch_id
-    - wms_state
-    - Buttons: Create Batch, Suggest Putaway, Scan
-    - Tab hiển thị list batches
-    
-    Logic nhập/xuất/chuyển kho vẫn 100% của Odoo core
-    """
+
     _inherit = 'stock.picking'
-    
-    # ===== WMS EXTENSIONS =====
+
     batch_ids = fields.One2many(
         'hdi.batch',
         'picking_id',
         string='Batches',
         help="All batches created from this picking"
     )
-    
+
     batch_count = fields.Integer(
         compute='_compute_batch_count',
         string='Batch Count',
     )
-    
+
     wms_state = fields.Selection([
         ('none', 'No WMS'),
         ('batch_creation', 'Batch Creation'),
@@ -41,84 +29,56 @@ class StockPicking(models.Model):
         ('picking_progress', 'Picking in Progress'),
         ('wms_done', 'WMS Complete'),
     ], string='WMS State', default='none', tracking=True,
-       help="WMS workflow state - parallel to Odoo core picking state")
-    
+        help="WMS workflow state - parallel to Odoo core picking state")
+
     use_batch_management = fields.Boolean(
         string='Use Batch Management',
         default=False,
         help="Enable batch/LPN management for this picking"
     )
-    
+
     require_putaway_suggestion = fields.Boolean(
         string='Require Putaway Suggestion',
         compute='_compute_require_putaway',
         store=True,
         help="Auto-enabled for incoming pickings"
     )
-    
-    wms_priority = fields.Selection([
-        ('0', 'Normal'),
-        ('1', 'Urgent'),
-        ('2', 'Very Urgent'),
-    ], string='WMS Priority', default='0',
-       help="Priority for warehouse operations")
-    
-    expected_arrival_time = fields.Datetime(
-        string='Expected Arrival',
-        help="Expected time for receiving (appointments)"
-    )
-    
-    actual_start_time = fields.Datetime(
-        string='Actual Start Time',
-        readonly=True,
-        help="When warehouse operation actually started"
-    )
-    
-    actual_end_time = fields.Datetime(
-        string='Actual End Time', 
-        readonly=True,
-        help="When warehouse operation completed"
-    )
-    
+
     loose_line_ids = fields.One2many(
         'hdi.loose.line',
         'picking_id',
         string='Loose Items',
         help="Items not in any batch (loose picking)"
     )
-    
+
     # ===== SCANNER SUPPORT =====
     last_scanned_barcode = fields.Char(
         string='Last Scanned',
         readonly=True,
     )
-    
+
     scan_mode = fields.Selection([
         ('none', 'No Scanning'),
         ('batch', 'Scan Batch'),
         ('product', 'Scan Product'),
         ('location', 'Scan Location'),
     ], string='Scan Mode', default='none')
-    
+
     @api.depends('picking_type_id', 'picking_type_id.code')
     def _compute_require_putaway(self):
         """Auto-enable putaway for incoming pickings"""
         for picking in self:
             picking.require_putaway_suggestion = (
-                picking.picking_type_id.code == 'incoming'
+                    picking.picking_type_id.code == 'incoming'
             )
-    
+
     @api.depends('batch_ids')
     def _compute_batch_count(self):
         """Count batches in this picking"""
         for picking in self:
             picking.batch_count = len(picking.batch_ids)
-    
+
     def action_create_batch(self):
-        """
-        Open wizard to create batch from picking
-        ✅ Core picking logic không đổi
-        """
         self.ensure_one()
         return {
             'name': _('Create Batch'),
@@ -131,15 +91,12 @@ class StockPicking(models.Model):
                 'default_location_id': self.location_dest_id.id,
             }
         }
-    
+
     def action_suggest_putaway_all(self):
-        """
-        Suggest putaway locations for all batches
-        """
         self.ensure_one()
         if not self.batch_ids:
             raise UserError(_('No batches found in this picking.'))
-        
+
         return {
             'name': _('Suggest Putaway for All Batches'),
             'type': 'ir.actions.act_window',
@@ -151,12 +108,8 @@ class StockPicking(models.Model):
                 'default_batch_ids': [(6, 0, self.batch_ids.ids)],
             }
         }
-    
+
     def action_open_scanner(self):
-        """
-        Open scanner interface for this picking
-        Mobile/handheld device support
-        """
         self.ensure_one()
         return {
             'name': _('Scanner - %s') % self.name,
@@ -167,9 +120,8 @@ class StockPicking(models.Model):
             'views': [(self.env.ref('hdi_wms.view_picking_form_scanner').id, 'form')],
             'target': 'fullscreen',
         }
-    
+
     def action_view_batches(self):
-        """View all batches in this picking"""
         self.ensure_one()
         return {
             'name': _('Batches - %s') % self.name,
@@ -182,13 +134,9 @@ class StockPicking(models.Model):
                 'default_location_id': self.location_dest_id.id,
             }
         }
-    
+
     def button_validate(self):
-        """
-        ✅ OVERRIDE nhưng GỌI super() - giữ 100% logic core
-        Chỉ thêm validation WMS trước khi validate
-        """
-        # WMS pre-validation
+
         for picking in self:
             if picking.use_batch_management and picking.require_putaway_suggestion:
                 pending_batches = picking.batch_ids.filtered(
@@ -199,38 +147,30 @@ class StockPicking(models.Model):
                         'Cannot validate picking: %d batches are not yet stored.\n'
                         'Please complete putaway for all batches first.'
                     ) % len(pending_batches))
-        
-        # ✅ GỌI core logic - KHÔNG bỏ qua
+
         result = super().button_validate()
-        
+
         # WMS post-validation
         for picking in self:
             if picking.use_batch_management and picking.state == 'done':
                 picking.wms_state = 'wms_done'
-        
+
         return result
-    
+
     def action_assign(self):
-        """
-        ✅ OVERRIDE nhưng GỌI super() - giữ logic reserve
-        """
         result = super().action_assign()
-        
+
         # Update WMS state after assignment
         for picking in self:
             if picking.use_batch_management and picking.state == 'assigned':
                 picking.wms_state = 'picking_ready'
-        
+
         return result
-    
+
     def on_barcode_scanned(self, barcode):
-        """
-        Handle barcode scanning
-        Integrate with Odoo barcode system
-        """
         self.ensure_one()
         self.last_scanned_barcode = barcode
-        
+
         if self.scan_mode == 'batch':
             # Find batch by barcode
             batch = self.env['hdi.batch'].search([
@@ -248,7 +188,7 @@ class StockPicking(models.Model):
                         'sticky': False,
                     }
                 }
-        
+
         elif self.scan_mode == 'product':
             # Find product by barcode
             product = self.env['product.product'].search([
@@ -270,7 +210,7 @@ class StockPicking(models.Model):
                             'sticky': False,
                         }
                     }
-        
+
         # Barcode not found
         return {
             'type': 'ir.actions.client',

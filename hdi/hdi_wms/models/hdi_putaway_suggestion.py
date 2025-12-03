@@ -5,12 +5,7 @@ from odoo.exceptions import UserError
 
 
 class HdiPutawaySuggestion(models.Model):
-    """
-    ❌ Odoo core KHÔNG có putaway suggestion engine
-    ✅ Phải tạo mới - Tính toán gợi ý vị trí tối ưu
-    
-    NHƯNG: Kết quả update vào stock.location (core)
-    """
+
     _name = 'hdi.putaway.suggestion'
     _description = 'Putaway Location Suggestion'
     _order = 'priority, score desc'
@@ -110,16 +105,7 @@ class HdiPutawaySuggestion(models.Model):
     
     @api.model
     def generate_suggestions(self, batch, max_suggestions=5):
-        """
-        ✅ ENGINE LOGIC: Tính toán gợi ý vị trí
-        
-        Tiêu chí:
-        1. Capacity available
-        2. Same product already there (consolidate)
-        3. Moving class match (A with A, B with B)
-        4. Distance optimization (closest to receiving)
-        5. FIFO/FEFO rules
-        """
+
         if not batch.product_id:
             raise UserError(_('Batch must have a product to suggest locations.'))
         

@@ -4,10 +4,7 @@ from odoo import models, fields
 
 
 class ProductProduct(models.Model):
-    """
-    ✅ INHERIT product.product
-    Thêm WMS attributes cho product
-    """
+
     _inherit = 'product.product'
     
     abc_classification = fields.Selection([

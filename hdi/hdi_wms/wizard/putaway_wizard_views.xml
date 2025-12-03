@@ -12,14 +12,14 @@
                     <field name="quantity"/>
                 </group>
                 <group>
-                    <button name="action_generate_suggestions" string="Generate Suggestions" 
+                    <button name="action_generate_suggestions" string="Generate Suggestions"
                             type="object" class="btn-primary"/>
                 </group>
                 <group string="Selected Location">
                     <field name="selected_location_id"/>
                 </group>
                 <footer>
-                    <button name="action_confirm_location" string="Confirm" 
+                    <button name="action_confirm_location" string="Confirm"
                             type="object" class="btn-primary"/>
                     <button string="Cancel" special="cancel" class="btn-secondary"/>
                 </footer>

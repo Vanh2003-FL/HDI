@@ -4,16 +4,6 @@ from odoo import models, fields, api
 
 
 class StockQuant(models.Model):
-    """
-    ✅ INHERIT stock.quant (Odoo core)
-    
-    KHÔNG thay đổi logic tồn kho
-    CHỈ thêm:
-    - batch_id (link batch với quant)
-    - Không sửa UI nhiều (chỉ thêm trường ẩn)
-    
-    ✅ Đây là TÂM ĐIỂM tồn kho - KHÔNG được fork logic
-    """
     _inherit = 'stock.quant'
     
     # ===== BATCH LINK =====
@@ -37,10 +27,6 @@ class StockQuant(models.Model):
             quant.is_batched = bool(quant.batch_id)
     
     def write(self, vals):
-        """
-        ✅ OVERRIDE write nhưng GỌI super() - giữ 100% core logic
-        Chỉ thêm batch sync khi location thay đổi
-        """
         result = super().write(vals)
         
         # If location changed, update batch location

@@ -25,7 +25,7 @@
                 <field name="capacity_sufficient" widget="boolean_toggle"/>
                 <field name="match_reasons"/>
                 <field name="state" widget="badge"/>
-                <button name="action_select" string="Select" type="object" 
+                <button name="action_select" string="Select" type="object"
                         class="btn-primary" invisible="state != 'suggested'"/>
             </list>
         </field>

@@ -4,12 +4,7 @@ from odoo import models, fields, api, _
 
 
 class HdiLooseLine(models.Model):
-    """
-    ❌ Odoo core KHÔNG có loose item tracking
-    ✅ Tạo mới - Tracking items không nằm trong batch
-    
-    NHƯNG: Vẫn link với stock.move (core)
-    """
+
     _name = 'hdi.loose.line'
     _description = 'Loose Items Line'
     _order = 'picking_id, sequence, id'

@@ -6,7 +6,7 @@
         <field name="model">stock.location</field>
         <field name="inherit_id" ref="stock.view_location_form"/>
         <field name="arch" type="xml">
-            
+
             <!-- Add WMS fields after usage -->
             <field name="usage" position="after">
                 <field name="coordinate_x" groups="hdi_wms.group_wms_manager"/>
@@ -16,7 +16,7 @@
                 <field name="storage_type" groups="hdi_wms.group_wms_manager"/>
                 <field name="moving_class" groups="hdi_wms.group_wms_manager"/>
             </field>
-            
+
             <!-- Add capacity fields if there's a capacity group -->
             <field name="company_id" position="after">
                 <field name="max_volume" groups="hdi_wms.group_wms_manager"/>
@@ -25,7 +25,7 @@
             </field>
         </field>
     </record>
-    
+
     <!-- Tree view extension -->
     <record id="view_location_tree_wms" model="ir.ui.view">
         <field name="name">stock.location.tree.wms</field>
