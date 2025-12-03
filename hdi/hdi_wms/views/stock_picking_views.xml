@@ -62,16 +62,7 @@
                 <page string="Loose Items" name="wms_loose_items"
                       invisible="not use_batch_management"
                       groups="hdi_wms.group_wms_user">
-                    <field name="loose_line_ids">
-                        <tree editable="bottom">
-                            <field name="product_id"/>
-                            <field name="quantity"/>
-                            <field name="product_uom_id"/>
-                            <field name="location_dest_id"/>
-                            <field name="lot_id"/>
-                            <field name="state" widget="badge"/>
-                        </tree>
-                    </field>
+                    <field name="loose_line_ids" widget="one2many"/>
                 </page>
             </notebook>
             
@@ -130,24 +121,7 @@
                     </group>
                     <notebook>
                         <page string="Batches">
-                            <field name="batch_ids" mode="kanban">
-                                <kanban>
-                                    <field name="name"/>
-                                    <field name="product_id"/>
-                                    <field name="state"/>
-                                    <templates>
-                                        <t t-name="kanban-box">
-                                            <div class="oe_kanban_card">
-                                                <div class="oe_kanban_content">
-                                                    <strong><field name="name"/></strong>
-                                                    <div><field name="product_id"/></div>
-                                                    <div><field name="state" widget="badge"/></div>
-                                                </div>
-                                            </div>
-                                        </t>
-                                    </templates>
-                                </kanban>
-                            </field>
+                            <field name="batch_ids" widget="one2many"/>
                         </page>
                     </notebook>
                 </sheet>
