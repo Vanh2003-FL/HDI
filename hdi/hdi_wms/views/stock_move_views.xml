@@ -6,9 +6,8 @@
         <field name="model">stock.move</field>
         <field name="inherit_id" ref="stock.view_move_tree"/>
         <field name="arch" type="xml">
-            <field name="picking_id" position="after">
+            <field name="product_id" position="after">
                 <field name="batch_id" optional="show" groups="hdi_wms.group_wms_user"/>
-                <field name="is_batched" optional="hide" groups="hdi_wms.group_wms_user"/>
             </field>
         </field>
     </record>
@@ -19,7 +18,7 @@
         <field name="model">stock.move</field>
         <field name="inherit_id" ref="stock.view_move_form"/>
         <field name="arch" type="xml">
-            <field name="picking_id" position="after">
+            <field name="product_id" position="after">
                 <field name="batch_id" groups="hdi_wms.group_wms_user"/>
                 <field name="loose_line_id" groups="hdi_wms.group_wms_user"/>
             </field>
