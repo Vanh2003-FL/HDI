@@ -5,15 +5,15 @@
         <field name="name">hdi.batch.list</field>
         <field name="model">hdi.batch</field>
         <field name="arch" type="xml">
-            <list string="Batches">
-                <field name="name"/>
-                <field name="barcode"/>
-                <field name="batch_type"/>
-                <field name="product_id"/>
-                <field name="total_quantity"/>
-                <field name="location_id"/>
-                <field name="location_dest_id"/>
-                <field name="picking_id"/>
+            <list string="Lô hàng">
+                <field name="name" string="Mã lô"/>
+                <field name="barcode" string="Mã vạch"/>
+                <field name="batch_type" string="Loại"/>
+                <field name="product_id" string="Sản phẩm"/>
+                <field name="total_quantity" string="Số lượng"/>
+                <field name="location_id" string="Vị trí hiện tại"/>
+                <field name="location_dest_id" string="Vị trí đích"/>
+                <field name="picking_id" string="Phiếu xuất nhập"/>
                 <field name="state" widget="badge" decoration-success="state=='stored'" 
                        decoration-warning="state in ('in_receiving', 'in_putaway')"
                        decoration-info="state=='in_picking'"/>
@@ -27,18 +27,18 @@
         <field name="name">hdi.batch.form</field>
         <field name="model">hdi.batch</field>
         <field name="arch" type="xml">
-            <form string="Batch">
+            <form string="Lô hàng">
                 <header>
-                    <button name="action_start_receiving" string="Start Receiving" 
+                    <button name="action_start_receiving" string="Bắt đầu Nhập hàng" 
                             type="object" invisible="state != 'draft'"
                             class="btn-primary"/>
-                    <button name="action_start_putaway" string="Start Putaway" 
+                    <button name="action_start_putaway" string="Bắt đầu Đặt hàng" 
                             type="object" invisible="state != 'in_receiving'"
                             class="btn-primary"/>
-                    <button name="action_confirm_storage" string="Confirm Storage" 
+                    <button name="action_confirm_storage" string="Xác nhận Lưu kho" 
                             type="object" invisible="state != 'in_putaway'"
                             class="btn-success"/>
-                    <button name="action_suggest_putaway" string="Suggest Location" 
+                    <button name="action_suggest_putaway" string="Gợi ý Vị trí" 
                             type="object" invisible="state not in ('in_receiving', 'in_putaway')"
                             class="btn-secondary"/>
                     <field name="state" widget="statusbar"/>
@@ -47,11 +47,11 @@
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_moves" type="object" 
                                 class="oe_stat_button" icon="fa-exchange">
-                            <field name="move_count" widget="statinfo" string="Moves"/>
+                            <field name="move_count" widget="statinfo" string="Chuyển kho"/>
                         </button>
                         <button name="action_view_quants" type="object" 
                                 class="oe_stat_button" icon="fa-cubes">
-                            <field name="quant_count" widget="statinfo" string="Quants"/>
+                            <field name="quant_count" widget="statinfo" string="Tồn kho"/>
                         </button>
                     </div>
                     <div class="oe_title">
@@ -59,30 +59,30 @@
                     </div>
                     <group>
                         <group>
-                            <field name="barcode"/>
-                            <field name="batch_type"/>
-                            <field name="product_id"/>
-                            <field name="picking_id"/>
+                            <field name="barcode" string="Mã vạch"/>
+                            <field name="batch_type" string="Loại lô"/>
+                            <field name="product_id" string="Sản phẩm"/>
+                            <field name="picking_id" string="Phiếu kho"/>
                         </group>
                         <group>
-                            <field name="location_id"/>
-                            <field name="location_dest_id"/>
-                            <field name="user_id"/>
-                            <field name="wms_status" widget="badge"/>
+                            <field name="location_id" string="Vị trí hiện tại"/>
+                            <field name="location_dest_id" string="Vị trí đích"/>
+                            <field name="user_id" string="Người thực hiện"/>
+                            <field name="wms_status" widget="badge" string="Trạng thái WMS"/>
                         </group>
                     </group>
-                    <group string="Quantities">
+                    <group string="Số lượng">
                         <group>
-                            <field name="total_quantity"/>
-                            <field name="available_quantity"/>
-                            <field name="reserved_quantity"/>
+                            <field name="total_quantity" string="Tổng số lượng"/>
+                            <field name="available_quantity" string="Có sẵn"/>
+                            <field name="reserved_quantity" string="Đã đặt"/>
                         </group>
                         <group>
-                            <field name="weight"/>
-                            <field name="volume"/>
+                            <field name="weight" string="Trọng lượng (kg)"/>
+                            <field name="volume" string="Thể tích (m³)"/>
                         </group>
                     </group>
-                    <group string="Physical Dimensions" groups="base.group_no_one">
+                    <group string="Kích thước vật lý" groups="base.group_no_one">
                         <group>
                             <field name="height"/>
                             <field name="width"/>
@@ -173,13 +173,13 @@
 
     <!-- Actions -->
     <record id="action_batch" model="ir.actions.act_window">
-        <field name="name">Batches/LPN</field>
+        <field name="name">Lô hàng / Pallet</field>
         <field name="res_model">hdi.batch</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create your first Batch/LPN
+                Tạo Lô hàng / Pallet đầu tiên
             </p>
         </field>
     </record>

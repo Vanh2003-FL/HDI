@@ -7,28 +7,28 @@
     
     <!-- WMS Submenu trong Inventory -->
     <menuitem id="menu_wms_root"
-              name="WMS"
+              name="Quản lý Kho"
               parent="stock.menu_stock_root"
               sequence="15"
               groups="group_wms_user"/>
     
     <!-- Batches/LPN -->
     <menuitem id="menu_batch"
-              name="Batches / LPN"
+              name="Lô hàng / Pallet"
               parent="menu_wms_root"
               action="action_batch"
               sequence="10"/>
     
     <!-- Putaway Suggestions -->
     <menuitem id="menu_putaway_suggestion"
-              name="Putaway Suggestions"
+              name="Gợi ý Đặt hàng"
               parent="menu_wms_root"
               action="action_putaway_suggestion"
               sequence="20"/>
     
     <!-- Loose Items -->
     <menuitem id="menu_loose_items"
-              name="Loose Items"
+              name="Hàng lẻ"
               parent="menu_wms_root"
               action="action_loose_line"
               sequence="30"/>

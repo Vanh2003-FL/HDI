@@ -5,25 +5,25 @@
         <field name="name">hdi.batch.creation.wizard.form</field>
         <field name="model">hdi.batch.creation.wizard</field>
         <field name="arch" type="xml">
-            <form string="Create Batch">
+            <form string="Tạo Lô hàng">
                 <group>
                     <field name="picking_id" invisible="1"/>
-                    <field name="batch_type" widget="radio"/>
-                    <field name="product_id"/>
-                    <field name="quantity"/>
-                    <field name="location_id"/>
+                    <field name="batch_type" widget="radio" string="Loại lô"/>
+                    <field name="product_id" string="Sản phẩm"/>
+                    <field name="quantity" string="Số lượng"/>
+                    <field name="location_id" string="Vị trí"/>
                 </group>
                 <group>
-                    <field name="auto_generate_barcode"/>
-                    <field name="barcode" invisible="auto_generate_barcode"/>
+                    <field name="auto_generate_barcode" string="Tự động tạo mã vạch"/>
+                    <field name="barcode" invisible="auto_generate_barcode" string="Mã vạch"/>
                 </group>
-                <group string="Physical Attributes">
-                    <field name="weight"/>
-                    <field name="volume"/>
+                <group string="Thuộc tính vật lý">
+                    <field name="weight" string="Trọng lượng (kg)"/>
+                    <field name="volume" string="Thể tích (m³)"/>
                 </group>
                 <footer>
-                    <button name="action_create_batch" string="Create" type="object" class="btn-primary"/>
-                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                    <button name="action_create_batch" string="Tạo" type="object" class="btn-primary"/>
+                    <button string="Hủy" special="cancel" class="btn-secondary"/>
                 </footer>
             </form>
         </field>

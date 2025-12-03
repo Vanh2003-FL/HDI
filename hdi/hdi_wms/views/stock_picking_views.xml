@@ -18,15 +18,15 @@
             
             <!-- Add WMS buttons in header -->
             <button name="button_validate" position="before">
-                <button name="action_create_batch" type="object" string="Create Batch"
+                <button name="action_create_batch" type="object" string="Tạo Lô hàng"
                         invisible="state != 'assigned'"
                         class="btn-primary"
                         groups="hdi_wms.group_wms_user"/>
-                <button name="action_suggest_putaway_all" type="object" string="Suggest Putaway"
+                <button name="action_suggest_putaway_all" type="object" string="Gợi ý Vị trí"
                         invisible="wms_state not in ('batch_creation', 'putaway_pending')"
                         class="btn-secondary"
                         groups="hdi_wms.group_wms_user"/>
-                <button name="action_open_scanner" type="object" string="Open Scanner"
+                <button name="action_open_scanner" type="object" string="Quét Mã vạch"
                         invisible="state not in ('assigned', 'confirmed')"
                         class="btn-info"
                         groups="hdi_wms.group_wms_scanner"/>
@@ -41,28 +41,28 @@
             
             <!-- Add Batch tab -->
             <notebook position="inside">
-                <page string="Batches" name="wms_batches" 
+                <page string="Lô hàng" name="wms_batches" 
                       invisible="not use_batch_management"
                       groups="hdi_wms.group_wms_user">
                     <group>
                         <group>
-                            <field name="scan_mode" widget="radio" options="{'horizontal': true}"/>
-                            <field name="last_scanned_barcode" readonly="1" placeholder="No barcode scanned"/>
+                            <field name="scan_mode" widget="radio" options="{'horizontal': true}" string="Chế độ quét"/>
+                            <field name="last_scanned_barcode" readonly="1" placeholder="Chưa quét mã nào" string="Mã vừa quét"/>
                         </group>
                         <group>
                             <button name="action_view_batches" type="object" 
-                                    string="View All Batches"
+                                    string="Xem tất cả Lô hàng"
                                     class="oe_link"/>
                         </group>
                     </group>
-                    <field name="batch_ids" widget="one2many"/>
+                    <field name="batch_ids" widget="one2many" string="Danh sách lô hàng"/>
                 </page>
                 
                 <!-- Loose Items tab -->
-                <page string="Loose Items" name="wms_loose_items"
+                <page string="Hàng lẻ" name="wms_loose_items"
                       invisible="not use_batch_management"
                       groups="hdi_wms.group_wms_user">
-                    <field name="loose_line_ids" widget="one2many"/>
+                    <field name="loose_line_ids" widget="one2many" string="Danh sách hàng lẻ"/>
                 </page>
             </notebook>
             
