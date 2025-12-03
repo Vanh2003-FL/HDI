@@ -58,35 +58,35 @@ class StockPicking(models.Model):
     )
 
     scan_mode = fields.Selection([
-        ('none', 'No Scanning'),
-        ('batch', 'Scan Batch'),
-        ('product', 'Scan Product'),
-        ('location', 'Scan Location'),
-    ], string='Scan Mode', default='none')
+        ('none', 'Không quét / No Scanning'),
+        ('batch', 'Quét Lô / Scan Batch'),
+        ('product', 'Quét Sản phẩm / Scan Product'),
+        ('location', 'Quét Vị trí / Scan Location'),
+    ], string='Chế độ Quét / Scan Mode', default='none')
 
     scan_detail_level = fields.Selection([
-        ('batch_only', 'Batch Only'),
-        ('batch_plus_products', 'Batch + Products'),
-        ('full_item', 'Full Item Scan'),
-    ], string='Scan Detail Level', default='batch_only',
-        help="Controls granularity of scanning:\n"
-             "- Batch Only: scan batch barcode only\n"
-             "- Batch + Products: scan batch and products\n"
-             "- Full Item Scan: scan each item (serial/lot)")
+        ('batch_only', 'Chỉ quét Lô / Batch Only'),
+        ('batch_plus_products', 'Quét Lô + Sản phẩm / Batch + Products'),
+        ('full_item', 'Quét Chi tiết từng Kiện / Full Item Scan'),
+    ], string='Mức độ Quét / Scan Detail Level', default='batch_only',
+        help="Kiểm soát mức độ chi tiết khi quét:\n"
+             "• Chỉ quét Lô: Chỉ quét mã vạch lô hàng/pallet (nhanh nhất, dùng cho hàng đồng nhất)\n"
+             "• Quét Lô + Sản phẩm: Quét mã lô + xác nhận từng loại sản phẩm (kiểm soát vừa phải)\n"
+             "• Quét Chi tiết từng Kiện: Quét từng kiện với serial/lot riêng (kiểm soát cao nhất, dùng cho hàng có số lô/serial)")
 
     # ===== HANDOVER / SIGNATURE =====
     production_handover_signed_by = fields.Many2one(
         'res.users',
-        string='Handed Over By',
-        help="User who signed handover from production to warehouse"
+        string='Người Bàn giao',
+        help="Người ký xác nhận bàn giao từ sản xuất sang kho"
     )
     production_handover_signature = fields.Binary(
-        string='Handover Signature',
-        help="Digital signature or photo of signed handover document"
+        string='Chữ ký Bàn giao',
+        help="Chữ ký điện tử hoặc ảnh chụp chứng từ bàn giao đã ký"
     )
     production_handover_date = fields.Datetime(
-        string='Handover Date',
-        help="When production handed over goods to warehouse"
+        string='Thời gian Bàn giao',
+        help="Thời điểm sản xuất bàn giao hàng cho kho"
     )
 
     @api.depends('picking_type_id', 'picking_type_id.code')
