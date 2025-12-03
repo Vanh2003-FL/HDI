@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Putaway Suggestion Action -->
+    <record id="action_putaway_suggestion" model="ir.actions.act_window">
+        <field name="name">Putaway Suggestions</field>
+        <field name="res_model">hdi.putaway.suggestion</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No putaway suggestions yet
+            </p>
+        </field>
+    </record>
+
     <!-- Putaway Suggestion Tree -->
     <record id="view_putaway_suggestion_tree" model="ir.ui.view">
         <field name="name">hdi.putaway.suggestion.tree</field>

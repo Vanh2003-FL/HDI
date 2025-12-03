@@ -152,16 +152,16 @@
                                     </strong>
                                 </div>
                                 <div>
-                                    <i class="fa fa-barcode"/> <field name="barcode"/>
+                                    <i class="fa fa-barcode" title="Barcode"/> <field name="barcode"/>
                                 </div>
                                 <div>
-                                    <i class="fa fa-cube"/> <field name="product_id"/>
+                                    <i class="fa fa-cube" title="Product"/> <field name="product_id"/>
                                 </div>
                                 <div>
-                                    <i class="fa fa-sort-numeric-asc"/> <field name="total_quantity"/>
+                                    <i class="fa fa-sort-numeric-asc" title="Quantity"/> <field name="total_quantity"/>
                                 </div>
                                 <div>
-                                    <i class="fa fa-map-marker"/> <field name="location_id"/>
+                                    <i class="fa fa-map-marker" title="Location"/> <field name="location_id"/>
                                 </div>
                             </div>
                         </div>

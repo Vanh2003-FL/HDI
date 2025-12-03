@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Loose Line Action -->
+    <record id="action_loose_line" model="ir.actions.act_window">
+        <field name="name">Loose Items</field>
+        <field name="res_model">hdi.loose.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No loose items found
+            </p>
+        </field>
+    </record>
+
     <!-- Loose Line Tree -->
     <record id="view_loose_line_tree" model="ir.ui.view">
         <field name="name">hdi.loose.line.tree</field>

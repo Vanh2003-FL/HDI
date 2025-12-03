@@ -66,15 +66,17 @@ class StockMove(models.Model):
         return result
     
     def _update_reserved_quantity(
-        self, need, available_quantity, location_id,
-        lot_id=None, package_id=None, owner_id=None, strict=True
+        self, need, location_id, lot_id=None, package_id=None, 
+        owner_id=None, strict=True
     ):
         """
         ✅ OVERRIDE core reservation logic
         Thêm batch tracking khi reserve
+        
+        Note: Odoo 18 changed signature - removed available_quantity param
         """
         result = super()._update_reserved_quantity(
-            need, available_quantity, location_id,
+            need, location_id,
             lot_id=lot_id, package_id=package_id,
             owner_id=owner_id, strict=strict
         )

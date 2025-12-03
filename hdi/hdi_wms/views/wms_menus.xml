@@ -1,53 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Main WMS Menu -->
+    <!-- 
+    ✅ ĐÚNG: Đưa WMS vào trong menu Inventory (stock.menu_stock_root)
+    KHÔNG tạo menu riêng cùng cấp
+    -->
+    
+    <!-- WMS Submenu trong Inventory -->
     <menuitem id="menu_wms_root"
               name="WMS"
-              sequence="45"
-              web_icon="hdi_wms,static/description/icon.png"
+              parent="stock.menu_stock_root"
+              sequence="15"
               groups="group_wms_user"/>
     
-    <!-- Operations -->
-    <menuitem id="menu_wms_operations"
-              name="Operations"
-              parent="menu_wms_root"
-              sequence="10"/>
-    
+    <!-- Batches/LPN -->
     <menuitem id="menu_batch"
-              name="Batches/LPN"
-              parent="menu_wms_operations"
+              name="Batches / LPN"
+              parent="menu_wms_root"
               action="action_batch"
               sequence="10"/>
     
-    <menuitem id="menu_wms_receiving"
-              name="Receiving"
-              parent="menu_wms_operations"
-              action="stock.action_picking_tree_incoming"
+    <!-- Putaway Suggestions -->
+    <menuitem id="menu_putaway_suggestion"
+              name="Putaway Suggestions"
+              parent="menu_wms_root"
+              action="action_putaway_suggestion"
               sequence="20"/>
     
-    <menuitem id="menu_wms_putaway"
-              name="Putaway"
-              parent="menu_wms_operations"
-              action="stock.action_picking_tree_incoming"
+    <!-- Loose Items -->
+    <menuitem id="menu_loose_items"
+              name="Loose Items"
+              parent="menu_wms_root"
+              action="action_loose_line"
               sequence="30"/>
     
-    <menuitem id="menu_wms_picking"
-              name="Picking"
-              parent="menu_wms_operations"
-              action="stock.action_picking_tree_ready"
-              sequence="40"/>
-    
-    <!-- Configuration -->
-    <menuitem id="menu_wms_config"
-              name="Configuration"
-              parent="menu_wms_root"
-              sequence="90"
-              groups="group_wms_manager"/>
-    
-    <menuitem id="menu_wms_locations"
-              name="Locations"
-              parent="menu_wms_config"
-              action="stock.action_location_form"
-              sequence="10"/>
+    <!-- 
+    Không cần duplicate menu Receiving/Picking/Locations
+    Vì đã có sẵn trong Inventory → Operations
+    WMS chỉ extend các màn hình đó, không tạo mới
+    -->
 
 </odoo>
