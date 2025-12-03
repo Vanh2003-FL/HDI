@@ -66,21 +66,7 @@
                         </group>
                     </group>
                     <separator string="Danh sách lô hàng"/>
-                    <field name="batch_ids" nolabel="1">
-                        <tree editable="bottom" decoration-success="state=='stored'" 
-                              decoration-info="state in ('in_receiving', 'in_putaway')">
-                            <field name="name" string="Mã lô"/>
-                            <field name="barcode" string="Mã vạch"/>
-                            <field name="batch_type" string="Loại"/>
-                            <field name="product_id" string="Sản phẩm"/>
-                            <field name="total_quantity" string="Số lượng" sum="Total"/>
-                            <field name="location_id" string="Vị trí"/>
-                            <field name="state" widget="badge"/>
-                            <button name="action_start_putaway" type="object" 
-                                    string="Gợi ý vị trí" icon="fa-map-marker"
-                                    invisible="state != 'in_receiving'"/>
-                        </tree>
-                    </field>
+                    <field name="batch_ids" nolabel="1" context="{'form_view_ref': 'hdi_wms.view_batch_form', 'tree_view_ref': 'hdi_wms.view_batch_tree'}"/>
                 </page>
 
                 <!-- Loose Items tab -->
