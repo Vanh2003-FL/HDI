@@ -276,7 +276,7 @@ class HdiBatch(models.Model):
             'name': _('Stock Moves'),
             'type': 'ir.actions.act_window',
             'res_model': 'stock.move',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('batch_id', '=', self.id)],
             'context': {'create': False},
         }
@@ -288,7 +288,7 @@ class HdiBatch(models.Model):
             'name': _('Inventory Quants'),
             'type': 'ir.actions.act_window',
             'res_model': 'stock.quant',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('batch_id', '=', self.id)],
             'context': {'create': False},
         }

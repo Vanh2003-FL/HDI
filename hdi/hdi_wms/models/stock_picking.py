@@ -151,7 +151,7 @@ class StockPicking(models.Model):
             'name': _('Batches - %s') % self.name,
             'type': 'ir.actions.act_window',
             'res_model': 'hdi.batch',
-            'view_mode': 'tree,form,kanban',
+            'view_mode': 'list,form,kanban',
             'domain': [('picking_id', '=', self.id)],
             'context': {
                 'default_picking_id': self.id,

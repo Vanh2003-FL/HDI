@@ -223,7 +223,7 @@ class StockLocation(models.Model):
             'name': _('Batches in %s') % self.complete_name,
             'type': 'ir.actions.act_window',
             'res_model': 'hdi.batch',
-            'view_mode': 'tree,form,kanban',
+            'view_mode': 'list,form,kanban',
             'domain': [('location_id', '=', self.id)],
             'context': {'default_location_id': self.id},
         }
