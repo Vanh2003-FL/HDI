@@ -149,6 +149,20 @@ class HdiBatch(models.Model):
 
     notes = fields.Text(string='Notes')
 
+    # ===== IMPORT / INBOUND DOCUMENTS =====
+    import_invoice_number = fields.Char(
+        string='Import Invoice Number',
+        help='Số hóa đơn nhập khẩu / Import invoice reference'
+    )
+    import_packing_list = fields.Char(
+        string='Import Packing List',
+        help='Phiếu đóng gói / Packing list reference'
+    )
+    import_bill_of_lading = fields.Char(
+        string='Bill of Lading',
+        help='Vận đơn / Bill of Lading reference'
+    )
+
     # ===== COMPUTED FIELDS =====
     move_count = fields.Integer(compute='_compute_counts', string='Moves')
     quant_count = fields.Integer(compute='_compute_counts', string='Quants')

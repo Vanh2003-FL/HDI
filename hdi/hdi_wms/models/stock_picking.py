@@ -64,6 +64,31 @@ class StockPicking(models.Model):
         ('location', 'Scan Location'),
     ], string='Scan Mode', default='none')
 
+    scan_detail_level = fields.Selection([
+        ('batch_only', 'Batch Only'),
+        ('batch_plus_products', 'Batch + Products'),
+        ('full_item', 'Full Item Scan'),
+    ], string='Scan Detail Level', default='batch_only',
+        help="Controls granularity of scanning:\n"
+             "- Batch Only: scan batch barcode only\n"
+             "- Batch + Products: scan batch and products\n"
+             "- Full Item Scan: scan each item (serial/lot)")
+
+    # ===== HANDOVER / SIGNATURE =====
+    production_handover_signed_by = fields.Many2one(
+        'res.users',
+        string='Handed Over By',
+        help="User who signed handover from production to warehouse"
+    )
+    production_handover_signature = fields.Binary(
+        string='Handover Signature',
+        help="Digital signature or photo of signed handover document"
+    )
+    production_handover_date = fields.Datetime(
+        string='Handover Date',
+        help="When production handed over goods to warehouse"
+    )
+
     @api.depends('picking_type_id', 'picking_type_id.code')
     def _compute_require_putaway(self):
         """Auto-enable putaway for incoming pickings"""
@@ -166,6 +191,22 @@ class StockPicking(models.Model):
                 picking.wms_state = 'picking_ready'
 
         return result
+
+    def action_confirm_handover(self):
+        """Confirm handover from production to warehouse"""
+        self.ensure_one()
+        self.production_handover_signed_by = self.env.user
+        self.production_handover_date = fields.Datetime.now()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Handover Confirmed'),
+                'message': _('Handover signed by %s') % self.env.user.name,
+                'type': 'success',
+                'sticky': False,
+            }
+        }
 
     def on_barcode_scanned(self, barcode):
         self.ensure_one()

@@ -37,6 +37,21 @@
                 <field name="use_batch_management" groups="hdi_wms.group_wms_user"/>
                 <field name="require_putaway_suggestion" invisible="1"/>
                 <field name="batch_count" invisible="1"/>
+                <field name="scan_detail_level" invisible="not use_batch_management" groups="hdi_wms.group_wms_user"/>
+            </field>
+
+            <!-- Add Handover section in header -->
+            <button name="button_validate" position="before">
+                <button name="action_confirm_handover" type="object" string="Xác nhận bàn giao"
+                        invisible="production_handover_signed_by or state not in ('assigned', 'confirmed')"
+                        class="btn-warning"
+                        groups="hdi_wms.group_wms_user"/>
+            </button>
+
+            <!-- Add handover info fields -->
+            <field name="partner_id" position="after">
+                <field name="production_handover_signed_by" readonly="1" invisible="not production_handover_signed_by"/>
+                <field name="production_handover_date" readonly="1" invisible="not production_handover_date"/>
             </field>
 
             <!-- Add Batch tab -->

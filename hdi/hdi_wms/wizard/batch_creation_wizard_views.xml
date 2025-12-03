@@ -21,6 +21,11 @@
                     <field name="weight" string="Trọng lượng (kg)"/>
                     <field name="volume" string="Thể tích (m³)"/>
                 </group>
+                <group string="Chứng từ Nhập khẩu">
+                    <field name="import_invoice_number" string="Số hóa đơn nhập khẩu"/>
+                    <field name="import_packing_list" string="Phiếu đóng gói"/>
+                    <field name="import_bill_of_lading" string="Vận đơn"/>
+                </group>
                 <footer>
                     <button name="action_create_batch" string="Tạo" type="object" class="btn-primary"/>
                     <button string="Hủy" special="cancel" class="btn-secondary"/>

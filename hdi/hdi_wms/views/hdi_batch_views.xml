@@ -119,6 +119,13 @@
                         <page string="Notes" name="notes">
                             <field name="notes" placeholder="Additional notes..."/>
                         </page>
+                        <page string="Chứng từ Nhập khẩu" name="import_documents">
+                            <group>
+                                <field name="import_invoice_number" string="Số hóa đơn nhập khẩu"/>
+                                <field name="import_packing_list" string="Phiếu đóng gói"/>
+                                <field name="import_bill_of_lading" string="Vận đơn"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
