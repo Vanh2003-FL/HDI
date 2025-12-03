@@ -48,6 +48,11 @@ class BatchCreationWizard(models.TransientModel):
     weight = fields.Float(string='Weight (kg)')
     volume = fields.Float(string='Volume (m³)')
     
+    # Import document fields
+    import_invoice_number = fields.Char(string='Import Invoice / Hóa đơn nhập khẩu')
+    import_packing_list = fields.Char(string='Import Packing List / Phiếu đóng gói')
+    import_bill_of_lading = fields.Char(string='Bill of Lading / Vận đơn')
+    
     def action_create_batch(self):
         """Create batch and link to picking"""
         self.ensure_one()
@@ -66,6 +71,14 @@ class BatchCreationWizard(models.TransientModel):
         
         if self.barcode:
             vals['barcode'] = self.barcode
+        
+        # Import document references
+        if self.import_invoice_number:
+            vals['import_invoice_number'] = self.import_invoice_number
+        if self.import_packing_list:
+            vals['import_packing_list'] = self.import_packing_list
+        if self.import_bill_of_lading:
+            vals['import_bill_of_lading'] = self.import_bill_of_lading
         
         # Create batch
         batch = self.env['hdi.batch'].create(vals)
