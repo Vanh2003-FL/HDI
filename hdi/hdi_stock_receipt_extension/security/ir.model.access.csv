@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_receipt_user,stock.receipt.user,model_stock_receipt,stock.group_stock_user,1,1,1,0
-access_stock_receipt_manager,stock.receipt.manager,model_stock_receipt,stock.group_stock_manager,1,1,1,1
-access_receipt_batch_line_user,receipt.batch.line.user,model_receipt_batch_line,stock.group_stock_user,1,1,1,1
-access_receipt_batch_line_manager,receipt.batch.line.manager,model_receipt_batch_line,stock.group_stock_manager,1,1,1,1

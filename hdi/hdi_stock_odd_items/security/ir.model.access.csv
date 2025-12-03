@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_odd_item_user,odd.item.user,model_odd_item,stock.group_stock_user,1,1,1,0
-access_odd_item_manager,odd.item.manager,model_odd_item,stock.group_stock_manager,1,1,1,1
-access_barcode_item_user,barcode.item.user,model_barcode_item,stock.group_stock_user,1,1,1,0
-access_barcode_item_manager,barcode.item.manager,model_barcode_item,stock.group_stock_manager,1,1,1,1

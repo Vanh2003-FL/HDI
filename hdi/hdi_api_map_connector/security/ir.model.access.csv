@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_map_sync_queue_user,map.sync.queue.user,model_map_sync_queue,stock.group_stock_user,1,0,0,0
-access_map_sync_queue_manager,map.sync.queue.manager,model_map_sync_queue,stock.group_stock_manager,1,1,1,1

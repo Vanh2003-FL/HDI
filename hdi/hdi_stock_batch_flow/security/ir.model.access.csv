@@ -1,9 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_batch_split_user,stock.batch.split.user,model_stock_batch_split,stock.group_stock_user,1,1,1,0
-access_stock_batch_split_manager,stock.batch.split.manager,model_stock_batch_split,stock.group_stock_manager,1,1,1,1
-access_stock_batch_split_line_user,stock.batch.split.line.user,model_stock_batch_split_line,stock.group_stock_user,1,1,1,0
-access_stock_batch_split_line_manager,stock.batch.split.line.manager,model_stock_batch_split_line,stock.group_stock_manager,1,1,1,1
-access_stock_batch_merge_user,stock.batch.merge.user,model_stock_batch_merge,stock.group_stock_user,1,1,1,0
-access_stock_batch_merge_manager,stock.batch.merge.manager,model_stock_batch_merge,stock.group_stock_manager,1,1,1,1
-access_stock_batch_merge_line_user,stock.batch.merge.line.user,model_stock_batch_merge_line,stock.group_stock_user,1,1,1,0
-access_stock_batch_merge_line_manager,stock.batch.merge.line.manager,model_stock_batch_merge_line,stock.group_stock_manager,1,1,1,1

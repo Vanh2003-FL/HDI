@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <!-- Moved under HDI WMS Operations → Kiểm kê (KK_NV) -->
-    <menuitem id="menu_inventory_ext_root" name="Kiểm kê nâng cao" parent="hdi_wms_operation.menu_inventory_operations" sequence="10"/>
-</odoo>

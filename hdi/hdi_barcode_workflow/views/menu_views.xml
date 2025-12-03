@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <!-- Ẩn - chức năng quét mã vạch đã tích hợp trong từng nghiệp vụ -->
-    <!-- <menuitem id="menu_barcode_workflow_root" name="Luồng quét mã vạch" parent="stock.menu_stock_warehouse_mgmt" sequence="55"/> -->
-</odoo>

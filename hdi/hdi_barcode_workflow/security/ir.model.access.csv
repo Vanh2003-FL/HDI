@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_barcode_workflow_user,barcode.workflow.user,model_barcode_workflow,stock.group_stock_user,1,1,1,0
-access_barcode_workflow_manager,barcode.workflow.manager,model_barcode_workflow,stock.group_stock_manager,1,1,1,1
-access_barcode_workflow_step,barcode.workflow.step,model_barcode_workflow_step,stock.group_stock_user,1,1,1,1

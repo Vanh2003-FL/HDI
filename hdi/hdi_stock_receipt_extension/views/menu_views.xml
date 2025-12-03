@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <!-- Ẩn menu - chỉ dùng WMS cho HDI -->
-    <!-- <menuitem id="menu_stock_receipt"
-        name="Phiếu nhập kho Odoo"
-        parent="hdi_wms_operation.menu_receipt_operations"
-        action="action_stock_receipt"
-        sequence="20"/> -->
-</odoo>
