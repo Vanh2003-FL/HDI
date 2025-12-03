@@ -56,6 +56,30 @@ class StockPicking(models.Model):
         help="Auto-enabled for incoming pickings"
     )
     
+    wms_priority = fields.Selection([
+        ('0', 'Normal'),
+        ('1', 'Urgent'),
+        ('2', 'Very Urgent'),
+    ], string='WMS Priority', default='0',
+       help="Priority for warehouse operations")
+    
+    expected_arrival_time = fields.Datetime(
+        string='Expected Arrival',
+        help="Expected time for receiving (appointments)"
+    )
+    
+    actual_start_time = fields.Datetime(
+        string='Actual Start Time',
+        readonly=True,
+        help="When warehouse operation actually started"
+    )
+    
+    actual_end_time = fields.Datetime(
+        string='Actual End Time', 
+        readonly=True,
+        help="When warehouse operation completed"
+    )
+    
     loose_line_ids = fields.One2many(
         'hdi.loose.line',
         'picking_id',

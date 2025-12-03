@@ -1,16 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Sequence for Batch Numbers -->
-    <record id="seq_hdi_batch" model="ir.sequence">
-        <field name="name">Batch/LPN Sequence</field>
-        <field name="code">hdi.batch</field>
-        <field name="prefix">BATCH-</field>
-        <field name="padding">6</field>
-        <field name="number_increment">1</field>
-        <field name="company_id" eval="False"/>
-    </record>
+    <data noupdate="1">
+        <!-- Sequence for Batch Numbers -->
+        <record id="seq_hdi_batch" model="ir.sequence">
+            <field name="name">Batch/LPN Sequence</field>
+            <field name="code">hdi.batch</field>
+            <field name="prefix">BATCH-</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
 
-    <!-- Default Product ABC Classification (if not exists) -->
-    <!-- Add to product.product if needed -->
-    
+        <!-- Demo Locations với tọa độ X-Y-Z -->
+        <record id="location_shelf_a_01_01" model="stock.location">
+            <field name="name">Shelf-A-01-01</field>
+            <field name="location_id" ref="stock.stock_location_stock"/>
+            <field name="coordinate_x">1</field>
+            <field name="coordinate_y">1</field>
+            <field name="coordinate_z">1</field>
+            <field name="max_weight">500</field>
+            <field name="max_volume">10</field>
+            <field name="moving_class">a</field>
+            <field name="is_putable">True</field>
+        </record>
+        
+        <record id="location_shelf_a_01_03" model="stock.location">
+            <field name="name">Shelf-A-01-03</field>
+            <field name="location_id" ref="stock.stock_location_stock"/>
+            <field name="coordinate_x">1</field>
+            <field name="coordinate_y">1</field>
+            <field name="coordinate_z">3</field>
+            <field name="max_weight">500</field>
+            <field name="max_volume">10</field>
+            <field name="moving_class">a</field>
+            <field name="is_putable">True</field>
+        </record>
+        
+        <record id="location_shelf_b_02_05" model="stock.location">
+            <field name="name">Shelf-B-02-05</field>
+            <field name="location_id" ref="stock.stock_location_stock"/>
+            <field name="coordinate_x">2</field>
+            <field name="coordinate_y">2</field>
+            <field name="coordinate_z">5</field>
+            <field name="max_weight">300</field>
+            <field name="max_volume">8</field>
+            <field name="moving_class">b</field>
+            <field name="is_putable">True</field>
+        </record>
+    </data>
 </odoo>
+

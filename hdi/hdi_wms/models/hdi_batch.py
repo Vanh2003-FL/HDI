@@ -93,6 +93,45 @@ class HdiBatch(models.Model):
         help="Planned destination for putaway"
     )
     
+    # ===== LOT/SERIAL & EXPIRY =====
+    lot_id = fields.Many2one(
+        'stock.lot',
+        string='Lot/Serial Number',
+        index=True,
+        tracking=True,
+        help="Lot or Serial Number for traceability"
+    )
+    
+    expiration_date = fields.Datetime(
+        string='Expiration Date',
+        tracking=True,
+        help="Product expiration date for FEFO logic"
+    )
+    
+    manufacturing_date = fields.Date(
+        string='Manufacturing Date',
+        help="Product manufacturing date"
+    )
+    
+    # ===== OWNERSHIP & PACKAGING =====
+    owner_id = fields.Many2one(
+        'res.partner',
+        string='Owner',
+        help="Owner of the goods (for 3PL operations)"
+    )
+    
+    package_id = fields.Many2one(
+        'stock.quant.package',
+        string='Package',
+        help="Link to Odoo core package if using package management"
+    )
+    
+    packaging_id = fields.Many2one(
+        'product.packaging',
+        string='Packaging Type',
+        help="Type of packaging (box, pallet, etc.)"
+    )
+    
     # ===== WMS SPECIFIC FIELDS =====
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -110,6 +149,20 @@ class HdiBatch(models.Model):
         ('full', 'Full'),
         ('mixed', 'Mixed Products'),
     ], string='WMS Status', compute='_compute_wms_status', store=True)
+    
+    reason_code = fields.Selection([
+        ('normal', 'Normal Operation'),
+        ('return', 'Customer Return'),
+        ('damage', 'Damaged Goods'),
+        ('quarantine', 'Quality Quarantine'),
+        ('adjustment', 'Inventory Adjustment'),
+    ], string='Reason Code', default='normal',
+       help="Reason for batch creation/movement")
+    
+    notes = fields.Text(
+        string='Internal Notes',
+        help="Notes for warehouse operators"
+    )
     
     # ===== PRODUCT & QUANTITY =====
     product_id = fields.Many2one(
