@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Putaway Suggestion Tree -->
+    <record id="view_putaway_suggestion_tree" model="ir.ui.view">
+        <field name="name">hdi.putaway.suggestion.tree</field>
+        <field name="model">hdi.putaway.suggestion</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="location_display"/>
+                <field name="coordinates"/>
+                <field name="score"/>
+                <field name="priority"/>
+                <field name="capacity_sufficient" widget="boolean_toggle"/>
+                <field name="match_reasons"/>
+                <field name="state" widget="badge"/>
+                <button name="action_select" string="Select" type="object" 
+                        class="btn-primary" invisible="state != 'suggested'"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

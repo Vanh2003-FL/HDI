@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Batch Creation Wizard -->
+    <record id="view_batch_creation_wizard_form" model="ir.ui.view">
+        <field name="name">hdi.batch.creation.wizard.form</field>
+        <field name="model">hdi.batch.creation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Batch">
+                <group>
+                    <field name="picking_id" invisible="1"/>
+                    <field name="batch_type" widget="radio"/>
+                    <field name="product_id"/>
+                    <field name="quantity"/>
+                    <field name="location_id"/>
+                </group>
+                <group>
+                    <field name="auto_generate_barcode"/>
+                    <field name="barcode" invisible="auto_generate_barcode"/>
+                </group>
+                <group string="Physical Attributes">
+                    <field name="weight"/>
+                    <field name="volume"/>
+                </group>
+                <footer>
+                    <button name="action_create_batch" string="Create" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

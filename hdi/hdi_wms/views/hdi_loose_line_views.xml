@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Loose Line Tree -->
+    <record id="view_loose_line_tree" model="ir.ui.view">
+        <field name="name">hdi.loose.line.tree</field>
+        <field name="model">hdi.loose.line</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="product_uom_id"/>
+                <field name="location_id"/>
+                <field name="location_dest_id"/>
+                <field name="lot_id"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

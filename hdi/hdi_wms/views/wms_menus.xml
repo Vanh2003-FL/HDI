@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main WMS Menu -->
+    <menuitem id="menu_wms_root"
+              name="WMS"
+              sequence="45"
+              web_icon="hdi_wms,static/description/icon.png"
+              groups="group_wms_user"/>
+    
+    <!-- Operations -->
+    <menuitem id="menu_wms_operations"
+              name="Operations"
+              parent="menu_wms_root"
+              sequence="10"/>
+    
+    <menuitem id="menu_batch"
+              name="Batches/LPN"
+              parent="menu_wms_operations"
+              action="action_batch"
+              sequence="10"/>
+    
+    <menuitem id="menu_wms_receiving"
+              name="Receiving"
+              parent="menu_wms_operations"
+              action="stock.action_picking_tree_incoming"
+              sequence="20"/>
+    
+    <menuitem id="menu_wms_putaway"
+              name="Putaway"
+              parent="menu_wms_operations"
+              action="stock.action_picking_tree_incoming"
+              sequence="30"/>
+    
+    <menuitem id="menu_wms_picking"
+              name="Picking"
+              parent="menu_wms_operations"
+              action="stock.action_picking_tree_ready"
+              sequence="40"/>
+    
+    <!-- Configuration -->
+    <menuitem id="menu_wms_config"
+              name="Configuration"
+              parent="menu_wms_root"
+              sequence="90"
+              groups="group_wms_manager"/>
+    
+    <menuitem id="menu_wms_locations"
+              name="Locations"
+              parent="menu_wms_config"
+              action="stock.action_location_form"
+              sequence="10"/>
+
+</odoo>

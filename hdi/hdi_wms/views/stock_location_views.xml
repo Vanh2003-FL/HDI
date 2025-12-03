@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ✅ INHERIT stock.location form - KHÔNG tạo mới -->
+    <record id="view_location_form_wms" model="ir.ui.view">
+        <field name="name">stock.location.form.wms</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Add WMS fields -->
+            <field name="usage" position="after">
+                <field name="coordinate_display" readonly="1" string="Coordinates"/>
+            </field>
+            
+            <!-- Add WMS tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="WMS Attributes" name="wms_attrs" groups="hdi_wms.group_wms_manager">
+                    <group string="Warehouse Coordinates">
+                        <group>
+                            <field name="coordinate_x"/>
+                            <field name="coordinate_y"/>
+                            <field name="coordinate_z"/>
+                        </group>
+                        <group>
+                            <field name="storage_type"/>
+                            <field name="temperature_zone"/>
+                        </group>
+                    </group>
+                    <group string="Capacity">
+                        <group>
+                            <field name="max_weight"/>
+                            <field name="max_volume"/>
+                            <field name="current_weight" readonly="1"/>
+                            <field name="current_volume" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="available_weight" readonly="1"/>
+                            <field name="available_volume" readonly="1"/>
+                            <field name="capacity_percentage" readonly="1" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <group string="Classification &amp; Priority">
+                        <group>
+                            <field name="moving_class"/>
+                            <field name="location_priority"/>
+                            <field name="putaway_sequence"/>
+                        </group>
+                        <group>
+                            <field name="is_pickable"/>
+                            <field name="is_putable"/>
+                            <field name="is_counted"/>
+                            <field name="is_mixed_product"/>
+                            <field name="is_mixed_batch"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Batches" name="batches" groups="hdi_wms.group_wms_user">
+                    <button name="action_view_batches" type="object" 
+                            string="View All Batches" class="btn-link"/>
+                    <field name="batch_count" invisible="1"/>
+                    <field name="batch_ids" readonly="1">
+                        <tree>
+                            <field name="name"/>
+                            <field name="barcode"/>
+                            <field name="product_id"/>
+                            <field name="total_quantity"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

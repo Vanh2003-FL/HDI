@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ✅ INHERIT stock.picking form view - KHÔNG tạo mới -->
+    <record id="view_picking_form_wms" model="ir.ui.view">
+        <field name="name">stock.picking.form.wms</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Add WMS State after state -->
+            <field name="state" position="after">
+                <field name="wms_state" widget="badge" 
+                       decoration-info="wms_state in ('batch_creation', 'picking_ready')"
+                       decoration-warning="wms_state in ('putaway_pending', 'picking_progress')"
+                       decoration-success="wms_state == 'wms_done'"
+                       groups="hdi_wms.group_wms_user"/>
+            </field>
+            
+            <!-- Add WMS buttons in header -->
+            <button name="button_validate" position="before">
+                <button name="action_create_batch" type="object" string="Create Batch"
+                        invisible="state != 'assigned'"
+                        class="btn-primary"
+                        groups="hdi_wms.group_wms_user"/>
+                <button name="action_suggest_putaway_all" type="object" string="Suggest Putaway"
+                        invisible="wms_state not in ('batch_creation', 'putaway_pending')"
+                        class="btn-secondary"
+                        groups="hdi_wms.group_wms_user"/>
+                <button name="action_open_scanner" type="object" string="Open Scanner"
+                        invisible="state not in ('assigned', 'confirmed')"
+                        class="btn-info"
+                        groups="hdi_wms.group_wms_scanner"/>
+            </button>
+            
+            <!-- Add WMS fields in form -->
+            <field name="partner_id" position="after">
+                <field name="use_batch_management" groups="hdi_wms.group_wms_user"/>
+                <field name="require_putaway_suggestion" invisible="1"/>
+                <field name="batch_count" invisible="1"/>
+            </field>
+            
+            <!-- Add Batch tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Batches" name="wms_batches" 
+                      invisible="not use_batch_management"
+                      groups="hdi_wms.group_wms_user">
+                    <group>
+                        <group>
+                            <field name="scan_mode" widget="radio"/>
+                            <field name="last_scanned_barcode" readonly="1"/>
+                        </group>
+                        <group>
+                            <button name="action_view_batches" type="object" 
+                                    string="View All Batches"
+                                    class="oe_link"/>
+                        </group>
+                    </group>
+                    <field name="batch_ids" mode="tree">
+                        <tree>
+                            <field name="name"/>
+                            <field name="barcode"/>
+                            <field name="batch_type"/>
+                            <field name="product_id"/>
+                            <field name="total_quantity"/>
+                            <field name="location_id"/>
+                            <field name="location_dest_id"/>
+                            <field name="state" widget="badge"/>
+                        </tree>
+                    </field>
+                </page>
+                
+                <!-- Loose Items tab -->
+                <page string="Loose Items" name="wms_loose_items"
+                      invisible="not use_batch_management"
+                      groups="hdi_wms.group_wms_user">
+                    <field name="loose_line_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="product_uom_id"/>
+                            <field name="location_id" invisible="1"/>
+                            <field name="location_dest_id"/>
+                            <field name="lot_id"/>
+                            <field name="state" widget="badge"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    <!-- Tree view extension -->
+    <record id="view_picking_tree_wms" model="ir.ui.view">
+        <field name="name">stock.picking.tree.wms</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <field name="wms_state" optional="show" widget="badge" 
+                       groups="hdi_wms.group_wms_user"/>
+                <field name="batch_count" optional="show" 
+                       groups="hdi_wms.group_wms_user"/>
+            </field>
+        </field>
+    </record>
+    
+    <!-- Scanner view (mobile-friendly) -->
+    <record id="view_picking_form_scanner" model="ir.ui.view">
+        <field name="name">stock.picking.form.scanner</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">999</field>
+        <field name="arch" type="xml">
+            <form string="Scanner Mode">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_batches" type="object" 
+                                class="oe_stat_button" icon="fa-th">
+                            <field name="batch_count" widget="statinfo" string="Batches"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="picking_type_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="location_id" readonly="1"/>
+                            <field name="location_dest_id" readonly="1"/>
+                            <field name="wms_state" widget="badge"/>
+                        </group>
+                    </group>
+                    <group string="Scanner">
+                        <field name="scan_mode" widget="radio"/>
+                        <field name="last_scanned_barcode" readonly="1" 
+                               class="text-success" 
+                               style="font-size: 20px; font-weight: bold;"/>
+                    </group>
+                    <notebook>
+                        <page string="Batches">
+                            <field name="batch_ids" mode="kanban">
+                                <kanban>
+                                    <field name="name"/>
+                                    <field name="barcode"/>
+                                    <field name="product_id"/>
+                                    <field name="state"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card">
+                                                <div class="oe_kanban_content">
+                                                    <strong><field name="name"/></strong>
+                                                    <div><field name="barcode"/></div>
+                                                    <div><field name="product_id"/></div>
+                                                    <div><field name="state" widget="badge"/></div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
