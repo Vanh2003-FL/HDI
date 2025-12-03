@@ -19,11 +19,11 @@
             <!-- Add WMS buttons in header -->
             <button name="button_validate" position="before">
                 <button name="action_create_batch" type="object" string="Tạo Lô hàng"
-                        invisible="state != 'assigned'"
+                        invisible="state != 'assigned' or not use_batch_management"
                         class="btn-primary"
                         groups="hdi_wms.group_wms_user"/>
-                <button name="action_suggest_putaway_all" type="object" string="Gợi ý Vị trí"
-                        invisible="wms_state not in ('batch_creation', 'putaway_pending')"
+                <button name="action_suggest_putaway_all" type="object" string="Gợi ý Vị trí Tất cả"
+                        invisible="not batch_ids or wms_state not in ('batch_creation', 'putaway_pending')"
                         class="btn-secondary"
                         groups="hdi_wms.group_wms_user"/>
                 <button name="action_open_scanner" type="object" string="Quét Mã vạch"
@@ -35,6 +35,8 @@
             <!-- Add WMS fields in form -->
             <field name="partner_id" position="after">
                 <field name="use_batch_management" groups="hdi_wms.group_wms_user"/>
+                <field name="wms_priority" invisible="not use_batch_management"/>
+                <field name="expected_arrival_time" invisible="not use_batch_management"/>
                 <field name="require_putaway_suggestion" invisible="1"/>
                 <field name="batch_count" invisible="1"/>
             </field>
@@ -55,7 +57,29 @@
                                     class="oe_link"/>
                         </group>
                     </group>
-                    <field name="batch_ids" widget="one2many" string="Danh sách lô hàng"/>
+                    <field name="batch_ids" widget="one2many" string="Danh sách lô hàng">
+                        <list editable="bottom">
+                            <field name="name" readonly="1"/>
+                            <field name="barcode"/>
+                            <field name="product_id"/>
+                            <field name="total_quantity"/>
+                            <field name="location_id"/>
+                            <field name="location_dest_id"/>
+                            <field name="state" widget="badge" 
+                                   decoration-success="state=='stored'" 
+                                   decoration-warning="state in ('in_receiving', 'in_putaway')"/>
+                            <button name="action_suggest_putaway" type="object" 
+                                    string="Gợi ý" 
+                                    icon="fa-lightbulb-o"
+                                    invisible="state not in ('in_receiving', 'in_putaway')"
+                                    class="btn-link"/>
+                            <button name="action_confirm_storage" type="object" 
+                                    string="Xác nhận" 
+                                    icon="fa-check"
+                                    invisible="state != 'in_putaway'"
+                                    class="btn-link text-success"/>
+                        </list>
+                    </field>
                 </page>
                 
                 <!-- Loose Items tab -->

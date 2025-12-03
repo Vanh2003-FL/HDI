@@ -116,6 +116,28 @@
                                 </list>
                             </field>
                         </page>
+                        <page string="Gợi ý Vị trí Đặt hàng" name="putaway_suggestions"
+                              invisible="state not in ('in_receiving', 'in_putaway')">
+                            <field name="putaway_suggestion_ids">
+                                <list>
+                                    <field name="location_id"/>
+                                    <field name="coordinate_display"/>
+                                    <field name="score" widget="progressbar"/>
+                                    <field name="priority" widget="priority"/>
+                                    <field name="capacity_sufficient" widget="boolean_toggle"/>
+                                    <field name="match_reasons"/>
+                                    <field name="state" widget="badge" 
+                                           decoration-success="state=='selected'"
+                                           decoration-info="state=='suggested'"
+                                           decoration-muted="state=='rejected'"/>
+                                    <button name="action_select" type="object" 
+                                            string="Chọn vị trí này" 
+                                            icon="fa-check-circle"
+                                            invisible="state != 'suggested'"
+                                            class="btn-success"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Notes" name="notes">
                             <field name="notes" placeholder="Additional notes..."/>
                         </page>
