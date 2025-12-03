@@ -40,14 +40,14 @@
             </field>
             
             <!-- Add Batch tab -->
-            <xpath expr="//notebook" position="inside">
+            <notebook position="inside">
                 <page string="Batches" name="wms_batches" 
                       invisible="not use_batch_management"
                       groups="hdi_wms.group_wms_user">
                     <group>
                         <group>
-                            <field name="scan_mode" widget="radio"/>
-                            <field name="last_scanned_barcode" readonly="1"/>
+                            <field name="scan_mode" widget="radio" options="{'horizontal': true}"/>
+                            <field name="last_scanned_barcode" readonly="1" placeholder="No barcode scanned"/>
                         </group>
                         <group>
                             <button name="action_view_batches" type="object" 
@@ -86,7 +86,7 @@
                         </tree>
                     </field>
                 </page>
-            </xpath>
+            </notebook>
             
         </field>
     </record>
