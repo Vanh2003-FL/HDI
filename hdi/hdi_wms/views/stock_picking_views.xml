@@ -55,18 +55,7 @@
                                     class="oe_link"/>
                         </group>
                     </group>
-                    <field name="batch_ids" mode="tree">
-                        <tree>
-                            <field name="name"/>
-                            <field name="barcode"/>
-                            <field name="batch_type"/>
-                            <field name="product_id"/>
-                            <field name="total_quantity"/>
-                            <field name="location_id"/>
-                            <field name="location_dest_id"/>
-                            <field name="state" widget="badge"/>
-                        </tree>
-                    </field>
+                    <field name="batch_ids" widget="one2many"/>
                 </page>
                 
                 <!-- Loose Items tab -->
@@ -146,7 +135,6 @@
                             <field name="batch_ids" mode="kanban">
                                 <kanban>
                                     <field name="name"/>
-                                    <field name="barcode"/>
                                     <field name="product_id"/>
                                     <field name="state"/>
                                     <templates>
@@ -154,7 +142,6 @@
                                             <div class="oe_kanban_card">
                                                 <div class="oe_kanban_content">
                                                     <strong><field name="name"/></strong>
-                                                    <div><field name="barcode"/></div>
                                                     <div><field name="product_id"/></div>
                                                     <div><field name="state" widget="badge"/></div>
                                                 </div>
