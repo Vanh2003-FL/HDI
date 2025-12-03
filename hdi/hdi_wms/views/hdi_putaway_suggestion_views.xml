@@ -5,7 +5,7 @@
         <field name="name">hdi.putaway.suggestion.tree</field>
         <field name="model">hdi.putaway.suggestion</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="location_display"/>
                 <field name="coordinates"/>
                 <field name="score"/>
@@ -15,7 +15,7 @@
                 <field name="state" widget="badge"/>
                 <button name="action_select" string="Select" type="object" 
                         class="btn-primary" invisible="state != 'suggested'"/>
-            </tree>
+            </list>
         </field>
     </record>
 

@@ -2,10 +2,10 @@
 <odoo>
     <!-- Batch Tree View -->
     <record id="view_batch_tree" model="ir.ui.view">
-        <field name="name">hdi.batch.tree</field>
+        <field name="name">hdi.batch.list</field>
         <field name="model">hdi.batch</field>
         <field name="arch" type="xml">
-            <tree string="Batches">
+            <list string="Batches">
                 <field name="name"/>
                 <field name="barcode"/>
                 <field name="batch_type"/>
@@ -18,7 +18,7 @@
                        decoration-warning="state in ('in_receiving', 'in_putaway')"
                        decoration-info="state=='in_picking'"/>
                 <field name="wms_status" optional="hide"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -94,26 +94,26 @@
                     <notebook>
                         <page string="Stock Moves" name="moves">
                             <field name="move_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="product_id"/>
                                     <field name="product_uom_qty"/>
                                     <field name="location_id"/>
                                     <field name="location_dest_id"/>
                                     <field name="state"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Quants (Inventory)" name="quants">
                             <field name="quant_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="product_id"/>
                                     <field name="lot_id"/>
                                     <field name="location_id"/>
                                     <field name="quantity"/>
                                     <field name="reserved_quantity"/>
                                     <field name="available_quantity"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Notes" name="notes">
