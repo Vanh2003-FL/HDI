@@ -7,27 +7,15 @@
         <field name="arch" type="xml">
             <form string="Putaway Location Suggestion">
                 <group>
-                    <field name="batch_id" invisible="1"/>
-                    <field name="picking_id" invisible="1"/>
+                    <field name="batch_id" readonly="1"/>
                     <field name="product_id"/>
                     <field name="quantity"/>
                 </group>
-                <button name="action_generate_suggestions" string="Generate Suggestions" 
-                        type="object" class="btn-primary"/>
-                <group string="Suggested Locations">
-                    <field name="suggestion_ids" nolabel="1">
-                        <tree>
-                            <field name="location_display"/>
-                            <field name="coordinates"/>
-                            <field name="score"/>
-                            <field name="priority"/>
-                            <field name="capacity_sufficient" widget="boolean_toggle"/>
-                            <field name="match_reasons"/>
-                            <button name="action_select" string="Select" type="object" 
-                                    class="btn-sm btn-primary" 
-                                    invisible="state != 'suggested' or not capacity_sufficient"/>
-                        </tree>
-                    </field>
+                <group>
+                    <button name="action_generate_suggestions" string="Generate Suggestions" 
+                            type="object" class="btn-primary"/>
+                </group>
+                <group string="Selected Location">
                     <field name="selected_location_id"/>
                 </group>
                 <footer>

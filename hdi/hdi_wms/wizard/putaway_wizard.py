@@ -34,7 +34,6 @@ class PutawayWizard(models.TransientModel):
     suggestion_ids = fields.Many2many(
         'hdi.putaway.suggestion',
         string='Suggestions',
-        compute='_compute_suggestions',
     )
     
     selected_location_id = fields.Many2one(
@@ -42,28 +41,37 @@ class PutawayWizard(models.TransientModel):
         string='Selected Location',
     )
     
-    @api.depends('batch_id', 'product_id', 'quantity')
-    def _compute_suggestions(self):
-        """Generate putaway suggestions"""
-        for wizard in self:
-            if wizard.batch_id and wizard.product_id:
-                # Clear old suggestions
-                wizard.batch_id.mapped('putaway_suggestion_ids').unlink()
-                
-                # Generate new suggestions
-                suggestions = self.env['hdi.putaway.suggestion'].generate_suggestions(
-                    wizard.batch_id,
-                    max_suggestions=5
-                )
-                wizard.suggestion_ids = suggestions
-            else:
-                wizard.suggestion_ids = False
-    
     def action_generate_suggestions(self):
-        """Manually trigger suggestion generation"""
+        """Generate putaway suggestions and open them"""
         self.ensure_one()
-        self._compute_suggestions()
-        return {'type': 'ir.actions.do_nothing'}
+        
+        if not self.batch_id or not self.product_id:
+            raise UserError(_('Batch and Product are required.'))
+        
+        # Clear old suggestions for this batch
+        old_suggestions = self.env['hdi.putaway.suggestion'].search([
+            ('batch_id', '=', self.batch_id.id)
+        ])
+        old_suggestions.unlink()
+        
+        # Generate new suggestions
+        suggestions = self.env['hdi.putaway.suggestion'].generate_suggestions(
+            self.batch_id,
+            max_suggestions=5
+        )
+        
+        if not suggestions:
+            raise UserError(_('No suitable locations found.'))
+        
+        # Open suggestions in new window
+        return {
+            'name': _('Select Putaway Location'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hdi.putaway.suggestion',
+            'view_mode': 'list,form',
+            'domain': [('batch_id', '=', self.batch_id.id)],
+            'target': 'new',
+        }
     
     def action_confirm_location(self):
         """Confirm selected location and update batch"""
