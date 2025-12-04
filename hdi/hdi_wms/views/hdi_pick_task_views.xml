@@ -66,16 +66,16 @@
                             <field name="sequence"/>
                         </group>
                         <group>
-                            <field name="product_id" readonly="1"/>
-                            <field name="batch_id" readonly="1"/>
-                            <field name="location_id" readonly="1"/>
+                            <field name="product_id"/>
+                            <field name="batch_id" domain="[('product_id', '=', product_id), ('state', '=', 'stored')]"/>
+                            <field name="location_id" domain="[('usage', '=', 'internal')]"/>
                             <field name="coordinate_display"/>
                             <field name="zone"/>
                         </group>
                     </group>
                     <group string="Số lượng">
                         <group>
-                            <field name="planned_qty" readonly="1"/>
+                            <field name="planned_qty"/>
                             <field name="picked_qty" readonly="state == 'done'"/>
                             <field name="remaining_qty" decoration-danger="remaining_qty > 0"/>
                             <field name="product_uom_id" readonly="1"/>
