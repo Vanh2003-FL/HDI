@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Pick Suggestion Tree View -->
+    <!-- Pick Suggestion List View -->
     <record id="view_pick_suggestion_tree" model="ir.ui.view">
-        <field name="name">hdi.pick.suggestion.tree</field>
+        <field name="name">hdi.pick.suggestion.list</field>
         <field name="model">hdi.pick.suggestion</field>
         <field name="arch" type="xml">
-            <tree string="Pick Suggestions" decoration-success="state=='suggested'" 
+            <list string="Pick Suggestions" decoration-success="state=='suggested'" 
                   decoration-info="state=='assigned'" 
                   decoration-muted="state in ('picked', 'cancelled')">
                 <field name="sequence" widget="handle"/>
@@ -23,7 +23,7 @@
                 <button name="action_create_pick_task" type="object" string="Tạo Task"
                         invisible="state != 'suggested' or quantity_to_pick &lt;= 0"
                         icon="fa-tasks" class="btn-primary"/>
-            </tree>
+            </list>
         </field>
     </record>
 

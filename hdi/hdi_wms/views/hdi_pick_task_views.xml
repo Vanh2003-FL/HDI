@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Pick Task Tree View -->
+    <!-- Pick Task List View -->
     <record id="view_pick_task_tree" model="ir.ui.view">
-        <field name="name">hdi.pick.task.tree</field>
+        <field name="name">hdi.pick.task.list</field>
         <field name="model">hdi.pick.task</field>
         <field name="arch" type="xml">
-            <tree string="Pick Tasks" decoration-info="state=='todo'" 
+            <list string="Pick Tasks" decoration-info="state=='todo'" 
                   decoration-warning="state=='in_progress'" 
                   decoration-success="state=='done'"
                   decoration-muted="state=='cancel'">
@@ -23,7 +23,7 @@
                 <field name="priority" widget="priority" optional="hide"/>
                 <field name="state" widget="badge"/>
                 <field name="company_id" invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
