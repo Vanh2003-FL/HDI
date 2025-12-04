@@ -30,7 +30,6 @@ class ProductProduct(models.Model):
     )
     
     def _compute_batch_count(self):
-        """Count batches with this product"""
         for product in self:
             product.batch_count = self.env['hdi.batch'].search_count([
                 ('product_id', '=', product.id),

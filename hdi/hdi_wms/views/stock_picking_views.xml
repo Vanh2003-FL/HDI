@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- ✅ INHERIT stock.picking form view - KHÔNG tạo mới -->
     <record id="view_picking_form_wms" model="ir.ui.view">
         <field name="name">stock.picking.form.wms</field>
         <field name="model">stock.picking</field>
@@ -18,8 +17,12 @@
 
             <!-- Add WMS buttons in header -->
             <button name="button_validate" position="before">
+                <button name="action_confirm_handover" type="object" string="Xác nhận bàn giao"
+                        invisible="production_handover_signed_by or state not in ('assigned', 'confirmed')"
+                        class="btn-warning"
+                        groups="hdi_wms.group_wms_user"/>
                 <button name="action_create_batch" type="object" string="Tạo Lô hàng"
-                        invisible="state != 'assigned'"
+                        invisible="state != 'assigned' or not use_batch_management"
                         class="btn-primary"
                         groups="hdi_wms.group_wms_user"/>
                 <button name="action_suggest_putaway_all" type="object" string="Gợi ý Vị trí"
@@ -32,12 +35,20 @@
                         groups="hdi_wms.group_wms_scanner"/>
             </button>
 
-            <!-- Add WMS fields in form -->
-            <field name="partner_id" position="after">
-                <field name="use_batch_management" groups="hdi_wms.group_wms_user"/>
+            <xpath expr="//form/sheet/notebook" position="before">
+                <group string="Cấu hình lô" groups="hdi_wms.group_wms_user">
+                    <group>
+                        <field name="use_batch_management" string=" Quản lý theo Lô hàng/Pallet"/>
+                        <field name="scan_detail_level" invisible="not use_batch_management" string="Chi tiết quét mã"/>
+                    </group>
+                    <group>
+                        <field name="production_handover_signed_by" readonly="1" invisible="not production_handover_signed_by" string="Người bàn giao"/>
+                        <field name="production_handover_date" readonly="1" invisible="not production_handover_date" string="Thời gian bàn giao"/>
+                    </group>
+                </group>
                 <field name="require_putaway_suggestion" invisible="1"/>
                 <field name="batch_count" invisible="1"/>
-            </field>
+            </xpath>
 
             <!-- Add Batch tab -->
             <notebook position="inside">
@@ -45,17 +56,26 @@
                       invisible="not use_batch_management"
                       groups="hdi_wms.group_wms_user">
                     <group>
-                        <group>
+                        <group string="Cấu hình Quét">
                             <field name="scan_mode" widget="radio" options="{'horizontal': true}" string="Chế độ quét"/>
                             <field name="last_scanned_barcode" readonly="1" placeholder="Chưa quét mã nào" string="Mã vừa quét"/>
                         </group>
-                        <group>
+                        <group string="Trạng thái WMS">
+                            <field name="wms_state" widget="badge"/>
+                            <field name="batch_count" string="Số lô hàng"/>
                             <button name="action_view_batches" type="object"
-                                    string="Xem tất cả Lô hàng"
-                                    class="oe_link"/>
+                                    string="➜ Xem tất cả Lô hàng"
+                                    class="oe_link"
+                                    invisible="not batch_count"/>
                         </group>
                     </group>
-                    <field name="batch_ids" widget="one2many" string="Danh sách lô hàng"/>
+                    <group>
+                        <button name="action_create_batch" type="object" string="Tạo Lô"
+                                class="btn-primary oe_highlight"
+                                help="Tạo lô hàng/pallet/LPN mới cho phiếu này"/>
+                    </group>
+                    <separator string="Danh sách lô hàng"/>
+                    <field name="batch_ids" nolabel="1" context="{'form_view_ref': 'hdi_wms.view_batch_form', 'tree_view_ref': 'hdi_wms.view_batch_tree'}"/>
                 </page>
 
                 <!-- Loose Items tab -->

@@ -5,23 +5,23 @@
         <field name="name">hdi.putaway.wizard.form</field>
         <field name="model">hdi.putaway.wizard</field>
         <field name="arch" type="xml">
-            <form string="Putaway Location Suggestion">
+            <form string="Gợi ý vị trí lưu kho">
                 <group>
-                    <field name="batch_id" readonly="1"/>
-                    <field name="product_id"/>
-                    <field name="quantity"/>
+                    <field name="batch_id" readonly="1" string="Lô hàng"/>
+                    <field name="product_id" string="Sản phẩm"/>
+                    <field name="quantity" string="Số lượng"/>
                 </group>
                 <group>
-                    <button name="action_generate_suggestions" string="Generate Suggestions"
+                    <button name="action_generate_suggestions" string="Tạo gợi ý"
                             type="object" class="btn-primary"/>
                 </group>
-                <group string="Selected Location">
-                    <field name="selected_location_id"/>
+                <group string="Vị trí được chọn">
+                    <field name="selected_location_id" string="Vị trí"/>
                 </group>
                 <footer>
-                    <button name="action_confirm_location" string="Confirm"
+                    <button name="action_confirm_location" string="Xác nhận"
                             type="object" class="btn-primary"/>
-                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                    <button string="Hủy" special="cancel" class="btn-secondary"/>
                 </footer>
             </form>
         </field>

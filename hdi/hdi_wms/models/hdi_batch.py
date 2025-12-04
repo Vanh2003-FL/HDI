@@ -83,27 +83,33 @@ class HdiBatch(models.Model):
 
     # ===== WMS SPECIFIC FIELDS =====
     state = fields.Selection([
-        ('draft', 'Draft'),
-        ('in_receiving', 'In Receiving'),
-        ('in_putaway', 'In Putaway'),
-        ('stored', 'Stored'),
-        ('in_picking', 'In Picking'),
-        ('shipped', 'Shipped'),
-        ('cancel', 'Cancelled'),
-    ], string='State', default='draft', required=True, tracking=True)
+        ('draft', 'Mới tạo'),
+        ('in_receiving', 'Đang nhận hàng'),
+        ('in_putaway', 'Đang đưa vào vị trí'),
+        ('stored', 'Đã vào vị trí'),
+        ('in_picking', 'Đang lấy hàng'),
+        ('shipped', 'Đã xuất kho'),
+        ('cancel', 'Đã hủy'),
+    ], string='Trạng thái', default='draft', required=True, tracking=True)
 
     wms_status = fields.Selection([
-        ('empty', 'Empty'),
-        ('partial', 'Partial'),
-        ('full', 'Full'),
-        ('mixed', 'Mixed Products'),
-    ], string='WMS Status', compute='_compute_wms_status', store=True)
+        ('empty', 'Trống'),
+        ('partial', 'Chứa một phần'),
+        ('full', 'Đầy'),
+        ('mixed', 'Nhiều sản phẩm'),
+    ], string='Tình trạng WMS', compute='_compute_wms_status', store=True)
 
     # ===== PRODUCT & QUANTITY =====
     product_id = fields.Many2one(
         'product.product',
         string='Product',
         help="Primary product (for single-product batches)"
+    )
+
+    planned_quantity = fields.Float(
+        string='Planned Quantity',
+        digits='Product Unit of Measure',
+        help="Expected quantity (entered when creating batch, before actual receipt)"
     )
 
     total_quantity = fields.Float(
@@ -126,13 +132,12 @@ class HdiBatch(models.Model):
     )
 
     # ===== PHYSICAL ATTRIBUTES =====
-    weight = fields.Float(string='Weight (kg)', digits='Stock Weight')
-    volume = fields.Float(string='Volume (m³)', digits=(16, 4))
-    height = fields.Float(string='Height (cm)', digits=(16, 2))
-    width = fields.Float(string='Width (cm)', digits=(16, 2))
-    length = fields.Float(string='Length (cm)', digits=(16, 2))
+    weight = fields.Float(string='Trọng lượng (kg)', digits='Stock Weight')
+    volume = fields.Float(string='Thể tích (m³)', digits=(16, 4))
+    height = fields.Float(string='Chiều cao (cm)', digits=(16, 2))
+    width = fields.Float(string='Chiều rộng (cm)', digits=(16, 2))
+    length = fields.Float(string='Chiều dài (cm)', digits=(16, 2))
 
-    # ===== TRACKING =====
     user_id = fields.Many2one(
         'res.users',
         string='Responsible',
@@ -149,6 +154,20 @@ class HdiBatch(models.Model):
 
     notes = fields.Text(string='Notes')
 
+    # ===== IMPORT / INBOUND DOCUMENTS =====
+    import_invoice_number = fields.Char(
+        string='Import Invoice Number',
+        help='Số hóa đơn nhập khẩu / Import invoice reference'
+    )
+    import_packing_list = fields.Char(
+        string='Import Packing List',
+        help='Phiếu đóng gói / Packing list reference'
+    )
+    import_bill_of_lading = fields.Char(
+        string='Bill of Lading',
+        help='Vận đơn / Bill of Lading reference'
+    )
+
     # ===== COMPUTED FIELDS =====
     move_count = fields.Integer(compute='_compute_counts', string='Moves')
     quant_count = fields.Integer(compute='_compute_counts', string='Quants')
@@ -160,17 +179,40 @@ class HdiBatch(models.Model):
 
     @api.model
     def create(self, vals):
-        """Generate sequence for batch number"""
         if vals.get('name', _('New')) == _('New'):
             vals['name'] = self.env['ir.sequence'].next_by_code('hdi.batch') or _('New')
         return super().create(vals)
 
+    def name_get(self):
+        """Custom display name showing batch info"""
+        result = []
+        for batch in self:
+            name_parts = [batch.name]
+
+            # Add barcode if exists
+            if batch.barcode:
+                name_parts.append(f"[{batch.barcode}]")
+
+            # Add product info
+            if batch.product_id:
+                name_parts.append(f"- {batch.product_id.name}")
+
+            # Add quantity info
+            qty = batch.total_quantity or batch.planned_quantity or 0
+            if qty > 0:
+                name_parts.append(f"({qty:.0f})")
+
+            # Add state
+            state_label = dict(batch._fields['state'].selection).get(batch.state, '')
+            if state_label:
+                name_parts.append(f"[{state_label}]")
+
+            name = ' '.join(name_parts)
+            result.append((batch.id, name))
+        return result
+
     @api.depends('quant_ids', 'quant_ids.quantity', 'quant_ids.reserved_quantity')
     def _compute_quantities(self):
-        """
-        ✅ QUAN TRỌNG: Số liệu tồn kho PHẢI từ stock.quant (core)
-        Không tự tính toán riêng - luôn sync với core
-        """
         for batch in self:
             batch.total_quantity = sum(batch.quant_ids.mapped('quantity'))
             batch.available_quantity = sum(
@@ -181,7 +223,6 @@ class HdiBatch(models.Model):
 
     @api.depends('quant_ids', 'product_id')
     def _compute_wms_status(self):
-        """Determine batch status based on content"""
         for batch in self:
             if not batch.quant_ids or batch.total_quantity == 0:
                 batch.wms_status = 'empty'
@@ -194,7 +235,6 @@ class HdiBatch(models.Model):
 
     @api.depends('move_ids', 'quant_ids')
     def _compute_counts(self):
-        """Count related moves and quants"""
         for batch in self:
             batch.move_count = len(batch.move_ids)
             batch.quant_count = len(batch.quant_ids)
@@ -223,10 +263,6 @@ class HdiBatch(models.Model):
         self.state = 'in_putaway'
 
     def action_confirm_storage(self):
-        """
-        Confirm batch is stored in final location
-        ✅ Update stock.quant location (core operation)
-        """
         self.ensure_one()
         if self.state != 'in_putaway':
             raise UserError(_('Batch must be in putaway to confirm storage.'))
@@ -243,7 +279,6 @@ class HdiBatch(models.Model):
         self.state = 'stored'
 
     def action_suggest_putaway(self):
-        """Open putaway suggestion wizard"""
         self.ensure_one()
         return {
             'name': _('Suggest Putaway Location'),
@@ -297,6 +332,4 @@ class HdiBatch(models.Model):
                     ) % (batch.barcode, duplicate.name))
 
     def on_barcode_scanned(self, barcode):
-        """Handle barcode scanning events"""
-        # Implement scanning logic for mobile/handheld devices
         pass

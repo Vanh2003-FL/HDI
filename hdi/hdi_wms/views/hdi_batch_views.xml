@@ -5,19 +5,23 @@
         <field name="name">hdi.batch.list</field>
         <field name="model">hdi.batch</field>
         <field name="arch" type="xml">
-            <list string="Lô hàng">
+            <list string="Lô hàng" editable="bottom"
+                  decoration-success="state=='stored'"
+                  decoration-info="state in ('in_receiving', 'in_putaway')">
                 <field name="name" string="Mã lô"/>
                 <field name="barcode" string="Mã vạch"/>
                 <field name="batch_type" string="Loại"/>
                 <field name="product_id" string="Sản phẩm"/>
-                <field name="total_quantity" string="Số lượng"/>
-                <field name="location_id" string="Vị trí hiện tại"/>
-                <field name="location_dest_id" string="Vị trí đích"/>
-                <field name="picking_id" string="Phiếu xuất nhập"/>
-                <field name="state" widget="badge" decoration-success="state=='stored'"
-                       decoration-warning="state in ('in_receiving', 'in_putaway')"
-                       decoration-info="state=='in_picking'"/>
+                <field name="total_quantity" string="Số lượng" sum="Total"/>
+                <field name="location_id" string="Vị trí"/>
+                <field name="location_dest_id" string="Vị trí đích" optional="hide"/>
+                <field name="picking_id" string="Phiếu xuất nhập" optional="hide"/>
+                <field name="state" widget="badge"/>
                 <field name="wms_status" optional="hide"/>
+                <button name="action_start_putaway" type="object"
+                        string="Gợi ý vị trí" icon="fa-map-marker"
+                        title="Gợi ý vị trí"
+                        invisible="state != 'in_receiving'"/>
             </list>
         </field>
     </record>
@@ -73,7 +77,8 @@
                     </group>
                     <group string="Số lượng">
                         <group>
-                            <field name="total_quantity" string="Tổng số lượng"/>
+                            <field name="planned_quantity" string="Số lượng dự kiến"/>
+                            <field name="total_quantity" string="Tổng số lượng thực tế"/>
                             <field name="available_quantity" string="Có sẵn"/>
                             <field name="reserved_quantity" string="Đã đặt"/>
                         </group>
@@ -118,6 +123,13 @@
                         </page>
                         <page string="Notes" name="notes">
                             <field name="notes" placeholder="Additional notes..."/>
+                        </page>
+                        <page string="Chứng từ Nhập khẩu" name="import_documents">
+                            <group>
+                                <field name="import_invoice_number" string="Số hóa đơn nhập khẩu"/>
+                                <field name="import_packing_list" string="Phiếu đóng gói"/>
+                                <field name="import_bill_of_lading" string="Vận đơn"/>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>
