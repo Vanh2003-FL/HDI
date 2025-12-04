@@ -214,13 +214,17 @@ class HdiPutawaySuggestion(models.Model):
             ('id', '!=', self.id),
         ]).write({'state': 'rejected'})
         
+        # Return action to close popup and show notification
         return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Đã chọn vị trí'),
-                'message': _('Vị trí lưu kho đã được đặt là %s') % self.location_id.complete_name,
-                'type': 'success',
-                'sticky': False,
+            'type': 'ir.actions.act_window_close',
+            'infos': {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Đã chọn vị trí'),
+                    'message': _('Vị trí lưu kho đã được đặt là %s') % self.location_id.complete_name,
+                    'type': 'success',
+                    'sticky': False,
+                }
             }
         }
