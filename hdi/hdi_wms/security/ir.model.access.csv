@@ -4,6 +4,11 @@ access_hdi_batch_manager,hdi.batch.manager,model_hdi_batch,group_wms_manager,1,1
 access_hdi_batch_scanner,hdi.batch.scanner,model_hdi_batch,group_wms_scanner,1,1,1,0
 access_hdi_putaway_suggestion_user,hdi.putaway.suggestion.user,model_hdi_putaway_suggestion,group_wms_user,1,1,1,1
 access_hdi_putaway_suggestion_manager,hdi.putaway.suggestion.manager,model_hdi_putaway_suggestion,group_wms_manager,1,1,1,1
+access_hdi_pick_suggestion_user,hdi.pick.suggestion.user,model_hdi_pick_suggestion,group_wms_user,1,1,1,1
+access_hdi_pick_suggestion_manager,hdi.pick.suggestion.manager,model_hdi_pick_suggestion,group_wms_manager,1,1,1,1
+access_hdi_pick_task_user,hdi.pick.task.user,model_hdi_pick_task,group_wms_user,1,1,1,0
+access_hdi_pick_task_manager,hdi.pick.task.manager,model_hdi_pick_task,group_wms_manager,1,1,1,1
+access_hdi_pick_task_scanner,hdi.pick.task.scanner,model_hdi_pick_task,group_wms_scanner,1,1,1,0
 access_hdi_loose_line_user,hdi.loose.line.user,model_hdi_loose_line,group_wms_user,1,1,1,0
 access_hdi_loose_line_manager,hdi.loose.line.manager,model_hdi_loose_line,group_wms_manager,1,1,1,1
 access_stock_picking_wms,stock.picking.wms,stock.model_stock_picking,group_wms_user,1,1,0,0

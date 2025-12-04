@@ -51,6 +51,36 @@ class StockPicking(models.Model):
         help="Items not in any batch (loose picking)"
     )
 
+    # ===== PICK TASK MANAGEMENT (OUTBOUND) =====
+    pick_task_ids = fields.One2many(
+        'hdi.pick.task',
+        'picking_id',
+        string='Pick Tasks',
+        help="Work orders for picking items from warehouse"
+    )
+
+    pick_task_count = fields.Integer(
+        compute='_compute_pick_task_count',
+        string='Pick Task Count',
+    )
+
+    pick_suggestion_ids = fields.One2many(
+        'hdi.pick.suggestion',
+        'picking_id',
+        string='Pick Suggestions',
+        help="FIFO/FEFO suggestions for picking locations"
+    )
+
+    pick_strategy = fields.Selection([
+        ('fifo', 'FIFO - First In First Out'),
+        ('fefo', 'FEFO - First Expire First Out'),
+        ('manual', 'Manual Selection'),
+    ], string='Pick Strategy', default='fifo',
+        help="Chiến lược lấy hàng:\n"
+             "• FIFO: Hàng nhập trước lấy trước\n"
+             "• FEFO: Hàng hết hạn sớm lấy trước\n"
+             "• Manual: Tự chọn vị trí")
+
     # ===== SCANNER SUPPORT =====
     last_scanned_barcode = fields.Char(
         string='Last Scanned',
@@ -102,6 +132,12 @@ class StockPicking(models.Model):
         """Count batches in this picking"""
         for picking in self:
             picking.batch_count = len(picking.batch_ids)
+
+    @api.depends('pick_task_ids')
+    def _compute_pick_task_count(self):
+        """Count pick tasks in this picking"""
+        for picking in self:
+            picking.pick_task_count = len(picking.pick_task_ids)
 
     def action_create_batch(self):
         self.ensure_one()
@@ -160,9 +196,98 @@ class StockPicking(models.Model):
             }
         }
 
+    # ===== OUTBOUND / PICKING ACTIONS =====
+    def action_generate_pick_suggestions(self):
+        """Generate FIFO/FEFO pick suggestions for outbound picking"""
+        self.ensure_one()
+        
+        if self.picking_type_id.code != 'outgoing':
+            raise UserError(_('Pick suggestions chỉ áp dụng cho phiếu xuất kho.'))
+
+        if not self.move_ids:
+            raise UserError(_('Không có sản phẩm nào trong phiếu xuất kho.'))
+
+        # Clear old suggestions
+        self.pick_suggestion_ids.unlink()
+
+        # Generate new suggestions
+        suggestions = self.env['hdi.pick.suggestion'].generate_pick_suggestions(
+            picking=self,
+            strategy=self.pick_strategy or 'fifo'
+        )
+
+        if not suggestions:
+            raise UserError(_('Không thể tạo gợi ý lấy hàng. Vui lòng kiểm tra tồn kho.'))
+
+        # Update WMS state
+        if self.wms_state in ['none', 'picking_ready']:
+            self.wms_state = 'picking_progress'
+
+        return {
+            'name': _('Gợi ý Lấy hàng - %s') % self.name,
+            'type': 'ir.actions.act_window',
+            'res_model': 'hdi.pick.suggestion',
+            'view_mode': 'list,form',
+            'domain': [('picking_id', '=', self.id)],
+            'context': {'create': False},
+        }
+
+    def action_create_pick_tasks(self):
+        """Create pick tasks from suggestions or moves"""
+        self.ensure_one()
+        
+        if self.picking_type_id.code != 'outgoing':
+            raise UserError(_('Pick tasks chỉ áp dụng cho phiếu xuất kho.'))
+
+        # Option 1: Create from suggestions if they exist
+        if self.pick_suggestion_ids:
+            tasks_created = 0
+            for suggestion in self.pick_suggestion_ids.filtered(lambda s: s.state == 'suggested' and s.quantity_to_pick > 0):
+                suggestion.action_create_pick_task()
+                tasks_created += 1
+            
+            if tasks_created == 0:
+                raise UserError(_('Không có gợi ý nào phù hợp để tạo task.'))
+
+            return self.action_view_pick_tasks()
+
+        # Option 2: Generate suggestions first, then create tasks
+        else:
+            self.action_generate_pick_suggestions()
+            return self.action_view_pick_tasks()
+
+    def action_view_pick_tasks(self):
+        """View all pick tasks for this picking"""
+        self.ensure_one()
+        return {
+            'name': _('Pick Tasks - %s') % self.name,
+            'type': 'ir.actions.act_window',
+            'res_model': 'hdi.pick.task',
+            'view_mode': 'list,form,kanban',
+            'domain': [('picking_id', '=', self.id)],
+            'context': {
+                'default_picking_id': self.id,
+                'create': False,
+            }
+        }
+
+    def action_open_pick_scanner(self):
+        """Open mobile scanner view for picking"""
+        self.ensure_one()
+        return {
+            'name': _('Pick Scanner - %s') % self.name,
+            'type': 'ir.actions.act_window',
+            'res_model': 'stock.picking',
+            'res_id': self.id,
+            'view_mode': 'form',
+            'views': [(self.env.ref('hdi_wms.view_picking_outbound_scanner').id, 'form')],
+            'target': 'fullscreen',
+        }
+
     def button_validate(self):
 
         for picking in self:
+            # Check inbound batches
             if picking.use_batch_management and picking.require_putaway_suggestion:
                 pending_batches = picking.batch_ids.filtered(
                     lambda b: b.state not in ['stored', 'shipped', 'cancel']
@@ -172,6 +297,17 @@ class StockPicking(models.Model):
                         'Cannot validate picking: %d batches are not yet stored.\n'
                         'Please complete putaway for all batches first.'
                     ) % len(pending_batches))
+
+            # Check outbound pick tasks
+            if picking.picking_type_id.code == 'outgoing' and picking.pick_task_ids:
+                pending_tasks = picking.pick_task_ids.filtered(
+                    lambda t: t.state not in ['done', 'cancel']
+                )
+                if pending_tasks:
+                    raise UserError(_(
+                        'Cannot validate picking: %d pick tasks are not yet completed.\n'
+                        'Please complete all pick tasks first.'
+                    ) % len(pending_tasks))
 
         result = super().button_validate()
 

@@ -17,29 +17,51 @@
 
             <!-- Add WMS buttons in header -->
             <button name="button_validate" position="before">
+                <!-- INBOUND buttons -->
                 <button name="action_confirm_handover" type="object" string="Xác nhận bàn giao"
-                        invisible="production_handover_signed_by or state not in ('assigned', 'confirmed')"
+                        invisible="production_handover_signed_by or state not in ('assigned', 'confirmed') or picking_type_code != 'incoming'"
                         class="btn-warning"
                         groups="hdi_wms.group_wms_user"/>
                 <button name="action_create_batch" type="object" string="Tạo Lô hàng"
-                        invisible="state != 'assigned' or not use_batch_management"
+                        invisible="state != 'assigned' or not use_batch_management or picking_type_code != 'incoming'"
                         class="btn-primary"
                         groups="hdi_wms.group_wms_user"/>
                 <button name="action_suggest_putaway_all" type="object" string="Gợi ý Vị trí"
-                        invisible="wms_state not in ('batch_creation', 'putaway_pending')"
+                        invisible="wms_state not in ('batch_creation', 'putaway_pending') or picking_type_code != 'incoming'"
                         class="btn-secondary"
                         groups="hdi_wms.group_wms_user"/>
+                
+                <!-- OUTBOUND buttons -->
+                <button name="action_generate_pick_suggestions" type="object" string="Gợi ý Lấy hàng (FIFO)"
+                        invisible="state != 'assigned' or picking_type_code != 'outgoing'"
+                        class="btn-primary"
+                        groups="hdi_wms.group_wms_user"/>
+                <button name="action_create_pick_tasks" type="object" string="Tạo Pick Tasks"
+                        invisible="state != 'assigned' or picking_type_code != 'outgoing'"
+                        class="btn-success"
+                        groups="hdi_wms.group_wms_user"/>
+                <button name="action_open_pick_scanner" type="object" string="Quét Lấy hàng"
+                        invisible="state != 'assigned' or picking_type_code != 'outgoing' or not pick_task_ids"
+                        class="btn-info"
+                        groups="hdi_wms.group_wms_scanner"/>
+                
+                <!-- GENERAL scanner -->
                 <button name="action_open_scanner" type="object" string="Quét Mã vạch"
                         invisible="state not in ('assigned', 'confirmed')"
                         class="btn-info"
                         groups="hdi_wms.group_wms_scanner"/>
             </button>
+            
+            <field name="picking_type_code" position="after">
+                <field name="picking_type_code" invisible="1"/>
+            </field>
 
             <xpath expr="//form/sheet/notebook" position="before">
-                <group string="Cấu hình lô" groups="hdi_wms.group_wms_user">
+                <group string="Cấu hình WMS" groups="hdi_wms.group_wms_user" invisible="picking_type_code not in ('incoming', 'outgoing')">
                     <group>
-                        <field name="use_batch_management" string=" Quản lý theo Lô hàng/Pallet"/>
-                        <field name="scan_detail_level" invisible="not use_batch_management" string="Chi tiết quét mã"/>
+                        <field name="use_batch_management" string="Quản lý theo Lô hàng/Pallet" invisible="picking_type_code != 'incoming'"/>
+                        <field name="pick_strategy" invisible="picking_type_code != 'outgoing'" string="Chiến lược lấy hàng"/>
+                        <field name="scan_detail_level" invisible="not use_batch_management and picking_type_code != 'outgoing'" string="Chi tiết quét mã"/>
                     </group>
                     <group>
                         <field name="production_handover_signed_by" readonly="1" invisible="not production_handover_signed_by" string="Người bàn giao"/>
@@ -48,9 +70,10 @@
                 </group>
                 <field name="require_putaway_suggestion" invisible="1"/>
                 <field name="batch_count" invisible="1"/>
+                <field name="pick_task_count" invisible="1"/>
             </xpath>
 
-            <!-- Add Batch tab -->
+            <!-- Add Batch tab (INBOUND) -->
             <notebook position="inside">
                 <page string="Lô hàng" name="wms_batches"
                       invisible="not use_batch_management"
@@ -78,6 +101,61 @@
                     <field name="batch_ids" nolabel="1" context="{'form_view_ref': 'hdi_wms.view_batch_form', 'tree_view_ref': 'hdi_wms.view_batch_tree'}"/>
                 </page>
 
+                <!-- Pick Tasks tab (OUTBOUND) -->
+                <page string="Pick Tasks" name="wms_pick_tasks"
+                      invisible="picking_type_code != 'outgoing'"
+                      groups="hdi_wms.group_wms_user">
+                    <group>
+                        <group string="Chiến lược">
+                            <field name="pick_strategy" widget="radio"/>
+                        </group>
+                        <group string="Thống kê">
+                            <field name="pick_task_count" string="Số task"/>
+                            <button name="action_view_pick_tasks" type="object"
+                                    string="➜ Xem tất cả Pick Tasks"
+                                    class="oe_link"
+                                    invisible="not pick_task_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <button name="action_generate_pick_suggestions" type="object" 
+                                string="1️⃣ Tạo Gợi ý Lấy hàng"
+                                class="btn-primary oe_highlight"
+                                help="Hệ thống tự động gợi ý vị trí lấy hàng theo FIFO/FEFO"/>
+                        <button name="action_create_pick_tasks" type="object" 
+                                string="2️⃣ Tạo Pick Tasks"
+                                class="btn-success"
+                                help="Tạo công việc lấy hàng và gán nhân viên"/>
+                    </group>
+                    <separator string="Gợi ý lấy hàng (FIFO/FEFO)"/>
+                    <field name="pick_suggestion_ids" nolabel="1" readonly="1">
+                        <tree decoration-success="state == 'suggested'" decoration-muted="state != 'suggested'">
+                            <field name="sequence"/>
+                            <field name="product_id"/>
+                            <field name="location_id"/>
+                            <field name="coordinate_display"/>
+                            <field name="batch_id"/>
+                            <field name="quantity_to_pick"/>
+                            <field name="inbound_date"/>
+                            <field name="pick_reason"/>
+                            <field name="state" widget="badge"/>
+                        </tree>
+                    </field>
+                    <separator string="Pick Tasks"/>
+                    <field name="pick_task_ids" nolabel="1">
+                        <tree decoration-info="state=='todo'" decoration-warning="state=='in_progress'" decoration-success="state=='done'">
+                            <field name="sequence"/>
+                            <field name="name"/>
+                            <field name="location_display"/>
+                            <field name="product_id"/>
+                            <field name="planned_qty"/>
+                            <field name="picked_qty"/>
+                            <field name="assigned_user_id"/>
+                            <field name="state" widget="badge"/>
+                        </tree>
+                    </field>
+                </page>
+
                 <!-- Loose Items tab -->
                 <page string="Hàng lẻ" name="wms_loose_items"
                       invisible="not use_batch_management"
@@ -100,7 +178,53 @@
                        groups="hdi_wms.group_wms_user"/>
                 <field name="batch_count" optional="show"
                        groups="hdi_wms.group_wms_user"/>
+                <field name="pick_task_count" optional="hide"
+                       groups="hdi_wms.group_wms_user"/>
             </field>
+        </field>
+    </record>
+
+    <!-- Outbound Pick Scanner view (mobile-friendly) -->
+    <record id="view_picking_outbound_scanner" model="ir.ui.view">
+        <field name="name">stock.picking.outbound.scanner</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">998</field>
+        <field name="arch" type="xml">
+            <form string="Pick Scanner">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info text-center" style="font-size: 20px; padding: 15px;">
+                        <h2><field name="name" readonly="1"/></h2>
+                        <p><field name="partner_id" readonly="1"/></p>
+                    </div>
+                    <group>
+                        <field name="wms_state" widget="badge" readonly="1"/>
+                        <field name="pick_strategy" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Pick Tasks">
+                            <field name="pick_task_ids" nolabel="1">
+                                <tree decoration-success="state=='done'" decoration-warning="state=='in_progress'">
+                                    <field name="sequence"/>
+                                    <field name="location_display"/>
+                                    <field name="coordinate_display"/>
+                                    <field name="product_id"/>
+                                    <field name="batch_id"/>
+                                    <field name="planned_qty"/>
+                                    <field name="picked_qty"/>
+                                    <field name="state" widget="badge"/>
+                                    <button name="action_start_picking" type="object" 
+                                            string="▶ Bắt đầu" 
+                                            invisible="state != 'todo'"
+                                            class="btn-sm btn-primary"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
         </field>
     </record>
 

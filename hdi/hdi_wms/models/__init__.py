@@ -2,6 +2,8 @@
 
 from . import hdi_batch
 from . import hdi_putaway_suggestion
+from . import hdi_pick_suggestion
+from . import hdi_pick_task
 from . import hdi_loose_line
 from . import stock_picking
 from . import stock_move
