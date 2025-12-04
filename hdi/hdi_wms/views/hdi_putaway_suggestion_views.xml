@@ -17,15 +17,15 @@
         <field name="name">hdi.putaway.suggestion.tree</field>
         <field name="model">hdi.putaway.suggestion</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="location_display"/>
-                <field name="coordinates"/>
-                <field name="score"/>
-                <field name="priority"/>
-                <field name="capacity_sufficient" widget="boolean_toggle"/>
-                <field name="match_reasons"/>
-                <field name="state" widget="badge"/>
-                <button name="action_select" string="Select" type="object"
+            <list string="Gợi ý vị trí lưu kho">
+                <field name="location_display" string="Vị trí"/>
+                <field name="coordinates" string="Tọa độ"/>
+                <field name="score" string="Điểm"/>
+                <field name="priority" string="Ưu tiên"/>
+                <field name="capacity_sufficient" widget="boolean_toggle" string="Dung lượng OK"/>
+                <field name="match_reasons" string="Lý do phù hợp"/>
+                <field name="state" widget="badge" string="Trạng thái"/>
+                <button name="action_select" string="Chọn" type="object"
                         class="btn-primary" invisible="state != 'suggested'"/>
             </list>
         </field>

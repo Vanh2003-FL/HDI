@@ -65,7 +65,7 @@ class PutawayWizard(models.TransientModel):
 
         # Open suggestions in new window
         return {
-            'name': _('Select Putaway Location'),
+            'name': _('Chọn Vị trí Lưu kho'),
             'type': 'ir.actions.act_window',
             'res_model': 'hdi.putaway.suggestion',
             'view_mode': 'list,form',
