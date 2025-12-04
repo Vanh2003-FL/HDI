@@ -184,6 +184,34 @@ class HdiBatch(models.Model):
         if vals.get('name', _('New')) == _('New'):
             vals['name'] = self.env['ir.sequence'].next_by_code('hdi.batch') or _('New')
         return super().create(vals)
+    
+    def name_get(self):
+        """Custom display name showing batch info"""
+        result = []
+        for batch in self:
+            name_parts = [batch.name]
+            
+            # Add barcode if exists
+            if batch.barcode:
+                name_parts.append(f"[{batch.barcode}]")
+            
+            # Add product info
+            if batch.product_id:
+                name_parts.append(f"- {batch.product_id.name}")
+            
+            # Add quantity info
+            qty = batch.total_quantity or batch.planned_quantity or 0
+            if qty > 0:
+                name_parts.append(f"({qty:.0f})")
+            
+            # Add state
+            state_label = dict(batch._fields['state'].selection).get(batch.state, '')
+            if state_label:
+                name_parts.append(f"[{state_label}]")
+            
+            name = ' '.join(name_parts)
+            result.append((batch.id, name))
+        return result
 
     @api.depends('quant_ids', 'quant_ids.quantity', 'quant_ids.reserved_quantity')
     def _compute_quantities(self):

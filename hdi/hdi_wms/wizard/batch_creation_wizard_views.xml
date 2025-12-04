@@ -12,10 +12,14 @@
                 </group>
                 
                 <!-- Chọn lô có sẵn -->
-                <group invisible="mode != 'existing'">
-                    <field name="existing_batch_id" string="Lô hàng có sẵn" 
-                           options="{'no_create': True}"
-                           placeholder="Chọn lô hàng chưa hoàn thành..."/>
+                <group invisible="mode != 'existing'" string="📦 Chọn từ Lô hàng có sẵn">
+                    <field name="existing_batch_id" string="Lô hàng" 
+                           options="{'no_create': True, 'no_open': False}"
+                           placeholder="Chọn lô hàng chưa hoàn thành..."
+                           help="Danh sách các lô đã tạo từ menu 'Lô hàng/Pallet' hoặc từ các phiếu khác chưa hoàn thành"/>
+                    <p class="text-muted" invisible="existing_batch_id">
+                        💡 Chọn lô đã tạo trước đó từ menu "Quản lý Kho → Lô hàng/Pallet"
+                    </p>
                 </group>
                 
                 <!-- Tạo lô mới -->
