@@ -22,7 +22,7 @@
                         class="btn-warning"
                         groups="hdi_wms.group_wms_user"/>
                 <button name="action_create_batch" type="object" string="Tạo Lô hàng"
-                        invisible="state != 'assigned' or not use_batch_management"
+                        invisible="state != 'assigned' or not use_batch_management or picking_type_code == 'outgoing'"
                         class="btn-primary"
                         groups="hdi_wms.group_wms_user"/>
                 <button name="action_suggest_putaway_all" type="object" string="Gợi ý Vị trí"
@@ -39,6 +39,7 @@
                 <group string="Cấu hình lô" groups="hdi_wms.group_wms_user">
                     <group>
                         <field name="use_batch_management" string=" Quản lý theo Lô hàng/Pallet"/>
+                        <field name="picking_type_code" invisible="1"/>
                         <field name="scan_detail_level" invisible="not use_batch_management" string="Chi tiết quét mã"/>
                     </group>
                     <group>
@@ -72,7 +73,8 @@
                     <group>
                         <button name="action_create_batch" type="object" string="Tạo Lô"
                                 class="btn-primary oe_highlight"
-                                help="Tạo lô hàng/pallet/LPN mới cho phiếu này"/>
+                                invisible="picking_type_code == 'outgoing'"
+                                help="Tạo lô hàng/pallet/LPN mới cho phiếu này (chỉ nhập kho)"/>
                     </group>
                     <separator string="Danh sách lô hàng"/>
                     <field name="batch_ids" nolabel="1" context="{'form_view_ref': 'hdi_wms.view_batch_form', 'tree_view_ref': 'hdi_wms.view_batch_tree'}"/>

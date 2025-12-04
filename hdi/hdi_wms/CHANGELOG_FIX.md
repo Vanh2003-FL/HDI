@@ -2,7 +2,68 @@
 
 ## ❌ Lỗi đã sửa
 
-### Lỗi: Field "sequence" không tồn tại trong model "stock.picking"
+### Lỗi 1: Cho phép tạo Batch ở màn Giao hàng (Xuất kho) - SAI NGHIỆP VỤ BRD
+
+**Nguyên nhân:**
+- Button "Tạo Lô hàng" hiển thị cho TẤT CẢ các loại picking (incoming, outgoing, internal)
+- Method `action_create_batch()` không có validation kiểm tra loại picking
+- Wizard `batch_creation_wizard` không chặn tạo batch cho outgoing
+- **Vi phạm nghiệp vụ BRD**: Lô hàng chỉ được tạo khi NHẬP KHO, xuất kho chỉ lấy từ lô có sẵn
+
+**Giải pháp:**
+1. **View XML** (`views/stock_picking_views.xml`):
+   - Ẩn button "Tạo Lô hàng" khi `picking_type_code == 'outgoing'`
+   - Thêm field `picking_type_code` (related) để dùng trong điều kiện invisible
+   - Cập nhật help text: "chỉ nhập kho"
+
+2. **Python** (`models/stock_picking.py`):
+   - Thêm field `picking_type_code` (related từ `picking_type_id.code`, store=True)
+   - Thêm validation trong `action_create_batch()`: raise UserError nếu picking_type_code='outgoing'
+   - Thông báo lỗi rõ ràng bằng tiếng Việt giải thích nghiệp vụ
+
+3. **Wizard** (`wizard/batch_creation_wizard.py`):
+   - Thêm validation trong `action_create_batch()`: chặn nếu picking_type_code='outgoing'
+   - Thông báo lỗi hướng dẫn sử dụng "Gợi ý Lấy hàng" thay vì tạo lô
+
+**Thay đổi cụ thể:**
+
+```xml
+<!-- views/stock_picking_views.xml -->
+<!-- TRƯỚC (Lỗi) -->
+<button name="action_create_batch" type="object" string="Tạo Lô hàng"
+        invisible="state != 'assigned' or not use_batch_management"
+        class="btn-primary"/>
+
+<!-- SAU (Đã sửa) -->
+<button name="action_create_batch" type="object" string="Tạo Lô hàng"
+        invisible="state != 'assigned' or not use_batch_management or picking_type_code == 'outgoing'"
+        class="btn-primary"/>
+```
+
+```python
+# models/stock_picking.py
+# TRƯỚC (Lỗi)
+def action_create_batch(self):
+    self.ensure_one()
+    return {...}  # Không có validation
+
+# SAU (Đã sửa)
+def action_create_batch(self):
+    self.ensure_one()
+    if self.picking_type_id.code == 'outgoing':
+        raise UserError(_('Không thể tạo lô hàng cho phiếu XUẤT KHO!...'))
+    return {...}
+```
+
+**Kết quả:**
+- ✅ Màn Nhập kho: Hiển thị button "Tạo Lô hàng" bình thường
+- ✅ Màn Xuất kho: Button "Tạo Lô hàng" bị ẨN
+- ✅ Nếu ai đó bypass UI: Python validation sẽ chặn và báo lỗi rõ ràng
+- ✅ Tuân thủ 100% nghiệp vụ BRD: Batch chỉ tạo khi nhập kho
+
+---
+
+### Lỗi 2: Field "sequence" không tồn tại trong model "stock.picking" (ĐÃ SỬA TRƯỚC ĐÓ)
 
 **Nguyên nhân:**
 Trong file `views/stock_picking_views.xml`, các inline tree view của `pick_suggestion_ids` và `pick_task_ids` có sử dụng field `sequence`. Khi Odoo parse view, nó nghĩ rằng `sequence` là field của model cha (`stock.picking`) thay vì của child model.

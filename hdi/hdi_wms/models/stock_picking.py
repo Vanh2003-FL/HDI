@@ -51,6 +51,14 @@ class StockPicking(models.Model):
         help="Items not in any batch (loose picking)"
     )
 
+    picking_type_code = fields.Selection(
+        related='picking_type_id.code',
+        string='Operation Type Code',
+        store=True,
+        readonly=True,
+        help="Technical field for visibility conditions (incoming/outgoing/internal)"
+    )
+
     # ===== SCANNER SUPPORT =====
     last_scanned_barcode = fields.Char(
         string='Last Scanned',
@@ -104,7 +112,19 @@ class StockPicking(models.Model):
             picking.batch_count = len(picking.batch_ids)
 
     def action_create_batch(self):
+        """Create batch/pallet - ONLY for incoming pickings per BRD requirements"""
         self.ensure_one()
+        
+        # Validation: Only allow batch creation for incoming pickings
+        if self.picking_type_id.code == 'outgoing':
+            raise UserError(_(
+                'Không thể tạo lô hàng cho phiếu XUẤT KHO!\n\n'
+                'Theo nghiệp vụ WMS:\n'
+                '• Lô hàng chỉ được tạo khi NHẬP KHO\n'
+                '• Khi xuất kho, hệ thống sẽ gợi ý lấy từ lô có sẵn (FIFO/FEFO)\n'
+                '• Vui lòng sử dụng chức năng "Gợi ý Lấy hàng" thay vì tạo lô mới.'
+            ))
+        
         return {
             'name': _('Create Batch'),
             'type': 'ir.actions.act_window',

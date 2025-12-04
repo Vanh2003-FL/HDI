@@ -66,8 +66,18 @@ class BatchCreationWizard(models.TransientModel):
     import_bill_of_lading = fields.Char(string='Bill of Lading / Vận đơn')
 
     def action_create_batch(self):
-        """Create batch or link existing batch to picking"""
+        """Create batch or link existing batch to picking - ONLY for incoming pickings"""
         self.ensure_one()
+
+        # Validation: Only allow batch creation for incoming pickings
+        if self.picking_id.picking_type_id.code == 'outgoing':
+            raise UserError(_(
+                'Không thể tạo lô hàng cho phiếu XUẤT KHO!\n\n'
+                'Theo nghiệp vụ WMS:\n'
+                '• Lô hàng chỉ được tạo khi NHẬP KHO\n'
+                '• Khi xuất kho, hệ thống sẽ gợi ý lấy từ lô có sẵn (FIFO/FEFO)\n'
+                '• Vui lòng sử dụng chức năng "Gợi ý Lấy hàng" thay vì tạo lô mới.'
+            ))
 
         if self.mode == 'existing':
             # Use existing batch
