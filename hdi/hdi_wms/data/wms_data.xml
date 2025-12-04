@@ -10,16 +10,6 @@
         <field name="company_id" eval="False"/>
     </record>
 
-    <!-- Sequence for Pick Task Numbers -->
-    <record id="seq_hdi_pick_task" model="ir.sequence">
-        <field name="name">Pick Task Sequence</field>
-        <field name="code">hdi.pick.task</field>
-        <field name="prefix">PICK-</field>
-        <field name="padding">6</field>
-        <field name="number_increment">1</field>
-        <field name="company_id" eval="False"/>
-    </record>
-
     <!-- Default Product ABC Classification (if not exists) -->
     <!-- Add to product.product if needed -->
     

@@ -30,8 +30,6 @@ HDI Warehouse Management System
         # Views - Custom Models (New)
         'views/hdi_batch_views.xml',
         'views/hdi_putaway_suggestion_views.xml',
-        'views/hdi_pick_suggestion_views.xml',
-        'views/hdi_pick_task_views.xml',
         'views/hdi_loose_line_views.xml',
 
         # Wizards

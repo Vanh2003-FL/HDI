@@ -19,13 +19,6 @@
               action="action_batch"
               sequence="10"/>
 
-    <!-- Pick Tasks -->
-    <menuitem id="menu_pick_task"
-              name="Pick Tasks (Lấy hàng)"
-              parent="menu_wms_root"
-              action="hdi_wms.action_pick_task"
-              sequence="15"/>
-
     <!-- Putaway Suggestions -->
     <menuitem id="menu_putaway_suggestion"
               name="Gợi ý Đặt hàng"
