@@ -39,6 +39,7 @@ class HdiPickSuggestion(models.Model):
     batch_id = fields.Many2one(
         'hdi.batch',
         string='Batch đề xuất',
+        ondelete='set null',
         help="Batch cụ thể nên lấy từ vị trí này"
     )
 
@@ -63,6 +64,7 @@ class HdiPickSuggestion(models.Model):
 
     priority = fields.Integer(
         string='Điểm ưu tiên',
+        default=0,
         help="Điểm tính toán dựa trên FIFO/FEFO"
     )
 
@@ -80,17 +82,20 @@ class HdiPickSuggestion(models.Model):
     lot_id = fields.Many2one(
         'stock.production.lot',
         string='Lot/Serial',
+        ondelete='set null',
     )
 
     # ===== LOCATION INFO =====
     coordinate_display = fields.Char(
         related='location_id.coordinate_display',
         string='Tọa độ',
+        readonly=True,
     )
 
     location_priority = fields.Integer(
         related='location_id.location_priority',
         string='Độ ưu tiên vị trí',
+        readonly=True,
     )
 
     # ===== REASONS =====

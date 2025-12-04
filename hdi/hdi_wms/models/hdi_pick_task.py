@@ -74,11 +74,13 @@ class HdiPickTask(models.Model):
     location_display = fields.Char(
         related='location_id.complete_name',
         string='Vị trí đầy đủ',
+        readonly=True,
     )
 
     coordinate_display = fields.Char(
         related='location_id.coordinate_display',
         string='Tọa độ',
+        readonly=True,
     )
 
     zone = fields.Char(
@@ -98,6 +100,7 @@ class HdiPickTask(models.Model):
     batch_id = fields.Many2one(
         'hdi.batch',
         string='Batch cần lấy',
+        ondelete='set null',
         help="Batch cụ thể cần lấy hàng từ vị trí này"
     )
 
@@ -105,12 +108,14 @@ class HdiPickTask(models.Model):
         string='Số lượng cần lấy',
         required=True,
         digits='Product Unit of Measure',
+        default=0.0,
     )
 
     picked_qty = fields.Float(
         string='Số lượng đã lấy',
         digits='Product Unit of Measure',
         tracking=True,
+        default=0.0,
     )
 
     remaining_qty = fields.Float(
@@ -123,6 +128,7 @@ class HdiPickTask(models.Model):
         'uom.uom',
         string='Đơn vị',
         related='product_id.uom_id',
+        readonly=True,
     )
 
     # ===== TIMESTAMPS =====
