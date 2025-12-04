@@ -62,6 +62,7 @@ class BatchCreationWizard(models.TransientModel):
             'picking_id': self.picking_id.id,
             'batch_type': self.batch_type,
             'product_id': self.product_id.id if self.product_id else False,
+            'planned_quantity': self.quantity,
             'location_id': self.location_id.id,
             'weight': self.weight,
             'volume': self.volume,

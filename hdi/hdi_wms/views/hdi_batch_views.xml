@@ -77,7 +77,8 @@
                     </group>
                     <group string="Số lượng">
                         <group>
-                            <field name="total_quantity" string="Tổng số lượng"/>
+                            <field name="planned_quantity" string="Số lượng dự kiến"/>
+                            <field name="total_quantity" string="Tổng số lượng thực tế"/>
                             <field name="available_quantity" string="Có sẵn"/>
                             <field name="reserved_quantity" string="Đã đặt"/>
                         </group>

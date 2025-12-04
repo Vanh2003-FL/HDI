@@ -110,7 +110,11 @@ class HdiPutawaySuggestion(models.Model):
             raise UserError(_('Lô phải có sản phẩm để hệ thống gợi ý vị trí.'))
         
         product = batch.product_id
-        quantity = batch.total_quantity or 0
+        # Use actual quantity from quants if available, otherwise use planned quantity
+        quantity = batch.total_quantity or batch.planned_quantity or 0
+        
+        if quantity <= 0:
+            raise UserError(_('Lô phải có số lượng (dự kiến hoặc thực tế) để gợi ý vị trí.'))
         
         # Find suitable locations
         candidate_locations = self.env['stock.location'].search([

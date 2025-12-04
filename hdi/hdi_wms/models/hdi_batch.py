@@ -106,6 +106,12 @@ class HdiBatch(models.Model):
         help="Primary product (for single-product batches)"
     )
 
+    planned_quantity = fields.Float(
+        string='Planned Quantity',
+        digits='Product Unit of Measure',
+        help="Expected quantity (entered when creating batch, before actual receipt)"
+    )
+
     total_quantity = fields.Float(
         string='Total Quantity',
         compute='_compute_quantities',
