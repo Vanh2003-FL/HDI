@@ -33,8 +33,7 @@
                 <button name="action_open_scanner" type="object" string="Quét Mã vạch"
                         invisible="state not in ('assigned', 'confirmed') or not use_batch_management"
                         class="btn-info"
-                        groups="hdi_wms.group_wms_user"
-                        context="{'default_picking_id': active_id}"/>
+                        groups="hdi_wms.group_wms_user"/>
             </button>
 
             <!-- Add WMS Configuration in main sheet -->
