@@ -13,80 +13,80 @@ class HdiPutawaySuggestion(models.Model):
     # ===== REFERENCE =====
     batch_id = fields.Many2one(
         'hdi.batch',
-        string='Batch',
+        string='Lô hàng',
         required=True,
         ondelete='cascade',
     )
     
     product_id = fields.Many2one(
         'product.product',
-        string='Product',
+        string='Sản phẩm',
         required=True,
     )
     
     quantity = fields.Float(
-        string='Quantity',
+        string='Số lượng',
         required=True,
     )
     
     # ===== SUGGESTED LOCATION =====
     location_id = fields.Many2one(
         'stock.location',
-        string='Suggested Location',
+        string='Vị trí đề xuất',
         required=True,
         domain="[('usage', '=', 'internal'), ('is_putable', '=', True)]"
     )
     
     location_display = fields.Char(
         related='location_id.complete_name',
-        string='Location',
+        string='Vị trí',
     )
     
     coordinates = fields.Char(
         related='location_id.coordinate_display',
-        string='Coordinates',
+        string='Tọa độ',
     )
     
     # ===== SCORING =====
     score = fields.Float(
-        string='Score',
-        help="Calculated score (higher = better match)",
+        string='Điểm',
+        help="Điểm gợi ý (cao hơn = phù hợp hơn)",
         digits=(16, 2),
     )
     
     priority = fields.Integer(
         related='location_id.location_priority',
-        string='Priority',
+        string='Ưu tiên',
         store=True,
     )
     
     # ===== CAPACITY CHECK =====
     available_capacity = fields.Float(
         compute='_compute_capacity_info',
-        string='Available Capacity',
+        string='Dung lượng còn lại',
     )
     
     capacity_sufficient = fields.Boolean(
         compute='_compute_capacity_info',
-        string='Capacity OK',
+        string='Dung lượng đủ',
     )
     
     # ===== REASONS =====
     match_reasons = fields.Text(
-        string='Match Reasons',
-        help="Why this location was suggested"
+        string='Lý do phù hợp',
+        help="Lý do hệ thống đề xuất vị trí này"
     )
     
     warning_messages = fields.Text(
-        string='Warnings',
-        help="Potential issues with this location"
+        string='Cảnh báo',
+        help="Các vấn đề có thể có với vị trí này"
     )
     
     # ===== STATUS =====
     state = fields.Selection([
-        ('suggested', 'Suggested'),
-        ('selected', 'Selected'),
-        ('rejected', 'Rejected'),
+        ('suggested', 'Được đề xuất'),
+        ('selected', 'Đã chọn'),
+        ('rejected', 'Bị loại'),
     ], string='State', default='suggested')
     
     @api.depends('location_id', 'product_id', 'quantity')
@@ -107,7 +107,7 @@ class HdiPutawaySuggestion(models.Model):
     def generate_suggestions(self, batch, max_suggestions=5):
 
         if not batch.product_id:
-            raise UserError(_('Batch must have a product to suggest locations.'))
+            raise UserError(_('Lô phải có sản phẩm để hệ thống gợi ý vị trí.'))
         
         product = batch.product_id
         quantity = batch.total_quantity or 0
@@ -136,16 +136,16 @@ class HdiPutawaySuggestion(models.Model):
             )
             if existing_quants:
                 score += 50
-                reasons.append('Same product already stored here (consolidation)')
+                reasons.append('Có cùng sản phẩm đang lưu tại đây (hợp nhất)')
             
             # 2. Moving class match
             if location.moving_class and hasattr(product, 'abc_classification'):
                 if product.abc_classification == location.moving_class:
                     score += 30
-                    reasons.append('Moving class matches')
+                    reasons.append('Nhóm di chuyển phù hợp')
                 else:
                     score -= 10
-                    warnings.append('Moving class mismatch')
+                    warnings.append('Nhóm di chuyển không phù hợp')
             
             # 3. Priority
             score += (100 - location.location_priority)
@@ -153,12 +153,12 @@ class HdiPutawaySuggestion(models.Model):
             # 4. Empty location bonus
             if not location.quant_ids:
                 score += 20
-                reasons.append('Empty location')
+                reasons.append('Vị trí trống')
             
             # 5. Temperature zone match
             if hasattr(product, 'storage_temperature') and product.storage_temperature == location.temperature_zone:
                 score += 15
-                reasons.append('Temperature zone matches')
+                reasons.append('Vùng nhiệt độ phù hợp')
             
             # 6. Capacity usage (prefer locations with good fit)
             if location.max_volume:
@@ -166,7 +166,7 @@ class HdiPutawaySuggestion(models.Model):
                 fit_ratio = required_volume / location.max_volume
                 if 0.3 <= fit_ratio <= 0.8:  # Good fit
                     score += 10
-                    reasons.append('Good capacity fit')
+                    reasons.append('Kích thước phù hợp với dung lượng')
             
             suggestions.append({
                 'batch_id': batch.id,
@@ -196,7 +196,7 @@ class HdiPutawaySuggestion(models.Model):
         self.ensure_one()
         
         if not self.capacity_sufficient:
-            raise UserError(_('Selected location does not have sufficient capacity.'))
+            raise UserError(_('Vị trí được chọn không có đủ dung lượng.'))
         
         # Update batch destination
         self.batch_id.write({
@@ -214,8 +214,8 @@ class HdiPutawaySuggestion(models.Model):
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': _('Location Selected'),
-                'message': _('Putaway location set to %s') % self.location_id.complete_name,
+                'title': _('Đã chọn vị trí'),
+                'message': _('Vị trí lưu kho đã được đặt là %s') % self.location_id.complete_name,
                 'type': 'success',
                 'sticky': False,
             }
