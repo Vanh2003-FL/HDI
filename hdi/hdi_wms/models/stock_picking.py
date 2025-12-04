@@ -97,6 +97,41 @@ class StockPicking(models.Model):
         help="Thời điểm sản xuất bàn giao hàng cho kho"
     )
 
+    # ===== OUTBOUND PICKING (FIFO/FEFO) =====
+    pick_suggestion_ids = fields.One2many(
+        'hdi.pick.suggestion',
+        'picking_id',
+        string='Pick Suggestions',
+        help="FIFO/FEFO location suggestions for picking"
+    )
+
+    pick_task_ids = fields.One2many(
+        'hdi.pick.task',
+        'picking_id',
+        string='Pick Tasks',
+        help="Work orders for warehouse staff to pick items"
+    )
+
+    pick_strategy = fields.Selection([
+        ('fifo', 'FIFO - First In First Out'),
+        ('fefo', 'FEFO - First Expire First Out'),
+        ('manual', 'Manual Selection'),
+    ], string='Pick Strategy', default='fifo',
+        help="Strategy for picking location suggestion:\n"
+             "• FIFO: Pick oldest stock first (by inbound date)\n"
+             "• FEFO: Pick stock expiring soonest first (by expiration date)\n"
+             "• Manual: User manually selects locations")
+
+    pick_suggestion_count = fields.Integer(
+        compute='_compute_pick_counts',
+        string='Suggestions',
+    )
+
+    pick_task_count = fields.Integer(
+        compute='_compute_pick_counts',
+        string='Tasks',
+    )
+
     @api.depends('picking_type_id', 'picking_type_id.code')
     def _compute_require_putaway(self):
         """Auto-enable putaway for incoming pickings"""
@@ -110,6 +145,13 @@ class StockPicking(models.Model):
         """Count batches in this picking"""
         for picking in self:
             picking.batch_count = len(picking.batch_ids)
+
+    @api.depends('pick_suggestion_ids', 'pick_task_ids')
+    def _compute_pick_counts(self):
+        """Count pick suggestions and tasks"""
+        for picking in self:
+            picking.pick_suggestion_count = len(picking.pick_suggestion_ids)
+            picking.pick_task_count = len(picking.pick_task_ids)
 
     def action_create_batch(self):
         """Create batch/pallet - ONLY for incoming pickings per BRD requirements"""
@@ -152,6 +194,107 @@ class StockPicking(models.Model):
                 'default_picking_id': self.id,
                 'default_batch_ids': [(6, 0, self.batch_ids.ids)],
             }
+        }
+
+    def action_generate_pick_suggestions(self):
+        """Generate FIFO/FEFO pick suggestions for outbound picking"""
+        self.ensure_one()
+        
+        if self.picking_type_id.code != 'outgoing':
+            raise UserError(_('Pick suggestions chỉ áp dụng cho phiếu XUẤT KHO.'))
+        
+        # Delete existing suggestions
+        self.pick_suggestion_ids.unlink()
+        
+        # Generate new suggestions using strategy
+        PickSuggestion = self.env['hdi.pick.suggestion']
+        suggestions = PickSuggestion.generate_pick_suggestions(
+            picking=self,
+            strategy=self.pick_strategy or 'fifo'
+        )
+        
+        # Update WMS state
+        if suggestions and self.wms_state == 'none':
+            self.wms_state = 'picking_ready'
+        
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Đã tạo Gợi ý Lấy hàng'),
+                'message': _('Đã tạo %d gợi ý lấy hàng theo chiến lược %s') % (
+                    len(suggestions),
+                    dict(self._fields['pick_strategy'].selection).get(self.pick_strategy)
+                ),
+                'type': 'success',
+                'sticky': False,
+            }
+        }
+
+    def action_create_pick_tasks(self):
+        """Create pick tasks from suggestions"""
+        self.ensure_one()
+        
+        if not self.pick_suggestion_ids:
+            raise UserError(_('Vui lòng tạo Gợi ý Lấy hàng trước khi tạo công việc.'))
+        
+        # Delete existing tasks in draft
+        self.pick_task_ids.filtered(lambda t: t.state == 'todo').unlink()
+        
+        # Create tasks from suggestions
+        PickTask = self.env['hdi.pick.task']
+        tasks_created = 0
+        
+        for suggestion in self.pick_suggestion_ids.filtered(lambda s: s.state == 'suggested'):
+            task_vals = {
+                'picking_id': self.id,
+                'product_id': suggestion.product_id.id,
+                'location_id': suggestion.location_id.id,
+                'batch_id': suggestion.batch_id.id if suggestion.batch_id else False,
+                'planned_qty': suggestion.quantity_to_pick,
+                'sequence': suggestion.sequence,
+            }
+            PickTask.create(task_vals)
+            suggestion.state = 'assigned'
+            tasks_created += 1
+        
+        # Update WMS state
+        if tasks_created and self.wms_state in ['none', 'picking_ready']:
+            self.wms_state = 'picking_progress'
+        
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Đã tạo Công việc Lấy hàng'),
+                'message': _('Đã tạo %d công việc cho nhân viên kho') % tasks_created,
+                'type': 'success',
+                'sticky': False,
+            }
+        }
+
+    def action_view_pick_suggestions(self):
+        """View pick suggestions"""
+        self.ensure_one()
+        return {
+            'name': _('Pick Suggestions - %s') % self.name,
+            'type': 'ir.actions.act_window',
+            'res_model': 'hdi.pick.suggestion',
+            'view_mode': 'list,form',
+            'domain': [('picking_id', '=', self.id)],
+            'context': {'default_picking_id': self.id},
+        }
+
+    def action_view_pick_tasks(self):
+        """View pick tasks"""
+        self.ensure_one()
+        return {
+            'name': _('Pick Tasks - %s') % self.name,
+            'type': 'ir.actions.act_window',
+            'res_model': 'hdi.pick.task',
+            'view_mode': 'list,form',
+            'domain': [('picking_id', '=', self.id)],
+            'context': {'default_picking_id': self.id},
         }
 
     def action_open_scanner(self):
