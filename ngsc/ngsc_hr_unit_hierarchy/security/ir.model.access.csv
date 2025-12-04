@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-
-access_ngsc_unit_hierarchy_user,ngsc.unit.hierarchy.user,model_ngsc_unit_hierarchy,,1,0,0,0
-access_ngsc_unit_hierarchy_system,ngsc.unit.hierarchy.system,model_ngsc_unit_hierarchy,base.group_system,1,1,1,1

@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-
-access_ngsc_project_wbs_project_task_import_wizard,ngsc.project.wbs.project.task.import.wizard,model_project_task_import_wizard,base.group_user,1,1,1,1
-access_ngsc_project_wbs_wizard_manual_wbs_run,ngsc.project.wbs.wizard.manual.wbs.run,model_wizard_manual_wbs_run,base.group_user,1,1,1,1

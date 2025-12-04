@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-
-access_dashboard_powerbi,dashboard_powerbi,model_dashboard_powerbi,,1,1,1,1
-
-access_get_slide_data,get_slide_data,model_get_slide_data,,1,1,1,1
-access_get_center_data,get_center_data,model_get_center_data,,1,1,1,1
-access_get_project_resource_data,get_project_resource_data,model_get_project_resource_data,,1,1,1,1

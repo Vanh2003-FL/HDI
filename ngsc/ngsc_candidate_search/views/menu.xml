@@ -1,9 +1,0 @@
-<odoo>
-    <data>
-        <menuitem id="ngsc_candidate_search_menu"
-                  name="Quản lý hồ sơ năng lực"
-                  parent="ngsd_menu.quan_ly_nhan_su_con_menu"
-                  action="action_candidate_search"
-                  sequence="11"/>
-    </data>
-</odoo>

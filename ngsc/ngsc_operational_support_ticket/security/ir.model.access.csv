@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_operational_support_ticket_user,access_operational_support_ticket_user,model_operational_support_ticket,base.group_user,1,1,1,1

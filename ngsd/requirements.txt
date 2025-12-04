@@ -1,9 +1,0 @@
-openpyxl
-cerberus
-pyquerystring
-parse-accept-language
-apispec>=4.0.0
-xlsxtpl
-geopy
-python-docx
-docxtpl

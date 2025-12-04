@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<odoo>
-    <record id="action_template_mail_recruitment" model="ir.actions.act_window">
-        <field name="name">Cấu hình mẫu email</field>
-        <field name="res_model">mail.template</field>
-        <field name="view_mode">tree,form</field>
-         <field name="domain">[('model', '=', 'hr.applicant')]</field>
-    </record>
-</odoo>

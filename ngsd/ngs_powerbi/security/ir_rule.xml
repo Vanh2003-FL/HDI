@@ -1,8 +1,0 @@
-<odoo>
-    <record model="ir.rule" id="dashboard_powerbi_rule">
-        <field name="name">dashboard powerbi</field>
-        <field name="model_id" ref="model_dashboard_powerbi"/>
-        <field name="global" eval="True"/>
-        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
-    </record>
-</odoo>

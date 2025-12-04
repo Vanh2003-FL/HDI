@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_hr_work_location_user,hr.work.location.user,model_hr_work_location,base.group_user,1,0,0,0
-access_hr_work_location_manager,hr.work.location.manager,model_hr_work_location,hr.group_hr_manager,1,1,1,1
-access_hr_attendance_geolocation_user,hr.attendance.geolocation.user,hr_attendance.model_hr_attendance,base.group_user,1,1,1,0
-access_hr_attendance_geolocation_manager,hr.attendance.geolocation.manager,hr_attendance.model_hr_attendance,hr.group_hr_manager,1,1,1,1

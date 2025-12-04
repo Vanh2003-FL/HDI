@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-
-access_ngsc_candidate_search_user,ngsc.candidate.search.user,model_ngsc_candidate_search,,1,1,1,1
-access_ngsc_candidate_search_line_user,ngsc.candidate.search.line.user,model_ngsc_candidate_search_line,,1,1,1,1
-access_ngsc_candidate_search_result_user,ngsc.candidate.search.result.user,model_ngsc_candidate_search_result,,1,1,1,1
-access_ngsc_candidate_search_result_skill_user,ngsc.candidate.search.result.skill.user,model_ngsc_candidate_search_result_skill,,1,1,1,1

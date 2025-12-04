@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_table_criteria_api,access_table_criteria_api,model_table_criteria_api,base.group_user,1,1,1,1
-access_hr_overtime,access_hr_overtime,model_hr_overtime,base.group_user,1,1,1,1
-access_hr_overtime_type,access_hr_overtime_type,model_hr_overtime_type,base.group_user,1,1,1,1

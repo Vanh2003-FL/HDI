@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-
-mbank_unique_fields.access_en_setting_unique,access_en_setting_unique,mbank_unique_fields.model_en_setting_unique,,1,0,0,0
-mbank_unique_fields.access_en_setting_unique_group_system,access_en_setting_unique_group_system,mbank_unique_fields.model_en_setting_unique,base.group_system,1,1,1,1
