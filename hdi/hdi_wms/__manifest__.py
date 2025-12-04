@@ -35,6 +35,7 @@ HDI Warehouse Management System
         # Wizards
         'wizard/batch_creation_wizard_views.xml',
         'wizard/putaway_wizard_views.xml',
+        'wizard/barcode_scanner_wizard_views.xml',
 
         # Menus
         'views/wms_menus.xml',

@@ -135,15 +135,17 @@ class StockPicking(models.Model):
         }
 
     def action_open_scanner(self):
+        """Open barcode scanner wizard"""
         self.ensure_one()
         return {
-            'name': _('Scanner - %s') % self.name,
+            'name': _('📱 Quét Barcode - %s') % self.name,
             'type': 'ir.actions.act_window',
-            'res_model': 'stock.picking',
-            'res_id': self.id,
+            'res_model': 'stock.picking.barcode.scanner',
             'view_mode': 'form',
-            'views': [(self.env.ref('hdi_wms.view_picking_form_scanner').id, 'form')],
-            'target': 'fullscreen',
+            'target': 'new',
+            'context': {
+                'default_picking_id': self.id,
+            }
         }
 
     def action_view_batches(self):

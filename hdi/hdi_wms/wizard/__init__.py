@@ -2,3 +2,4 @@
 
 from . import batch_creation_wizard
 from . import putaway_wizard
+from . import barcode_scanner_wizard
