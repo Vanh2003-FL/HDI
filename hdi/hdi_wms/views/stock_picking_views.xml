@@ -38,12 +38,16 @@
 
             <!-- Add WMS fields in form -->
             <field name="partner_id" position="after">
-                <field name="use_batch_management" groups="hdi_wms.group_wms_user"/>
+                <label for="use_batch_management" string="⚙️ Quản lý theo Lô hàng/Pallet" groups="hdi_wms.group_wms_user"/>
+                <div groups="hdi_wms.group_wms_user">
+                    <field name="use_batch_management" class="oe_inline" string="Bật chế độ WMS (Batch/LPN)"/>
+                    <span class="text-muted" invisible="use_batch_management"> ← Tích vào để tạo Lô hàng</span>
+                </div>
                 <field name="require_putaway_suggestion" invisible="1"/>
                 <field name="batch_count" invisible="1"/>
-                <field name="scan_detail_level" invisible="not use_batch_management" groups="hdi_wms.group_wms_user"/>
-                <field name="production_handover_signed_by" readonly="1" invisible="not production_handover_signed_by" groups="hdi_wms.group_wms_user"/>
-                <field name="production_handover_date" readonly="1" invisible="not production_handover_date" groups="hdi_wms.group_wms_user"/>
+                <field name="scan_detail_level" invisible="not use_batch_management" string="Chi tiết quét mã" groups="hdi_wms.group_wms_user"/>
+                <field name="production_handover_signed_by" readonly="1" invisible="not production_handover_signed_by" string="Người bàn giao" groups="hdi_wms.group_wms_user"/>
+                <field name="production_handover_date" readonly="1" invisible="not production_handover_date" string="Thời gian bàn giao" groups="hdi_wms.group_wms_user"/>
             </field>
 
             <!-- Add Batch tab -->
