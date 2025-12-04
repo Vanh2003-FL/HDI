@@ -71,6 +71,11 @@
                                     invisible="not batch_count"/>
                         </group>
                     </group>
+                    <group>
+                        <button name="action_create_batch" type="object" string="🎯 Tạo Lô hàng mới"
+                                class="btn-primary oe_highlight"
+                                help="Tạo lô hàng/pallet/LPN mới cho phiếu này"/>
+                    </group>
                     <separator string="Danh sách lô hàng"/>
                     <field name="batch_ids" nolabel="1" context="{'form_view_ref': 'hdi_wms.view_batch_form', 'tree_view_ref': 'hdi_wms.view_batch_tree'}"/>
                 </page>
